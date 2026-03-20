@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+  <meta property="og:title" content="ヴァルデアの遺産 — 冒険者の手引き">
+  <meta property="og:description" content="本格ゲームブック「ヴァルデアの遺産」の冒険者向け手引き。キャラクター作成・戦闘・経験値システムをここで学べ。">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://rebasashi5555.github.io/valdea-legacy/ogp.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ヴァルデアの遺産 — 冒険者の手引き">
+  <meta name="twitter:description" content="本格ゲームブック「ヴァルデアの遺産」の冒険者向け手引き。キャラクター作成・戦闘・経験値システムをここで学べ。">
+  <meta name="twitter:image" content="https://rebasashi5555.github.io/valdea-legacy/ogp.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヴァルデアの遺産 — 冒険者の手引き</title>
+<style>
+  :root{--ink:#1a1a1a;--parchment:#fdf6e3;--parchment-dark:#f5ead0;--gold:#8b6914;--gold-light:#d4af37;--darkbrown:#2c1810;--border:#c8a96e;--link:#5c3d0a;--link-hover:#c4860a;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#2a1f0e;font-family:'Noto Serif JP','YuMincho','Yu Mincho','游明朝',serif;color:var(--ink);min-height:100vh;padding:2rem 1rem;}
+  .book-wrap{max-width:720px;margin:0 auto;background:var(--parchment);border:3px solid var(--darkbrown);border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,0.6);overflow:hidden;}
+  .book-header{background:var(--darkbrown);padding:1.8rem 2.5rem 1.4rem;text-align:center;border-bottom:4px solid var(--gold-light);}
+  .book-header h1{font-size:2rem;color:var(--gold-light);font-weight:700;letter-spacing:0.15em;margin-bottom:0.2rem;}
+  .subtitle{font-size:0.82rem;color:#aaa;font-family:sans-serif;letter-spacing:0.2em;}
+  .tagline{margin-top:0.6rem;font-size:0.88rem;color:#c8a96e;font-family:sans-serif;}
+  .nav-bar{background:var(--parchment-dark);border-bottom:1px solid var(--border);padding:0.55rem 1.2rem;display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;font-family:sans-serif;font-size:0.78rem;}
+  .nav-bar a{color:var(--link);text-decoration:none;font-weight:500;white-space:nowrap;}
+  .nav-bar a:hover{color:var(--link-hover);text-decoration:underline;}
+  .nav-sep{color:var(--border);}
+  .book-body{padding:2rem 2.5rem 3rem;}
+  .step{margin-bottom:2.8rem;}
+  .step-head{display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:2px solid var(--gold);}
+  .step-num{width:38px;height:38px;border-radius:50%;background:var(--darkbrown);color:var(--gold-light);font-family:sans-serif;font-size:0.9rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-title{font-size:1.15rem;font-weight:700;color:var(--darkbrown);}
+  .step p{font-size:0.95rem;line-height:2.1;color:var(--ink);margin-bottom:0.8rem;}
+  .stat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin:1rem 0;}
+  .stat-card{background:var(--parchment-dark);border:1px solid var(--border);border-radius:6px;padding:0.9rem 0.7rem;text-align:center;}
+  .stat-card .sname{font-size:0.9rem;font-weight:700;color:var(--darkbrown);margin-bottom:0.2rem;}
+  .stat-card .sen{font-size:0.7rem;color:var(--gold);font-family:sans-serif;letter-spacing:0.06em;margin-bottom:0.5rem;}
+  .stat-card .sroll{font-size:0.78rem;color:#5a3d1a;font-family:sans-serif;background:#fef8e4;border-radius:4px;padding:0.25rem 0.5rem;margin-bottom:0.5rem;display:inline-block;}
+  .stat-card .sdesc{font-size:0.78rem;color:#555;line-height:1.65;}
+  .dice-section{background:var(--parchment-dark);border:1px solid var(--border);border-radius:6px;padding:1.2rem 1.5rem;margin:1.2rem 0;}
+  .dice-section h3{font-size:0.92rem;font-weight:700;color:var(--darkbrown);margin-bottom:1rem;font-family:sans-serif;}
+  .dice-row{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.75rem;flex-wrap:wrap;}
+  .dice-label{font-family:sans-serif;font-size:0.85rem;color:var(--ink);min-width:80px;}
+  .dice-btn{font-family:sans-serif;font-size:0.8rem;padding:0.3rem 0.9rem;border:1px solid var(--gold);background:transparent;color:var(--gold);border-radius:4px;cursor:pointer;transition:background 0.12s;white-space:nowrap;}
+  .dice-btn:hover{background:#fff8e7;}
+  .dice-btn:disabled{opacity:0.4;cursor:default;}
+  .dice-val{font-family:sans-serif;font-size:1.3rem;font-weight:700;color:var(--darkbrown);min-width:36px;text-align:center;border-bottom:2px solid var(--border);}
+  .dice-detail{font-family:sans-serif;font-size:0.73rem;color:#888;}
+  .dice-check{font-family:sans-serif;font-size:0.75rem;color:var(--gold);}
+  .roll-all-btn{display:block;width:100%;padding:0.5rem;border:1px solid var(--gold);background:transparent;color:var(--gold);border-radius:4px;cursor:pointer;font-family:sans-serif;font-size:0.88rem;margin-bottom:0.8rem;transition:background 0.12s;}
+  .roll-all-btn:hover{background:#fff8e7;}
+  .reset-btn{display:block;width:100%;padding:0.3rem;border:0.5px solid var(--border);background:transparent;color:#888;border-radius:4px;cursor:pointer;font-family:sans-serif;font-size:0.78rem;}
+  .rule-box{background:var(--parchment-dark);border-left:4px solid var(--gold);padding:0.9rem 1.2rem;border-radius:0 4px 4px 0;margin:1rem 0;font-size:0.9rem;line-height:1.95;}
+  .rule-box strong{color:var(--darkbrown);}
+  .info-table{width:100%;border-collapse:collapse;font-size:0.86rem;margin:1rem 0;}
+  .info-table th{background:var(--darkbrown);color:var(--gold-light);padding:0.5rem 0.75rem;text-align:left;font-family:sans-serif;font-weight:500;font-size:0.8rem;}
+  .info-table td{padding:0.5rem 0.75rem;border-bottom:0.5px solid var(--border);vertical-align:top;line-height:1.75;}
+  .info-table tr:nth-child(even) td{background:var(--parchment-dark);}
+  .lv-badge{display:inline-block;font-family:sans-serif;font-size:0.72rem;font-weight:700;padding:1px 7px;border-radius:3px;background:var(--darkbrown);color:var(--gold-light);}
+  .lv-badge.special{background:#5c0000;color:#ffcc00;}
+  .exp-box{background:#fef8e4;border:1px solid var(--gold);border-radius:6px;padding:1rem 1.5rem;margin:1rem 0;}
+  .exp-box h3{font-size:0.9rem;font-weight:700;color:var(--darkbrown);margin-bottom:0.8rem;font-family:sans-serif;}
+  .exp-display{display:flex;align-items:center;gap:1rem;margin-bottom:0.8rem;flex-wrap:wrap;}
+  .exp-num{font-size:2rem;font-weight:700;color:var(--darkbrown);font-family:sans-serif;min-width:48px;}
+  .exp-bar-wrap{flex:1;min-width:180px;}
+  .exp-bar-bg{background:#e0d0b0;border-radius:4px;height:10px;overflow:hidden;}
+  .exp-bar-fill{background:var(--gold);height:100%;border-radius:4px;transition:width 0.4s;}
+  .exp-bar-label{font-family:sans-serif;font-size:0.73rem;color:#888;margin-top:3px;}
+  .lv-display{font-family:sans-serif;font-size:0.85rem;color:var(--darkbrown);font-weight:700;}
+  .exp-btns{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;}
+  .exp-btn{font-family:sans-serif;font-size:0.78rem;padding:0.3rem 0.7rem;border:1px solid var(--border);background:transparent;color:var(--ink);border-radius:4px;cursor:pointer;}
+  .exp-btn:hover{background:var(--parchment-dark);}
+  .exp-reset{font-family:sans-serif;font-size:0.73rem;padding:0.25rem 0.6rem;border:0.5px solid var(--border);background:transparent;color:#888;border-radius:4px;cursor:pointer;margin-left:auto;}
+  .lv-up-msg{font-family:sans-serif;font-size:0.82rem;color:#8B0000;font-weight:700;margin-top:0.6rem;min-height:1.3rem;}
+  .paw-box{background:#fef0d0;border:1px solid var(--gold);border-radius:6px;padding:1rem 1.2rem;margin:1rem 0;}
+  .paw-title{font-size:0.95rem;font-weight:700;color:var(--darkbrown);margin-bottom:0.5rem;}
+  .paw-box p{font-size:0.88rem;line-height:1.95;color:#3a2a00;}
+  .warn-box{background:#fff5f5;border:1px solid #e88;border-radius:6px;padding:0.75rem 1.1rem;margin:1rem 0;font-size:0.84rem;line-height:1.8;color:#600;font-family:sans-serif;}
+  hr{border:none;border-top:1px solid var(--border);margin:2rem 0;}
+  .start-wrap{text-align:center;margin-top:2.5rem;}
+  .start-btn{display:inline-block;font-family:sans-serif;font-size:1rem;font-weight:700;padding:0.85rem 2.8rem;background:var(--darkbrown);color:var(--gold-light);border:2px solid var(--gold-light);border-radius:4px;text-decoration:none;letter-spacing:0.12em;transition:background 0.15s;}
+  .start-btn:hover{background:#3d2010;}
+  .book-footer{background:var(--darkbrown);padding:1rem 2rem;text-align:center;font-size:0.75rem;color:#6a5040;font-family:sans-serif;border-top:2px solid var(--gold);}
+  @media(max-width:580px){.book-body{padding:1.5rem 1rem 2rem;}.stat-cards{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="book-wrap">
+
+<div class="book-header">
+  <h1>ヴァルデアの遺産</h1>
+  <div class="subtitle">LEGACY OF VALDEA</div>
+  <div class="tagline">冒険者の手引き ― はじめに読む書</div>
+</div>
+
+<div class="nav-bar">
+  <a href="game.html">← 本編へ</a>
+  <span class="nav-sep">|</span>
+  <a href="#step1">能力値</a>
+  <a href="#step2">戦闘</a>
+  <a href="#step3">経験値・レベル</a>
+  <a href="#step4">アイテム</a>
+  <a href="#step5">猿の右手</a>
+  <a href="#start">冒険開始</a>
+</div>
+
+<div class="book-body">
+
+<p style="font-size:0.95rem;line-height:2.1;margin-bottom:1.2rem;">これはひとりで読み進める<strong>ゲームブックだ</strong>。物語を読み、選択肢を選び、指示された番号へ飛ぶ。あなたの選択がすべてを決める。まずこの手引きをすべて読み、各項目を設定してから本編へ進め。</p>
+<div class="warn-box">⚠ 指示された番号以外のページを先読みしてはならない。それはあなた自身の冒険を台無しにする。</div>
+
+<hr>
+
+<!-- STEP 1 -->
+<div class="step" id="step1">
+  <div class="step-head"><div class="step-num">1</div><div class="step-title">能力値を決める</div></div>
+  <p>あなたのキャラクターには三つの能力値がある。それぞれサイコロを振って決定し、冒険者シートの「初期値」と「現在値」両方に記入せよ。</p>
+  <div class="stat-cards">
+    <div class="stat-card"><div class="sname">技術点</div><div class="sen">SKILL</div><div class="sroll">サイコロ1個＋6</div><div class="sdesc">戦闘力・器用さ・反射神経。高いほど戦闘で有利になる。</div></div>
+    <div class="stat-card"><div class="sname">体力点</div><div class="sen">STAMINA</div><div class="sroll">サイコロ2個＋12</div><div class="sdesc">生命力・耐久力。零になると死亡。食料や回復薬で回復できる。</div></div>
+    <div class="stat-card"><div class="sname">運勢点</div><div class="sen">LUCK</div><div class="sroll">サイコロ1個＋6</div><div class="sdesc">幸運・直感。「運試し」で使うたびに一点減る。</div></div>
+  </div>
+  <div class="dice-section">
+    <h3>◆ ダイスローラーで自動決定する</h3>
+    <button class="roll-all-btn" id="rollAllBtn" onclick="rollAll()">▶ 全能力値を一括で振る</button>
+    <div class="dice-row">
+      <span class="dice-label">技術点</span>
+      <button class="dice-btn" id="btn-skill" onclick="rollStat('skill')">振る（1d6+6）</button>
+      <span class="dice-val" id="val-skill">—</span>
+      <span class="dice-detail" id="det-skill"></span>
+      <span class="dice-check" id="chk-skill"></span>
+    </div>
+    <div class="dice-row">
+      <span class="dice-label">体力点</span>
+      <button class="dice-btn" id="btn-stamina" onclick="rollStat('stamina')">振る（2d6+12）</button>
+      <span class="dice-val" id="val-stamina">—</span>
+      <span class="dice-detail" id="det-stamina"></span>
+      <span class="dice-check" id="chk-stamina"></span>
+    </div>
+    <div class="dice-row">
+      <span class="dice-label">運勢点</span>
+      <button class="dice-btn" id="btn-luck" onclick="rollStat('luck')">振る（1d6+6）</button>
+      <span class="dice-val" id="val-luck">—</span>
+      <span class="dice-detail" id="det-luck"></span>
+      <span class="dice-check" id="chk-luck"></span>
+    </div>
+    <button class="reset-btn" onclick="resetStats()">リセット</button>
+  </div>
+  <div class="rule-box"><strong>重要：</strong>初期値は変化があった場合も書き換えるな。体力点は食料や回復薬で回復できるが<strong>初期値を超えることはできない。</strong></div>
+</div>
+
+<hr>
+
+<!-- STEP 2 -->
+<div class="step" id="step2">
+  <div class="step-head"><div class="step-num">2</div><div class="step-title">戦闘のやり方</div></div>
+  <p>戦闘が始まったら以下の手順を繰り返せ。どちらかの体力点が零になるまで続ける。</p>
+  <table class="info-table">
+    <tr><th>手順</th><th>内容</th></tr>
+    <tr><td>① サイコロ</td><td>お互いにサイコロを二個振り、それぞれの<strong>技術点を加算</strong>する</td></tr>
+    <tr><td>② ダメージ</td><td>合計値が高い方が相手に<strong>二点のダメージ</strong>（体力点を減らす）</td></tr>
+    <tr><td>③ 同点</td><td>同点の場合は両者ダメージなし</td></tr>
+    <tr><td>④ 繰り返し</td><td>どちらかの体力点が零になるまで①〜③を繰り返す</td></tr>
+  </table>
+  <div class="rule-box"><strong>「運試し」ルール：</strong>任意のタイミングでサイコロを二個振り、<strong>運勢点以下なら成功</strong>。使うたびに運勢点が一点減る。</div>
+  <div class="rule-box"><strong>戦闘中の回復：</strong>食料や回復薬は<strong>戦闘中は原則使用不可</strong>。本文で指示があった場合のみ例外となる。</div>
+</div>
+
+<hr>
+
+<!-- STEP 3 -->
+<div class="step" id="step3">
+  <div class="step-head"><div class="step-num">3</div><div class="step-title">経験値とレベルアップ</div></div>
+  <p>敵を倒すと経験値を得る。経験値が一定数に達すると自動的にレベルアップする。冒険者シートの経験値欄に記録しながら進め。</p>
+  <table class="info-table">
+    <tr><th>敵の種類</th><th>獲得経験値</th></tr>
+    <tr><td>雑魚モンスター（オーク・盗賊など）</td><td>一体につき　<strong>一点</strong></td></tr>
+    <tr><td>強めの敵（番人ゴーレムなど）</td><td><strong>二点</strong></td></tr>
+    <tr><td>中ボス（グラッハ・エイサー）</td><td><strong>四点</strong></td></tr>
+    <tr><td>ラスボス（ヴォルカネス）</td><td>経験値なし（エンディングへ直行）</td></tr>
+  </table>
+  <table class="info-table" style="margin-top:1rem;">
+    <tr><th>累計経験値</th><th>レベル</th><th>称号</th><th>効果</th></tr>
+    <tr><td>0</td><td><span class="lv-badge">Lv.1</span></td><td>ならず者の無頼漢</td><td>初期状態</td></tr>
+    <tr><td>3点以上</td><td><span class="lv-badge">Lv.2</span></td><td>浮足立つ冒険者</td><td>技術点＋一</td></tr>
+    <tr><td>7点以上</td><td><span class="lv-badge">Lv.3</span></td><td>豪傑の勇者</td><td>体力点の最大値＋四</td></tr>
+    <tr><td>12点以上</td><td><span class="lv-badge">Lv.4</span></td><td>ヴァルデアのレジェンド</td><td>運勢点＋一・技術点＋一</td></tr>
+    <tr><td>最終決戦突入時（自動）</td><td><span class="lv-badge special">Lv.5</span></td><td>招かれざる者</td><td>全能力点＋二・覚醒システム発動</td></tr>
+  </table>
+
+  <div class="exp-box">
+    <h3>◆ 経験値トラッカー（このページで管理できる）</h3>
+    <div class="exp-display">
+      <div class="exp-num" id="expNum">0</div>
+      <div class="exp-bar-wrap">
+        <div class="exp-bar-bg"><div class="exp-bar-fill" id="expBar" style="width:0%"></div></div>
+        <div class="exp-bar-label" id="expBarLabel">次のLv.2まで あと3点</div>
+      </div>
+      <div class="lv-display" id="lvDisplay">Lv.1 ならず者の無頼漢</div>
+    </div>
+    <div class="exp-btns">
+      <button class="exp-btn" onclick="addExp(1)">＋1点（雑魚）</button>
+      <button class="exp-btn" onclick="addExp(2)">＋2点（強敵）</button>
+      <button class="exp-btn" onclick="addExp(4)">＋4点（中ボス）</button>
+      <button class="exp-reset" onclick="resetExp()">リセット</button>
+    </div>
+    <div class="lv-up-msg" id="lvUpMsg"></div>
+  </div>
+
+  <div class="rule-box"><strong>Lv.5「招かれざる者」覚醒ルール：</strong>最終決戦突入と同時に自動発動。以降の雑魚戦ではサイコロを一個振り、偶数なら<strong>一撃必殺</strong>、奇数なら各種デメリット。ボス戦では一撃必殺は適用されない。</div>
+</div>
+
+<hr>
+
+<!-- STEP 4 -->
+<div class="step" id="step4">
+  <div class="step-head"><div class="step-num">4</div><div class="step-title">アイテムと所持品</div></div>
+  <p>バックパックには最大八つまでアイテムを持てる。拾ったり買ったりしたら冒険者シートの所持品欄に記録せよ。</p>
+  <table class="info-table">
+    <tr><th>アイテム名</th><th>効果・説明</th></tr>
+    <tr><td><strong>金貨</strong></td><td>一枚＝食事一回分の価値。買い物・情報収集・賄賂に使用</td></tr>
+    <tr><td><strong>食料</strong></td><td>一回使用で体力点＋二回復。戦闘中は使用不可</td></tr>
+    <tr><td><strong>固いパン</strong></td><td>いつでも使用可能。体力点＋一のみ。戦闘中も使える</td></tr>
+    <tr><td><strong>回復薬</strong></td><td>一度だけ使える。体力点を六点回復する</td></tr>
+    <tr><td><strong>強壮剤</strong></td><td>一度だけ使える。技術点を二点上げる（一戦闘の間のみ）</td></tr>
+    <tr><td><strong>ザル＝カラムの地図</strong></td><td>遺跡の構造が分かる。特定の選択肢が増える</td></tr>
+  </table>
+</div>
+
+<hr>
+
+<!-- STEP 5 -->
+<div class="step" id="step5">
+  <div class="step-head"><div class="step-num">5</div><div class="step-title">猿の右手について</div></div>
+  <div class="paw-box">
+    <div class="paw-title">✋ 猿の右手（MONKEY'S PAW）― 冒険中に一度だけ使える</div>
+    <p>主人公の左手に刻まれた古代の紋章。任意のタイミングで「猿の右手を使う」と宣言し、サイコロを二個振れ。出た目の合計で効果が変わる。ラスボス戦でも使用可能だ。</p>
+    <p style="margin-top:0.6rem;"><strong>一度使ったら二度と使えない。</strong>本当に追い詰められた時のために取っておけ。</p>
+  </div>
+  <table class="info-table">
+    <tr><th>出目</th><th>効果名</th><th>表の効果</th><th>歪んだ代償</th></tr>
+    <tr><td>2</td><td>悪魔の嘲笑</td><td>状況が悪化する</td><td>体力点－4。ラスボス戦では次ラウンドのダメージ2倍</td></tr>
+    <tr><td>3</td><td>変身の呪い</td><td>敵がカエルに変身</td><td>左手もカエルの手に。次の戦闘で技術点－2</td></tr>
+    <tr><td>4</td><td>黄金の雨</td><td>金貨＋10</td><td>誰かの死の弔慰金。以後商人があなたを避ける</td></tr>
+    <tr><td>5</td><td>眠りの霧</td><td>敵も眠る</td><td>自分も1ターン行動不能。仲間が1人消える</td></tr>
+    <tr><td>6</td><td>時の迷子</td><td>隠し選択肢＋1</td><td>見えた未来は最悪の結末。運勢点－1</td></tr>
+    <tr><td>7</td><td>星脈の暴走</td><td>敵全員に体力点－6</td><td>自分も体力点－2</td></tr>
+    <tr><td>8</td><td>賢者の囁き</td><td>謎へのヒント</td><td>知らなければよかった真実も含まれる</td></tr>
+    <tr><td>9</td><td>召喚の暴走</td><td>生き物が召喚</td><td>召喚された存在が憑きまとう</td></tr>
+    <tr><td>10</td><td>英雄の刻</td><td>体力点全回復・技術点＋3</td><td>誰かの寿命から借りたものかもしれない</td></tr>
+    <tr><td>11</td><td>神々の気まぐれ</td><td>敵や障害を消滅</td><td>大切な何かも共に消える。運勢点が1に固定</td></tr>
+    <tr><td>12</td><td>伝説の一手</td><td>通常戦：逆転。ラスボス戦：体力点を半分に</td><td>なし。ただしこの奇跡にも理由がある</td></tr>
+  </table>
+</div>
+
+<hr>
+
+<div id="start">
+  <p style="font-size:0.95rem;line-height:2.1;text-align:center;color:var(--darkbrown);font-weight:700;">準備はできたか。</p>
+  <p style="font-size:0.88rem;line-height:2;text-align:center;color:#555;margin-top:0.3rem;">能力値の決定・経験値の理解・猿の右手の把握。すべて終えたなら冒険へ進め。</p>
+  <div class="start-wrap"><a href="game.html" class="start-btn">◆ 冒険を始める ◆</a></div>
+</div>
+
+</div>
+
+<div class="book-footer">ヴァルデアの遺産　LEGACY OF VALDEA　／　冒険者の手引き</div>
+</div>
+
+<script>
+const stats={skill:null,stamina:null,luck:null};
+function d6(){return Math.floor(Math.random()*6)+1;}
+function rollStat(stat){
+  const btn=document.getElementById('btn-'+stat);
+  if(btn.disabled)return;
+  let vals,bonus,label;
+  if(stat==='stamina'){vals=[d6(),d6()];bonus=12;label=vals[0]+'+'+vals[1]+'+12';}
+  else{vals=[d6()];bonus=6;label=vals[0]+'+6';}
+  const total=vals.reduce((a,b)=>a+b,0)+bonus;
+  stats[stat]=total;
+  document.getElementById('val-'+stat).textContent=total;
+  document.getElementById('det-'+stat).textContent='（'+label+'）';
+  document.getElementById('chk-'+stat).textContent='✓';
+  btn.disabled=true;btn.style.opacity='0.4';
+  checkAll();
+}
+function rollAll(){['skill','stamina','luck'].forEach(s=>{if(stats[s]===null)rollStat(s);});}
+function checkAll(){
+  if(stats.skill!==null&&stats.stamina!==null&&stats.luck!==null){
+    const b=document.getElementById('rollAllBtn');b.disabled=true;b.textContent='✓ 全能力値確定';
+  }
+}
+function resetStats(){
+  ['skill','stamina','luck'].forEach(s=>{
+    stats[s]=null;
+    document.getElementById('val-'+s).textContent='—';
+    document.getElementById('det-'+s).textContent='';
+    document.getElementById('chk-'+s).textContent='';
+    const b=document.getElementById('btn-'+s);b.disabled=false;b.style.opacity='1';
+  });
+  const rb=document.getElementById('rollAllBtn');rb.disabled=false;rb.textContent='▶ 全能力値を一括で振る';
+}
+
+const LEVELS=[
+  {min:0, lv:1,name:'ならず者の無頼漢',   next:3,  effect:null},
+  {min:3, lv:2,name:'浮足立つ冒険者',     next:7,  effect:'技術点＋一'},
+  {min:7, lv:3,name:'豪傑の勇者',         next:12, effect:'体力点最大値＋四'},
+  {min:12,lv:4,name:'ヴァルデアのレジェンド',next:999,effect:'運勢点＋一・技術点＋一'},
+];
+let currentExp=0;
+function getLv(exp){let l=LEVELS[0];for(const x of LEVELS){if(exp>=x.min)l=x;}return l;}
+function updateExp(prevLv){
+  const lv=getLv(currentExp);
+  document.getElementById('expNum').textContent=currentExp;
+  document.getElementById('lvDisplay').textContent='Lv.'+lv.lv+' '+lv.name;
+  const pct=lv.lv===4?100:Math.round((currentExp-lv.min)/(lv.next-lv.min)*100);
+  document.getElementById('expBar').style.width=Math.min(100,pct)+'%';
+  document.getElementById('expBarLabel').textContent=lv.lv===4?'最大レベル到達':'次のLv.'+(lv.lv+1)+'まで あと'+(lv.next-currentExp)+'点';
+  const msg=document.getElementById('lvUpMsg');
+  if(prevLv&&lv.lv>prevLv){
+    msg.textContent='🎉 Lv.'+lv.lv+'「'+lv.name+'」へ昇格！　'+lv.effect+'を冒険者シートに反映せよ。';
+    setTimeout(()=>{msg.textContent='';},6000);
+  }else{msg.textContent='';}
+}
+function addExp(n){const p=getLv(currentExp).lv;currentExp=Math.min(currentExp+n,20);updateExp(p);}
+function resetExp(){currentExp=0;updateExp(null);}
+updateExp(null);
+</script>
+</body>
+</html>

@@ -1,0 +1,2601 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+  <meta property="og:title" content="ヴァルデアの遺産 — LEGACY OF VALDEA">
+  <meta property="og:description" content="あなたは流れ者の冒険者。左手に刻まれた古代の紋章が、断片の時代の命運を握っている。ひとりで読み進める本格ゲームブック。">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://flashpapa-sketch.github.io/valdea-legacy/ogp.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ヴァルデアの遺産 — LEGACY OF VALDEA">
+  <meta name="twitter:description" content="あなたは流れ者の冒険者。左手に刻まれた古代の紋章が、断片の時代の命運を握っている。ひとりで読み進める本格ゲームブック。">
+  <meta name="twitter:image" content="https://flashpapa-sketch.github.io/valdea-legacy/ogp.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヴァルデアの遺産 — LEGACY OF VALDEA</title>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+body{height:100%;overflow:hidden;background:#000;font-family:'Hiragino Mincho ProN','Hiragino Mincho Pro','YuMincho','Yu Mincho','游明朝',serif;color:#000;display:flex;flex-direction:column;}
+.book-wrap{display:flex;flex-direction:column;height:100%;max-width:720px;margin:0 auto;background:#fff;width:100%;}
+.book-header{background:#000;padding:0.45rem 1rem;text-align:center;flex-shrink:0;border-bottom:1px solid #333;}
+.book-header h1{font-size:clamp(0.85rem,3vw,1.1rem);color:#fff;font-weight:700;letter-spacing:0.1em;display:inline;}
+.subtitle{font-size:0.6rem;color:#888;font-family:sans-serif;letter-spacing:0.12em;margin-left:0.4rem;display:inline;}
+.warning{display:none;}
+.toc-bar{display:none;}
+.book-body{flex:1;position:relative;overflow:hidden;background:#fff;color:#000;min-height:0;}
+.section{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:1rem 1rem 5rem;writing-mode:vertical-rl;text-orientation:mixed;background:#fff;color:#000;}
+.section.active{display:block;background:#fff;color:#000;}
+.section.slide-in{animation:sIn 0.18s ease-out;}
+@keyframes sIn{from{opacity:0;}to{opacity:1;}}
+.section-num{writing-mode:horizontal-tb;display:block;font-size:1.05rem;font-weight:700;color:#000;border-bottom:2px solid #000;margin-bottom:0.85rem;padding-bottom:0.3rem;}
+.section-num::before{content:"◆ ";font-size:0.82rem;}
+.end-label{writing-mode:horizontal-tb;display:inline-block;font-size:0.65rem;font-family:sans-serif;padding:1px 5px;border-radius:2px;margin-left:0.3rem;vertical-align:middle;border:1px solid #000;color:#000;}
+.section>p{writing-mode:vertical-rl;text-orientation:mixed;line-height:2.3;font-size:1rem;color:#000;margin-left:1rem;}
+.choices{writing-mode:vertical-rl;text-orientation:mixed;margin-top:1.2rem;margin-left:0.8rem;padding:0.6rem;border-left:3px solid #000;}
+.choices p{writing-mode:vertical-rl;text-orientation:mixed;line-height:2.3;font-size:0.9rem;color:#000 !important;margin-left:0.8rem;}
+.jump{color:#000;font-weight:700;text-decoration:none;border-bottom:1.5px solid #000;cursor:pointer;}
+.note{writing-mode:horizontal-tb;display:block;font-size:0.78rem;color:#000 !important;font-style:italic;background:#f5f5f5;border:1px solid #ccc;border-radius:2px;padding:0.5rem 0.75rem;margin:0.8rem 0;line-height:1.75;font-family:sans-serif;}
+.end-text{writing-mode:horizontal-tb;display:block;margin-top:1rem;padding:0.8rem 1rem;background:#f5f5f5;border:1px solid #000;border-radius:2px;font-style:italic;font-size:0.9rem;line-height:1.9;text-align:center;color:#000;}
+.back-top{writing-mode:horizontal-tb;display:block;text-align:right;font-size:0.7rem;color:#555;font-family:sans-serif;text-decoration:none;margin-top:0.9rem;cursor:pointer;}
+.book-footer{background:#000;padding:0.3rem 0.8rem;text-align:center;font-size:0.6rem;color:#666;font-family:sans-serif;flex-shrink:0;border-top:1px solid #333;}
+.book-footer a{color:#888;text-decoration:none;}
+.floating-ui{position:fixed;bottom:14px;right:10px;z-index:9000;display:flex;flex-direction:column;gap:7px;align-items:flex-end;}
+.dice-fab,.sheet-fab{width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.35);transition:transform 0.1s;-webkit-tap-highlight-color:transparent;font-size:1.3rem;}
+.dice-fab{background:#000;color:#fff;}
+.sheet-fab{background:#444;color:#fff;font-size:1.1rem;}
+.dice-fab:active,.sheet-fab:active{transform:scale(0.93);}
+.dice-popup{display:none;position:fixed;bottom:120px;right:10px;z-index:9001;background:#fff;border:2px solid #000;border-radius:8px;padding:0.8rem;width:200px;box-shadow:0 4px 20px rgba(0,0,0,0.25);}
+.dice-popup.open{display:block;}
+.dice-popup-title{font-family:sans-serif;font-size:0.68rem;font-weight:700;color:#000;margin-bottom:0.45rem;text-align:center;border-bottom:1px solid #ccc;padding-bottom:0.3rem;}
+.dice-mode-btns{display:flex;gap:3px;margin-bottom:0.45rem;}
+.dice-mode-btn{flex:1;font-family:sans-serif;font-size:0.6rem;padding:3px 2px;border:1px solid #ccc;background:transparent;color:#333;border-radius:3px;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent;}
+.dice-mode-btn.active{background:#000;color:#fff;border-color:#000;}
+.dice-faces-row{display:flex;gap:7px;justify-content:center;margin-bottom:0.45rem;min-height:46px;align-items:center;}
+.die-face{width:40px;height:40px;border-radius:7px;border:2px solid #000;background:#fff;display:flex;align-items:center;justify-content:center;font-family:sans-serif;font-size:1.25rem;font-weight:700;color:#000;}
+.die-face.rolling{animation:dRoll 0.45s ease-out;}
+.die-face.landed{background:#f0f0f0;}
+@keyframes dRoll{0%{transform:rotate(-18deg) scale(1.25);}50%{transform:rotate(-5deg) scale(1.06);}100%{transform:rotate(0) scale(1);}}
+.dice-roll-btn{width:100%;padding:0.4rem;background:#000;color:#fff;border:none;border-radius:4px;font-family:sans-serif;font-size:0.76rem;font-weight:700;cursor:pointer;margin-bottom:0.3rem;-webkit-tap-highlight-color:transparent;}
+.dice-result-text{font-family:sans-serif;font-size:0.63rem;color:#555;text-align:center;min-height:1rem;line-height:1.4;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:flex-end;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#fff;border-top:3px solid #000;border-radius:12px 12px 0 0;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.modal-head{background:#000;padding:0.65rem 1rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1;}
+.modal-head h2{color:#fff;font-size:0.85rem;font-family:sans-serif;}
+.modal-close{background:transparent;border:none;color:#fff;font-size:1.5rem;cursor:pointer;line-height:1;padding:0 4px;-webkit-tap-highlight-color:transparent;}
+.modal-body{padding:0.9rem;}
+.sheet-sec{margin-bottom:0.85rem;}
+.sheet-sec-label{font-family:sans-serif;font-size:0.68rem;font-weight:700;color:#000;margin-bottom:0.32rem;border-bottom:1px solid #ccc;padding-bottom:0.16rem;}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;margin-bottom:0.4rem;}
+.stat-card-s{background:#f5f5f5;border:1px solid #ccc;border-radius:4px;padding:0.42rem;text-align:center;}
+.stat-card-s .sn{font-family:sans-serif;font-size:0.6rem;color:#333;margin-bottom:2px;}
+.stat-card-s .sv{display:flex;gap:3px;justify-content:center;align-items:flex-end;}
+.stat-num-input{width:32px;text-align:center;border:none;border-bottom:2px solid #000;background:transparent;font-family:sans-serif;font-size:1rem;font-weight:700;color:#000;outline:none;padding:1px 0;}
+.stat-sep{font-family:sans-serif;font-size:0.72rem;color:#888;padding-bottom:2px;}
+.stat-hint{font-family:sans-serif;font-size:0.57rem;color:#888;margin-top:2px;}
+.roll-stat-btn{margin-top:3px;padding:2px 5px;font-family:sans-serif;font-size:0.58rem;border:1px solid #ccc;background:transparent;color:#333;border-radius:3px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.roll-stat-btn.done{background:#000;color:#fff;border-color:#000;}
+.roll-all-s{width:100%;padding:0.36rem;background:#000;color:#fff;border:none;border-radius:4px;font-family:sans-serif;font-size:0.74rem;font-weight:700;cursor:pointer;margin-bottom:0.42rem;-webkit-tap-highlight-color:transparent;}
+.exp-bar-bg{background:#e0e0e0;border-radius:99px;height:7px;overflow:hidden;flex:1;}
+.exp-bar-fill{background:#000;height:100%;border-radius:99px;transition:width 0.4s;}
+.exp-row-ui{display:flex;align-items:center;gap:5px;margin-bottom:5px;}
+.exp-num-ui{font-family:sans-serif;font-size:1rem;font-weight:700;color:#000;min-width:26px;}
+.exp-lv-ui{font-family:sans-serif;font-size:0.63rem;color:#333;font-weight:700;}
+.exp-btns-ui{display:flex;gap:3px;flex-wrap:wrap;}
+.exp-btn-s{font-family:sans-serif;font-size:0.63rem;padding:2px 7px;border:1px solid #ccc;background:transparent;color:#333;border-radius:99px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.lv-up-msg{font-family:sans-serif;font-size:0.66rem;color:#000;font-weight:700;min-height:1rem;margin-top:3px;}
+.paw-row{display:flex;gap:5px;}
+.paw-btn-s{flex:1;padding:0.3rem;border:1px solid #ccc;background:transparent;color:#333;border-radius:4px;font-family:sans-serif;font-size:0.68rem;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent;}
+.paw-btn-s.active{background:#000;color:#fff;border-color:#000;}
+.items-ui{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.item-row-s{display:flex;align-items:center;gap:3px;border-bottom:0.5px solid #e0e0e0;padding:3px 2px;}
+.item-num-s{font-family:sans-serif;font-size:0.6rem;color:#888;min-width:12px;}
+.item-inp{flex:1;border:none;background:transparent;font-size:0.74rem;color:#000;outline:none;min-width:0;font-family:sans-serif;}
+.item-inp::placeholder{color:#bbb;font-size:0.68rem;}
+.gold-row-s{display:flex;align-items:center;gap:5px;}
+.gold-inp{width:50px;text-align:center;border:none;border-bottom:2px solid #000;background:transparent;font-family:sans-serif;font-size:1rem;font-weight:700;color:#000;outline:none;}
+.gold-lbl{font-family:sans-serif;font-size:0.7rem;color:#333;}
+.gold-adj-s{border:1px solid #ccc;background:transparent;border-radius:3px;padding:2px 7px;font-size:0.85rem;cursor:pointer;color:#333;-webkit-tap-highlight-color:transparent;}
+.memo-s{width:100%;border:1px solid #ccc;background:#fafafa;font-size:0.74rem;color:#000;resize:none;outline:none;line-height:1.8;min-height:52px;padding:5px 7px;border-radius:3px;font-family:sans-serif;}
+@media(max-width:480px){.section{padding:0.75rem 0.75rem 5rem;}.section>p{font-size:0.92rem;}.choices p{font-size:0.88rem;}.dice-popup{width:188px;right:8px;bottom:110px;}.floating-ui{right:8px;bottom:10px;}.dice-fab,.sheet-fab{width:44px;height:44px;}}
+
+/* 追加UIパーツ */
+.stat-block{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.stat-lbl{font-family:sans-serif;font-size:0.55rem;color:#888;}
+.stat-adj-row{display:flex;align-items:center;gap:2px;}
+.stat-adj{width:22px;height:22px;border:1px solid #ccc;background:transparent;border-radius:3px;cursor:pointer;font-size:0.85rem;color:#333;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;flex-shrink:0;}
+.stat-adj:active{background:#f0f0f0;}
+.gold-food-row{display:flex;gap:0.8rem;flex-wrap:wrap;}
+.gf-block{display:flex;flex-direction:column;gap:3px;}
+.gf-lbl{font-family:sans-serif;font-size:0.65rem;color:#555;}
+.gf-ctrl{display:flex;align-items:center;gap:4px;}
+.die-face{width:44px;height:44px;display:flex;align-items:center;justify-content:center;transition:transform 0.08s,opacity 0.08s;}
+.die-face svg{display:block;}
+.die-face.landed{animation:landPop 0.3s ease-out;}
+@keyframes landPop{0%{transform:scale(1.3);}60%{transform:scale(0.95);}100%{transform:scale(1);}}
+.item-chk{width:14px;height:14px;cursor:pointer;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div class="book-wrap">
+
+<div class="book-header">
+  <h1>ヴァルデアの遺産</h1>
+  <div class="subtitle">LEGACY OF VALDEA</div>
+  <div class="warning">
+    これはひとりで読み進めるゲームブックである。<br>
+    冒険者シートのダイスローラーで能力値を決定し、記録してから読み始めよ。<br>
+    指示された番号以外のページを先読みしてはならない。
+  </div>
+</div>
+
+
+
+<div class="book-body">
+
+<!-- 一 -->
+<div class="section" id="一">
+<div class="section-num">一</div>
+<p>ヴァルデアの荒野に、風が砂埃を巻き上げていた。</p>
+<p>あなたはその風に背を向けながら、地平線に浮かぶ街の輪郭を眺めていた。ドーラン。辺境の交易街。名もなき旅人が最後に辿り着く場所、あるいは新たな旅の始まりの場所と呼ばれている。財布の中身は金貨三枚。背中には剣一本。それがあなたの全財産だった。</p>
+<p>左手の甲が、じわりと熱を帯びた。</p>
+<p>またこれだ、とあなたは思う。生まれた時からそこにある古代文字の紋章。旅の途中で何人かの学者に見せたが、誰も首を傾げるだけだった。ただ一人、北の廃村で出会った老婆だけが顔色を変えた。「その印を持つ者に会ったことがある」と彼女は囁いた。「黄金時代の遺物から聞いた話だ。猿の右手は願いを叶える。だが運命を曲げようとする者には、必ず災いが返ってくる。叶えたいことがあるなら、言葉を慎重に選べ」。老婆はそれ以上何も言わなかった。</p>
+<p>あなたは左手を握り締め、ドーランの街門をくぐった。</p>
+<div class="choices"><p><a href="#四十七" class="jump">四十七</a>へ進め。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 十二 -->
+<div class="section" id="十二">
+<div class="section-num">十二</div>
+<p>「何か御用かい」</p>
+<p>マグダは布巾で杯を拭きながら、あなたを一瞥した。愛想はないが、この街のことなら何でも知っているという噂の女将だ。</p>
+<p>「最近、この街で変わったことはなかったか」とあなたは尋ねる。</p>
+<p>マグダは少しの間だけ手を止めた。「変わったこと、ね」。彼女は声を低くした。「三週間前から、ザル＝カラムの廃墟に夜ごと青白い光が灯るようになった。昔から呪われた場所だと言われているのに、この頃は腕に覚えのある連中がやたらと集まってきている。あんたも同じ口かい？」</p>
+<p>マグダの目があなたの左手に一瞬止まる。しかし彼女は何も言わなかった。</p>
+<div class="choices">
+<p>「情報の礼に一杯奢ろう」と言うなら金貨一枚を払い、<a href="#三十五" class="jump">三十五</a>へ進め。</p>
+<p>「神殿のことを聞きたい」と言うなら<a href="#六十一" class="jump">六十一</a>へ進め。</p>
+<p>もっと詳しく話を聞くなら<a href="#十三" class="jump">十三</a>へ進め。</p>
+<p>三人組の男たちの方が気になるなら<a href="#八十三" class="jump">八十三</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二十六 -->
+<div class="section" id="二十六">
+<div class="section-num">二十六</div>
+<p>二階の部屋は狭かったが、清潔だった。</p>
+<p>藁のベッドに横になり、あなたは天井の染みを眺める。金貨二枚。明日には何か仕事を見つけなければならない。左手の甲がまた熱を帯びてきた。あなたは目を閉じた。</p>
+<p>夢を見た。</p>
+<p>暗闇の中に、巨大な扉があった。扉には無数の古代文字が刻まれていた。その中の一つが、あなたの左手の紋章と同じ形をしていた。扉の向こうから、何かの声が聞こえる。言葉は聞き取れない。しかし確かに、あなたの名を呼んでいた。</p>
+<div class="note">金貨一枚を失い、残りの金貨の数を冒険者シートに記録せよ。体力点を三点回復せよ（初期値を超えることはできない）。</div>
+<p>目を覚ますと夜半だった。窓の外に人影が見えた。</p>
+<div class="choices"><p>窓から路地を確認するなら<a href="#十一" class="jump">十一</a>へ進め。</p>
+<p>そのまま眠り続けるなら朝まで休み体力点を三点回復して<a href="#四十七" class="jump">四十七</a>へ戻れ。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三十五 -->
+<div class="section" id="三十五">
+<div class="section-num">三十五</div>
+<p>金貨一枚をカウンターに置くと、マグダは素早くそれを懐にしまい、杯に酒を注いだ。安い麦酒だったが、長い旅の後には十分だった。</p>
+<p>「もう一つ聞いていいか」とあなたは言う。「この街に神殿はあるか」</p>
+<p>マグダの表情が、わずかに変わった。「ある。街の北の端だ。ただし」と彼女は声をさらに低くした。「この三ヶ月、司祭が誰とも会おうとしない。ザル＝カラムの光が灯り始めてから、ぴたりと扉を閉ざしてしまった」</p>
+<p>あなたは麦酒を一口飲んだ。冷たくて、少し苦かった。</p>
+<p>「そのドワーフの老人は何者だ」とあなたは三人組のテーブルに目を向けながら言う。</p>
+<p>「ゴルム爺さんか」マグダは肩をすくめた。「元は王国の兵士だったらしい。今は何でも屋だ。ただ、あの爺さんがこの街に来るのはいつも碌でもない時だよ」</p>
+<div class="choices">
+<p>情報に礼を言い、三人組に近づくなら<a href="#八十三" class="jump">八十三</a>へ進め。</p>
+<p>神殿へ向かうなら<a href="#六十一" class="jump">六十一</a>へ進め。</p>
+<p>今夜は部屋で休むなら<a href="#二十六" class="jump">二十六</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 四十七 -->
+<div class="section" id="四十七">
+<div class="section-num">四十七</div>
+<p>街の中心にある「錆びた剣亭」は、ドーランで唯一まともな酒場だった。</p>
+<p>扉を押し開けると、煙草の煙と獣脂の臭いが鼻をついた。薄暗い店内に、十人ほどの客が思い思いに酒を飲んでいる。カウンターの奥では、ホビットの女将が胡散臭そうにあなたを見ている。腰まで届く赤茶けた巻き毛と、値踏みするような細い目が特徴的だ。</p>
+<p>隅のテーブルでは三人組の男たちが声を潜めて話し込んでいる。人間が二人とドワーフが一人。地図らしきものをテーブルに広げているが、あなたが視線を向けると素早く丸めてしまった。</p>
+<p>二階への階段の傍には「本日の空き室　残り一」と書かれた木の札が下がっている。財布には金貨三枚。一泊の宿代は金貨一枚のはずだ。</p>
+<div class="note">技術点、体力点、運勢点の初期値をまだ決めていなければ、冒険者シートのダイスローラーで今すぐ決定せよ。冒険者シートに記録すること。</div>
+<div class="choices">
+<p>女将のマグダに話しかけるなら<a href="#十二" class="jump">十二</a>へ進め。</p>
+<p>三人組の男たちに近づくなら<a href="#八十三" class="jump">八十三</a>へ進め。</p>
+<p>酒場の前の路地を覗くなら<a href="#六" class="jump">六</a>へ進め。</p>
+<p>先に街門の掲示板を確認するなら<a href="#二" class="jump">二</a>へ進め。</p>
+<p>二階の部屋を借りて休むなら<a href="#二十六" class="jump">二十六</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 五十八 -->
+<div class="section" id="五十八">
+<div class="section-num">五十八</div>
+<p>老ドワーフは名をゴルムといった。</p>
+<p>「五十年前、私はこの荒野で戦った」と彼は低い声で言った。「ザル＝カラムがまだ封印されていた頃だ。あの遺跡には、黄金時代の星脈術が眠っている。そして今、その封印が解けかけている」</p>
+<p>若い人間の二人組――兄弟らしい――は無言でテーブルの木目を眺めていた。</p>
+<p>「あなたの左手の紋章」とゴルムは続けた。「それは古代の鍵だ。どんな学者に見せても分からなかっただろう。なぜならその紋章の意味を知る者は、この世にもう三人しかいないからだ」</p>
+<p>あなたは左手を握った。「三人とは」</p>
+<p>「一人は私だ」ゴルムは戦斧の柄を静かに撫でた。「一人はザル＝カラムの最深部にいる。そしてもう一人は――」</p>
+<p>彼の目が、扉の方を向いた。</p>
+<p>何者かが酒場に入ってきた。フードを深く被った人物だ。ゴルムの表情が、石のように固まった。</p>
+<div class="note">「ゴルムから鍵の話を聞いた」と冒険者シートのメモ欄に記録せよ。</div>
+<div class="choices">
+<p>フードの人物に注目するなら<a href="#九十二" class="jump">九十二</a>へ進め。</p>
+<p>ゴルムの過去をもっと聞くなら<a href="#十五" class="jump">十五</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 六十一 -->
+<div class="section" id="六十一">
+<div class="section-num">六十一</div>
+<p>神殿は街の北の端にあった。</p>
+<p>石造りの質素な建物で、かつては白く塗られていたらしいが、今は煤けて灰色になっている。扉は固く閉ざされていた。ノックをすると、しばらく沈黙があり、やがて細く扉が開いた。</p>
+<p>老いた目がのぞいた。司祭だ。七十は超えているだろう。しかしその目には、恐怖と何か別の感情が混じっていた。</p>
+<p>「何の用だ」と彼は言った。声が震えている。</p>
+<p>「情報を求めている。ザル＝カラムについて」</p>
+<p>司祭の顔が蒼白になった。扉をさらに閉めようとする。しかしあなたが左手を上げた瞬間、彼は動きを止めた。その目が、紋章に釘付けになっていた。</p>
+<p>「……中に入りなさい」と司祭は囁いた。「見られてはならない」</p>
+<div class="note">「神殿の司祭と接触済み」と冒険者シートのメモ欄に記録せよ。</div>
+<div class="choices">
+<p>中に入るなら<a href="#百七" class="jump">百七</a>へ進め。</p>
+<p>罠を疑い、断るなら<a href="#四十七" class="jump">四十七</a>へ戻れ。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 八十三 -->
+<div class="section" id="八十三">
+<div class="section-num">八十三</div>
+<p>三人組は、あなたが近づくと警戒の色を見せた。</p>
+<p>人間の二人組は三十代と思しき男で、旅慣れた装備をしている。ドワーフの方は白い顎鬚を蓄えた老人で、腰に立派な戦斧を提げていた。</p>
+<p>「何の用だ」と若い方の人間が言う。敵意のある声だ。</p>
+<p>「同じ旅人として、情報交換でもどうかと思ってな」とあなたは答える。</p>
+<p>老ドワーフがじっとあなたの左手を見た。その目が、わずかに見開かれる。「……その紋章」と彼は呟いた。「どこで手に入れた」</p>
+<p>「生まれた時からある」</p>
+<p>三人は顔を見合わせた。何かを決断したように、老ドワーフが口を開く。「座れ。話がある」</p>
+<div class="note">この選択をした場合、「ゴルムたちと接触済み」と冒険者シートのメモ欄に記録せよ。</div>
+<div class="choices">
+<p>老ドワーフの話を聞くなら<a href="#五十八" class="jump">五十八</a>へ進め。</p>
+<p>罠かもしれないと警戒し、断るなら<a href="#四十七" class="jump">四十七</a>へ戻れ。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 九十二 -->
+<div class="section" id="九十二">
+<div class="section-num">九十二</div>
+<p>フードの人物はゆっくりと歩いてきた。</p>
+<p>他の客たちは気にも留めていない。しかしゴルムだけが、微動だにせず視線を追い続けていた。人物はあなたたちのテーブルを通り過ぎ――そしてすぐ背後で足を止めた。</p>
+<p>「ゴルム」と静かな声がした。女の声だ。「久しぶりね」</p>
+<p>老ドワーフは深く息をついた。「シラ。なぜここに」</p>
+<p>フードが外れた。長い銀髪と、時間の重さを湛えた緑の瞳。エルフだ。人間の目には三十代に見えるだろうが、その佇まいは何百年もの歳月を感じさせた。</p>
+<p>彼女の視線があなたの左手に止まった。驚きの色はなかった。まるで――最初から知っていたかのように。</p>
+<p>「あなたが来ることは分かっていた」とシラは言った。「黄金時代の終わりに、そう記されていたから」</p>
+<p>ゴルムが低く唸った。「余計なことを言うな」</p>
+<p>「もう時間がない」シラはゴルムを遮った。そしてあなたを真っ直ぐに見た。「今夜、ザル＝カラムで何かが起きる。あなたはそこへ行くことになる。止められない」</p>
+<div class="note">「シラと接触済み」と冒険者シートのメモ欄に記録せよ。</div>
+<div class="choices">
+<p>シラの言葉の意味を問うなら<a href="#百七" class="jump">百七</a>へ進め。</p>
+<p>ゴルムに詳細を聞くなら<a href="#三十五" class="jump">三十五</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 百七 -->
+<div class="section" id="百七">
+<div class="section-num">百七</div>
+<p>司祭の名はオルドといった。</p>
+<p>神殿の奥の小部屋に通されると、彼は震える手で古い羊皮紙を広げた。黄ばんで端が崩れかけているが、そこに描かれた図はまだ鮮明だった。ザル＝カラムの地図だ。そして中央に、あなたの左手の紋章と同じ形が刻まれていた。</p>
+<p>「三百年前」とオルドは言った。「黄金時代が終わった夜、一人の賢者がこれを私の師に預けた。いつかこの紋章を持つ者が現れる。その者にこれを渡せ、と」</p>
+<p>老司祭は羊皮紙をあなたに手渡した。</p>
+<p>「ザル＝カラムには三つの封印がある」と彼は続けた。「その鍵がその紋章だ。しかし警告がある」オルドの目が暗くなった。「封印を解く者は、必ず選択を迫られる。力を継ぐか。力に飲まれるか。あるいは――力ごと、すべてを葬るか」</p>
+<div class="note">「ザル＝カラムの地図」を手に入れた。冒険者シートの所持品欄に記録せよ。</div>
+<div class="choices">
+<p>地図についてさらに詳しく聞くなら<a href="#百二十三" class="jump">百二十三</a>へ進め。</p>
+<p>神殿の生き残りに会わせてもらうなら<a href="#十八" class="jump">十八</a>へ進め。</p>
+<p>今夜すぐにザル＝カラムへ向かうなら<a href="#百三十八" class="jump">百三十八</a>へ進め。</p>
+<p>一度宿に戻って準備を整えるなら<a href="#二十六" class="jump">二十六</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 百二十三 -->
+<div class="section" id="百二十三">
+<div class="section-num">百二十三</div>
+<p>オルドは羊皮紙の端を指でなぞった。</p>
+<p>「ザル＝カラムには三つの層がある」と彼は言った。「地上層は番人ゴーレムが守っている。黄金時代の賢者たちが仕掛けた罠だ。生半可な冒険者はここで命を落とす」</p>
+<p>「地下一層には研究区画がある。かつて賢者たちが星脈術を研究した場所だ。しかし崩壊の夜、何かが封印されたとも聞く。私には詳しいことは分からない」</p>
+<p>老司祭の声が低くなった。「地下二層には神殿がある。星脈術の祭壇だ。その紋章があれば、祭壇に触れることができる。しかし――触れるかどうかは、あなた自身が決めることだ。私には勧める資格も、止める資格もない」</p>
+<p>オルドはあなたの目を真っ直ぐ見た。「一つだけ言える。あの場所に入ったら、引き返せると思うな。ザル＝カラムはあなたを変える。良い方向にも、悪い方向にも」</p>
+<p>老司祭は立ち上がり、小部屋の奥から小さな瓶を取り出した。中に琥珀色の液体が入っている。「回復薬だ。一度だけ使える。体力点を六点回復する」</p>
+<div class="note">「回復薬」を手に入れた。冒険者シートの所持品欄に記録せよ。</div>
+<div class="choices">
+<p>今夜すぐにザル＝カラムへ向かうなら<a href="#百三十八" class="jump">百三十八</a>へ進め。</p>
+<p>一度宿に戻って休むなら<a href="#二十六" class="jump">二十六</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 百三十八 -->
+<div class="section" id="百三十八">
+<div class="section-num">百三十八</div>
+<p>夜のドーランは静かだった。</p>
+<p>あなたは街門を出た。荒野の闇の中に、遠く青白い光が灯っている。ザル＝カラムだ。地図によれば、ここから三時間ほどの距離だ。</p>
+<p>背後で足音がした。振り返ると、ゴルムが立っていた。戦斧を背負い、旅装束に身を包んでいる。</p>
+<p>「一人で行くつもりか」と老ドワーフは言った。</p>
+<p>「止めるつもりか」</p>
+<p>「逆だ」ゴルムは鼻を鳴らした。「儂も行く。あの遺跡には、昔の借りがある」</p>
+<p>シラも闇の中から現れた。「私も行く」と彼女は静かに言った。「三百年、この日を待っていた」</p>
+<p>道は三つに分かれている。地図によれば、それぞれ荒野・森・古代街道を通る。ゴルムは荒野ルートを薦める。シラは森ルートを薦める。どちらも一理ある。</p>
+<div class="choices">
+<p>出発前に廃村の調査をするなら<a href="#五百一" class="jump">五百一</a>へ進め。</p>
+<p>荒野ルートを行くなら<a href="#百四十五" class="jump">百四十五</a>へ進め。</p>
+<p>森ルートを行くなら<a href="#百八十八" class="jump">百八十八</a>へ進め。</p>
+<p>古代街道を行くなら<a href="#百九十四" class="jump">百九十四</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 百四十五 中ボス一体目 -->
+<div class="section" id="百四十五">
+<div class="section-num">百四十五</div>
+<p>街門を出て間もなく、道の真ん中に人影が立っていた。</p>
+<p>大きい。人間の倍はあろうかという巨躯だ。黒鉄の鎧に身を包み、背丈を超える大剣を地に突き立てている。オークだ。しかし普通のオークではない。その目に、知性と残忍さが同居していた。</p>
+<p>「待っていたぞ」と巨躯は言った。声は地の底から響くようだった。「紋章の持ち主よ。我が主ヴォルカネスの命だ。ここで死ね」</p>
+<p>ゴルムが低く唸った。「グラッハだ。ヴォルカネスの先兵。荒野の処刑人と呼ばれた男だ」</p>
+<p>シラが囁いた。「五十年前に死んだはずだった。よみがえらされたのか」</p>
+<p>逃げ道はない。グラッハが大剣を構えた。</p>
+<div class="note">【中ボス戦】荒野の処刑人「グラッハ」との戦闘を行え。グラッハ：技術点十／体力点十六。グラッハは偶数ラウンド（第二・四・六…ラウンド）に通常ダメージに加えてさらに一点の追加ダメージを与える。「ロットンのつるぎ」を持っている場合、追加ダメージを無効化できる。猿の右手をまだ使っていない場合、このタイミングで使用できる。使うなら<a href="#四百二十八" class="jump">四百二十八</a>へ進め。</div>
+<p>グラッハが崩れ落ちた。黒鉄の鎧が砕け、その下から砂がこぼれ落ちる。実体のない、砂でできた存在だったのだ。</p>
+<p>ゴルムが深く息をついた。「よくやった」と彼は言った。その声には、驚きが混じっていた。</p>
+<div class="note">撃破。経験値四点を獲得した。冒険者シートの経験値欄に記録し、合計値を確認せよ。合計が三点以上ならLv.2「浮足立つ冒険者」へ昇格し技術点＋一。七点以上ならLv.3「豪傑の勇者」へ昇格し体力点最大値＋四。十二点以上ならLv.4「ヴァルデアのレジェンド」へ昇格し運勢点＋一・技術点＋一。「グラッハを撃破した」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>荒野ルートを進むなら<a href="#百五十二" class="jump">百五十二</a>へ進め。</p>
+<p>森ルートへ変更するなら<a href="#百八十八" class="jump">百八十八</a>へ進め。</p>
+<p>古代街道へ変更するなら<a href="#百九十四" class="jump">百九十四</a>へ進め。</p>
+</div>
+<div class="choices"><p>体力点が零になったなら<a href="#四百七十三" class="jump">四百七十三</a>へ進め。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 百五十二 -->
+<div class="section" id="百五十二">
+<div class="section-num">百五十二</div>
+<p>荒野を三十分ほど進んだところで、焚き火の明かりが見えた。</p>
+<p>オークの野営地だ。七、八体はいるだろう。全員が武装している。通り道を塞ぐように陣取っていた。ゴルムが低く唸った。「面倒なことになった」</p>
+<p>シラが囁いた。「オークの族長は交渉に応じることもある。ただし、舐められたら終わりだ」</p>
+<p>ゴルムは戦斧の柄を握った。「儂は正面突破でいい」</p>
+<p>左手の紋章がわずかに熱を帯びた。</p>
+<div class="choices">
+<p>交渉を試みるなら<a href="#百六十七" class="jump">百六十七</a>へ進め。</p>
+<p>正面から戦うなら<a href="#百七十九" class="jump">百七十九</a>へ進め。</p>
+<p>迂回路を探すなら運試しを行え。運勢点以下ならば<a href="#百八十八" class="jump">百八十八</a>へ進め。失敗したならば<a href="#百七十九" class="jump">百七十九</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 百六十七 -->
+<div class="section" id="百六十七">
+<div class="section-num">百六十七</div>
+<p>族長のオークは頭一つ分背が高く、古い傷跡が顔を横切っていた。</p>
+<p>あなたは武器を収め、両手を広げて近づいた。族長の目が細くなる。仲間たちが武器を構える。</p>
+<p>「通してほしい」とあなたは言った。「ザル＝カラムへ行く」</p>
+<p>族長は長い沈黙の後、低い声で笑った。「死にたいのか、人間」</p>
+<p>「かもしれない」とあなたは答えた。「だがあの遺跡が目覚めれば、この荒野も飲み込まれる。あなたたちの野営地も例外ではない」</p>
+<p>また沈黙。族長はあなたの左手を見た。その目に、何か認識の光が走った。</p>
+<p>「……行け」と族長は低く言った。「ただし、戻ってくる時は別の道を通れ。次は通さない」</p>
+<div class="note">技術点に一点を加えよ。この判断が、あなたを少し成長させた。</div>
+<div class="choices"><p><a href="#百八十八" class="jump">百八十八</a>へ進め。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 百七十九 -->
+<div class="section" id="百七十九">
+<div class="section-num">百七十九</div>
+<p>戦闘は激しかった。</p>
+<p>オークたちは強く、素早かった。ゴルムの戦斧が唸り、シラの短剣が閃く。あなたも剣を抜いた。</p>
+<div class="note">オーク三体と戦闘を行え。それぞれの技術点は七、体力点は八である。一体ずつ順番に戦え。一体を倒すごとに次のオークと戦う。戦闘中に食料や回復薬を使用することはできない。オーク：技術点七／体力点八（三体）／経験値：一体につき一点（合計三点）。冒険者シートの経験値欄に記録し、合計が三点に達したならLv.2「浮足立つ冒険者」へ昇格し技術点＋一せよ。七点に達したならLv.3「豪傑の勇者」へ昇格し体力点最大値＋四せよ。十二点に達したならLv.4「ヴァルデアのレジェンド」へ昇格し運勢点＋一・技術点＋一せよ。</div>
+<div class="choices">
+<p>全員を倒したなら<a href="#百八十八" class="jump">百八十八</a>へ進め。</p>
+<p>体力点が三点以下になったなら、今すぐ食料か回復薬を使用してもよい。その後<a href="#百八十八" class="jump">百八十八</a>へ進め。</p>
+<p>体力点が零になったなら<a href="#四百七十三" class="jump">四百七十三</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 百八十八 -->
+<div class="section" id="百八十八">
+<div class="section-num">百八十八</div>
+<p>森の入口に着いたのは夜半過ぎだった。</p>
+<p>古い木々が頭上を覆い、星が見えなくなった。暗闇の中で、シラが先導する。エルフの目は夜でも見えるらしい。</p>
+<p>しばらく進むと、木々の間に淡い光が見えた。ゴルムが足を止めた。「エルフの隠れ里か」と彼は呟いた。どこか苦い声だった。</p>
+<p>「寄っていく必要はない」とシラは言った。しかしその声には迷いがあった。</p>
+<p>あなたは光の方向を見た。何かが引き寄せている。左手の紋章ではない。もっと単純な、人間的な好奇心だ。</p>
+<div class="choices">
+<p>エルフの里に立ち寄る場合は体力点を四点回復し（初期値を超えることはできない）、「エルフの里に立ち寄った」とメモ欄に記録してから<a href="#二百三" class="jump">二百三</a>へ進め。</p>
+<p>時間を節約してそのまま進む場合は<a href="#二百三" class="jump">二百三</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 百九十四 -->
+<div class="section" id="百九十四">
+<div class="section-num">百九十四</div>
+<p>古代街道は舗装されていたが、三百年の歳月がそれを半ば荒野に戻していた。しばらく進むと、道の脇に荷馬車が止まっていた。</p>
+<p>一行が街道を進み始めて間もなく、前方に篝火が見えた。商人の隊列か、とゴルムが言った。しかし篝火は動かない。</p>
+<p>「罠だ」とシラが囁いた。「この街道には盗賊団が出る」</p>
+<p>案の定、闇の中から人影が現れた。六人。武装している。先頭の男が「通行料だ」と言った。笑みを浮かべているが、目は笑っていない。</p>
+<div class="choices">
+<p>金貨を払うなら金貨五枚を失い<a href="#二百三" class="jump">二百三</a>へ進め。</p>
+<p>戦うなら盗賊三人（技術点六／体力点七）と戦え。勝利したなら経験値を一体につき一点（合計三点）獲得せよ。冒険者シートに記録し、レベルアップ条件を確認すること。その後<a href="#二百三" class="jump">二百三</a>へ進め。体力点が零になったなら<a href="#四百七十三" class="jump">四百七十三</a>へ進め。</p>
+<p>ゴルムが前に出る。運試しを行え。成功したなら盗賊たちは退散し<a href="#二百三" class="jump">二百三</a>へ進め。失敗したなら戦闘へ。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百三 -->
+<div class="section" id="二百三">
+<div class="section-num">二百三</div>
+<p>ザル＝カラムは、想像よりずっと巨大だった。</p>
+<p>荒野の真ん中に、黒い石造りの建造物が聳えている。かつては都市全体を覆う複合施設だったらしいが、今は半分以上が地下に沈んでいる。地上に残った部分だけでも、小さな城ほどの大きさがある。</p>
+<p>青白い光は地下から漏れていた。</p>
+<p>入口の前に、二人の冒険者の死体が転がっていた。最近死んだばかりだ。ゴルムが屈んで調べた。「外傷はない。魔法だ」と彼は言った。</p>
+<p>入口の両脇に石像が立っている。人の形をしているが、どこかが違う。目の部分が空洞で、その奥に微かな光がある。</p>
+<div class="note">これがゴーレムだ。</div>
+<p>「正面から入れば起動する」とシラが言った。「別の入口があるかもしれない」</p>
+<div class="choices">
+<p>正面から堂々と入るなら<a href="#六百一" class="jump">六百一</a>へ進め。</p>
+<p>別の入口を探すなら運試しを行え。成功したなら<a href="#二百二十九" class="jump">二百二十九</a>へ直接進め。失敗したなら<a href="#二百十五" class="jump">二百十五</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百十五 -->
+<div class="section" id="二百十五">
+<div class="section-num">二百十五</div>
+<p>石像が動いた。</p>
+<p>ゆっくりと、しかし確実に。目の光が強くなり、石の関節が軋む音がした。ゴルムが戦斧を構える。シラが短剣を抜く。</p>
+<div class="note">番人ゴーレムと戦闘を行え。ゴーレム：技術点九／体力点十二。ゴーレムの皮膚は石でできている。技術点八以下の武器では一ラウンドに与えられるダメージは一点のみとなる。「ロットンのつるぎ」を持っている場合はこの制限を受けない。撃破時の経験値：二点。冒険者シートに記録し、レベルアップ条件を確認すること。</div>
+<div class="choices">
+<p>勝利したなら<a href="#二百二十九" class="jump">二百二十九</a>へ進め。</p>
+<p>体力点が零になったなら<a href="#四百七十三" class="jump">四百七十三</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+
+<!-- 二百三十五 死神の首飾り -->
+<div class="section" id="二百三十五">
+<div class="section-num">二百三十五</div>
+<p>廊下の隅に、人が倒れていた。</p>
+<p>最近死んだばかりではない。かなり前だ。鎧は錆び、肉はとうに失われている。しかし首の骨に、何かが引っかかっていた。</p>
+<p>黒い首飾りだ。石のような素材でできており、髑髏を模した細工が施されている。美しいとは言えないが、何か強烈な力を帯びているのは一目で分かった。ゴルムが顔をしかめた。「触るな。呪いの品だ」</p>
+<p>しかし死体の傍に、古びた羊皮紙が落ちていた。かろうじて読める文字でこう書かれていた。</p>
+<p>「死神の首飾り。これを装備した者はあらゆる攻撃から身を守る力を得る。しかし代償として――」</p>
+<p>残りの文字は血で滲み、読めなかった。</p>
+<div class="choices">
+<p>首飾りを装備するなら体力点を現在値の半分にせよ（端数切り捨て）。そのかわり以降の戦闘で受けるダメージが毎ラウンド一点軽減される。「死神の首飾りを装備」とメモ欄に記録し<a href="#二百二十九" class="jump">二百二十九</a>へ戻れ。</p>
+<p>首飾りには触れず先へ進むなら<a href="#二百二十九" class="jump">二百二十九</a>へ戻れ。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百六十八 隠し通路入口 -->
+<div class="section" id="二百六十八">
+<div class="section-num">二百六十八</div>
+<p>三番目の石板を押すと、壁が音もなくずれた。</p>
+<p>隠し通路だ。幅は一人が通れる程度。石の壁に手をつきながら進むと、通路は緩やかに下り坂になっていた。ランタンの光が揺れる。</p>
+<p>しばらく進むと、小さな部屋に出た。台座の上に剣が置かれている。さらに奥へ進む通路が続いている。</p>
+<p>ヴァズの言った通りだった。守護者を避けて地下二層に直接出られる。しかし通路の壁に、無数の爪痕があった。誰かがここを通った跡だ。ずっと昔に。</p>
+<div class="note">「隠し通路を通過した」とメモ欄に記録せよ。守護者（二百九十七）との戦闘を回避できる。ただしヴァズの代償は後に訪れる。</div>
+<div class="choices">
+<p>台座の剣を調べるなら<a href="#二百七十二" class="jump">二百七十二</a>へ進め。</p>
+<p>剣には触れず直接地下二層へ向かうなら<a href="#二百七十八" class="jump">二百七十八</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百七十二 ロットンのつるぎ -->
+<div class="section" id="二百七十二">
+<div class="section-num">二百七十二</div>
+<p>壁の一部が、わずかに色が違った。</p>
+<p>よく見ると継ぎ目がある。押すと、石がずれて小さな部屋が現れた。</p>
+<p>部屋の中央に、台座があった。その上に剣が置かれていた。長さは普通だが、刀身に古代文字が刻まれている。鞘もなく、しかし刃は三百年の時を経ても一切錆びていない。</p>
+<p>手に取ると、左手の紋章が反応した。温かい感触。この剣は、紋章を持つ者のために置かれていたのだ。</p>
+<p>台座の下に石板があり、こう刻まれていた。</p>
+<p>「ロットンのつるぎ。星脈術師ロットンが黄金時代に鍛えた最後の一振り。これを握る者の技術は、研ぎ澄まされた刃のごとく冴え渡る」</p>
+<div class="choices">
+<p>剣を手に取るなら「ロットンのつるぎ」を入手し技術点の初期値と現在値に永久に二点を加えよ。所持品欄に記録してから<a href="#二百七十八" class="jump">二百七十八</a>へ進め。</p>
+<p>剣を置いていくなら<a href="#二百七十八" class="jump">二百七十八</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百六十二 ニフルユーム王国の城門 -->
+<div class="section" id="三百六十二">
+<div class="section-num">三百六十二</div>
+<p>ニフルユーム王国の城門は高く、黒い石で造られていた。</p>
+<p>かつては断片の時代でも最も栄えた王国だったという。しかし今、城壁には亀裂が走り、兵士たちの目に疲弊の色が滲んでいた。ザル＝カラムの影響がここまで届いているのだ。</p>
+<p>謁見を申し込むと、意外にも翌朝すぐに通された。玉座の間に座っていたのは、思いのほか若い王だった。三十代前半。しかし目には老人のような疲労が刻まれていた。</p>
+<p>「ヴォルカネスの復活の話は聞いている」と王は言った。「ニフルユームの占星術師が三ヶ月前から警告していた。だが民は信じなかった」</p>
+<p>王は立ち上がり、窓の外を見た。城下には普通の民の営みが続いている。何も知らない人々だ。</p>
+<p>「軍を出すことはできる。しかし条件がある」</p>
+<div class="choices">
+<p><a href="#三百六十八" class="jump">三百六十八</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百七十一 タンガリー山岳・トール＝グルムへの道 -->
+<div class="section" id="三百七十一">
+<div class="section-num">三百七十一</div>
+<p>タンガリー山岳の麓から、トール＝グルムへの道は急峻だった。</p>
+<p>岩を削って作られた階段が山腹をぐるりと螺旋状に登っている。ゴルムは迷いなく先を行く。この道を何度も歩いたことがあるのだろう。</p>
+<p>「ドゥルスティーバーグとホイテンバーグの姉妹都市が合流してできた要塞だ」とゴルムは歩きながら言った。「二つの氏族が長い戦争の末に手を結んだ。それがトール＝グルムだ」</p>
+<p>城門に着くと、衛兵がゴルムの顔を見て表情を変えた。「ゴルム将軍……まだ生きておられたか」</p>
+<p>ゴルムは苦笑した。「儂はしぶといんだ」</p>
+<div class="choices">
+<p><a href="#三百七十五" class="jump">三百七十五</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+<!-- 二百二十九 -->
+<div class="section" id="二百二十九">
+<div class="section-num">二百二十九</div>
+<p>地下一層は、かつて研究室として使われていた場所だった。</p>
+<p>石の廊下に、壊れた実験器具や古い書物の残骸が散乱している。壁には星脈術の図式が刻まれている。ゴルムがランタンを高く掲げた。</p>
+<p>廊下の途中に、先の冒険者と思われる遺体が倒れていた。首に何か光るものが見えた。</p>
+<div class="choices"><p>遺体に近づいて調べるなら<a href="#二百三十五" class="jump">二百三十五</a>へ進め。</p>
+<p>「地下一層に古い日誌がある」とメモにあるなら実験室の机を探し<a href="#六百六" class="jump">六百六</a>へ進め。</p></div>
+<p>廊下の突き当たりに、重い鉄扉があった。扉には鎖が巻かれ、複数の封印が施されている。封印の一つが、あなたの左手の紋章と同じ形をしていた。</p>
+<p>「開けられる」とシラが言った。「でも、中に何がいるかは分からない」</p>
+<p>ゴルムが首を振った。「儂は開けるべきではないと思う。封印されているのには理由がある」</p>
+<p>左手が熱を帯びた。しかし今回は痛みを伴っていた。</p>
+<div class="choices">
+<p>扉を開けるなら<a href="#二百四十一" class="jump">二百四十一</a>へ進め。</p>
+<p>扉を無視して先へ進むなら<a href="#二百七十八" class="jump">二百七十八</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百四十一 -->
+<div class="section" id="二百四十一">
+<div class="section-num">二百四十一</div>
+<p>扉が開いた瞬間、冷たい空気が吹き出した。</p>
+<p>部屋の中央に、黒い靄が浮いていた。人の形をしているが、輪郭がぼやけている。目だけが、赤く光っていた。</p>
+<p>「久しぶりだ」と靄が言った。声は穏やかだった。「三百年ぶりに扉が開いた。あなたが来ることは知っていた」</p>
+<p>ゴルムが戦斧を構えた。シラは動かなかった。</p>
+<p>「戦う必要はない」と靄は続けた。「私はヴァズ。かつて黄金時代の賢者だった。今は――このような形になってしまったが」</p>
+<p>靄は天井の方を見た。「ヴォルカネスが目覚めかけている。あなたの左手の紋章は、最深部の扉を開ける鍵だ。私はあなたに取引を持ちかけたい。私を解放すれば、最深部への安全な道を教えよう」</p>
+<div class="note">ヴァズは悪魔ではない。かつての賢者が封印された存在だ。しかし三百年の孤独が、彼を何に変えたかは分からない。</div>
+<div class="choices">
+<p>ヴァズの話をもっと聞くなら<a href="#六百七" class="jump">六百七</a>へ進め。</p>
+<p>取引に応じるなら「ヴァズと取引した」とメモ欄に記録し<a href="#二百五十六" class="jump">二百五十六</a>へ進め。</p>
+<p>断るなら<a href="#二百六十三" class="jump">二百六十三</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百五十六 -->
+<div class="section" id="二百五十六">
+<div class="section-num">二百五十六</div>
+<p>「賢明だ」とヴァズは言った。</p>
+<p>靄が動き、あなたの左手の紋章に触れた。冷たい感触があった。そして、何かが変わった感覚。紋章がわずかに輝き、すぐ消えた。</p>
+<p>「地下二層への近道を教えよう」とヴァズは言った。「廊下を戻り、三番目の石板を押せ。隠し通路がある。守護者を避けられる」</p>
+<p>そしてヴァズは懐から何かを取り出した。親指ほどの大きさの、深い金色に輝く石だ。「それと――これを持っていけ。賢者の石だ。かつて黄金時代の賢者たちが作り上げた、唯一無二の秘石。生命力を絶えず再生し続ける。サイコロを振るたびに、あなたの傷は少しずつ癒える」</p>
+<p>ゴルムがあなたの腕を掴んだ。「待て」と彼は低く言った。「ただでそんなものを渡すはずがない。代償は何だ」</p>
+<p>ヴァズは静かに答えた。「すでに取った。あなたの左手に触れた時に」</p>
+<p>あなたは左手を見た。紋章は変わっていない。しかし――何かが、確かに薄くなっていた。</p>
+<p>「技術の一部だ」とヴァズは言った。「永遠に戻らない。しかし賢者の石がある限り、あなたは死なない。どちらが得かは、自分で判断しろ」</p>
+<div class="note">「賢者の石」を入手した。所持品欄に記録せよ。技術点の初期値を永久に２点減らせ（現在値・上限値ともに）。冒険者シートに反映すること。／賢者の石の効果：所持している限り、サイコロを振るたびに体力点を１点回復する（初期値を超えることはできない）。これはこのゲームブック中で最強のアイテムである。「ヴァズと取引した」「隠し通路を知っている」とメモ欄に記録せよ。</div>
+<p>ゴルムは何も言わなかった。ただ、深く息をついた。</p>
+<div class="choices">
+<p>隠し通路を使うなら<a href="#二百六十八" class="jump">二百六十八</a>へ進め。</p>
+<p>通常の道を行くなら<a href="#二百九十七" class="jump">二百九十七</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百六十三 -->
+<div class="section" id="二百六十三">
+<div class="section-num">二百六十三</div>
+<p>「断る」とあなたは言った。</p>
+<p>靄は沈黙した。長い沈黙だった。</p>
+<p>「そうか」とヴァズは最後に言った。「では、自力で行くがいい。ただし一つだけ言っておく。最深部で選択を迫られた時――力を継ぐことを恐れるな。恐れた者から、この世界は奪っていく」</p>
+<p>扉が静かに閉じた。</p>
+<p>ゴルムが息をついた。「正しい判断だ」</p>
+<div class="choices"><p><a href="#二百七十八" class="jump">二百七十八</a>へ進め。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百七十八 -->
+<div class="section" id="二百七十八">
+<div class="section-num">二百七十八</div>
+<p>地下二層は、一層とは空気が違った。</p>
+<p>石の廊下に、かすかな光が満ちている。壁に埋め込まれた宝石が発光しているのだ。星脈術の名残だとシラが言った。「黄金時代には、ヴァルデア中がこんな光に満ちていた」と彼女は静かに言った。どこか悲しげな声だった。</p>
+<p>廊下の先に、二つの扉があった。左は重厚な石の扉。右は金属製の扉で、奇妙な文様が刻まれている。</p>
+<p>「左が祭壇だ」とシラが言った。「右は守護者の間だ」</p>
+<p>ゴルムが地図を見た。「どちらも最深部への道につながっている。ただし守護者の間を通った方が、祭壇の力を使える状態で進める」</p>
+<div class="choices">
+<p>左の祭壇へ向かうなら<a href="#二百八十四" class="jump">二百八十四</a>へ進め。</p>
+<p>右の守護者の間へ向かうなら<a href="#二百八十四" class="jump">二百八十四</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百八十四 中ボス二体目 -->
+<div class="section" id="二百八十四">
+<div class="section-num">二百八十四</div>
+<p>神殿区画の入口に、何かが立っていた。</p>
+<p>人の形をしているが、足が地面から浮いている。全身が青白い光に包まれ、輪郭が揺らいでいる。顔はかつて人間だったことを示しているが、その目には何の感情もない。ただ、あなたを見ていた。</p>
+<p>「星脈の番人エイサーだ」とシラが青ざめた顔で言った。「黄金時代の術師だった。死してなお、この場所を守り続けている。私でも手が出せない」</p>
+<p>ゴルムが戦斧を構えた。「生きた相手と同じように戦えばいい。死んでいるからといって、倒せないわけではない」</p>
+<p>エイサーが手を上げた。青白い光が凝縮される。</p>
+<div class="note">【中ボス戦】神殿の番人「エイサー」との戦闘を行え。エイサー：技術点十一／体力点十八。エイサーは三ラウンドに一度、体力吸収を行う。吸収を受けた場合、あなたの体力点を二点失い、エイサーの体力点が二点回復する。「賢者の石」を持っている場合、吸収の効果を一点に軽減できる。猿の右手をまだ使っていない場合、このタイミングで使用できる。使うなら<a href="#四百二十八" class="jump">四百二十八</a>へ進め。</div>
+<p>エイサーが音もなく崩れた。光の粒が四散し、石の床に吸い込まれていく。最後の瞬間、その口が動いた。言葉にはならなかったが、あなたには何となく分かった。</p>
+<p>――ありがとう、と言ったのだ。</p>
+<p>ゴルムが呟いた。「やっと眠れるんだろう。三百年は長すぎる」</p>
+<div class="note">撃破。経験値四点を獲得した。冒険者シートの経験値欄に記録し、合計値を確認せよ。合計が七点以上ならLv.3「豪傑の勇者」へ昇格し体力点最大値＋四。十二点以上ならLv.4「ヴァルデアのレジェンド」へ昇格し運勢点＋一・技術点＋一。「エイサーを撃破した」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>祭壇へ向かうなら<a href="#二百八十九" class="jump">二百八十九</a>へ進め。</p>
+<p>守護者の間へ向かうなら<a href="#二百九十七" class="jump">二百九十七</a>へ進め。</p>
+<p>体力点が零になったなら<a href="#四百七十三" class="jump">四百七十三</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百八十九 -->
+<div class="section" id="二百八十九">
+<div class="section-num">二百八十九</div>
+<p>祭壇の間は広く、天井が高かった。</p>
+<p>中央に石の台座があり、その上に水晶の球体が置かれていた。球体の内部で、青白い光が渦巻いている。ザル＝カラムの外から見えていた光の源はこれだったのだ。</p>
+<p>シラが息を飲んだ。「星脈の核だ。まだ生きている」</p>
+<p>あなたは台座に近づいた。左手の紋章が、これまでにない強さで熱を帯びた。球体に触れると、膨大な何かが流れ込んでくる感覚があった。記憶のような、知識のような。</p>
+<div class="note">「星脈の祭壇に触れた」とメモ欄に記録せよ。これはGOOD END 1の条件の一つだ。</div>
+<p>突然、部屋の奥で音がした。石が砕ける音だ。守護者が目覚めた。</p>
+<div class="choices"><p><a href="#二百九十七" class="jump">二百九十七</a>へ進め。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 二百九十七 -->
+<div class="section" id="二百九十七">
+<div class="section-num">二百九十七</div>
+<p>古代の守護者は、人の形をしていなかった。</p>
+<p>四本腕の石像が、信じられない速さで動いていた。ゴルムが「退け！」と叫ぶ。シラが左に飛ぶ。あなたは剣を抜いた。</p>
+<div class="note">古代の守護者と戦闘を行え。守護者：技術点十／体力点十四。守護者は一ラウンドに二回攻撃を行う。二回目の攻撃では技術点から二点を引いた値で判定せよ。「ロットンのつるぎ」を持っている場合、一ラウンドに与えるダメージは三点となる。</div>
+<div class="choices">
+<p>勝利したなら<a href="#三百十二" class="jump">三百十二</a>へ進め。</p>
+<p>体力点が四点以下になったなら、猿の右手を使う選択肢がある。使うなら<a href="#四百二十八" class="jump">四百二十八</a>へ進め。使わないなら戦闘を続けよ。</p>
+<p>体力点が零になったなら<a href="#四百七十三" class="jump">四百七十三</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百十二 -->
+<div class="section" id="三百十二">
+<div class="section-num">三百十二</div>
+<p>守護者は崩れ、石の破片になった。</p>
+<p>しばらく誰も動かなかった。ゴルムが肩の傷を押さえている。シラの装束に血が滲んでいる。あなた自身も、いくつかの傷を負っていた。</p>
+<p>廊下の奥に、下への階段が見えた。そこから青白い光が激しく漏れている。地下三層だ。</p>
+<p>「ここから先は」とシラが言った。「私たちはついていけないかもしれない」</p>
+<p>ゴルムが頷いた。「あの紋章がなければ、星の間の扉は開かない。儂たちでは意味がない」</p>
+<p>二人があなたを見た。言葉はいらなかった。これはあなた一人の冒険だ。最初から、そういうことだったのだ。</p>
+<div class="note">現在の体力点・技術点・運勢点を確認せよ。回復薬や食料があれば今使うことができる。</div>
+<div class="choices"><p>「ゴルムに伝言を届けた」とメモにあるならゴルムとの別れを経由して<a href="#六百十三" class="jump">六百十三</a>へ進め。</p>
+<p>「ナックを仲間にした」とメモにあるならナックとの別れを経由して<a href="#六百十四" class="jump">六百十四</a>へ進め。</p>
+<p>覚悟を決めて階段を下りるなら<a href="#九百一" class="jump">九百一</a>へ進め。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百二十四 -->
+<div class="section" id="三百二十四">
+<div class="section-num">三百二十四</div>
+<p>星の間は、名前の通りだった。</p>
+<p>広大な空間の天井に、無数の光点が散りばめられている。星図だ。ヴァルデアの空を、そのまま石の天井に刻み込んだものだ。三百年前、ここで何かが行われた。そしてその何かが、今また繰り返されようとしている。</p>
+<p>部屋の中央に、巨大な石の祭壇があった。その上に、人が立っていた。</p>
+<p>いや、人ではない。かつて人だったものだ。</p>
+<p>ヴォルカネスだった。</p>
+<p>まだ完全には復活していない。半透明の身体が、青白い光の中で揺らめいている。しかし目はあなたをはっきりと見ていた。その目は深い穴のようで、覗き込むと吸い込まれそうだった。</p>
+<p>「鍵の持ち主が来た」とヴォルカネスは言った。声は耳の中に直接響いた。「遅かった。もう止められない」</p>
+<p>あなたは剣を構えた。左手の紋章が激しく輝いている。</p>
+<div class="choices">
+<p>儀式を止めるために戦うなら<a href="#三百三十三" class="jump">三百三十三</a>へ進め。</p>
+<p>「オルト＝ヴァルの記憶を受け入れた」とメモにあるなら名を呼んで対話を試みるなら<a href="#九百三" class="jump">九百三</a>へ進め。</p>
+<p>儀式を利用することを考えるなら<a href="#三百四十一" class="jump">三百四十一</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百三十三 -->
+<div class="section" id="三百三十三">
+<div class="section-num">三百三十三</div>
+<p>あなたは剣を構えたまま、祭壇へ向かって走った。</p>
+<p>ヴォルカネスが手を上げた。見えない力があなたを押し戻す。足が重い。空気が固まっているようだ。しかし紋章が輝き、その力を少し和らげた。</p>
+<p>「無駄だ」とヴォルカネスは言った。「三百年かけて準備したものを、お前ごときが止められると思うか」</p>
+<p>あなたは歯を食いしばった。</p>
+<div class="note">ここで猿の右手を使うことができる。使うなら<a href="#四百二十八" class="jump">四百二十八</a>へ進め。使わない場合は、そのまま戦闘へ進め。</div>
+<div class="choices"><p><a href="#四百十五" class="jump">四百十五</a>へ進め。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百四十一 -->
+<div class="section" id="三百四十一">
+<div class="section-num">三百四十一</div>
+<p>あなたは剣を下げた。</p>
+<p>ヴォルカネスの目が細くなった。「ほう」</p>
+<p>「儀式を利用させてもらう」とあなたは言った。「あなたの力が必要だ」</p>
+<p>「交渉か」ヴォルカネスは笑った。人間の笑い方ではなかった。「面白い。続けろ」</p>
+<div class="note">これはBAD END 1へつながるルートだ。本当にこの道を選ぶか。</div>
+<div class="choices">
+<p>このまま交渉を続けるなら<a href="#四百五十五" class="jump">四百五十五</a>へ進め。</p>
+<p>やはり戦うなら<a href="#三百三十三" class="jump">三百三十三</a>へ戻れ。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百五十六 -->
+<div class="section" id="三百五十六">
+<div class="section-num">三百五十六</div>
+<p>ザル＝カラムから生きて戻ったあなたは、ミヤトの街道を北へ急いだ。</p>
+<p>タンガリー山岳が遠くに見える。その麓にトール＝グルムがある。東にはニフルユーム王国の旗が翻る城壁が見えた。テニスタ・テニストの森を抜ければエルフの隠れ里への道もある。</p>
+<p>ゴルムが立ち止まった。「満月まであと三日だ。一か所しか行けない」</p>
+<p>シラが空を見上げた。「急げ」</p>
+<p>どこへ向かうか。それだけが問題だった。</p>
+<div class="choices">
+<p>ニフルユーム王国の城門へ向かうなら<a href="#三百六十二" class="jump">三百六十二</a>へ進め。</p>
+<p>タンガリー山岳のトール＝グルムへ向かうなら<a href="#三百七十一" class="jump">三百七十一</a>へ進め。</p>
+<p>テニスタ・テニストのエルフの長老に会いに行くなら<a href="#三百八十三" class="jump">三百八十三</a>へ進め。</p>
+<p>一人で戻ると決めるなら<a href="#三百九十一" class="jump">三百九十一</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百六十八 -->
+<div class="section" id="三百六十八">
+<div class="section-num">三百六十八</div>
+<p>「ザル＝カラムで発見された星脈術の知識は、すべてニフルユーム王国に引き渡すこと」と王は言った。「それがわれらの条件だ」</p>
+<p>ゴルムが拳を握った。「それは遺産だ。一国のものではない。ヴァルデア全土のものだ」</p>
+<p>王は静かに答えた。「分かっている。しかし民を守るためには力が必要だ。知識は力だ」</p>
+<p>シラは黙っていた。その目には、何か複雑な感情が混じっていた。黄金時代の知識がまた一国の手に渡る。それは過去の悲劇の繰り返しかもしれない。</p>
+<p>部屋の隅で、老いた占星術師がじっとあなたの左手を見ていた。</p>
+<div class="note">軍の支援を受ける場合、最終決戦で技術点に一点のボーナスを得る。「ニフルユーム王国と契約した」とメモ欄に記録せよ。これは後のエンディングに影響する。</div>
+<div class="choices">
+<p>条件を飲むなら「ニフルユーム王国と契約した」と記録し<a href="#四百二" class="jump">四百二</a>へ進め。</p>
+<p>断って別の道を探すなら<a href="#三百五十六" class="jump">三百五十六</a>へ戻れ。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百七十五 -->
+<div class="section" id="三百七十五">
+<div class="section-num">三百七十五</div>
+<p>族長は年老いた女性ドワーフだった。名をヴァルナという。</p>
+<p>ゴルムとは旧知らしく、二人はタンガリー山岳の古い言語で短く言葉を交わした。それからヴァルナはあなたに向き直った。目が鋭い。値踏みするような視線だ。</p>
+<p>「ドゥルスティーバーグもホイテンバーグも、今は一つだ」と彼女は言った。「タンガリーの岩のように固く結ばれた。しかしその力を動かすには、それなりの理由が要る」</p>
+<p>ヴァルナは条件を出した。「ザル＝カラムの地下二層にある『星脈の核』を、われらに引き渡せ。それと引き換えに、われらが誇る最高の剣を贈ろう。もっとも」と彼女はあなたの腰を見た。「すでに持っているなら話は別だが」</p>
+<p>もし「ロットンのつるぎ」をすでに所持している場合、ヴァルナは条件を変える。「ならば星脈の核だけでよい。約束してくれ」と彼女は言った。</p>
+<div class="note">「星脈の核を渡す約束をした」とメモ欄に記録せよ。「ロットンのつるぎ」を未所持の場合のみここで入手できる。これは後のエンディングに影響する。</div>
+<div class="choices">
+<p>条件を飲むなら記録して<a href="#四百二" class="jump">四百二</a>へ進め。</p>
+<p>断って別の道を探すなら<a href="#三百五十六" class="jump">三百五十六</a>へ戻れ。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百八十三 -->
+<div class="section" id="三百八十三">
+<div class="section-num">三百八十三</div>
+<p>シラに案内され、テニスタ・テニストの深部へと踏み込んだ。</p>
+<p>三百年前、シラはこの森を出た。黄金時代の終わりを見届けるために。そして今、初めて戻ってきた。木々の間を進みながら、彼女は一度だけ立ち止まり、深く息をついた。何も言わなかったが、その背中が多くを語っていた。</p>
+<p>長老の元へたどり着いた。</p>
+<p>長老は木の根が絡み合った玉座に座っていた。その目はシラよりさらに古く、何千年もの記憶を湛えているように見えた。</p>
+<p>「あなたが来ることは知っていた」と長老は言った。「黄金時代の終わりから、ずっと待っていた」</p>
+<p>長老は話し始めた。黄金時代の真実。ヴォルカネスを召喚したのが、実は人間の賢者だけではなかったこと。一部のエルフも関わっていたこと。シラがその事実を知っていたこと。</p>
+<div class="note">「黄金時代の真実を知った」とメモ欄に記録せよ。これはGOOD END 1の条件の一つだ。</div>
+<p>シラは目を伏せていた。「ごめんなさい」と彼女は静かに言った。「言えなかった」</p>
+<p>長老が続けた。「しかしその罪を償う方法がある。星脈術の祭壇に触れた者だけが使える、古代の儀式がある」</p>
+<div class="note">「エルフの真実ルートを通過した」とメモ欄に記録せよ。</div>
+<div class="choices"><p><a href="#四百二" class="jump">四百二</a>へ進め。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百九十一 -->
+<div class="section" id="三百九十一">
+<div class="section-num">三百九十一</div>
+<p>「一人で行く」とあなたは言った。</p>
+<p>ゴルムが止めようとした。シラも。しかしあなたの目を見て、二人は黙った。</p>
+<p>「死ぬかもしれないぞ」とゴルムは言った。</p>
+<p>「そうかもしれない」とあなたは答えた。「だがこれは最初からそういう話だった」</p>
+<p>ゴルムは何も言わなかった。代わりに、腰から小さな瓶を外してあなたに渡した。「最後の切り札だ。本当に駄目な時だけ使え」</p>
+<div class="note">「強壮剤」を入手した。一度だけ使用でき、技術点を二点上げる効果がある（一つの戦闘の間のみ有効）。</div>
+<div class="choices"><p><a href="#四百二" class="jump">四百二</a>へ進め。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 三百九十七 最終決戦への道 -->
+<div class="section" id="三百九十七">
+<div class="section-num">三百九十七</div>
+<p>ミヤトの街道を南へ走った。</p>
+<p>荒野が変わっていた。草が枯れている。土が黒ずんでいる。空の色がおかしい。雲が渦を巻くように集まり、その中心がザル＝カラムの方角だった。</p>
+<p>道中で三人の冒険者の死体を見つけた。外傷はない。顔だけが、恐怖で固まっていた。</p>
+<p>ゴルムが低く言った。「ヴォルカネスの力が溢れ出している。近づくほど、弱い者から飲み込まれる」</p>
+<p>シラが空を見上げた。「テニスタ・テニストの森でさえ、この影響を感じていた。三百年前と同じだ」と彼女は静かに言った。「あの時も空がこんな色をしていた」</p>
+<p>あなたは立ち止まり、左手を見た。紋章が脈打っている。まるで心臓のように。</p>
+<p>ゴルムがあなたの肩を叩いた。「行けるか」</p>
+<p>「行く」とあなたは答えた。</p>
+<p>ゴルムは頷いた。「なら儂たちはここで待つ。お前が戻ってくるまで」</p>
+<p>シラがあなたに近づき、小さな木の実を渡した。「テニスタ・テニストの古木の実だ。食べれば体力点を四点回復できる。最後に取っておけ」</p>
+<div class="note">「テニスタ・テニストの木の実」を入手した。いつでも使用でき体力点を四点回復する（初期値を超えることはできない）。所持品欄に記録せよ。</div>
+<div class="choices">
+<p>ザル＝カラムへ向かうなら<a href="#四百二" class="jump">四百二</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 四百二 -->
+<div class="section" id="四百二">
+<div class="section-num">四百二</div>
+<p>ザル＝カラムへ続く荒野に、生き物の気配が完全に消えていた。</p>
+<p>虫の声がない。風もない。砂すら動かない。遺跡が近づくほど、世界が死んでいく。空の渦は巨大な目のようにザル＝カラムの真上に収束し、青白い光が地平線を染めていた。</p>
+<p>入口に着いた。</p>
+<p>石像は粉々に砕けていた。番人ゴーレムの残骸だ。内側から破壊された。ヴォルカネスの力が溢れ、自らが作った番人すら弾き飛ばしたのだ。</p>
+<p>石の床を踏むたびに、左手の紋章が脈打つ。心臓の鼓動と同じリズムで。</p>
+<p>地下一層。廊下の壁に刻まれた星脈術の図式が、淡く光っていた。まるで最後の息をするように。</p>
+<p>地下二層。宝石が埋め込まれた廊下の光が、強くなっている。祭壇の水晶球は割れていた。その破片が床に散らばり、踏むたびに青白い光を放つ。</p>
+<p>地下三層への階段に辿り着いた。</p>
+<p>熱い。石の壁が熱を持っている。階段を下りるほど、空気が重くなる。息をするのが苦しい。それでも足は止まらなかった。</p>
+<p>紋章が激しく輝いた。まるで扉を開けろと命じるように。</p>
+<div class="note">現在の能力値を確認せよ。食料・回復薬・テニスタ・テニストの木の実があれば今使うことができる。これが最終決戦だ。経験値の合計に関わらず、ここでLv.5「招かれざる者」へ自動昇格する。全能力点＋二を加え、以降の雑魚戦では覚醒判定を行うこと。</div>
+<div class="choices"><p><a href="#四百十五" class="jump">四百十五</a>へ進め。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 四百十五 -->
+<div class="section" id="四百十五">
+<div class="section-num">四百十五</div>
+<p>ヴォルカネスは完全に復活していた。</p>
+<p>もはや半透明ではない。祭壇の上に立つその姿は、高さが三メートルを超えていた。黒い鎧に全身を包んでいるが、その隙間から鱗が覗いている。人でも獣でもない。三百年の怨念と星脈の力が融合した、ヴァルデアに唯一の異形の存在だ。翼のような影が背後に広がり、声が空間そのものを歪めた。目だけが青白く光り、その光があなたを射抜いた瞬間、頭の中に直接声が響いた。</p>
+<p>「また来たか」とヴォルカネスは言った。「今度は止める気か」</p>
+<p>「そうだ」とあなたは言った。</p>
+<p>ヴォルカネスは笑った。星の間が揺れた。「では相手になろう。鍵の持ち主よ。お前の紋章がなければ、この戦いに意味はない」</p>
+<div class="note">ヴォルカネスとの最終決戦を行え。ヴォルカネス：技術点十二／体力点二十。ヴォルカネスは三ラウンドに一度、「星脈の波動」を放つ。波動を受けた場合、運試しを行え。失敗したなら体力点を三点失う。成功したなら紋章が防いだものとして被害なし。猿の右手をまだ使っていない場合、このタイミングで使用することができる。使うなら<a href="#四百二十八" class="jump">四百二十八</a>へ進め。</div>
+<div class="choices">
+<p>体力点が零になったなら<a href="#四百七十三" class="jump">四百七十三</a>へ進め。</p>
+<p>ヴォルカネスの体力点を零にした場合：「猿の右手未使用」かつ「シラと信頼関係あり」かつ「星脈の祭壇に触れた」ならば<a href="#四百三十七" class="jump">四百三十七</a>へ進め。</p>
+<p>「仲間が生存」かつ「いずれかの国家と同盟を結んだ」ならば<a href="#四百四十六" class="jump">四百四十六</a>へ進め。</p>
+<p>「ヴァズと取引した」かつ「儀式を利用した」ならば<a href="#四百五十五" class="jump">四百五十五</a>へ進め。</p>
+<p>それ以外ならば<a href="#四百四十六" class="jump">四百四十六</a>へ進め。</p>
+</div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 四百二十八 -->
+<div class="section" id="四百二十八">
+<div class="section-num">四百二十八</div>
+<p>あなたは左手を天に向けた。</p>
+<p>猿の右手を使う。一度だけ。これだけのために取っておいた、あるいは今この瞬間に賭けた、その一回を。</p>
+<p>サイコロを二個振れ。出た目の合計を確認し、以下の結果を適用せよ。</p>
+<div class="note">猿の右手テーブルを参照し、効果と代償を適用した後、<a href="#四百十五" class="jump">四百十五</a>へ戻って戦闘を続けよ。ただし出目が十二「伝説の一手」の場合はヴォルカネスの体力点を半分にする。出目が二「悪魔の嘲笑」の場合はヴォルカネスが激怒し次のラウンドのダメージが二倍になる。猿の右手は使用済みとなった。冒険者シートに記録せよ。</div>
+<div class="choices"><p><a href="#四百十五" class="jump">四百十五</a>へ戻って戦闘を続けよ。</p></div>
+<a href="#" class="back-top">▲ 先頭へ</a>
+</div>
+
+<!-- 四百三十七 GOOD END 1 -->
+<div class="section" id="四百三十七">
+<div class="section-num">四百三十七 <span class="end-label end-good">GOOD END 1</span></div>
+<p>ヴォルカネスが崩れていった。</p>
+<p>青白い光が四散し、星の間が静寂に包まれた。祭壇の水晶球が、静かに割れた。</p>
+<p>あなたは膝をついた。体が限界だった。左手の紋章が、これまでとは違う輝き方をしていた。痛みではなく、温かさだった。</p>
+<p>足音がした。シラだった。いつの間にか、彼女は星の間に入っていた。</p>
+<p>「止められたのね」と彼女は言った。</p>
+<p>あなたは頷いた。</p>
+<p>シラは静かにあなたの左手を見た。「黄金時代の終わりに、一人の賢者がこう記した。鍵の持ち主がその力を手放さなかった時、星脈は新たな継承者を得る、と」</p>
+<p>紋章が強く輝いた。そして消えた。</p>
+<p>消えたのではない。身体の中に溶け込んだのだ。</p>
+<p>「あなたは流れ者ではなくなった」とシラは言った。「ヴァルデアはあなたの名を、永遠に記憶するだろう」</p>
+<p>断片の時代は終わった。どこかで、夜明けの光が荒野を染めていた。</p>
+<div class="end-text">――あなたの冒険は完結した。これは真のエンディングである。</div>
+<div class="choices"><p>後日譚を読むなら<a href="#四百三十七の二" class="jump">四百三十七の二</a>へ進め。</p></div>
+<a href="#一" class="back-top">▲ 最初から読む</a>
+</div>
+
+<!-- 四百四十六 GOOD END 2 -->
+<div class="section" id="四百四十六">
+<div class="section-num">四百四十六 <span class="end-label end-good">GOOD END 2</span></div>
+<p>ヴォルカネスが崩れる音がした。</p>
+<p>あなたはその場に倒れた。意識が遠い。体のどこかが悲鳴を上げている。それでも、確かに勝った。</p>
+<p>「生きてるか」</p>
+<p>ゴルムの声だった。荒い息をしながら、老ドワーフが星の間に踏み込んできた。シラも続いた。</p>
+<p>「馬鹿野郎」とゴルムは言った。しかしその声は、怒りではなかった。</p>
+<p>左手の紋章が、静かに消えた。力が抜けていくような感覚。あなたはただの人間に戻った。</p>
+<p>それで良かった、と思った。</p>
+<p>「帰ろう」とゴルムが言った。シラが頷いた。</p>
+<p>名もなき流れ者は、初めて帰る場所を手に入れた。</p>
+<div class="end-text">「伝説とは、生き残った者だけが語れる話だ」<br>――あなたの冒険は完結した。</div>
+<div class="choices"><p>後日譚を読むなら<a href="#四百四十六の二" class="jump">四百四十六の二</a>へ進め。</p></div>
+<a href="#一" class="back-top">▲ 最初から読む</a>
+</div>
+
+<!-- 四百五十五 BAD END 1 -->
+<div class="section" id="四百五十五">
+<div class="section-num">四百五十五 <span class="end-label end-bad">BAD END 1</span></div>
+<p>取引は成立した。</p>
+<p>ヴォルカネスの力があなたの中に流れ込んできた瞬間、左手の紋章が黒く染まった。熱ではなく、冷たさだった。</p>
+<p>ヴォルカネスは消えた。しかし消えたわけではない。あなたの中に、溶け込んだのだ。</p>
+<p>ゴルムが階段の上から降りてきた。あなたの顔を見て、足が止まった。「……お前は」と彼は呟いた。</p>
+<p>シラは何も言わなかった。ただ目を伏せた。</p>
+<p>数週間後、断片の時代に新たな支配者が現れたと人々は語った。その者の左手には黒い冠の刻印があり、目は青白く光っていた。</p>
+<p>ヴァルデアに平和は訪れた。しかしそれは、恐怖による平和だった。</p>
+<div class="end-text">「あなたは英雄にはなれなかった。だが、歴史に刻まれる名を手に入れた」<br>――あなたの冒険は、別の形で完結した。</div>
+<a href="#一" class="back-top">▲ 最初から読む</a>
+</div>
+
+<!-- 四百六十四 BAD END 2 -->
+<div class="section" id="四百六十四">
+<div class="section-num">四百六十四 <span class="end-label end-bad">BAD END 2</span></div>
+<p>力が、止まらなかった。</p>
+<p>猿の右手が最悪の結果を引いた瞬間、あるいは封印を破った代償が返ってきた瞬間、左手の紋章が全身に広がり始めた。</p>
+<p>ヴォルカネスは確かに滅んだ。しかしその力を受け止める器として、あなた自身が砕けていった。</p>
+<p>痛みはなかった。それが最も恐ろしかった。</p>
+<p>意識が消えていく最後の瞬間に、あなたは荒野の入口で会った老婆の言葉を思い出した。「叶えたいことがあるなら、言葉を慎重に選べ」</p>
+<p>選んだ言葉は正しかったかもしれない。しかし猿の右手は最後まで気まぐれだった。</p>
+<p>暴走した星脈の力が、ヴァルデア中に嵐となって解き放たれた。世界は救われなかった。ただ、別の終わりを迎えただけだ。</p>
+<div class="end-text">「猿の右手は最後まで気まぐれだった。そして神は二度同じ奇跡を起こさなかった」<br>――あなたの冒険はここで終わった。</div>
+<a href="#一" class="back-top">▲ 最初から読む</a>
+</div>
+
+<!-- 四百七十三 DEAD END -->
+<div class="section" id="四百七十三">
+<div class="section-num">四百七十三 <span class="end-label end-dead">DEAD END</span></div>
+<p>あなたは倒れた。</p>
+<p>冷たい石の床に頬をつけたまま、意識が遠ざかっていった。最後に見えたのは、左手の紋章だった。それはまだ、かすかに輝いていた。</p>
+<p>まるで、あなたがいなくなった後も、どこかで輝き続けるかのように。</p>
+<div class="end-text">――あなたの冒険はここで終わった。もう一度最初から始めよ。</div>
+<a href="#一" class="back-top">▲ 最初から読む</a>
+</div>
+
+</div>
+
+
+<!-- ===== 固定UI ===== -->
+<div class="fixed-ui">
+  <button class="fixed-btn btn-sheet" onclick="window.open('guide.html','_blank')">📜 冒険者シート</button>
+  <button class="fixed-btn btn-dice" onclick="toggleDice()">🎲 サイコロ</button>
+</div>
+
+<!-- ===== サイコロポップアップ ===== -->
+<div class="dice-popup" id="dicePopup">
+  <div class="dp-header">
+    <span class="dp-title">🎲 ダイスローラー</span>
+    <button class="dp-close" onclick="toggleDice()">✕</button>
+  </div>
+  <div class="dp-mode">
+    <button class="dp-mode-btn active" onclick="setMode('2d6')" id="m-2d6">2d6</button>
+    <button class="dp-mode-btn" onclick="setMode('1d6')" id="m-1d6">1d6</button>
+    <button class="dp-mode-btn" onclick="setMode('1d6b')" id="m-1d6b">1d6+6</button>
+    <button class="dp-mode-btn" onclick="setMode('2d6b')" id="m-2d6b">2d6+12</button>
+  </div>
+  <div class="dp-dice-row" id="dpDiceRow">
+    <div class="dp-die" id="dpDie0">？</div>
+    <div class="dp-die" id="dpDie1">？</div>
+  </div>
+  <div class="dp-total" id="dpTotal">—</div>
+  <div class="dp-result" id="dpResult">サイコロを振れ</div>
+  <button class="dp-roll-btn" onclick="rollDice()">▶ 振る</button>
+<!-- ===== 第一章 新規節 ===== -->
+
+<!-- 二：ドーランの街門 -->
+<div class="section" id="二">
+<div class="section-num">二</div>
+<p>ドーランの街門は古く、木材が腐りかけていた。しかし衛兵は二人、しっかりと槍を構えていた。</p>
+<p>「止まれ」と一人が言った。「最近、妙な連中が多い。素性を聞かせてもらおう」</p>
+<p>あなたは旅人だと答えた。衛兵は疑わしそうな目であなたを頭から足まで見た。そしてあなたの左手の紋章に目が止まった。何か言いかけて、やめた。</p>
+<p>「……通っていい」と彼は言った。声が少し変わっていた。</p>
+<p>街に入ると、すぐ左手に掲示板があった。冒険者の依頼と思われる紙が数枚貼られている。その中の一枚が目に入った。「ザル＝カラム調査隊、参加者募集。報酬：金貨五十枚。ただし帰還者なし」。誰かが赤い文字で書き加えていた。「やめておけ」と。</p>
+<div class="choices">
+<p>掲示板の依頼を詳しく読むなら<a href="#三" class="jump">三</a>へ進め。</p>
+<p>そのまま街の中心へ向かうなら<a href="#四十七" class="jump">四十七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 三：掲示板の依頼 -->
+<div class="section" id="三">
+<div class="section-num">三</div>
+<p>依頼書をよく読むと、依頼主はドーランの商人組合だった。日付は三週間前。しかしその下に別の紙が貼られていた。</p>
+<p>「警告。ザル＝カラムに向かった十七名の冒険者、全員消息不明。依頼は取り下げる。近づくな。―組合長」</p>
+<p>さらにその下に、小さな文字でこう書かれていた。手書きで、おそらく誰かが夜中に書き足したものだ。「地下に降りたら、壁を信じるな。足元を信じるな。自分の目だけを信じろ。そして紋章を持つ者よ、扉は内側からしか開かない。――R」</p>
+<p>Rとは誰か。あなたにはわからなかった。しかしその言葉は、心のどこかに刺さったまま残った。</p>
+<div class="note">「壁を信じるな、足元を信じるな」とメモ欄に記録せよ。これは後に意味を持つ。</div>
+<div class="choices">
+<p>街の中心へ向かうなら<a href="#四十七" class="jump">四十七</a>へ進め。</p>
+<p>先に武器屋を探すなら<a href="#四" class="jump">四</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 四：武器屋 -->
+<div class="section" id="四">
+<div class="section-num">四</div>
+<p>武器屋は街門から二本目の路地にあった。「鉄の爪」という看板が出ている。中に入ると、老いたドワーフの職人が剣を磨いていた。</p>
+<p>品揃えはそれほど多くないが、質は確かだ。短剣が金貨三枚、剣が金貨八枚、盾が金貨五枚。あなたの財布には金貨三枚しかない。</p>
+<p>「珍しい紋章だな」と職人は言った。視線を上げずに、剣を磨き続けながら。「見たことがある。随分昔の話だが」</p>
+<p>「どこで」とあなたは聞いた。</p>
+<p>職人はしばらく黙っていた。「ザル＝カラムの生き残りの男が持っていた。五十年前の話だ。その男は右手に同じ紋章を持っていた。いや、左手だったか」彼は首を振った。「年は取りたくないものだ」</p>
+<div class="note">「五十年前にも紋章を持つ者がいた」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>短剣を買うなら金貨三枚を払い「短剣」を所持品に記録して<a href="#四十七" class="jump">四十七</a>へ進め。</p>
+<p>何も買わずに立ち去るなら<a href="#四十七" class="jump">四十七</a>へ進め。</p>
+<p>職人にもっと話を聞くなら<a href="#五" class="jump">五</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五：職人の記憶 -->
+<div class="section" id="五">
+<div class="section-num">五</div>
+<p>職人はしばらく剣を磨き続けた後、ため息をついた。</p>
+<p>「その男の名はゴルムといった」と彼は言った。「今もこの街にいるはずだ。錆びた剣亭に入り浸っている。あいつに聞け。儂よりずっとよく知っている」</p>
+<p>あなたはゴルムという名前を繰り返した。掲示板の警告を書いたRは、あるいは――。</p>
+<p>「一つだけ言っておく」と職人は剣を置いた。初めてあなたの目を見た。「ザル＝カラムに行くつもりなら、覚悟しておけ。あそこに入った者は、出てきても同じ人間ではなくなる。肉体ではなく、内側が変わる。それでも行くというなら、止めはしない」</p>
+<div class="choices">
+<p>礼を言い、錆びた剣亭へ向かうなら<a href="#四十七" class="jump">四十七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六：街の路地裏 -->
+<div class="section" id="六">
+<div class="section-num">六</div>
+<p>宿と宿の間の狭い路地に、小さな人影があった。</p>
+<p>ゴブリンだ。年は若い。十代に見える。ボロボロの服を着て、壁に背をつけてしゃがんでいる。あなたに気づくと素早く立ち上がり、逃げ出そうとした。</p>
+<p>「待て」とあなたは言った。「何かしようってわけじゃない」</p>
+<p>ゴブリンは立ち止まった。警戒した目でこちらを見ている。金色の目だ。ゴブリンにしては珍しい色だった。</p>
+<p>「……金貨持ってるか？」とゴブリンは言った。声は若い。「腹が減ってる。三日、何も食べてない」</p>
+<div class="choices">
+<p>金貨一枚を渡すなら<a href="#七" class="jump">七</a>へ進め。</p>
+<p>断って立ち去るなら<a href="#四十七" class="jump">四十七</a>へ進め。</p>
+<p>食料を渡せるなら食料一つを失い<a href="#七" class="jump">七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 七：ナックとの出会い -->
+<div class="section" id="七">
+<div class="section-num">七</div>
+<p>ゴブリンは金貨か食料を受け取ると、驚いたように目を見開いた。</p>
+<p>「……なんで」と彼は言った。「人間が俺にくれるなんて」</p>
+<p>「腹が減ってるなら当然だ」とあなたは言った。</p>
+<p>ゴブリンはしばらくあなたを見ていた。それからぼそりと言った。「ナック。俺の名前。お前は？」</p>
+<p>名前を教えると、ナックは少し笑った。笑うと思ったより幼い顔になった。「覚えといてやる。この街のこと、知りたいことがあったら言えよ。俺、物知りだから」彼は少し胸を張った。「……盗みはしないから安心しろ。ここ最近は」</p>
+<div class="note">「ナックと知り合った」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>ナックにザル＝カラムのことを聞くなら<a href="#八" class="jump">八</a>へ進め。</p>
+<p>錆びた剣亭へ向かうなら<a href="#四十七" class="jump">四十七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 八：ナックの情報 -->
+<div class="section" id="八">
+<div class="section-num">八</div>
+<p>ナックはザル＝カラムの話を聞くと、少し表情が曇った。</p>
+<p>「行くのか、そこへ」と彼は言った。「やめとけよ。俺の仲間が何人か行ったことある。帰ってきたのは一人だけで、そいつは頭がおかしくなってた。何日も同じ言葉を繰り返してた。『扉の向こうに声がある。扉の向こうに声がある』って」</p>
+<p>ナックは壁を見た。「でも俺は……行ったことある。入口のとこまでだけど。なんか引き寄せられる感じがした。特に夜。青白い光が見えるだろ。あれ、呼んでるんだよ。何かが」</p>
+<p>「怖くなかったか」とあなたは聞いた。</p>
+<p>「めちゃくちゃ怖かった」とナックは即答した。「だから逃げ帰った。俺は馬鹿じゃないから」</p>
+<div class="choices">
+<p>ナックを仲間に誘うなら<a href="#九" class="jump">九</a>へ進め。</p>
+<p>礼を言い立ち去るなら<a href="#四十七" class="jump">四十七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 九：ナックを誘う -->
+<div class="section" id="九">
+<div class="section-num">九</div>
+<p>「一緒に来ないか」とあなたは言った。「道案内をしてほしい」</p>
+<p>ナックはしばらく黙っていた。それから長いため息をついた。</p>
+<p>「……お前、頭おかしいだろ」と彼は言った。「俺は今めちゃくちゃ嫌だと思ってる。でも」ナックは金色の目であなたを見た。「お前、左手に変な紋章あるだろ。さっきから気になってたんだけど。それ、うちのじいちゃんが言ってた伝説の奴じゃないか？」</p>
+<p>「どんな伝説だ」</p>
+<p>「ゴブリンの古い話。いつか紋章を持つ人間が来て、世界を変える。それについていったゴブリンは英雄になる、って話」ナックは鼻をこすった。「信じてないけど。でも……行く。金貨十枚くれたら」</p>
+<div class="note">「ナックを仲間にした」とメモ欄に記録せよ。金貨十枚を所持しているなら払い、所持品から減らせ。金貨が足りなければ<a href="#十" class="jump">十</a>へ進め。</div>
+<div class="choices">
+<p>金貨十枚を払えるなら払い<a href="#四十七" class="jump">四十七</a>へ進め。</p>
+<p>金貨が足りないなら<a href="#十" class="jump">十</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 十：金貨が足りない -->
+<div class="section" id="十">
+<div class="section-num">十</div>
+<p>「金貨が足りない」とあなたは正直に言った。</p>
+<p>ナックはしばらく考えた。それから「まあいいや」と言った。「後払いでいい。帰ってきたら払え。もし帰れたら、の話だけど」</p>
+<p>彼は少し笑った。自嘲のような笑いだった。「どうせ俺、ここにいても未来ないし。ゴブリンが人間の街で生きていくのって、すごく大変なんだよ。食べるものもない、仕事もない、誰も相手にしてくれない。それだったら、英雄の伝説に賭けてみてもいいかもな」</p>
+<div class="note">「ナックを仲間にした（後払い）」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>錆びた剣亭へ向かうなら<a href="#四十七" class="jump">四十七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 十一：夜のドーラン（最初の夜） -->
+<div class="section" id="十一">
+<div class="section-num">十一</div>
+<p>夜が更けると、ドーランの顔が変わった。</p>
+<p>昼間は普通の交易街だが、夜になると路地に人影が増える。賭博場の灯り。どこかから聞こえる争う声。そして――遠く、荒野の方角に、青白い光が低く輝いていた。</p>
+<p>あなたは宿の窓からその光を見た。左手の紋章が、微かに反応した。引き寄せられる感覚。しかし今はまだその時ではない。</p>
+<p>窓の下の路地で、二人の男が話していた。声を殺しているが、言葉の断片が聞こえた。「……奴はもう来た……紋章を持つ者が……計画を……」</p>
+<p>あなたは息を止めた。自分のことを話しているのか。しかし確認しようとした時、二人は素早く暗闇に消えた。</p>
+<div class="note">「夜に怪しい会話を聞いた」とメモ欄に記録せよ。これは後に意味を持つ。</div>
+<div class="choices">
+<p>そのまま眠るなら<a href="#二十六" class="jump">二十六</a>へ進め。</p>
+<p>路地へ降りて調べるなら<a href="#十一の二" class="jump">十一の二</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 十一の二：路地の調査 -->
+<div class="section" id="十一の二">
+<div class="section-num">十一の二</div>
+<p>路地に降りると、男たちの姿はすでになかった。しかし地面に何かが落ちていた。</p>
+<p>小さな金属製の円盤だ。片面に三日月と蛇が絡み合う紋様が刻まれている。見たことのない紋様だ。裏面には数字らしきものが刻まれているが、古い文字で読めない。</p>
+<p>ゴルムか神殿のオルドなら読めるかもしれない。</p>
+<div class="note">「謎の金属円盤」を入手した。所持品欄に記録せよ。</div>
+<div class="choices">
+<p>宿に戻って眠るなら<a href="#二十六" class="jump">二十六</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 十三：マグダの独り言 -->
+<div class="section" id="十三">
+<div class="section-num">十三</div>
+<p>マグダが酒を注いでくれた後、ふと独り言のように言った。</p>
+<p>「あんた、右も左も分からないうちにここへ来た感じがするね」</p>
+<p>「そうかもしれない」とあなたは答えた。</p>
+<p>マグダは少し間を置いた。「ここ三ヶ月で、ザル＝カラムに向かった冒険者が何十人といる。誰一人戻らなかった。それでもまだ来る。なぜか分かるか？」</p>
+<p>「なぜだ」</p>
+<p>「夢を見るからさ」マグダは杯を拭く手を止めた。「この街の人間、みんな同じ夢を見てる。暗い扉の夢。誰かに名前を呼ばれる夢。あんたも見ただろ？」</p>
+<p>あなたは答えなかった。しかしマグダはあなたの顔を見て、小さく頷いた。「やっぱりな」</p>
+<div class="choices">
+<p>「なぜ分かった」と聞くなら<a href="#十四" class="jump">十四</a>へ進め。</p>
+<p>別の話題に切り替えるなら<a href="#十二" class="jump">十二</a>へ戻れ。</p>
+</div>
+</div>
+
+<!-- 十四：マグダの秘密 -->
+<div class="section" id="十四">
+<div class="section-num">十四</div>
+<p>「私も見たから」とマグダは静かに言った。「二十年前、この街に来た時から。毎晩同じ夢を見る。だからここを離れられない。夢の中の声が、ここにいろと言う」</p>
+<p>マグダは少し苦そうな顔をした。「ホビットはね、勘が強いんだ。で、私の勘が言ってる。あんたは普通の冒険者じゃない。あの遺跡が、あんたを引き寄せた。意図的に」</p>
+<p>「誰が」</p>
+<p>「それが分かれば苦労しない」マグダは再び布巾を動かした。「一つだけ言える。あの遺跡から出てきた男を一人だけ知ってる。三ヶ月前。半死にで戻ってきた。今は神殿に保護されてる。もし話を聞きたいなら、神殿のオルド司祭に頼め」</p>
+<div class="note">「神殿に生き残りがいる」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>神殿へ向かうなら<a href="#六十一" class="jump">六十一</a>へ進め。</p>
+<p>三人組の話を聞くなら<a href="#八十三" class="jump">八十三</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 十五：ゴルムの独白（一） -->
+<div class="section" id="十五">
+<div class="section-num">十五</div>
+<p>ゴルムは酒を一口飲んでから、ゆっくりと話し始めた。</p>
+<p>「儂が最初にザル＝カラムへ行ったのは、五十年前だ」と彼は言った。「若かった。無謀だった。仲間が六人いた」</p>
+<p>彼は杯を見つめた。「帰ってきたのは儂一人だった」</p>
+<p>沈黙。</p>
+<p>「仲間たちは何に」とあなたは聞いた。</p>
+<p>「何かに殺されたんじゃない」ゴルムはゆっくり首を振った。「自ら進んで奥へ行った。引き寄せられるように。儂だけが……引き返した。今でも、それが正しかったのかどうか分からない」</p>
+<p>彼の目に何かが光った。「仲間の一人が儂に言ったんだ。『お前はまだここにいてはいけない人間だ』と。その言葉の意味が、今になってやっと分かった気がする」</p>
+<div class="choices">
+<p>「仲間の名前を教えてくれ」と頼むなら<a href="#十六" class="jump">十六</a>へ進め。</p>
+<p>出発の準備をするなら<a href="#百三十八" class="jump">百三十八</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 十六：失われた仲間の名前 -->
+<div class="section" id="十六">
+<div class="section-num">十六</div>
+<p>ゴルムは長い間黙っていた。</p>
+<p>「六人いた」と彼はついに言った。「人間が三人、ドワーフが儂と兄の二人、そしてエルフが一人」</p>
+<p>あなたは息を止めた。</p>
+<p>「エルフの名はシラといった」ゴルムはあなたをまっすぐ見た。「今夜、この店に入ってきたエルフだ。儂が驚いたのはそのためだ。あれから五十年。シラはあの日と何も変わっていない。エルフとはそういうものだが……」</p>
+<p>ゴルムは声を落とした。「あの夜、儂の兄はシラの隣で消えた。シラは止めなかった。儂は今でもその理由を聞けていない」</p>
+<div class="note">「ゴルムの兄がザル＝カラムで消えた」「シラはその場にいた」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>シラに問い詰めるなら<a href="#十七" class="jump">十七</a>へ進め。</p>
+<p>今は黙って出発するなら<a href="#百三十八" class="jump">百三十八</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 十七：シラへの問い -->
+<div class="section" id="十七">
+<div class="section-num">十七</div>
+<p>シラはあなたの問いを聞いて、静かに目を伏せた。</p>
+<p>「知っていた」と彼女は言った。「ゴルムの兄、ドゥルムが消えた時、私は止められた。いや、正確には――止めなかった」</p>
+<p>「なぜ」</p>
+<p>「あの時、私はまだヴォルカネスの計画の一部だった」シラの声は低く、均一だった。「黄金時代の終わりに、エルフの一部が悪魔の王との契約を結んだ。私もその一人だ。ドゥルムは……生贄として必要だった」</p>
+<p>ゴルムが立ち上がりかけた。あなたは片手で制した。</p>
+<p>「その契約は今も続いているのか」とあなたは聞いた。</p>
+<p>「それを断ち切るために、三百年待った」とシラは言った。「それが私の贖罪だ」</p>
+<div class="note">「シラはヴォルカネスと契約していた過去を持つ」とメモ欄に記録せよ。これはGOOD END 1とエンディング分岐に影響する。</div>
+<div class="choices">
+<p>シラを信じて共に行くなら<a href="#百三十八" class="jump">百三十八</a>へ進め。</p>
+<p>シラを信用できず単独で行くなら<a href="#三百九十一" class="jump">三百九十一</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 十八：神殿の生き残り -->
+<div class="section" id="十八">
+<div class="section-num">十八</div>
+<p>神殿の奥に、一人の男が横たわっていた。</p>
+<p>年は三十代。しかし顔は老人のように窶れている。目は開いているが、焦点が合っていない。オルドが「三ヶ月前に廃墟から這い出してきた」と言った男だ。</p>
+<p>「話せるか」とあなたは聞いた。</p>
+<p>男はゆっくりとあなたの方を向いた。そしてあなたの左手を見た瞬間、目に光が戻った。</p>
+<p>「来た」と男は掠れた声で言った。「星が言っていた。紋章の者が来ると」</p>
+<p>「何を見た。中で何があった」</p>
+<p>男は震える手でシーツを握った。「扉だ。扉が三つある。一つ目は過去。二つ目は現在。三つ目は……三つ目を開けてはいけない。三つ目だけは」彼は咳き込んだ。「お前が誰よりも欲しいと思うものが、その向こうにある。だから開けてはいけない」</p>
+<div class="note">「三番目の扉を開けてはいけない」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>もっと詳しく聞くなら<a href="#十九" class="jump">十九</a>へ進め。</p>
+<p>オルドのもとへ戻るなら<a href="#百七" class="jump">百七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 十九：生き残りの告白 -->
+<div class="section" id="十九">
+<div class="section-num">十九</div>
+<p>「三つ目の扉に何がある」とあなたは聞いた。</p>
+<p>男は長い間黙っていた。それから「記憶だ」と言った。</p>
+<p>「お前の記憶。忘れていた記憶。失くした記憶。本当のお前が誰なのかという記憶」彼は目を閉じた。「儂はそれを開けた。見てしまった。それで……こうなった」</p>
+<p>「なぜそれが危険なんだ」</p>
+<p>「見た者は、戻れないからだ」男の唇が微かに動いた。「お前が誰かを知った瞬間、お前はもうここにはいられない。星の間に引き込まれる。ヴォルカネスの一部になる」</p>
+<p>男は静かに目を閉じた。話し疲れたらしかった。呼吸は穏やかだった。しかしその顔には、何か深い平和があった。あるいは諦めか。</p>
+<div class="choices">
+<p>オルドのもとへ戻るなら<a href="#百七" class="jump">百七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 二十：円盤の謎（オルドに見せる） -->
+<div class="section" id="二十">
+<div class="section-num">二十</div>
+<p>謎の金属円盤をオルドに見せると、老司祭の顔色が変わった。</p>
+<p>「どこで手に入れた」と彼は低い声で聞いた。</p>
+<p>あなたが路地で拾ったと説明すると、オルドは深く息をついた。「これは……闇の商会の印だ。三日月と蛇。ヴォルカネス復活を望む人間の組織。断片の時代が終わることを恐れている者たち。今の秩序で利益を得ている者たちだ」</p>
+<p>裏面の文字を読んでもらうと、オルドの表情がさらに険しくなった。「数字ではない。日付だ。満月の日。つまり……三日後だ。何かが起きる。三日以内に」</p>
+<div class="note">「闇の商会が動いている」「満月の三日後に何かが起きる」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>今すぐ出発するなら<a href="#百三十八" class="jump">百三十八</a>へ進め。</p>
+<p>もう一晩準備をするなら<a href="#二十六" class="jump">二十六</a>へ進め。</p>
+</div>
+</div>
+
+
+<!-- ===== 第二章 新規節 ===== -->
+
+<!-- 五百一：廃村 -->
+<div class="section" id="五百一">
+<div class="section-num">五百一</div>
+<p>荒野を一時間ほど進むと、廃村があった。</p>
+<p>かつては十軒ほどの家が並んでいたらしい。しかし今は半分が崩れ、残りも窓が割れ、扉が外れている。村の中央に井戸があった。水は枯れていた。</p>
+<p>ゴルムが地面を調べた。「足跡がある。最近だ。一人か二人」</p>
+<p>ナックが鼻をひくひくさせた。「人の匂いがする。生きてる人間。どこか近くに隠れてる」</p>
+<p>シラは何も言わなかった。しかしその目が、村の端の崩れかけた建物を向いていた。</p>
+<div class="choices">
+<p>建物を調べるなら<a href="#五百二" class="jump">五百二</a>へ進め。</p>
+<p>このまま先へ進むなら<a href="#百五十二" class="jump">百五十二</a>か<a href="#百八十八" class="jump">百八十八</a>または<a href="#百九十四" class="jump">百九十四</a>のルートへ戻れ。</p>
+</div>
+</div>
+
+<!-- 五百二：廃村の生存者 -->
+<div class="section" id="五百二">
+<div class="section-num">五百二</div>
+<p>建物の中に、女がいた。三十代。旅人の装束だが、傷だらけだ。右腕に包帯が巻かれている。あなたたちを見て身構えたが、武器を向けなかった。</p>
+<p>「生きていたか」とゴルムが言った。驚いた声だった。「お前は……ドーランの冒険者組合の」</p>
+<p>「知り合いか」とあなたは聞いた。</p>
+<p>「ロサだ」ゴルムは彼女に近づいた。「三週間前にザル＝カラムへ向かった隊の一人だ。生き残りがいたとは」</p>
+<p>ロサは壁に背をつけたまま言った。「帰れなかった。足を怪我して、ここで動けない。水も食べ物もなくなりかけてる」</p>
+<div class="choices">
+<p>ロサを助けて回復薬か食料を渡すなら<a href="#五百三" class="jump">五百三</a>へ進め。</p>
+<p>話だけ聞いて先へ進むなら<a href="#五百四" class="jump">五百四</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五百三：ロサを助ける -->
+<div class="section" id="五百三">
+<div class="section-num">五百三</div>
+<p>食料か回復薬を渡すと、ロサは素直に受け取った。「ありがとう」と彼女は言った。「助かった」</p>
+<p>しばらく体を休めてから、ロサは話した。</p>
+<p>「中で何を見たか話す。信じるかどうかはあんたたちが決めていい」彼女は目を伏せた。「地下一層に降りたところで、仲間の一人が急に動かなくなった。立ったまま。目が虚ろで、何も聞こえていないみたいに。そして歩き始めた。奥へ。止めようとしたら振り払われた。力が普通じゃなかった。操られてるみたいに」</p>
+<p>「全員そうなったのか」</p>
+<p>「私以外は全員。私は最初に逃げ出した。臆病者だと思われてもいい」</p>
+<div class="note">「地下一層で操られた者がいた」とメモ欄に記録せよ。</div>
+<p>ロサは最後にこう言った。「一つだけ教える。中に古い日誌があった。研究者のものだ。ヴォルカネスが何者かが書いてある。地下一層の実験室の机の上に。まだあるかもしれない」</p>
+<div class="note">「地下一層に古い日誌がある」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>先へ進むなら<a href="#百五十二" class="jump">百五十二</a>か<a href="#百八十八" class="jump">百八十八</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五百四：ロサの情報のみ -->
+<div class="section" id="五百四">
+<div class="section-num">五百四</div>
+<p>物資を渡せなかったが、ロサは話してくれた。</p>
+<p>「地下一層に古い日誌がある。研究者のもので、ヴォルカネスについて書かれている。机の上に置いてあった。まだあるかもしれない」</p>
+<p>それだけ言うと彼女は目を閉じた。体力が限界なのだろう。あなたたちはそっとその場を離れた。</p>
+<div class="note">「地下一層に古い日誌がある」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>先へ進むなら<a href="#百五十二" class="jump">百五十二</a>か<a href="#百八十八" class="jump">百八十八</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五百五：旅商人との出会い -->
+<div class="section" id="五百五">
+<div class="section-num">五百五</div>
+<p>古代街道を進むと、荷馬車が一台止まっていた。御者の老人が馬に水を飲ませている。</p>
+<p>「旅人かい」と老人は言った。「こんな時間にこの道を行くとは物好きな。ザル＝カラムへか？」</p>
+<p>老人は物売りだった。荷台にいくつかの品物がある。</p>
+<div class="choices">
+<p>品物を見るなら<a href="#五百六" class="jump">五百六</a>へ進め。</p>
+<p>立ち話だけして先へ進むなら<a href="#五百七" class="jump">五百七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五百六：商人の品物 -->
+<div class="section" id="五百六">
+<div class="section-num">五百六</div>
+<p>荷台には以下の品物があった。</p>
+<p>「火打石」金貨一枚（暗所で松明の代わりになる）。「解毒薬」金貨二枚（毒を一度無効化できる）。「縄」金貨一枚（特定の場面で使える）。「干し肉」金貨一枚（固いパンと同じ効果）。</p>
+<p>老人は愛想がよかった。「ただで教えてやる。ザル＝カラムの地下には毒霧が出る場所がある。解毒薬があると助かるぞ。それから縄は必ず持っていけ。落とし穴がある」</p>
+<div class="choices">
+<p>品物を買って先へ進むなら購入したものを所持品に記録し<a href="#百五十二" class="jump">百五十二</a>か<a href="#百九十四" class="jump">百九十四</a>へ進め。</p>
+<p>何も買わずに先へ進むなら<a href="#百五十二" class="jump">百五十二</a>か<a href="#百九十四" class="jump">百九十四</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五百七：商人の話 -->
+<div class="section" id="五百七">
+<div class="section-num">五百七</div>
+<p>「ここ一月で、この道を通った冒険者の数を数えたら二百人を超えた」と老人は言った。「全員ザル＝カラムへ向かった。帰ってきたのは……十人もいないかな」</p>
+<p>「それでも商売をしているのか」とあなたは聞いた。</p>
+<p>老人は笑った。「命懸けで行く奴には、命懸けで売れる。これが商売というものだ。ただし」彼は顔を曇らせた。「最近は様子がおかしい。帰ってきた連中が全員、同じ言葉を言う。『扉が呼んでいる』と。その目が……普通じゃない」</p>
+<div class="choices">
+<p>先へ進むなら<a href="#百五十二" class="jump">百五十二</a>か<a href="#百九十四" class="jump">百九十四</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五百八：オークの族長との深い対話 -->
+<div class="section" id="五百八">
+<div class="section-num">五百八</div>
+<p>族長のオーク、その名をラグタルといった。交渉に応じた後、彼はあなたをしばらく見ていた。</p>
+<p>「紋章を持つ者のことは、われらの間にも伝わっている」と彼は言った。「断片の時代が終わり、新しい時代が来る時、紋章を持つ者が現れる。われらオークはかつて古代帝国の兵士だった。星脈術師に仕えた。その記憶は血に刻まれている」</p>
+<p>ラグタルは腰から古びた石板を取り出した。「これを持っていけ。古代の言葉で何か書いてある。儂には読めないが、賢者なら読めるかもしれない。ずっと持っていても仕方がない」</p>
+<div class="note">「古代の石板」を入手した。所持品欄に記録せよ。ヴァズか神殿のオルドが読める可能性がある。</div>
+<div class="choices">
+<p>先へ進むなら<a href="#百八十八" class="jump">百八十八</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五百九：シラの回想（森の中） -->
+<div class="section" id="五百九">
+<div class="section-num">五百九</div>
+<p>森の中でシラが立ち止まった。木に手をついて、しばらく動かなかった。</p>
+<p>「三百年前もここを通った」と彼女は静かに言った。「この木は当時はなかった。でも土の匂いは同じだ」</p>
+<p>あなたは黙って待った。</p>
+<p>「ドゥルムは優しい人だった」とシラは続けた。「ゴルムとは正反対で、笑ってばかりいた。私が彼を死に追いやった。ゴルムがまだ儂を見る目が辛い。当然だ」</p>
+<p>「なぜ止めなかった」とあなたは聞いた。</p>
+<p>「当時の私には、命令があった。止めてはいけないという命令が。でも本当は」シラは手を離し、また歩き始めた。「怖かっただけだ。逆らうのが。それだけだ」</p>
+<div class="choices">
+<p>「もう十分だ」と言うなら<a href="#百八十八" class="jump">百八十八</a>へ進め。</p>
+<p>「いつかゴルムに話すべきだ」と言うなら<a href="#五百十" class="jump">五百十</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五百十：シラとゴルムの和解の布石 -->
+<div class="section" id="五百十">
+<div class="section-num">五百十</div>
+<p>シラはあなたの言葉を聞いて、少し間を置いた。</p>
+<p>「話した、あの夜に。錆びた剣亭で」と彼女は言った。「あなたが席を外した時。ゴルムは黙って聞いていた。何も言わなかった。ただ最後に一言だけ言った」</p>
+<p>「何と言った」</p>
+<p>「『儂はお前を恨んでいない』と」シラの声がわずかに揺れた。「ただそれだけ。でも……それだけで十分だった。三百年分の重さが少し軽くなった気がした」</p>
+<div class="note">「シラとゴルムの間に和解の言葉があった」とメモ欄に記録せよ。これはGOOD END 2の条件に影響する。</div>
+<div class="choices">
+<p>先へ進むなら<a href="#百八十八" class="jump">百八十八</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五百十一：ナックの秘密 -->
+<div class="section" id="五百十一">
+<div class="section-num">五百十一</div>
+<p>夜、野営をしている時、ナックが焚き火を見つめながら言った。</p>
+<p>「俺、実は字が読める」と彼は言った。「ゴブリンで字が読める奴は少ない。じいちゃんに教わった。じいちゃんは昔、古代帝国の図書館で働いてたって言ってた」</p>
+<p>「それが役に立つかもしれない」とあなたは言った。</p>
+<p>「古代の文字も少し分かる」ナックは焚き火の火を見ながら言った。「だから俺、本当は怖いんだよな。ザル＝カラムに行くのが。あそこに何があるか、じいちゃんの話から大体分かってる。でも言えなかった。言ったらお前に行くなって言われると思って」</p>
+<p>「何があると知っている」</p>
+<p>ナックは少し間を置いた。「ヴォルカネスの本当の名前。人間だった頃の名前。それを知ってる者は……最終決戦で、戦う以外の選択ができる」</p>
+<div class="note">「ナックはヴォルカネスの本当の名前を知っている」とメモ欄に記録せよ。これは最終決戦の第三の選択肢に影響する。</div>
+<div class="choices">
+<p>「今教えてくれ」と言うなら<a href="#五百十二" class="jump">五百十二</a>へ進め。</p>
+<p>「今は眠れ、後で聞く」と言うなら<a href="#百八十八" class="jump">百八十八</a>か<a href="#百九十四" class="jump">百九十四</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 五百十二：ヴォルカネスの真の名 -->
+<div class="section" id="五百十二">
+<div class="section-num">五百十二</div>
+<p>ナックは焚き火の炎を一度見て、それからあなたの目を見た。</p>
+<p>「ヴォルカネスの人間の頃の名前は『オルト＝ヴァル』だ」と彼は言った。「黄金時代の最高位の賢者。星脈術の創始者の一人。善人だった。記録によれば」</p>
+<p>「なぜ悪魔の王になった」</p>
+<p>「実験のせいだ」ナックは静かに言った。「死を超える方法を研究していた。弟子が死んで、それを取り戻したかった。禁断の儀式を行い、自分の魂の半分を対価にした。魂の半分を失った人間は……変わっていく。少しずつ、少しずつ。百年かけて、別の存在になる」</p>
+<p>シラが静かに頷いた。「知っていた。だから止められなかった。誰も気づかなかった頃から、私は知っていた」</p>
+<div class="note">「ヴォルカネスの真の名はオルト＝ヴァル」「善人だった賢者が魂の半分を失い変化した」とメモ欄に記録せよ。最終決戦での第三の選択肢が解放される。</div>
+<div class="choices">
+<p>先へ進むなら<a href="#二百三" class="jump">二百三</a>へ進め。</p>
+</div>
+</div>
+
+
+<!-- ===== 第三章 新規節 ===== -->
+
+<!-- 六百一：地上層・前哨エリア詳細 -->
+<div class="section" id="六百一">
+<div class="section-num">六百一</div>
+<p>入口を抜けると、広い前室があった。かつては検問所のような場所だったらしい。石の台が並び、その上に朽ちた木箱が重なっている。</p>
+<p>壁に文字が刻まれていた。古い文字だ。ナックが近づいて読んだ。</p>
+<p>「警告。この先に入る者は、自らの意志を持って入れ。迷いのある者は引き返せ。星脈は弱い意志を食う」</p>
+<p>ゴルムが低く言った。「五十年前も同じ文字があった。儂の仲間の一人が、これを読んで顔色が変わった。今思えば、あいつが最初に操られた」</p>
+<div class="choices">
+<p>奥へ進むなら<a href="#六百二" class="jump">六百二</a>へ進め。</p>
+<p>木箱を調べるなら<a href="#六百三" class="jump">六百三</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百二：他の冒険者パーティとの遭遇 -->
+<div class="section" id="六百二">
+<div class="section-num">六百二</div>
+<p>廊下を進むと、別のパーティと出くわした。四人組。人間が三人とエルフが一人。全員が武装し、警戒した目であなたたちを見ていた。</p>
+<p>「先客がいたか」とリーダーらしき大柄な男が言った。「お互い、邪魔はしない約束だ。別のルートを行こう」</p>
+<p>シラが小声で言った。「あのエルフ、目がおかしい。瞳孔が開いている。もう操られているかもしれない」</p>
+<p>ゴルムが頷いた。「気をつけろ。敵になるかもしれない」</p>
+<div class="choices">
+<p>警告して立ち去るなら<a href="#六百四" class="jump">六百四</a>へ進め。</p>
+<p>黙って別のルートへ向かうなら<a href="#二百十五" class="jump">二百十五</a>へ進め。</p>
+<p>協力を申し出るなら<a href="#六百五" class="jump">六百五</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百三：木箱の中身 -->
+<div class="section" id="六百三">
+<div class="section-num">六百三</div>
+<p>木箱の中に、かなり古い装備品が詰まっていた。ほとんどは腐っているか錆びているが、一つだけ状態のいいものがあった。</p>
+<p>小さな丸い鏡だ。金属製で、裏面に星脈の紋様が刻まれている。あなたが手に取ると、鏡面に何かが映った。通常の反射とは別の像。一瞬だったが、それは扉だった。三つの扉。</p>
+<p>「星脈の鏡だ」とシラが驚いた声で言った。「黄金時代の道具。特定の場所では、見えないものを映す。持っていけ」</p>
+<div class="note">「星脈の鏡」を入手した。所持品欄に記録せよ。地下深部で隠されたものを見ることができる。</div>
+<div class="choices">
+<p>奥へ進むなら<a href="#六百二" class="jump">六百二</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百四：警告の結末 -->
+<div class="section" id="六百四">
+<div class="section-num">六百四</div>
+<p>「あなたのパーティのエルフ、目がおかしい。早く外へ連れ出した方がいい」とあなたは言った。</p>
+<p>リーダーは一瞬驚いた顔をしたが、すぐに険しくなった。「余計なお世話だ。行くぞ」と仲間に言い、立ち去った。</p>
+<p>ゴルムが首を振った。「聞く耳を持たないか。まあ仕方がない」</p>
+<p>シラが静かに言った。「後で会うかもしれない。その時は……敵として」</p>
+<div class="note">「別のパーティを警告したが無視された」とメモ欄に記録せよ。</div>
+<div class="choices">
+<p>前へ進むなら<a href="#二百十五" class="jump">二百十五</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百五：別パーティとの協力 -->
+<div class="section" id="六百五">
+<div class="section-num">六百五</div>
+<p>協力の申し出に、リーダーは少し考えてから頷いた。「悪くない。一緒に行こう」</p>
+<p>しかし数分後、操られたエルフが突然動き出した。別方向へ走り出す。仲間が追おうとした瞬間、石の天井から罠が落ちてきた。</p>
+<p>混乱の中であなたは咄嗟にゴルムの腕を引いた。罠は免れた。しかし別パーティのリーダーが腕に傷を負った。操られたエルフは消えた。</p>
+<p>リーダーは傷を押さえながら言った。「助かった。借りができた。深部で会うことがあれば、恩を返す」</p>
+<div class="note">「別パーティのリーダーに恩を売った」とメモ欄に記録せよ。深部で助けを得られる可能性がある。</div>
+<div class="choices">
+<p>前へ進むなら<a href="#二百十五" class="jump">二百十五</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百六：地下一層・研究日誌 -->
+<div class="section" id="六百六">
+<div class="section-num">六百六</div>
+<p>「地下一層に日誌がある」とロサから聞いていたなら、実験室の机を探せ。</p>
+<p>果たして、埃に塗れた日誌があった。かなり古い。ページをめくると、文字は読めたが、内容が衝撃的だった。</p>
+<p>日誌の著者はオルト＝ヴァル。ヴォルカネスの人間時代の名前だ。</p>
+<p>最後のページにこう書かれていた。「実験は失敗した。弟子は戻らなかった。私は魂の半分を失った。しかし不思議なことに、後悔はない。この選択は間違いではなかった。ただ方法が間違っていた。誰かが正しい方法で完成させてくれるなら、この苦しみにも意味がある。紋章を持つ者よ、扉の前で私の名を呼べ。私は応える」</p>
+<div class="note">「ヴォルカネスは呼べば応える」とメモ欄に記録せよ。最終決戦での第三の選択肢が強化される。</div>
+<div class="choices">
+<p>先へ進むなら<a href="#二百四十一" class="jump">二百四十一</a>か<a href="#二百七十八" class="jump">二百七十八</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百七：ヴァズの真実（深い対話） -->
+<div class="section" id="六百七">
+<div class="section-num">六百七</div>
+<p>ヴァズとの対話を深めると、彼は思いがけないことを話した。</p>
+<p>「私はオルト＝ヴァルの弟子だった」とヴァズは言った。「師が禁断の儀式を行う前夜、私は止めようとした。しかし間に合わなかった。師の魂の半分が失われる瞬間、私はその場にいた。その衝撃が私をこの状態にした」</p>
+<p>「なぜ封印された」</p>
+<p>「ゴルムの仲間に封印された。五十年前、彼らはここに来た。私が師の痕跡を守ろうとしたのを、敵意と勘違いした。ゴルムの兄ドゥルムが封印した。その後ドゥルムは奥へ消えた……」</p>
+<p>ヴァズは静かに言った。「ゴルムに伝えてくれ。兄は苦しまなかった。星脈に溶け込んだだけだ。今でもここにいる。この遺跡の一部として」</p>
+<div class="note">「ドゥルムは星脈に溶け込んでいる」「苦しまなかった」とメモ欄に記録せよ。ゴルムとの会話フラグ。</div>
+<div class="choices">
+<p>ヴァズとの取引を受けるなら<a href="#二百五十六" class="jump">二百五十六</a>へ進め。</p>
+<p>断るなら<a href="#二百六十三" class="jump">二百六十三</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百八：ゴルムへの伝言 -->
+<div class="section" id="六百八">
+<div class="section-num">六百八</div>
+<p>地下一層から二層へ向かう途中、ゴルムに話した。</p>
+<p>「ヴァズが言っていた。ドゥルムは苦しまなかった。星脈に溶け込んだだけだと」</p>
+<p>ゴルムは立ち止まった。長い沈黙。それから彼は壁に手をついた。肩が震えていた。</p>
+<p>しばらくして彼は顔を上げた。目が赤かったが、声は静かだった。「そうか。……そうか」</p>
+<p>もう何も言わなかった。しかしその後、ゴルムの歩みが少し軽くなった気がした。</p>
+<div class="note">「ゴルムに伝言を届けた」とメモ欄に記録せよ。GOOD END 2の条件が強化される。</div>
+<div class="choices">
+<p>先へ進むなら<a href="#二百七十八" class="jump">二百七十八</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百九：地下二層・毒霧の罠 -->
+<div class="section" id="六百九">
+<div class="section-num">六百九</div>
+<p>廊下の途中で、床から薄い霧が漏れてきた。</p>
+<p>ナックが素早く壁際に退いた。「毒だ。匂いで分かる」</p>
+<p>前に進むには霧の中を通るしかない。しかし解毒薬を持っていれば先に飲めばいい。縄があれば天井の梁に引っかけて迂回できる。</p>
+<div class="choices">
+<p>「解毒薬」を所持しているなら飲んで通り抜け、先へ進め。解毒薬を失い<a href="#二百七十八" class="jump">二百七十八</a>へ進め。</p>
+<p>「縄」を所持しているなら天井伝いに迂回し<a href="#二百七十八" class="jump">二百七十八</a>へ進め。縄を失う。</p>
+<p>何も持っていないなら運試しを行え。成功したなら息を止めて駆け抜け<a href="#二百七十八" class="jump">二百七十八</a>へ進め。失敗したなら体力点を四点失い<a href="#二百七十八" class="jump">二百七十八</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百十：星脈の鏡を使う -->
+<div class="section" id="六百十">
+<div class="section-num">六百十</div>
+<p>「星脈の鏡」を持っているなら、地下二層の祭壇の間でそれを使うことができる。</p>
+<p>鏡を水晶球に向けると、鏡面に像が映った。</p>
+<p>それは過去の映像だった。三百年前。この部屋に人影が集まっている。賢者たちだ。その中心に、一人の男がいた。白い衣を纏い、穏やかな顔をしている。彼が何かを語りかけている。言葉は聞こえないが、その表情は悲しみと決意に満ちていた。</p>
+<p>男はゆっくりと振り返り、鏡の中のあなたを見た。まるで三百年の時を超えて。</p>
+<p>その口が動いた。「頼む」と。</p>
+<p>映像は消えた。鏡は真っ暗になった。</p>
+<div class="note">「ヴォルカネスの人間時代の姿を見た」「頼むという言葉を聞いた」とメモ欄に記録せよ。最終決戦の第三選択肢が完全に解放される。</div>
+<div class="choices">
+<p>先へ進むなら<a href="#二百八十四" class="jump">二百八十四</a>か<a href="#二百九十七" class="jump">二百九十七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百十一：落とし穴 -->
+<div class="section" id="六百十一">
+<div class="section-num">六百十一</div>
+<p>廊下を進んでいると、床が突然崩れた。</p>
+<p>「縄」を持っているなら即座に使い、壁に引っかけて落下を防げる。</p>
+<p>「縄」がない場合、運試しを行え。成功したなら咄嗟に壁を掴んで体力点を二点失うだけで助かる。失敗したなら体力点を六点失う。</p>
+<p>落とし穴の底には、以前の冒険者の遺体があった。所持品の中に「回復薬」が一つ残っていた。</p>
+<div class="choices">
+<p>回復薬を入手して先へ進むなら<a href="#二百七十八" class="jump">二百七十八</a>か<a href="#二百八十九" class="jump">二百八十九</a>へ進め。</p>
+<p>体力点が零になったなら<a href="#四百七十三" class="jump">四百七十三</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百十二：古代の番人との対話 -->
+<div class="section" id="六百十二">
+<div class="section-num">六百十二</div>
+<p>守護者エイサーを倒した後、光の粒が消える前に、シラが何かを呟いた。</p>
+<p>「エイサー。私の師だった」と彼女は言った。</p>
+<p>全員が驚いた。</p>
+<p>「黄金時代に星脈術を教えてくれた最初の師。あの夜、師は戦いの中で倒れた。私は師を守れなかった。三百年、この場所で番人として……それが師の選択だったのか」</p>
+<p>シラはゆっくりと光の粒に手を伸ばした。「ありがとうございました」と彼女は言った。</p>
+<p>光の粒が集まり、一瞬だけ人の形を作った。それはシラに向かって微かに頷いたように見えた。そして消えた。</p>
+<div class="note">「シラがエイサーに別れを告げた」とメモ欄に記録せよ。シラの贖罪カウンターが進む。GOOD END 1に影響。</div>
+<div class="choices">
+<p>先へ進むなら<a href="#三百十二" class="jump">三百十二</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百十三：三百十二の前・ゴルムとの別れ -->
+<div class="section" id="六百十三">
+<div class="section-num">六百十三</div>
+<p>階段の前でゴルムがあなたの肩を掴んだ。</p>
+<p>「一つだけ言っておく」と彼は言った。「儂は五十年前、引き返した。今回も引き返す。情けないとは思わない。あれは儂の限界だった。でも」</p>
+<p>ゴルムはあなたの目をまっすぐ見た。「お前は引き返すな。お前が引き返したら、儂の兄の死に意味がなくなる。お前だけが進める。だから進め」</p>
+<p>彼は手を離した。「帰ってこい。必ずだ」</p>
+<div class="choices">
+<p>「必ず帰る」と言って進むなら<a href="#三百二十四" class="jump">三百二十四</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 六百十四：ナックの最後の言葉 -->
+<div class="section" id="六百十四">
+<div class="section-num">六百十四</div>
+<p>階段の前でナックが駆け寄ってきた。</p>
+<p>「俺も行く」と彼は言った。</p>
+<p>「紋章がなければ扉は開かない」とあなたは言った。</p>
+<p>「分かってる」ナックは金色の目であなたを見た。「でも言いたいことがある。お前に会えてよかった。本当に。ゴブリンで、人間に金貨くれた奴なんて初めてだった。英雄の伝説が本当かどうかは知らない。でも俺、お前についてきてよかったと思ってる」</p>
+<p>彼は少し照れたように鼻をこすった。「ちゃんと帰ってこいよ。後払いの金貨、まだもらってないから」</p>
+<div class="note">「ナックが仲間として認めた」とメモ欄に記録せよ。GOOD END 2の条件が強化される。</div>
+<div class="choices">
+<p>「必ず帰る」と言って進むなら<a href="#三百二十四" class="jump">三百二十四</a>へ進め。</p>
+</div>
+</div>
+
+
+<!-- ===== 第四章 新規節 ===== -->
+
+<!-- 八百一：第四章・帰還後の街 -->
+<div class="section" id="八百一">
+<div class="section-num">八百一</div>
+<p>ドーランに戻ると、街の空気が変わっていた。</p>
+<p>人々の顔に恐怖がある。空の色が微かに歪んでいる。ザル＝カラムの方角から、昼でも青白い光が漏れていた。</p>
+<p>マグダが駆け寄ってきた。「生きてたか。三日、どこにいた」三日経っていたのか。あなたには数時間にしか感じなかった。</p>
+<p>「昨夜から街の井戸が全部枯れた」とマグダは続けた。「食料の腐りが早い。子供が夢で泣き叫ぶ。何かが始まってる」</p>
+<p>ナックが空を見上げた。「満月まで一日だ」</p>
+<div class="choices">
+<p>すぐに同盟を求めて出発するなら<a href="#三百五十六" class="jump">三百五十六</a>へ進め。</p>
+<p>マグダに何か情報がないか聞くなら<a href="#八百二" class="jump">八百二</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 八百二：マグダの情報 -->
+<div class="section" id="八百二">
+<div class="section-num">八百二</div>
+<p>「闇の商会の連中が動いている」とマグダは声を落とした。「昨夜、街に十人ほどの武装した集団が来た。三日月と蛇の徽章をつけていた。神殿に向かった」</p>
+<p>あなたは「謎の金属円盤」を持っているならそれをマグダに見せた。</p>
+<p>「それだ」とマグダは頷いた。「その徽章だ。オルド司祭が狙われてるかもしれない。神殿を確認した方がいい」</p>
+<div class="choices">
+<p>神殿へ急ぐなら<a href="#八百三" class="jump">八百三</a>へ進め。</p>
+<p>先に出発するなら<a href="#三百五十六" class="jump">三百五十六</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 八百三：神殿の危機 -->
+<div class="section" id="八百三">
+<div class="section-num">八百三</div>
+<p>神殿に駆けつけると、扉が破られていた。中で物音がする。</p>
+<p>踏み込むと、三人の男たちがオルドを囲んでいた。老司祭は壁際に追い詰められ、しかし恐れていない。むしろ静かに彼らを見据えていた。</p>
+<p>「ヴォルカネスの復活を止めようとする者は始末しろと命令を受けている」と男の一人が言った。</p>
+<p>「始末してみるがいい」とオルドは言った。「神に仕える者を害する報いを受けるのはお前たちだ」</p>
+<p>あなたは剣を抜いた。</p>
+<div class="note">闇の商会の刺客三人（技術点七／体力点八）と戦え。経験値は一体につき一点。</div>
+<div class="choices">
+<p>勝利したなら<a href="#八百四" class="jump">八百四</a>へ進め。</p>
+<p>体力点が零になったなら<a href="#四百七十三" class="jump">四百七十三</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 八百四：オルドの感謝 -->
+<div class="section" id="八百四">
+<div class="section-num">八百四</div>
+<p>刺客たちを退けると、オルドは深く頭を下げた。</p>
+<p>「助かった。あなたが来てくれなければ」と彼は言った。</p>
+<p>オルドは懐から小瓶を取り出した。「これを持っていけ。聖水だ。一度だけ使える。最終決戦で、ヴォルカネスに投げかけると体力点を八点減らすことができる。ただし」彼は真剣な顔で言った。「もし第三の道を選ぶなら、使ってはいけない。聖水は浄化するものだ。救うためには使えない」</p>
+<div class="note">「聖水」を入手した。所持品欄に記録せよ。ただし「第三の道を選ぶ場合は使用不可」と記録せよ。</div>
+<div class="choices">
+<p>出発するなら<a href="#三百五十六" class="jump">三百五十六</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 八百五：ナックの故郷 -->
+<div class="section" id="八百五">
+<div class="section-num">八百五</div>
+<p>道中、ナックがぽつりと言った。</p>
+<p>「俺の故郷はここから東に三日のところにある小さなゴブリンの集落だ。じいちゃんが死んで、仲間に追い出されて、ドーランに来た」</p>
+<p>「なぜ追い出された」</p>
+<p>「字が読めるから」ナックは苦く笑った。「ゴブリンの世界では、人間の言葉や文字を覚えることは裏切りとみなされる。俺はじいちゃんに習ったせいで、村を出るしかなかった」</p>
+<p>しばらく沈黙が続いた。</p>
+<p>「でも」とナックは続けた。「今はよかったと思ってる。字が読めなかったら、お前に会っても役に立てなかった。あの日誌も読めなかった。じいちゃん、ありがとうってか」</p>
+<div class="choices">
+<p>先へ進むなら<a href="#三百六十八" class="jump">三百六十八</a>か<a href="#三百七十五" class="jump">三百七十五</a>または<a href="#三百八十三" class="jump">三百八十三</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 八百六：シラの最後の告白 -->
+<div class="section" id="八百六">
+<div class="section-num">八百六</div>
+<p>夜、野営中にシラが話しかけてきた。</p>
+<p>「一つだけ、あなたに言っておかなければならないことがある」と彼女は言った。</p>
+<p>「なんだ」</p>
+<p>「あなたの左手の紋章。あれは偶然ではない」シラは静かに言った。「オルト＝ヴァルが魂の半分を失った時、その半分は消えたのではなく……分散した。世界に散らばった。そして三百年の時をかけて、一人の人間の中に集まった。あなただ」</p>
+<p>あなたは左手を見た。</p>
+<p>「あなたはオルト＝ヴァルの失われた魂の器だ」とシラは続けた。「だから紋章があり、遺跡があなたを引き寄せた。最終決戦で彼と対峙した時――あなたの中に彼の記憶が蘇るかもしれない。それはあなたを迷わせるかもしれない。でも」彼女は言った。「迷っていい。迷うことは弱さではない」</p>
+<div class="note">「主人公はオルト＝ヴァルの失われた魂の器」とメモ欄に記録せよ。最終決戦での選択に深みが加わる。</div>
+<div class="choices">
+<p>先へ進むなら<a href="#四百二" class="jump">四百二</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 八百七：ゴルムの最後の告白 -->
+<div class="section" id="八百七">
+<div class="section-num">八百七</div>
+<p>四百二に向かう前夜、ゴルムがあなたの隣に座った。</p>
+<p>「儂はずっと嘘をついていた」と彼は言った。「あの夜、引き返したのは怖かったからではない」</p>
+<p>あなたは黙って聞いた。</p>
+<p>「兄が儂に言ったんだ。『行くな』と。ではなく、『帰れ』と。兄は最初から知っていたんだ。自分がここに残ることを。儂を守るために引き留めたんだ。儂はそれを知っていながら、五十年間、引き返したことを後悔のように話してきた。本当は……感謝していた。ただ言えなかった」</p>
+<p>ゴルムは立ち上がった。「お前が星の間から帰ってきたら、兄の話をもっとしたい。聞いてくれるか」</p>
+<div class="note">「ゴルムの本当の心を聞いた」とメモ欄に記録せよ。GOOD END 2の後日譚に影響する。</div>
+<div class="choices">
+<p>「必ず帰る」と言って眠るなら<a href="#四百二" class="jump">四百二</a>へ進め。</p>
+</div>
+</div>
+
+
+<!-- ===== 第五章・最終決戦 新規節 ===== -->
+
+<!-- 九百一：星の間への入場・記憶の洪水 -->
+<div class="section" id="九百一">
+<div class="section-num">九百一</div>
+<p>階段を下りた瞬間、膨大な何かが流れ込んできた。</p>
+<p>記憶だ。しかし自分の記憶ではない。見知らぬ景色。見知らぬ顔。見知らぬ声。しかし不思議なことに、懐かしかった。</p>
+<p>白い塔。星の満ちた夜空。弟子の笑顔。そして――暗闇。痛み。失くすことの恐怖。</p>
+<p>あなたは立ち止まった。左手の紋章が激しく脈打っている。</p>
+<p>「大丈夫か」とゴルムの声が遠くから聞こえた。</p>
+<p>大丈夫だ、とあなたは答えた。しかし本当に大丈夫なのかは分からなかった。あなたの中で何かが目覚めようとしていた。</p>
+<div class="choices">
+<p>記憶を受け入れて進むなら<a href="#九百二" class="jump">九百二</a>へ進め。</p>
+<p>記憶を押しつぶして進むなら<a href="#三百二十四" class="jump">三百二十四</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 九百二：記憶を受け入れる -->
+<div class="section" id="九百二">
+<div class="section-num">九百二</div>
+<p>記憶の洪水に身を委ねた。</p>
+<p>映像が流れた。黄金時代の賢者たちの日々。星脈術の研究。笑い声。議論。そしてある夜、一人の若い弟子が事故で死んだ。その瞬間から、すべてが変わった。</p>
+<p>悲しみ。怒り。否定。そして決意。「取り戻す。何があっても取り戻す」</p>
+<p>あなたはその感情を全身で感じた。理解した。オルト＝ヴァルが間違えた理由を。人間であることの脆さを。愛することの恐ろしさを。</p>
+<p>記憶が引いた。あなたは涙が出ていることに気づいた。</p>
+<div class="note">「オルト＝ヴァルの記憶を受け入れた」とメモ欄に記録せよ。第三の道（魂の還元）が解放される。技術点に一点を加えよ。</div>
+<div class="choices">
+<p>星の間へ進むなら<a href="#三百二十四" class="jump">三百二十四</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 九百三：ヴォルカネスとの最初の対話 -->
+<div class="section" id="九百三">
+<div class="section-num">九百三</div>
+<p>ヴォルカネスはあなたを見て、何かを感じたように動きを止めた。</p>
+<p>「……お前の中に」と彼は言った。今まで聞いたことのない声だった。威圧でも冷酷でもなく、ただ驚きだけがあった。「私の……」</p>
+<p>「オルト＝ヴァル」とあなたは言った。「あなたの本当の名前だ」</p>
+<p>星の間が静まり返った。</p>
+<p>ヴォルカネスの目の光が揺れた。三百年間、その名を誰も呼ばなかった。呼ぶ者がいなかった。</p>
+<p>「……そうだ」と彼は低く言った。「私はオルト＝ヴァルだった。かつては」</p>
+<div class="choices">
+<p>「今もあなたはオルト＝ヴァルだ」と言うなら<a href="#九百四" class="jump">九百四</a>へ進め。（第三の道）</p>
+<p>「かつての名は関係ない」と言って戦うなら<a href="#四百十五" class="jump">四百十五</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 九百四：第三の道の入口 -->
+<div class="section" id="九百四">
+<div class="section-num">九百四</div>
+<p>「今もあなたはオルト＝ヴァルだ」とあなたは繰り返した。「魂の半分を失っても、三百年かけて別の存在になっても、根のところは変わっていない。あなたはまだ賢者だ」</p>
+<p>ヴォルカネスの全身が揺れた。鎧の隙間から光が漏れた。青白い光ではなく――金色の光だ。</p>
+<p>「私を……救えると言うのか」と彼は掠れた声で言った。</p>
+<p>「救うのではない」とあなたは言った。「返すんだ。あなたの魂の半分を。私の中にある、あなたの一部を」</p>
+<p>左手の紋章が激しく輝いた。</p>
+<div class="note">この選択には条件がある。以下をすべて満たしているか確認せよ。「オルト＝ヴァルの記憶を受け入れた」「ヴォルカネスの真の名を知っている」「日誌を読んだ」。すべて満たしているなら<a href="#九百五" class="jump">九百五</a>へ進め。一つでも欠けているなら<a href="#九百六" class="jump">九百六</a>へ進め。</div>
+</div>
+
+<!-- 九百五：魂の還元 -->
+<div class="section" id="九百五">
+<div class="section-num">九百五</div>
+<p>あなたは左手を前に伸ばした。</p>
+<p>紋章が光り、その光が細い糸のようにヴォルカネスへと伸びていった。彼は動かなかった。動けなかったのか、動かなかったのか。</p>
+<p>光が彼に触れた瞬間、星の間全体が揺れた。</p>
+<p>ヴォルカネスは声を上げた。苦しみではなかった。何百年もの重さが一度に溶け出すような――解放の声だった。</p>
+<p>鎧が崩れた。中から光が溢れた。人の形をした光。老いた男の姿。白い衣を纏い、穏やかな顔をしている。鏡の中で見た顔と同じ顔だ。</p>
+<p>光の男はあなたを見て、深く頭を下げた。言葉はなかった。言葉は必要なかった。</p>
+<p>そして光は消えた。静寂だけが残った。</p>
+<div class="choices">
+<p>このまま進むなら<a href="#九百七" class="jump">九百七</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 九百六：条件不足 -->
+<div class="section" id="九百六">
+<div class="section-num">九百六</div>
+<p>あなたは手を伸ばした。しかし光は出なかった。</p>
+<p>ヴォルカネスが目を細めた。「……力が足りない。お前の中にあるものを、お前自身が理解していない」</p>
+<p>彼は首を振った。「残念だ。しかし選択肢は戦いだけではない。帰れ。そして学べ。次があるなら」</p>
+<p>しかし次はない。満月は今夜だ。</p>
+<div class="choices">
+<p>戦うなら<a href="#四百十五" class="jump">四百十五</a>へ進め。</p>
+</div>
+</div>
+
+<!-- 九百七：GOOD END 3「魂の還元」エンディングへ -->
+<div class="section" id="九百七">
+<div class="section-num">九百七</div>
+<p>あなたは膝をついた。左手の紋章が消えていた。熱も痛みも、温かさも、何も感じなかった。ただ空だった。</p>
+<p>それで良かった、と思った。</p>
+<p>星の間の天井の星図が、ゆっくりと消えていった。石に刻まれた光が一つ、また一つと消えていく。三百年かかって灯り続けたものが、ようやく眠りにつくように。</p>
+<p>階段から足音がした。ゴルムだった。シラも来た。ナックも来た。</p>
+<p>誰も何も言わなかった。言う必要がなかった。</p>
+<p>ゴルムが静かに言った。「帰ろう」</p>
+<div class="choices">
+<p>エンディングへ進むなら<a href="#九百九十一" class="jump">九百九十一</a>へ進め。</p>
+</div>
+</div>
+
+
+<!-- ===== 新規エンディング ===== -->
+
+<!-- 九百九十一：GOOD END 3「星脈の解放者」 -->
+<div class="section" id="九百九十一">
+<div class="section-num">九百九十一 <span class="end-label">GOOD END 3</span></div>
+<p>ドーランへ帰る道は、来た時と同じ荒野だった。しかし空気が違った。</p>
+<p>青白い光が消えていた。ザル＝カラムの方角の空が、ただの夜空に戻っていた。星が見えた。三百年ぶりに、本物の星が。</p>
+<p>ナックが空を見上げた。「すごいな」と彼は言った。「星ってこんなに多かったのか」</p>
+<p>ゴルムが隣を歩きながら言った。「兄が見ていた星空も、こんな感じだったかもしれない」</p>
+<p>シラは何も言わなかった。ただ歩きながら、時々立ち止まって夜空を見た。その顔に涙はなかった。かわりに、三百年分の疲れが、ゆっくりと抜けていくような表情があった。</p>
+<p>あなたは左手を見た。紋章は消えていた。今のあなたはただの人間だ。名もなき流れ者だ。しかしもう一人ではなかった。</p>
+<p>ドーランの明かりが見えてきた。街門で、マグダが待っていた。腕を組んで。目を細めて。</p>
+<p>「帰ってきたか」と彼女は言った。「ずいぶん遅かった」</p>
+<p>ナックが「すみませんでした」と深々と頭を下げた。マグダは笑った。</p>
+<p>断片の時代は終わった。新しい時代の名前はまだなかった。しかしそれを決める者たちが、今ここにいた。</p>
+<div class="end-text">「救うとは、戦うことではなかった。理解することだった」<br>――あなたの冒険は完結した。これが最も深いエンディングである。</div>
+<a href="#一" class="back-top">▲ 最初から読む</a>
+</div>
+
+<!-- GOOD END 1の拡張後日譚 -->
+<div class="section" id="四百三十七の二">
+<div class="section-num">四百三十七の二 <span class="end-label end-good">後日譚</span></div>
+<p>一週間後、ドーランに変化が起きた。</p>
+<p>枯れていた井戸から水が戻った。腐りかけていた食料が持つようになった。そして子供たちの夢が変わった。暗い扉の夢の代わりに、明るい野原の夢を見ると彼らは言った。</p>
+<p>ゴルムは珍しく酒を飲まなかった。錆びた剣亭の隅で、何かを書いていた。近づくとそれは手紙だった。宛先の名前は「ドゥルムへ」と書かれていた。</p>
+<p>ナックはドーランに留まった。マグダに頼み込んで錆びた剣亭で働くことになった。最初は客に奇妙な目で見られたが、三日目には「あのゴブリン、気が利く」と評判になっていた。</p>
+<p>シラは翌朝、いなくなっていた。書き置きが一枚。「テニスタ・テニストの長老に謝りに行く。時間がかかるかもしれない。でも必ず戻る」と書かれていた。</p>
+<p>あなたは街門に立ち、荒野を見た。もう青白い光はなかった。ただの荒野が、朝日に照らされていた。</p>
+<p>どこへ行こうか、とあなたは思った。今のあなたには帰る場所もあり、行くべき場所もある。それで十分だった。</p>
+<div class="end-text">――ヴァルデアの遺産、完。</div>
+<a href="#一" class="back-top">▲ 最初から読む</a>
+</div>
+
+<!-- GOOD END 2の拡張後日譚 -->
+<div class="section" id="四百四十六の二">
+<div class="section-num">四百四十六の二 <span class="end-label end-good">後日譚</span></div>
+<p>ドーランに戻った日、マグダが全員に酒を奢った。「生きて帰ったら奢ると決めていた」と彼女は言った。</p>
+<p>ゴルムは翌日、一人でザル＝カラムへ向かった。何もない遺跡の前に立ち、しばらく動かなかった。戻ってきた時、その顔から何年分もの皺が消えたように見えた。</p>
+<p>「兄に報告してきた」と彼は言った。それだけだった。しかしそれで十分だった。</p>
+<p>ナックは約束通り金貨十枚を受け取ったが、翌日全部使って豪遊し、一文無しになった。それからまた路地裏でうずくまっているところをあなたに発見された。</p>
+<p>「また奢ってくれるか」とナックは言った。</p>
+<p>あなたは仕方なく金貨一枚を渡した。</p>
+<p>世界は変わった。しかし人は変わらない。それもまた、悪くなかった。</p>
+<div class="end-text">「英雄とは、生き残って、また飯を食う者のことだ」<br>――あなたの冒険は完結した。</div>
+<a href="#一" class="back-top">▲ 最初から読む</a>
+</div>
+
+
+
+</div>
+
+<div class="book-footer">
+  ヴァルデアの遺産　LEGACY OF VALDEA　／　初稿完成版　｜　<a href="guide.html" style="color:#c8a96e;text-decoration:none;">冒険者の手引きへ</a>
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('a.jump').forEach(link => {
+  link.addEventListener('click', function() {
+    const href = this.getAttribute('href');
+    if (href.startsWith('#')) {
+      const target = document.querySelector(href);
+      if (target) {
+        setTimeout(() => {
+          target.classList.add('highlight');
+          setTimeout(() => target.classList.remove('highlight'), 1200);
+        }, 300);
+      }
+    }
+  });
+});
+document.querySelectorAll('a.back-top').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href === '#') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+});
+
+// ===== サイコロポップアップ =====
+const MONKEY = {
+  2:  {n:'悪魔の嘲笑',  d:'状況が悪化。体力点－4'},
+  3:  {n:'変身の呪い',  d:'敵がカエルに。左手も変化、技術点－2'},
+  4:  {n:'黄金の雨',   d:'金貨＋10。ただし代償あり'},
+  5:  {n:'眠りの霧',   d:'敵も眠る。自分も1T行動不能'},
+  6:  {n:'時の迷子',   d:'隠し選択肢＋1。運勢点－1'},
+  7:  {n:'星脈の暴走', d:'敵全員に体力点－6。自分も－2'},
+  8:  {n:'賢者の囁き', d:'謎へのヒントを得る'},
+  9:  {n:'召喚の暴走', d:'何かが召喚される'},
+  10: {n:'英雄の刻',   d:'体力点全回復・技術点＋3'},
+  11: {n:'神々の気まぐれ', d:'敵を消滅。大切な何かも消える'},
+  12: {n:'伝説の一手', d:'奇跡が起きる。代償なし'}
+};
+const AWAKEN = {
+  1:{n:'完全暴走', d:'体力点を1/3失う'},
+  2:{n:'一撃必殺', d:'敵を瞬時に消滅'},
+  3:{n:'力の乱流', d:'技術点が今ラウンドのみ－2'},
+  4:{n:'一撃必殺', d:'敵を瞬時に消滅'},
+  5:{n:'意識の混濁', d:'1ラウンド行動不能'},
+  6:{n:'一撃必殺', d:'敵を瞬時に消滅'}
+};
+
+let diceMode = '2d6';
+let diceRolling = false;
+
+// WebAudio で効果音
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let actx = null;
+function getActx(){ if(!actx) actx = new AudioCtx(); return actx; }
+
+function playRollSound(){
+  try {
+    const ctx = getActx();
+    const count = 6;
+    for(let i=0;i<count;i++){
+      const t = ctx.currentTime + i*0.07;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.setValueAtTime(200 + Math.random()*400, t);
+      gain.gain.setValueAtTime(0.12, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t+0.06);
+      osc.start(t); osc.stop(t+0.07);
+    }
+  } catch(e){}
+}
+
+function playLandSound(val){
+  try {
+    const ctx = getActx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    const freq = 220 + val * 40;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(freq*1.3, ctx.currentTime+0.08);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.25);
+    osc.start(); osc.stop(ctx.currentTime+0.26);
+  } catch(e){}
+}
+
+function toggleDice(){
+  const p = document.getElementById('dicePopup');
+  p.classList.toggle('show');
+}
+
+function setMode(m){
+  diceMode = m;
+  ['2d6','1d6','1d6b','2d6b'].forEach(id => {
+    document.getElementById('m-'+id).classList.toggle('active', id===m);
+  });
+  const row = document.getElementById('dpDiceRow');
+  const needs2 = (m==='2d6'||m==='2d6b');
+  document.getElementById('dpDie1').style.display = needs2 ? 'flex' : 'none';
+  document.getElementById('dpTotal').textContent = '—';
+  document.getElementById('dpResult').textContent = 'サイコロを振れ';
+  document.getElementById('dpDie0').textContent = '？';
+  document.getElementById('dpDie1').textContent = '？';
+  document.getElementById('dpDie0').classList.remove('lit');
+  document.getElementById('dpDie1').classList.remove('lit');
+}
+
+function d6(){ return Math.floor(Math.random()*6)+1; }
+
+function rollDice(){
+  if(diceRolling) return;
+  diceRolling = true;
+  const needs2 = (diceMode==='2d6'||diceMode==='2d6b');
+  const count = needs2 ? 2 : 1;
+  let frames = 0; const maxF = 10;
+  playRollSound();
+  const iv = setInterval(()=>{
+    for(let i=0;i<count;i++){
+      const el = document.getElementById('dpDie'+i);
+      el.textContent = d6();
+      el.classList.remove('rolling');
+      void el.offsetWidth;
+      el.classList.add('rolling');
+    }
+    frames++;
+    if(frames >= maxF){
+      clearInterval(iv);
+      const vals = [d6(), d6()];
+      let total = 0, bonus = 0;
+      if(diceMode==='1d6') { total=vals[0]; bonus=0; }
+      else if(diceMode==='2d6') { total=vals[0]+vals[1]; bonus=0; }
+      else if(diceMode==='1d6b') { total=vals[0]+6; bonus=6; }
+      else { total=vals[0]+vals[1]+12; bonus=12; }
+      for(let i=0;i<count;i++){
+        const el = document.getElementById('dpDie'+i);
+        el.textContent = vals[i];
+        el.classList.remove('rolling');
+        el.classList.add('lit');
+      }
+      playLandSound(total);
+      document.getElementById('dpTotal').textContent = total;
+      let resultText = '';
+      if(diceMode==='2d6'){
+        const m = MONKEY[total];
+        if(m) resultText = m.n + '\n' + m.d;
+      } else if(diceMode==='1d6'){
+        const a = AWAKEN[vals[0]];
+        if(a) resultText = a.n + '\n' + a.d;
+      } else {
+        resultText = '能力値：' + total;
+      }
+      document.getElementById('dpResult').textContent = resultText;
+      diceRolling = false;
+    }
+  }, 55);
+}
+
+// 初期表示設定
+setMode('2d6');
+
+</script>
+
+<!-- ===== 右上固定UI ===== -->
+<div class="floating-ui">
+  <button class="sheet-fab" onclick="toggleSheet()" title="冒険者シート">&#x1F4CB;</button>
+  <button class="dice-fab" onclick="toggleDice()" title="サイコロ">&#x1F3B2;</button>
+</div>
+
+<!-- サイコロポップアップ -->
+<div class="dice-popup" id="dicePopup">
+  <div class="dice-popup-title">ダイスローラー</div>
+  <div class="dice-mode-btns">
+    <button class="dice-mode-btn active" id="m2d6" onclick="setMode('2d6')">戦闘(2d6)</button>
+    <button class="dice-mode-btn" id="m1d6" onclick="setMode('1d6')">覚醒(1d6)</button>
+    <button class="dice-mode-btn" id="mstat" onclick="setMode('stat')">能力値</button>
+    <button class="dice-mode-btn" id="mluck" onclick="setMode('luck')">運試し</button>
+  </div>
+  <div class="dice-faces-row" id="diceFaces">
+    <div class="die-face" id="df0">?</div>
+    <div class="die-face" id="df1">?</div>
+  </div>
+  <button class="dice-roll-btn" onclick="rollDice()">&#9670; 振る</button>
+  <div class="dice-result-text" id="diceResult">モードを選んで振れ</div>
+</div>
+
+<!-- 冒険者シートモーダル -->
+<div class="modal-overlay" id="sheetModal" onclick="closeSheetOutside(event)">
+<div class="modal-box">
+  <div class="modal-head">
+    <h2>&#x1F4CB; 冒険者シート</h2>
+    <button class="modal-close" onclick="toggleSheet()">&#x2715;</button>
+  </div>
+  <div class="modal-body">
+
+    <!-- 能力値 -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-label">&#9670; 能力値</div>
+      <button class="roll-all-s" onclick="rollAllStats()">&#9670; 全能力値をサイコロで決定</button>
+      <div class="stat-grid">
+        <div class="stat-card-s">
+          <div class="sn">技術点 SKILL</div>
+          <div class="stat-hint">1d6+6</div>
+          <div class="sv">
+            <div class="stat-block">
+              <div class="stat-lbl">初期</div>
+              <input class="stat-num-input" id="s-skill-i" type="number" min="1" max="20" placeholder="—">
+            </div>
+            <span class="stat-sep">/</span>
+            <div class="stat-block">
+              <div class="stat-lbl">現在</div>
+              <div class="stat-adj-row">
+                <button class="stat-adj" onclick="adjStat('skill',-1)">－</button>
+                <input class="stat-num-input" id="s-skill-c" type="number" min="0" max="30" placeholder="—">
+                <button class="stat-adj" onclick="adjStat('skill',1)">＋</button>
+              </div>
+            </div>
+          </div>
+          <button class="roll-stat-btn" id="b-skill" onclick="rollOneStat('skill')">&#9670; 振る</button>
+        </div>
+        <div class="stat-card-s">
+          <div class="sn">体力点 STAMINA</div>
+          <div class="stat-hint">2d6+12</div>
+          <div class="sv">
+            <div class="stat-block">
+              <div class="stat-lbl">初期</div>
+              <input class="stat-num-input" id="s-stam-i" type="number" min="1" max="40" placeholder="—">
+            </div>
+            <span class="stat-sep">/</span>
+            <div class="stat-block">
+              <div class="stat-lbl">現在</div>
+              <div class="stat-adj-row">
+                <button class="stat-adj" onclick="adjStat('stam',-1)">－</button>
+                <input class="stat-num-input" id="s-stam-c" type="number" min="0" max="50" placeholder="—">
+                <button class="stat-adj" onclick="adjStat('stam',1)">＋</button>
+              </div>
+            </div>
+          </div>
+          <button class="roll-stat-btn" id="b-stam" onclick="rollOneStat('stam')">&#9670; 振る</button>
+        </div>
+        <div class="stat-card-s">
+          <div class="sn">運勢点 LUCK</div>
+          <div class="stat-hint">1d6+6</div>
+          <div class="sv">
+            <div class="stat-block">
+              <div class="stat-lbl">初期</div>
+              <input class="stat-num-input" id="s-luck-i" type="number" min="1" max="20" placeholder="—">
+            </div>
+            <span class="stat-sep">/</span>
+            <div class="stat-block">
+              <div class="stat-lbl">現在</div>
+              <div class="stat-adj-row">
+                <button class="stat-adj" onclick="adjStat('luck',-1)">－</button>
+                <input class="stat-num-input" id="s-luck-c" type="number" min="0" max="20" placeholder="—">
+                <button class="stat-adj" onclick="adjStat('luck',1)">＋</button>
+              </div>
+            </div>
+          </div>
+          <button class="roll-stat-btn" id="b-luck" onclick="rollOneStat('luck')">&#9670; 振る</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 経験値・レベル -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-label">&#9670; 経験値 / レベル</div>
+      <div class="exp-row-ui">
+        <div class="exp-num-ui" id="expNum">0</div>
+        <div class="exp-bar-bg"><div class="exp-bar-fill" id="expBar" style="width:0%"></div></div>
+        <div class="exp-lv-ui" id="expLv">Lv.1 ならず者の無頼漢</div>
+      </div>
+      <div class="exp-btns-ui">
+        <button class="exp-btn-s" onclick="addExp(1)">＋1 雑魚</button>
+        <button class="exp-btn-s" onclick="addExp(2)">＋2 強敵</button>
+        <button class="exp-btn-s" onclick="addExp(4)">＋4 中ボス</button>
+        <button class="exp-btn-s" onclick="addExp(-1)">－1</button>
+        <button class="exp-btn-s" onclick="addExp(-4)">－4</button>
+      </div>
+      <div class="lv-up-msg" id="lvMsg"></div>
+    </div>
+
+    <!-- 猿の右手 -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-label">&#9670; 猿の右手</div>
+      <div class="paw-row">
+        <button class="paw-btn-s active" id="paw-u" onclick="setPaw('u')">□ 未使用</button>
+        <button class="paw-btn-s" id="paw-s" onclick="setPaw('s')">&#x2718; 封印済</button>
+      </div>
+    </div>
+
+    <!-- 金貨・食料 -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-label">&#9670; 所持金 / 食料</div>
+      <div class="gold-food-row">
+        <div class="gf-block">
+          <div class="gf-lbl">金貨</div>
+          <div class="gf-ctrl">
+            <button class="gold-adj-s" onclick="adj('gold',-1)">－</button>
+            <input class="gold-inp" id="gold" type="number" value="3" min="0" max="999">
+            <button class="gold-adj-s" onclick="adj('gold',1)">＋</button>
+            <span class="gold-lbl">枚</span>
+          </div>
+        </div>
+        <div class="gf-block">
+          <div class="gf-lbl">食料</div>
+          <div class="gf-ctrl">
+            <button class="gold-adj-s" onclick="adj('food',-1)">－</button>
+            <input class="gold-inp" id="food" type="number" value="0" min="0" max="10">
+            <button class="gold-adj-s" onclick="adj('food',1)">＋</button>
+            <span class="gold-lbl">個</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 所持品（チェックボックス式） -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-label">&#9670; 所持品（最大8）</div>
+      <div class="items-ui" id="itemsGrid"></div>
+    </div>
+
+    <!-- メモ -->
+    <div class="sheet-sec">
+      <div class="sheet-sec-label">&#9670; メモ・フラグ記録</div>
+      <textarea class="memo-s" id="memo" placeholder="鍵の番号・合言葉・重要フラグなど..."></textarea>
+    </div>
+
+    <!-- リセット -->
+    <div class="sheet-sec">
+      <button class="roll-all-s" style="background:#fff;color:#888;border:1px solid #ccc;" onclick="resetSheet()">シートをリセット</button>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<script>
+// ===================== ページナビゲーション =====================
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active','slide-in'));
+  const t=document.getElementById(id);
+  if(t){t.classList.add('active','slide-in');t.scrollTop=0;history.replaceState(null,'','#'+id);}
+}
+document.querySelectorAll('a.jump').forEach(a=>{
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    const h=this.getAttribute('href');
+    if(h&&h.startsWith('#'))showSection(h.slice(1));
+  });
+});
+document.querySelectorAll('a.back-top').forEach(a=>{
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    const h=this.getAttribute('href');
+    showSection(h&&h.startsWith('#')&&h.length>1?h.slice(1):'一');
+  });
+});
+function initPage(){
+  const hash=location.hash.slice(1);
+  showSection((hash&&document.getElementById(hash))?hash:'一');
+}
+initPage();
+window.addEventListener('hashchange',()=>{
+  const h=location.hash.slice(1);
+  if(h&&document.getElementById(h))showSection(h);
+});
+
+// ===================== サイコロ =====================
+let diceMode='2d6', diceRolling=false;
+function d6(){return Math.floor(Math.random()*6)+1;}
+
+const DICE_DOTS={
+  1:[[50,50]],
+  2:[[25,25],[75,75]],
+  3:[[25,25],[50,50],[75,75]],
+  4:[[25,25],[75,25],[25,75],[75,75]],
+  5:[[25,25],[75,25],[50,50],[25,75],[75,75]],
+  6:[[25,25],[75,25],[25,50],[75,50],[25,75],[75,75]]
+};
+
+function makeDieSVG(n,size=40){
+  const s=size, r=5, dots=DICE_DOTS[n]||[];
+  const dr=s*0.09;
+  let d=`<svg width="${s}" height="${s}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">`;
+  d+=`<rect x="2" y="2" width="96" height="96" rx="${r*3}" ry="${r*3}" fill="#fff" stroke="#000" stroke-width="4"/>`;
+  dots.forEach(([cx,cy])=>{d+=`<circle cx="${cx}" cy="${cy}" r="${r*2.2}" fill="#000"/>`;});
+  d+='</svg>';
+  return d;
+}
+
+function buildDiceFaces(){
+  const row=document.getElementById('diceFaces');
+  if(!row)return;
+  const count=(diceMode==='1d6'||diceMode==='luck')?1:2;
+  row.innerHTML='';
+  for(let i=0;i<count;i++){
+    const d=document.createElement('div');
+    d.className='die-face';d.id='df'+i;
+    d.innerHTML=makeDieSVG(1);
+    row.appendChild(d);
+  }
+}
+
+function setMode(m){
+  diceMode=m;
+  ['2d6','1d6','stat','luck'].forEach(id=>{
+    const el=document.getElementById('m'+id);
+    if(el)el.classList.toggle('active',id===m);
+  });
+  buildDiceFaces();
+  const res=document.getElementById('diceResult');
+  if(res)res.textContent='';
+}
+
+function rollDice(){
+  if(diceRolling)return;
+  diceRolling=true;
+  const count=(diceMode==='1d6'||diceMode==='luck')?1:2;
+  const results=[];
+  for(let i=0;i<count;i++)results.push(d6());
+
+  // アニメーション：高速でランダム目を表示
+  let frames=0;
+  const TOTAL_FRAMES=18;
+  const iv=setInterval(()=>{
+    for(let i=0;i<count;i++){
+      const el=document.getElementById('df'+i);
+      if(el){
+        const rnd=d6();
+        el.innerHTML=makeDieSVG(rnd);
+        el.style.transform=`rotate(${(Math.random()-0.5)*30}deg) scale(${0.9+Math.random()*0.2})`;
+        el.style.opacity='0.8';
+      }
+    }
+    frames++;
+    if(frames>=TOTAL_FRAMES){
+      clearInterval(iv);
+      // 最終結果を表示
+      for(let i=0;i<count;i++){
+        const el=document.getElementById('df'+i);
+        if(el){
+          el.innerHTML=makeDieSVG(results[i]);
+          el.style.transform='rotate(0) scale(1)';
+          el.style.opacity='1';
+          el.classList.add('landed');
+          setTimeout(()=>el.classList.remove('landed'),500);
+        }
+      }
+      // 結果テキスト
+      const total=results.reduce((a,b)=>a+b,0);
+      const res=document.getElementById('diceResult');
+      if(res){
+        if(diceMode==='2d6'){
+          res.innerHTML=`合計 <strong>${total}</strong> (${results.join('+')})<br>猿の右手テーブルを参照`;
+        }else if(diceMode==='stat'){
+          const sk=results[0]+6, st=results[0]+results[1]+12, lk=results[1]+6;
+          res.innerHTML=`技術:<strong>${sk}</strong> 体力:<strong>${st}</strong> 運勢:<strong>${lk}</strong>`;
+          // シートへ自動入力確認
+          autoFillStats(sk,st,lk);
+        }else if(diceMode==='1d6'){
+          const msgs={1:'完全暴走（体力1/3減）',2:'一撃必殺',3:'力の乱流（技術－2）',4:'一撃必殺',5:'意識の混濁（1T行動不能）',6:'一撃必殺'};
+          res.innerHTML=`出目 <strong>${results[0]}</strong><br>${msgs[results[0]]}`;
+        }else if(diceMode==='luck'){
+          const cur=parseInt(document.getElementById('s-luck-c')?.value||0);
+          const success=total<=cur;
+          res.innerHTML=`${results[0]}+${results[1]}=<strong>${total}</strong><br>運勢点${cur}以下→<strong style="color:${success?'#000':'#c00'}">${success?'成功':'失敗'}</strong>`;
+          if(cur>0){document.getElementById('s-luck-c').value=Math.max(0,cur-1);}
+        }
+      }
+      diceRolling=false;
+    }
+  },50);
+}
+
+function autoFillStats(sk,st,lk){
+  const si=document.getElementById('s-skill-i');
+  const sc=document.getElementById('s-skill-c');
+  const sti=document.getElementById('s-stam-i');
+  const stc=document.getElementById('s-stam-c');
+  const li=document.getElementById('s-luck-i');
+  const lc=document.getElementById('s-luck-c');
+  if(si&&!si.value){si.value=sk;sc.value=sk;}
+  if(sti&&!sti.value){sti.value=st;stc.value=st;}
+  if(li&&!li.value){li.value=lk;lc.value=lk;}
+}
+
+function toggleDice(){
+  const p=document.getElementById('dicePopup');
+  if(!p)return;
+  const opening=!p.classList.contains('open');
+  p.classList.toggle('open');
+  document.getElementById('sheetModal').classList.remove('open');
+  if(opening)buildDiceFaces();
+}
+document.addEventListener('click',e=>{
+  const p=document.getElementById('dicePopup');
+  if(p&&p.classList.contains('open')){
+    const fab=document.querySelector('.dice-fab');
+    if(!p.contains(e.target)&&fab&&!fab.contains(e.target))p.classList.remove('open');
+  }
+});
+
+// ===================== 冒険者シート =====================
+function toggleSheet(){
+  const m=document.getElementById('sheetModal');
+  if(!m)return;
+  const opening=!m.classList.contains('open');
+  m.classList.toggle('open');
+  document.getElementById('dicePopup').classList.remove('open');
+  if(opening)buildItems();
+}
+function closeSheetOutside(e){
+  if(e.target===document.getElementById('sheetModal'))toggleSheet();
+}
+
+// 能力値ロール
+function d6r(){return Math.floor(Math.random()*6)+1;}
+function rollOneStat(s){
+  const btn=document.getElementById('b-'+s);
+  if(btn&&btn.disabled)return;
+  let val;
+  if(s==='stam')val=d6r()+d6r()+12;
+  else val=d6r()+6;
+  const i=document.getElementById('s-'+s+'-i');
+  const c=document.getElementById('s-'+s+'-c');
+  if(i){i.value=val;flashEl(i);}
+  if(c){c.value=val;flashEl(c);}
+  if(btn){btn.textContent='✓ 確定済';btn.classList.add('done');btn.disabled=true;}
+  saveSheet();
+}
+function rollAllStats(){
+  ['skill','stam','luck'].forEach(s=>rollOneStat(s));
+}
+function adjStat(s,n){
+  const el=document.getElementById('s-'+s+'-c');
+  if(!el)return;
+  const init=parseInt(document.getElementById('s-'+s+'-i')?.value||30);
+  const cur=parseInt(el.value||0);
+  el.value=Math.max(0,Math.min(init,cur+n));
+  flashEl(el);
+  saveSheet();
+}
+function flashEl(el){
+  el.style.background='#fffacd';
+  setTimeout(()=>{el.style.background='transparent';},400);
+}
+
+// 経験値
+const LEVELS=[
+  {min:0,lv:1,name:'ならず者の無頼漢',next:3,fx:null},
+  {min:3,lv:2,name:'浮足立つ冒険者',next:7,fx:'skill+1'},
+  {min:7,lv:3,name:'豪傑の勇者',next:12,fx:'stam+4'},
+  {min:12,lv:4,name:'ヴァルデアのレジェンド',next:999,fx:'skill+1,luck+1'},
+];
+let currentExp=0;
+function getLv(e){let l=LEVELS[0];for(const x of LEVELS){if(e>=x.min)l=x;}return l;}
+function updateExp(prevLv){
+  const lv=getLv(currentExp);
+  const num=document.getElementById('expNum');
+  const bar=document.getElementById('expBar');
+  const lvEl=document.getElementById('expLv');
+  if(num)num.textContent=currentExp;
+  if(lvEl)lvEl.textContent='Lv.'+lv.lv+' '+lv.name;
+  const pct=lv.lv===4?100:Math.round((currentExp-lv.min)/(lv.next-lv.min)*100);
+  if(bar)bar.style.width=Math.min(100,pct)+'%';
+  const msg=document.getElementById('lvMsg');
+  if(prevLv!==null&&lv.lv>prevLv&&lv.fx&&msg){
+    // 自動で能力値に反映
+    let effectTxt='';
+    lv.fx.split(',').forEach(fx=>{
+      const [stat,val]=fx.split('+');
+      const n=parseInt(val);
+      const iEl=document.getElementById('s-'+stat+'-i');
+      const cEl=document.getElementById('s-'+stat+'-c');
+      if(iEl&&iEl.value){iEl.value=parseInt(iEl.value)+n;flashEl(iEl);}
+      if(cEl&&cEl.value){cEl.value=parseInt(cEl.value)+n;flashEl(cEl);}
+      const names={skill:'技術点',stam:'体力点初期値',luck:'運勢点'};
+      effectTxt+=names[stat]+'＋'+n+' ';
+    });
+    msg.innerHTML='&#x1F389; Lv.'+lv.lv+'「'+lv.name+'」へ昇格！<br>'+effectTxt+'を自動反映しました';
+    setTimeout(()=>{if(msg)msg.textContent='';},7000);
+  }
+  saveSheet();
+}
+function addExp(n){
+  const p=getLv(currentExp).lv;
+  currentExp=Math.max(0,Math.min(currentExp+n,20));
+  updateExp(p);
+}
+
+// 猿の右手
+function setPaw(s){
+  ['u','s'].forEach(id=>{
+    const el=document.getElementById('paw-'+id);
+    if(el)el.classList.toggle('active',id===s);
+  });
+  saveSheet();
+}
+
+// 金貨・食料
+function adj(id,n){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const max=id==='food'?10:999;
+  el.value=Math.max(0,Math.min(max,parseInt(el.value||0)+n));
+  flashEl(el);
+  saveSheet();
+}
+
+// 所持品（入力式）
+const ITEM_LABELS=[
+  'ザル＝カラムの地図','回復薬','固いパン','強壮剤',
+  'ロットンのつるぎ','死神の首飾り','賢者の石','(空き)'
+];
+function buildItems(){
+  const grid=document.getElementById('itemsGrid');
+  if(!grid||grid.children.length>0)return;
+  for(let i=0;i<8;i++){
+    const row=document.createElement('div');
+    row.className='item-row-s';
+    // チェックボックス＋テキスト入力
+    row.innerHTML=
+      '<input type="checkbox" class="item-chk" id="ichk'+i+'" onchange="saveSheet()" style="margin-right:4px;accent-color:#000;">'+
+      '<input class="item-inp" type="text" id="iinp'+i+'" placeholder="（空き）" oninput="saveSheet()">';
+    grid.appendChild(row);
+  }
+  loadSheet();
+}
+
+// ローカルセーブ（sessionStorage使用）
+function saveSheet(){
+  try{
+    const data={
+      skill_i:document.getElementById('s-skill-i')?.value,
+      skill_c:document.getElementById('s-skill-c')?.value,
+      stam_i:document.getElementById('s-stam-i')?.value,
+      stam_c:document.getElementById('s-stam-c')?.value,
+      luck_i:document.getElementById('s-luck-i')?.value,
+      luck_c:document.getElementById('s-luck-c')?.value,
+      exp:currentExp,
+      paw:document.getElementById('paw-s')?.classList.contains('active')?'s':'u',
+      gold:document.getElementById('gold')?.value,
+      food:document.getElementById('food')?.value,
+      memo:document.getElementById('memo')?.value,
+      items:[]
+    };
+    for(let i=0;i<8;i++){
+      data.items.push({
+        chk:document.getElementById('ichk'+i)?.checked||false,
+        txt:document.getElementById('iinp'+i)?.value||''
+      });
+    }
+    sessionStorage.setItem('valdea_sheet',JSON.stringify(data));
+  }catch(e){}
+}
+function loadSheet(){
+  try{
+    const raw=sessionStorage.getItem('valdea_sheet');
+    if(!raw)return;
+    const d=JSON.parse(raw);
+    const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!=='')el.value=v;};
+    set('s-skill-i',d.skill_i);set('s-skill-c',d.skill_c);
+    set('s-stam-i',d.stam_i);set('s-stam-c',d.stam_c);
+    set('s-luck-i',d.luck_i);set('s-luck-c',d.luck_c);
+    set('gold',d.gold);set('food',d.food);
+    if(d.memo)document.getElementById('memo').value=d.memo;
+    if(d.exp!==undefined){currentExp=d.exp;updateExp(null);}
+    if(d.paw)setPaw(d.paw);
+    if(d.items){
+      d.items.forEach((item,i)=>{
+        const chk=document.getElementById('ichk'+i);
+        const inp=document.getElementById('iinp'+i);
+        if(chk)chk.checked=item.chk;
+        if(inp)inp.value=item.txt;
+      });
+    }
+    // 振り済みボタンを反映
+    ['skill','stam','luck'].forEach(s=>{
+      const i=document.getElementById('s-'+s+'-i');
+      const btn=document.getElementById('b-'+s);
+      if(i&&i.value&&btn){btn.textContent='✓ 確定済';btn.classList.add('done');btn.disabled=true;}
+    });
+  }catch(e){}
+}
+function resetSheet(){
+  if(!confirm('シートをリセットしますか？'))return;
+  sessionStorage.removeItem('valdea_sheet');
+  ['s-skill-i','s-skill-c','s-stam-i','s-stam-c','s-luck-i','s-luck-c'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  ['skill','stam','luck'].forEach(s=>{
+    const btn=document.getElementById('b-'+s);
+    if(btn){btn.textContent='&#9670; 振る';btn.classList.remove('done');btn.disabled=false;}
+  });
+  document.getElementById('gold').value=3;
+  document.getElementById('food').value=0;
+  document.getElementById('memo').value='';
+  currentExp=0;updateExp(null);
+  setPaw('u');
+  for(let i=0;i<8;i++){
+    const chk=document.getElementById('ichk'+i);
+    const inp=document.getElementById('iinp'+i);
+    if(chk)chk.checked=false;
+    if(inp)inp.value='';
+  }
+}
+
+// 入力変更時にオートセーブ
+document.querySelectorAll('#sheetModal input,#sheetModal textarea').forEach(el=>{
+  el.addEventListener('change',saveSheet);
+  el.addEventListener('input',saveSheet);
+});
+</script>
+
+<div class="book-footer"><a href="guide.html">冒険者の手引き</a>　｜　ヴァルデアの遺産</div>
+
+</div><!-- /book-wrap -->
+</body>
+</html>
