@@ -9,38 +9,24 @@
 <meta property="og:image" content="https://flashpapa-sketch.github.io/valdea-legacy/ogp.png">
 <meta name="twitter:card" content="summary_large_image">
 <title>ヴァルデアの遺産 — LEGACY OF VALDEA</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* リセット */
+/* === リセット === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* html/body */
+/* === 基本 === */
 html { height: 100%; }
 body {
   height: 100%;
   overflow: hidden;
   background: #f0f0f0;
-  font-family: 'Hiragino Mincho ProN', 'Hiragino Mincho Pro', 'YuMincho', 'Yu Mincho', '游明朝', serif;
+  font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', 'YuMincho', serif;
   color: #111;
   display: flex;
   flex-direction: column;
 }
 
-/* ボタン共通 */
-button {
-  background: #222;
-  color: #fff;
-  border: 1px solid #444;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-family: sans-serif;
-  font-size: 0.78rem;
-  -webkit-tap-highlight-color: transparent;
-}
-button:hover { background: #444; }
-button:active { opacity: 0.8; }
-
-/* ラッパー */
+/* === ラッパー === */
 .book-wrap {
   display: flex;
   flex-direction: column;
@@ -48,44 +34,41 @@ button:active { opacity: 0.8; }
   max-width: 720px;
   margin: 0 auto;
   width: 100%;
-  background: #ffffff;
+  background: #fff;
   box-shadow: 0 0 20px rgba(0,0,0,0.15);
 }
 
-/* ヘッダー */
+/* === ヘッダー === */
 .book-header {
   background: #111;
   padding: 0.5rem 1rem;
   text-align: center;
   flex-shrink: 0;
-  border-bottom: 2px solid #333;
 }
 .book-header h1 {
   font-size: clamp(0.9rem, 3vw, 1.2rem);
-  color: #ffffff;
+  color: #fff;
   font-weight: 700;
   letter-spacing: 0.12em;
-  display: inline;
 }
 .subtitle {
   font-size: 0.62rem;
   color: #aaa;
   font-family: sans-serif;
-  margin-left: 0.5rem;
-  display: inline;
+  display: block;
+  margin-top: 2px;
 }
-.warning { display: none; }
 
-/* 本文エリア */
+/* === 本文エリア === */
 .book-body {
   flex: 1;
   position: relative;
   overflow: hidden;
-  background: #ffffff;
+  background: #fff;
   min-height: 0;
 }
 
-/* 節（全て非表示） */
+/* === 節：全て非表示 === */
 .section {
   display: none;
   position: absolute;
@@ -93,25 +76,22 @@ button:active { opacity: 0.8; }
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 1.2rem 1.2rem 6rem;
+  background: #fff;
+  color: #111;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  background: #ffffff;
-  color: #111111;
 }
 
-/* アクティブな節だけ表示 */
+/* === アクティブな節だけ表示 === */
 .section.active {
   display: block;
 }
 
-/* アニメーション */
-.section.slide-in { animation: sIn 0.2s ease-out; }
-@keyframes sIn { from { opacity: 0; } to { opacity: 1; } }
+/* === フェードイン === */
+.section.fade { animation: fadeIn 0.2s ease-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* 節内の全テキストを黒に */
-.section, .section * { color: #111111; }
-
-/* 節番号 */
+/* === 節内テキスト === */
 .section-num {
   writing-mode: horizontal-tb;
   display: block;
@@ -124,7 +104,6 @@ button:active { opacity: 0.8; }
 }
 .section-num::before { content: "◆ "; font-size: 0.85rem; }
 
-/* エンドラベル */
 .end-label {
   writing-mode: horizontal-tb;
   display: inline-block;
@@ -138,7 +117,6 @@ button:active { opacity: 0.8; }
   color: #111;
 }
 
-/* 本文段落 */
 .section > p {
   writing-mode: vertical-rl;
   text-orientation: mixed;
@@ -148,7 +126,6 @@ button:active { opacity: 0.8; }
   margin-left: 1.1rem;
 }
 
-/* 選択肢 */
 .choices {
   writing-mode: vertical-rl;
   text-orientation: mixed;
@@ -167,7 +144,6 @@ button:active { opacity: 0.8; }
   margin-left: 0.9rem;
 }
 
-/* ジャンプリンク */
 .jump {
   color: #111;
   font-weight: 700;
@@ -177,7 +153,6 @@ button:active { opacity: 0.8; }
 }
 .jump:hover { background: #f0f0f0; }
 
-/* 注記 */
 .note {
   writing-mode: horizontal-tb;
   display: block;
@@ -192,7 +167,6 @@ button:active { opacity: 0.8; }
   font-family: sans-serif;
 }
 
-/* エンドテキスト */
 .end-text {
   writing-mode: horizontal-tb;
   display: block;
@@ -208,7 +182,6 @@ button:active { opacity: 0.8; }
   color: #111;
 }
 
-/* 戻るリンク */
 .back-top {
   writing-mode: horizontal-tb;
   display: block;
@@ -222,7 +195,7 @@ button:active { opacity: 0.8; }
 }
 .back-top:hover { color: #111; }
 
-/* フッター */
+/* === フッター === */
 .book-footer {
   background: #111;
   padding: 0.4rem 0.8rem;
@@ -231,11 +204,10 @@ button:active { opacity: 0.8; }
   color: #888;
   font-family: sans-serif;
   flex-shrink: 0;
-  border-top: 1px solid #333;
 }
 .book-footer a { color: #aaa; text-decoration: none; }
 
-/* 右下ボタン */
+/* === 右下ボタン === */
 .floating-ui {
   position: fixed;
   bottom: 16px; right: 12px;
@@ -245,20 +217,23 @@ button:active { opacity: 0.8; }
   gap: 8px;
   align-items: flex-end;
 }
-.dice-fab, .sheet-fab {
+.fab {
   width: 50px; height: 50px;
   border-radius: 50%;
-  padding: 0; margin: 0;
+  border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.3);
   font-size: 1.4rem;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+  -webkit-tap-highlight-color: transparent;
 }
-.dice-fab { background: #111; color: #fff; border: none; }
-.sheet-fab { background: #444; color: #fff; font-size: 1.2rem; border: none; }
+.fab-dice { background: #111; color: #fff; }
+.fab-sheet { background: #444; color: #fff; font-size: 1.2rem; }
+.fab:active { transform: scale(0.92); }
 
-/* サイコロポップアップ */
+/* === サイコロポップアップ === */
 .dice-popup {
   display: none;
   position: fixed;
@@ -272,174 +247,312 @@ button:active { opacity: 0.8; }
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 .dice-popup.open { display: block; }
-.dice-popup-title {
-  font-family: sans-serif; font-size: 0.7rem; font-weight: 700;
-  color: #111; margin-bottom: 0.5rem; text-align: center;
-  border-bottom: 1px solid #ddd; padding-bottom: 0.35rem;
+.dice-popup h3 {
+  font-family: sans-serif;
+  font-size: 0.72rem;
+  color: #111;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.3rem;
 }
-.dice-mode-btns { display: flex; gap: 3px; margin-bottom: 0.5rem; }
+.dice-modes {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 0.5rem;
+}
 .dice-mode-btn {
-  flex: 1; font-family: sans-serif; font-size: 0.6rem;
-  padding: 4px 2px; border: 1px solid #ccc;
-  background: #fff; color: #333; border-radius: 3px;
-  cursor: pointer; text-align: center; margin: 0;
+  flex: 1;
+  font-family: sans-serif;
+  font-size: 0.6rem;
+  padding: 4px 2px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #333;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
 }
 .dice-mode-btn:hover { background: #f0f0f0; }
 .dice-mode-btn.active { background: #111; color: #fff; border-color: #111; }
-.dice-faces-row {
-  display: flex; gap: 8px; justify-content: center;
-  margin-bottom: 0.5rem; min-height: 48px; align-items: center;
+.dice-faces {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  min-height: 48px;
+  align-items: center;
 }
-.die-face {
+.die {
   width: 42px; height: 42px;
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 0.08s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.die-face svg { display: block; }
-.die-face.landed { animation: landPop 0.3s ease-out; }
-@keyframes landPop { 0% { transform: scale(1.3); } 60% { transform: scale(0.95); } 100% { transform: scale(1); } }
-.dice-roll-btn {
-  width: 100%; padding: 0.45rem;
-  background: #111; color: #fff; border: none; border-radius: 4px;
-  font-family: sans-serif; font-size: 0.8rem; font-weight: 700;
-  cursor: pointer; margin: 0 0 0.4rem 0;
+.die svg { display: block; }
+.dice-btn {
+  width: 100%;
+  padding: 0.45rem;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 0.4rem;
 }
-.dice-roll-btn:hover { background: #333; }
-.dice-result-text {
-  font-family: sans-serif; font-size: 0.65rem;
-  color: #333; text-align: center; min-height: 1.1rem; line-height: 1.5;
+.dice-btn:hover { background: #333; }
+.dice-result {
+  font-family: sans-serif;
+  font-size: 0.65rem;
+  color: #333;
+  text-align: center;
+  min-height: 1.1rem;
+  line-height: 1.5;
 }
 
-/* モーダル */
-.modal-overlay {
+/* === シートモーダル === */
+.modal-bg {
   display: none;
-  position: fixed; inset: 0;
+  position: fixed;
+  inset: 0;
   background: rgba(0,0,0,0.7);
   z-index: 9999;
   align-items: flex-end;
   justify-content: center;
 }
-.modal-overlay.open { display: flex; }
+.modal-bg.open { display: flex; }
 .modal-box {
   background: #fff;
   border-top: 3px solid #111;
   border-radius: 12px 12px 0 0;
-  width: 100%; max-width: 520px; max-height: 88vh;
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 .modal-head {
-  background: #111; padding: 0.7rem 1rem;
-  display: flex; justify-content: space-between; align-items: center;
-  position: sticky; top: 0; z-index: 1;
+  background: #111;
+  padding: 0.7rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 .modal-head h2 { color: #fff; font-size: 0.9rem; font-family: sans-serif; }
 .modal-close {
-  background: transparent; border: none; color: #fff;
-  font-size: 1.5rem; cursor: pointer; line-height: 1; padding: 0 4px; margin: 0;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
 }
-.modal-
-.modal-body * { color: #111; }
-.sheet-sec { margin-bottom: 1rem; }
-.sheet-sec-label {
-  font-family: sans-serif; font-size: 0.7rem; font-weight: 700;
-  color: #111; margin-bottom: 0.35rem;
-  border-bottom: 1px solid #ccc; padding-bottom: 0.2rem;
+.modal-body { padding: 1rem; }
+.s-sec { margin-bottom: 1rem; }
+.s-sec-title {
+  font-family: sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 0.35rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.2rem;
 }
 .stat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.45rem; margin-bottom: 0.45rem; }
-.stat-card-s { background: #f8f8f8; border: 1px solid #ddd; border-radius: 4px; padding: 0.45rem; text-align: center; }
-.stat-card-s .sn { font-family: sans-serif; font-size: 0.62rem; color: #333; margin-bottom: 2px; }
-.stat-card-s .sv { display: flex; gap: 3px; justify-content: center; align-items: flex-end; }
-.stat-block { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.stat-card {
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.45rem;
+  text-align: center;
+}
+.stat-name { font-family: sans-serif; font-size: 0.62rem; color: #333; margin-bottom: 2px; }
+.stat-vals { display: flex; gap: 3px; justify-content: center; align-items: flex-end; margin: 4px 0; }
+.stat-group { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .stat-lbl { font-family: sans-serif; font-size: 0.55rem; color: #888; }
 .stat-adj-row { display: flex; align-items: center; gap: 2px; }
 .stat-adj {
-  width: 22px; height: 22px; border: 1px solid #ccc;
-  background: #fff; border-radius: 3px; cursor: pointer;
-  font-size: 0.85rem; color: #333; padding: 0; margin: 0;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 22px; height: 22px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: sans-serif;
 }
 .stat-adj:hover { background: #f0f0f0; }
-.stat-num-input {
-  width: 34px; text-align: center; border: none;
-  border-bottom: 2px solid #111; background: transparent;
-  font-family: sans-serif; font-size: 1.05rem; font-weight: 700;
-  color: #111; outline: none; padding: 1px 0;
+.stat-input {
+  width: 34px;
+  text-align: center;
+  border: none;
+  border-bottom: 2px solid #111;
+  background: transparent;
+  font-family: sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111;
+  outline: none;
 }
 .stat-sep { font-family: sans-serif; font-size: 0.75rem; color: #888; padding-bottom: 2px; }
 .stat-hint { font-family: sans-serif; font-size: 0.58rem; color: #888; margin-top: 2px; }
-.roll-stat-btn {
-  margin-top: 3px; padding: 3px 6px; font-family: sans-serif; font-size: 0.6rem;
-  border: 1px solid #ccc; background: #fff; color: #333; border-radius: 3px; cursor: pointer; margin: 3px 0 0 0;
+.stat-roll-btn {
+  margin-top: 3px;
+  padding: 3px 6px;
+  font-family: sans-serif;
+  font-size: 0.6rem;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #333;
+  border-radius: 3px;
+  cursor: pointer;
 }
-.roll-stat-btn:hover { background: #f0f0f0; }
-.roll-stat-btn.done { background: #111; color: #fff; border-color: #111; }
-.roll-all-s {
-  width: 100%; padding: 0.42rem; background: #111; color: #fff;
-  border: none; border-radius: 4px; font-family: sans-serif;
-  font-size: 0.76rem; font-weight: 700; cursor: pointer; margin: 0 0 0.5rem 0;
+.stat-roll-btn:hover { background: #f0f0f0; }
+.stat-roll-btn.done { background: #111; color: #fff; border-color: #111; }
+.roll-all-btn {
+  width: 100%;
+  padding: 0.42rem;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  display: block;
 }
-.roll-all-s:hover { background: #333; }
+.roll-all-btn:hover { background: #333; }
+.exp-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.exp-num { font-family: sans-serif; font-size: 1.05rem; font-weight: 700; color: #111; min-width: 28px; }
 .exp-bar-bg { background: #e0e0e0; border-radius: 99px; height: 8px; overflow: hidden; flex: 1; }
 .exp-bar-fill { background: #111; height: 100%; border-radius: 99px; transition: width 0.4s; }
-.exp-row-ui { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
-.exp-num-ui { font-family: sans-serif; font-size: 1.05rem; font-weight: 700; color: #111; min-width: 28px; }
-.exp-lv-ui { font-family: sans-serif; font-size: 0.65rem; color: #333; font-weight: 700; }
-.exp-btns-ui { display: flex; gap: 4px; flex-wrap: wrap; }
-.exp-btn-s {
-  font-family: sans-serif; font-size: 0.65rem; padding: 3px 8px;
-  border: 1px solid #ccc; background: #fff; color: #333;
-  border-radius: 99px; cursor: pointer; margin: 0;
+.exp-lv { font-family: sans-serif; font-size: 0.65rem; color: #333; font-weight: 700; }
+.exp-btns { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.exp-btn {
+  font-family: sans-serif;
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #333;
+  border-radius: 99px;
+  cursor: pointer;
 }
-.exp-btn-s:hover { background: #f0f0f0; }
-.lv-up-msg { font-family: sans-serif; font-size: 0.68rem; color: #111; font-weight: 700; min-height: 1rem; margin-top: 4px; }
+.exp-btn:hover { background: #f0f0f0; }
+.lv-msg { font-family: sans-serif; font-size: 0.68rem; color: #111; font-weight: 700; min-height: 1rem; margin-top: 4px; }
 .paw-row { display: flex; gap: 6px; }
-.paw-btn-s {
-  flex: 1; padding: 0.35rem; border: 1px solid #ccc;
-  background: #fff; color: #333; border-radius: 4px;
-  font-family: sans-serif; font-size: 0.7rem; cursor: pointer; text-align: center; margin: 0;
+.paw-btn {
+  flex: 1;
+  padding: 0.35rem;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #333;
+  border-radius: 4px;
+  font-family: sans-serif;
+  font-size: 0.7rem;
+  cursor: pointer;
+  text-align: center;
 }
-.paw-btn-s:hover { background: #f0f0f0; }
-.paw-btn-s.active { background: #111; color: #fff; border-color: #111; }
-.gold-food-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.paw-btn:hover { background: #f0f0f0; }
+.paw-btn.active { background: #111; color: #fff; border-color: #111; }
+.gf-row { display: flex; gap: 1rem; flex-wrap: wrap; }
 .gf-block { display: flex; flex-direction: column; gap: 4px; }
-.gf-lbl { font-family: sans-serif; font-size: 0.67rem; color: #555; font-weight: 700; }
+.gf-label { font-family: sans-serif; font-size: 0.67rem; color: #555; font-weight: 700; }
 .gf-ctrl { display: flex; align-items: center; gap: 5px; }
-.gold-inp {
-  width: 52px; text-align: center; border: none;
-  border-bottom: 2px solid #111; background: transparent;
-  font-family: sans-serif; font-size: 1.05rem; font-weight: 700; color: #111; outline: none;
+.gf-input {
+  width: 52px;
+  text-align: center;
+  border: none;
+  border-bottom: 2px solid #111;
+  background: transparent;
+  font-family: sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111;
+  outline: none;
 }
-.gold-lbl { font-family: sans-serif; font-size: 0.72rem; color: #333; }
-.gold-adj-s {
-  border: 1px solid #ccc; background: #fff; border-radius: 3px;
-  padding: 3px 8px; font-size: 0.9rem; cursor: pointer; color: #333; margin: 0;
+.gf-unit { font-family: sans-serif; font-size: 0.72rem; color: #333; }
+.gf-adj {
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 3px;
+  padding: 3px 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #333;
+  font-family: sans-serif;
 }
-.gold-adj-s:hover { background: #f0f0f0; }
-.items-ui { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
-.item-row-s { display: flex; align-items: center; gap: 4px; border-bottom: 1px solid #eee; padding: 4px 2px; }
-.item-num-s { font-family: sans-serif; font-size: 0.62rem; color: #888; min-width: 14px; }
-.item-inp {
-  flex: 1; border: none; background: transparent;
-  font-size: 0.76rem; color: #111; outline: none; min-width: 0; font-family: sans-serif;
+.gf-adj:hover { background: #f0f0f0; }
+.items-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid #eee;
+  padding: 4px 2px;
 }
-.item-inp::placeholder { color: #bbb; font-size: 0.7rem; }
+.item-num { font-family: sans-serif; font-size: 0.62rem; color: #888; min-width: 14px; }
 .item-chk { width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; accent-color: #111; }
-.memo-s {
-  width: 100%; border: 1px solid #ddd; background: #fafafa;
-  font-size: 0.76rem; color: #111; resize: none; outline: none;
-  line-height: 1.8; min-height: 55px; padding: 6px 8px;
-  border-radius: 3px; font-family: sans-serif;
+.item-txt {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.76rem;
+  color: #111;
+  outline: none;
+  min-width: 0;
+  font-family: sans-serif;
 }
-.memo-s:focus { border-color: #111; }
+.item-txt::placeholder { color: #bbb; }
+.memo-txt {
+  width: 100%;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  font-size: 0.76rem;
+  color: #111;
+  resize: none;
+  outline: none;
+  line-height: 1.8;
+  min-height: 60px;
+  padding: 6px 8px;
+  border-radius: 3px;
+  font-family: sans-serif;
+}
+.memo-txt:focus { border-color: #111; }
+.reset-btn {
+  width: 100%;
+  padding: 0.4rem;
+  background: #fff;
+  color: #888;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: sans-serif;
+  font-size: 0.72rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+.reset-btn:hover { background: #f0f0f0; }
 
 @media (max-width: 480px) {
-  .section { padding: 0.8rem 0.8rem 6rem; background: #ffffff; color: #111111; }
+  .section { padding: 0.8rem 0.8rem 6rem; }
   .section > p { font-size: 0.93rem; }
   .choices p { font-size: 0.88rem; }
   .dice-popup { width: 195px; right: 8px; bottom: 115px; }
   .floating-ui { right: 8px; bottom: 12px; }
-  .dice-fab, .sheet-fab { width: 46px; height: 46px; }
+  .fab { width: 46px; height: 46px; }
 }
 </style>
 </head>
@@ -2366,565 +2479,640 @@ setMode('2d6');
   </div>
   <div class="book-footer"><a href="guide.html">冒険者の手引き</a>　｜　ヴァルデアの遺産</div>
 </div>
+  </div>
+  <div class="book-footer"><a href="guide.html">冒険者の手引き</a>　｜　ヴァルデアの遺産</div>
+</div>
 
+<!-- 右下ボタン -->
 <div class="floating-ui">
-  <button class="sheet-fab" onclick="toggleSheet()" title="冒険者シート">&#x1F4CB;</button>
-  <button class="dice-fab" onclick="toggleDice()" title="サイコロ">&#x1F3B2;</button>
+  <button class="fab fab-sheet" id="sheetBtn" aria-label="冒険者シート">&#x1F4CB;</button>
+  <button class="fab fab-dice" id="diceBtn" aria-label="サイコロ">&#x1F3B2;</button>
 </div>
 
 <!-- サイコロポップアップ -->
 <div class="dice-popup" id="dicePopup">
-  <div class="dice-popup-title">ダイスローラー</div>
-  <div class="dice-mode-btns">
-    <button class="dice-mode-btn active" id="m2d6" onclick="setMode('2d6')">戦闘(2d6)</button>
-    <button class="dice-mode-btn" id="m1d6" onclick="setMode('1d6')">覚醒(1d6)</button>
-    <button class="dice-mode-btn" id="mstat" onclick="setMode('stat')">能力値</button>
-    <button class="dice-mode-btn" id="mluck" onclick="setMode('luck')">運試し</button>
+  <h3>ダイスローラー</h3>
+  <div class="dice-modes">
+    <button class="dice-mode-btn active" data-mode="2d6">戦闘</button>
+    <button class="dice-mode-btn" data-mode="1d6">1d6</button>
+    <button class="dice-mode-btn" data-mode="stat">能力値</button>
+    <button class="dice-mode-btn" data-mode="luck">運試し</button>
   </div>
-  <div class="dice-faces-row" id="diceFaces">
-    <div class="die-face" id="df0">?</div>
-    <div class="die-face" id="df1">?</div>
-  </div>
-  <button class="dice-roll-btn" onclick="rollDice()">&#9670; 振る</button>
-  <div class="dice-result-text" id="diceResult">モードを選んで振れ</div>
+  <div class="dice-faces" id="diceFaces"></div>
+  <button class="dice-btn" id="rollBtn">&#9670; 振る</button>
+  <div class="dice-result" id="diceResult"></div>
 </div>
 
-<!-- 冒険者シートモーダル -->
-<div class="modal-overlay" id="sheetModal" onclick="closeSheetOutside(event)">
+<!-- 冒険者シート -->
+<div class="modal-bg" id="sheetModal">
 <div class="modal-box">
   <div class="modal-head">
     <h2>&#x1F4CB; 冒険者シート</h2>
-    <button class="modal-close" onclick="toggleSheet()">&#x2715;</button>
+    <button class="modal-close" id="sheetClose">&#x2715;</button>
   </div>
   <div class="modal-body">
-
-    <!-- 能力値 -->
-    <div class="sheet-sec">
-      <div class="sheet-sec-label">&#9670; 能力値</div>
-      <button class="roll-all-s" onclick="rollAllStats()">&#9670; 全能力値をサイコロで決定</button>
+    <button class="roll-all-btn" id="rollAllBtn">&#9670; 全能力値をサイコロで決定</button>
+    <div class="s-sec">
+      <div class="s-sec-title">能力値</div>
       <div class="stat-grid">
-        <div class="stat-card-s">
-          <div class="sn">技術点 SKILL</div>
+        <div class="stat-card">
+          <div class="stat-name">技術点 SKILL</div>
           <div class="stat-hint">1d6+6</div>
-          <div class="sv">
-            <div class="stat-block">
+          <div class="stat-vals">
+            <div class="stat-group">
               <div class="stat-lbl">初期</div>
-              <input class="stat-num-input" id="s-skill-i" type="number" min="1" max="20" placeholder="—">
+              <input class="stat-input" id="sk-i" type="number" min="1" max="20">
             </div>
             <span class="stat-sep">/</span>
-            <div class="stat-block">
+            <div class="stat-group">
               <div class="stat-lbl">現在</div>
               <div class="stat-adj-row">
-                <button class="stat-adj" onclick="adjStat('skill',-1)">－</button>
-                <input class="stat-num-input" id="s-skill-c" type="number" min="0" max="30" placeholder="—">
-                <button class="stat-adj" onclick="adjStat('skill',1)">＋</button>
+                <button class="stat-adj" data-stat="sk" data-d="-1">－</button>
+                <input class="stat-input" id="sk-c" type="number" min="0" max="30">
+                <button class="stat-adj" data-stat="sk" data-d="1">＋</button>
               </div>
             </div>
           </div>
-          <button class="roll-stat-btn" id="b-skill" onclick="rollOneStat('skill')">&#9670; 振る</button>
+          <button class="stat-roll-btn" data-stat="sk">振る</button>
         </div>
-        <div class="stat-card-s">
-          <div class="sn">体力点 STAMINA</div>
+        <div class="stat-card">
+          <div class="stat-name">体力点 STAMINA</div>
           <div class="stat-hint">2d6+12</div>
-          <div class="sv">
-            <div class="stat-block">
+          <div class="stat-vals">
+            <div class="stat-group">
               <div class="stat-lbl">初期</div>
-              <input class="stat-num-input" id="s-stam-i" type="number" min="1" max="40" placeholder="—">
+              <input class="stat-input" id="st-i" type="number" min="1" max="40">
             </div>
             <span class="stat-sep">/</span>
-            <div class="stat-block">
+            <div class="stat-group">
               <div class="stat-lbl">現在</div>
               <div class="stat-adj-row">
-                <button class="stat-adj" onclick="adjStat('stam',-1)">－</button>
-                <input class="stat-num-input" id="s-stam-c" type="number" min="0" max="50" placeholder="—">
-                <button class="stat-adj" onclick="adjStat('stam',1)">＋</button>
+                <button class="stat-adj" data-stat="st" data-d="-1">－</button>
+                <input class="stat-input" id="st-c" type="number" min="0" max="50">
+                <button class="stat-adj" data-stat="st" data-d="1">＋</button>
               </div>
             </div>
           </div>
-          <button class="roll-stat-btn" id="b-stam" onclick="rollOneStat('stam')">&#9670; 振る</button>
+          <button class="stat-roll-btn" data-stat="st">振る</button>
         </div>
-        <div class="stat-card-s">
-          <div class="sn">運勢点 LUCK</div>
+        <div class="stat-card">
+          <div class="stat-name">運勢点 LUCK</div>
           <div class="stat-hint">1d6+6</div>
-          <div class="sv">
-            <div class="stat-block">
+          <div class="stat-vals">
+            <div class="stat-group">
               <div class="stat-lbl">初期</div>
-              <input class="stat-num-input" id="s-luck-i" type="number" min="1" max="20" placeholder="—">
+              <input class="stat-input" id="lk-i" type="number" min="1" max="20">
             </div>
             <span class="stat-sep">/</span>
-            <div class="stat-block">
+            <div class="stat-group">
               <div class="stat-lbl">現在</div>
               <div class="stat-adj-row">
-                <button class="stat-adj" onclick="adjStat('luck',-1)">－</button>
-                <input class="stat-num-input" id="s-luck-c" type="number" min="0" max="20" placeholder="—">
-                <button class="stat-adj" onclick="adjStat('luck',1)">＋</button>
+                <button class="stat-adj" data-stat="lk" data-d="-1">－</button>
+                <input class="stat-input" id="lk-c" type="number" min="0" max="20">
+                <button class="stat-adj" data-stat="lk" data-d="1">＋</button>
               </div>
             </div>
           </div>
-          <button class="roll-stat-btn" id="b-luck" onclick="rollOneStat('luck')">&#9670; 振る</button>
+          <button class="stat-roll-btn" data-stat="lk">振る</button>
         </div>
       </div>
     </div>
-
-    <!-- 経験値・レベル -->
-    <div class="sheet-sec">
-      <div class="sheet-sec-label">&#9670; 経験値 / レベル</div>
-      <div class="exp-row-ui">
-        <div class="exp-num-ui" id="expNum">0</div>
+    <div class="s-sec">
+      <div class="s-sec-title">経験値 / レベル</div>
+      <div class="exp-row">
+        <span class="exp-num" id="expNum">0</span>
         <div class="exp-bar-bg"><div class="exp-bar-fill" id="expBar" style="width:0%"></div></div>
-        <div class="exp-lv-ui" id="expLv">Lv.1 ならず者の無頼漢</div>
+        <span class="exp-lv" id="expLv">Lv.1</span>
       </div>
-      <div class="exp-btns-ui">
-        <button class="exp-btn-s" onclick="addExp(1)">＋1 雑魚</button>
-        <button class="exp-btn-s" onclick="addExp(2)">＋2 強敵</button>
-        <button class="exp-btn-s" onclick="addExp(4)">＋4 中ボス</button>
-        <button class="exp-btn-s" onclick="addExp(-1)">－1</button>
-        <button class="exp-btn-s" onclick="addExp(-4)">－4</button>
+      <div class="exp-btns">
+        <button class="exp-btn" data-exp="1">+1 雑魚</button>
+        <button class="exp-btn" data-exp="2">+2 強敵</button>
+        <button class="exp-btn" data-exp="4">+4 中ボス</button>
+        <button class="exp-btn" data-exp="-1">－1</button>
       </div>
-      <div class="lv-up-msg" id="lvMsg"></div>
+      <div class="lv-msg" id="lvMsg"></div>
     </div>
-
-    <!-- 猿の右手 -->
-    <div class="sheet-sec">
-      <div class="sheet-sec-label">&#9670; 猿の右手</div>
+    <div class="s-sec">
+      <div class="s-sec-title">猿の右手</div>
       <div class="paw-row">
-        <button class="paw-btn-s active" id="paw-u" onclick="setPaw('u')">□ 未使用</button>
-        <button class="paw-btn-s" id="paw-s" onclick="setPaw('s')">&#x2718; 封印済</button>
+        <button class="paw-btn active" id="paw-u">□ 未使用</button>
+        <button class="paw-btn" id="paw-s">✘ 封印済</button>
       </div>
     </div>
-
-    <!-- 金貨・食料 -->
-    <div class="sheet-sec">
-      <div class="sheet-sec-label">&#9670; 所持金 / 食料</div>
-      <div class="gold-food-row">
+    <div class="s-sec">
+      <div class="s-sec-title">所持金 / 食料</div>
+      <div class="gf-row">
         <div class="gf-block">
-          <div class="gf-lbl">金貨</div>
+          <div class="gf-label">金貨</div>
           <div class="gf-ctrl">
-            <button class="gold-adj-s" onclick="adj('gold',-1)">－</button>
-            <input class="gold-inp" id="gold" type="number" value="3" min="0" max="999">
-            <button class="gold-adj-s" onclick="adj('gold',1)">＋</button>
-            <span class="gold-lbl">枚</span>
+            <button class="gf-adj" data-id="gold" data-d="-1">－</button>
+            <input class="gf-input" id="gold" type="number" value="3" min="0" max="999">
+            <button class="gf-adj" data-id="gold" data-d="1">＋</button>
+            <span class="gf-unit">枚</span>
           </div>
         </div>
         <div class="gf-block">
-          <div class="gf-lbl">食料</div>
+          <div class="gf-label">食料</div>
           <div class="gf-ctrl">
-            <button class="gold-adj-s" onclick="adj('food',-1)">－</button>
-            <input class="gold-inp" id="food" type="number" value="0" min="0" max="10">
-            <button class="gold-adj-s" onclick="adj('food',1)">＋</button>
-            <span class="gold-lbl">個</span>
+            <button class="gf-adj" data-id="food" data-d="-1">－</button>
+            <input class="gf-input" id="food" type="number" value="0" min="0" max="10">
+            <button class="gf-adj" data-id="food" data-d="1">＋</button>
+            <span class="gf-unit">個</span>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- 所持品（チェックボックス式） -->
-    <div class="sheet-sec">
-      <div class="sheet-sec-label">&#9670; 所持品（最大8）</div>
-      <div class="items-ui" id="itemsGrid"></div>
+    <div class="s-sec">
+      <div class="s-sec-title">所持品（最大8）</div>
+      <div class="items-grid" id="itemsGrid"></div>
     </div>
-
-    <!-- メモ -->
-    <div class="sheet-sec">
-      <div class="sheet-sec-label">&#9670; メモ・フラグ記録</div>
-      <textarea class="memo-s" id="memo" placeholder="鍵の番号・合言葉・重要フラグなど..."></textarea>
+    <div class="s-sec">
+      <div class="s-sec-title">メモ</div>
+      <textarea class="memo-txt" id="memo" placeholder="フラグ・合言葉・重要情報など..."></textarea>
     </div>
-
-    <!-- リセット -->
-    <div class="sheet-sec">
-      <button class="roll-all-s" style="background:#fff;color:#888;border:1px solid #ccc;" onclick="resetSheet()">シートをリセット</button>
-    </div>
-
+    <button class="reset-btn" id="resetBtn">シートをリセット</button>
   </div>
 </div>
 </div>
 
 <script>
-// ===================== ページナビゲーション =====================
-function showSection(id){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active','slide-in'));
-  const t=document.getElementById(id);
-  if(!t){
-    console.warn('節が見つかりません:', id);
-    const fallback=document.getElementById('一');
-    if(fallback){fallback.classList.add('active','slide-in');fallback.scrollTop=0;}
+// ============================================================
+// ナビゲーション
+// ============================================================
+function showSection(id) {
+  if (!id) return;
+  var target = document.getElementById(id);
+  if (!target) {
+    console.warn('節が見つかりません: ' + id);
     return;
   }
-  t.classList.add('active','slide-in');
-  t.scrollTop=0;
-  history.replaceState(null,'','#'+id);
+  var all = document.querySelectorAll('.section');
+  for (var i = 0; i < all.length; i++) {
+    all[i].classList.remove('active', 'fade');
+  }
+  target.classList.add('active', 'fade');
+  target.scrollTop = 0;
+  try { history.replaceState(null, '', '#' + id); } catch(e) {}
 }
-document.querySelectorAll('a.jump').forEach(a=>{
-  a.addEventListener('click',function(e){
+
+// ジャンプリンク
+var links = document.querySelectorAll('a.jump');
+for (var i = 0; i < links.length; i++) {
+  links[i].addEventListener('click', function(e) {
     e.preventDefault();
-    const h=this.getAttribute('href');
-    if(h&&h.startsWith('#'))showSection(h.slice(1));
+    var href = this.getAttribute('href');
+    if (href && href.charAt(0) === '#') {
+      showSection(href.slice(1));
+    }
   });
-});
-document.querySelectorAll('a.back-top').forEach(a=>{
-  a.addEventListener('click',function(e){
-    e.preventDefault();
-    const h=this.getAttribute('href');
-    showSection(h&&h.startsWith('#')&&h.length>1?h.slice(1):'一');
-  });
-});
-function initPage(){
-  const hash=location.hash.slice(1);
-  showSection((hash&&document.getElementById(hash))?hash:'一');
 }
-initPage();
-window.addEventListener('hashchange',()=>{
-  const h=location.hash.slice(1);
-  if(h&&document.getElementById(h))showSection(h);
+
+// 戻るリンク
+var backs = document.querySelectorAll('a.back-top');
+for (var i = 0; i < backs.length; i++) {
+  backs[i].addEventListener('click', function(e) {
+    e.preventDefault();
+    showSection('一');
+  });
+}
+
+// 初期表示
+(function() {
+  var hash = location.hash.slice(1);
+  var target = hash ? document.getElementById(hash) : null;
+  showSection(target ? hash : '一');
+})();
+
+window.addEventListener('hashchange', function() {
+  var hash = location.hash.slice(1);
+  if (hash && document.getElementById(hash)) {
+    showSection(hash);
+  }
 });
 
-// ===================== サイコロ =====================
-let diceMode='2d6', diceRolling=false;
-function d6(){return Math.floor(Math.random()*6)+1;}
+// ============================================================
+// サイコロ
+// ============================================================
+var diceMode = '2d6';
+var diceRolling = false;
 
-const DICE_DOTS={
-  1:[[50,50]],
-  2:[[25,25],[75,75]],
-  3:[[25,25],[50,50],[75,75]],
-  4:[[25,25],[75,25],[25,75],[75,75]],
-  5:[[25,25],[75,25],[50,50],[25,75],[75,75]],
-  6:[[25,25],[75,25],[25,50],[75,50],[25,75],[75,75]]
+var DOTS = {
+  1: [[50,50]],
+  2: [[25,25],[75,75]],
+  3: [[25,25],[50,50],[75,75]],
+  4: [[25,25],[75,25],[25,75],[75,75]],
+  5: [[25,25],[75,25],[50,50],[25,75],[75,75]],
+  6: [[25,25],[75,25],[25,50],[75,50],[25,75],[75,75]]
 };
 
-function makeDieSVG(n,size=40){
-  const s=size, r=5, dots=DICE_DOTS[n]||[];
-  const dr=s*0.09;
-  let d=`<svg width="${s}" height="${s}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">`;
-  d+=`<rect x="2" y="2" width="96" height="96" rx="${r*3}" ry="${r*3}" fill="#fff" stroke="#000" stroke-width="4"/>`;
-  dots.forEach(([cx,cy])=>{d+=`<circle cx="${cx}" cy="${cy}" r="${r*2.2}" fill="#000"/>`;});
-  d+='</svg>';
-  return d;
+function d6() { return Math.floor(Math.random() * 6) + 1; }
+
+function makeDie(n) {
+  var dots = DOTS[n] || DOTS[1];
+  var svg = '<svg width="42" height="42" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">';
+  svg += '<rect x="3" y="3" width="94" height="94" rx="15" fill="#fff" stroke="#111" stroke-width="5"/>';
+  for (var i = 0; i < dots.length; i++) {
+    svg += '<circle cx="' + dots[i][0] + '" cy="' + dots[i][1] + '" r="9" fill="#111"/>';
+  }
+  svg += '</svg>';
+  return svg;
 }
 
-function buildDiceFaces(){
-  const row=document.getElementById('diceFaces');
-  if(!row)return;
-  const count=(diceMode==='1d6'||diceMode==='luck')?1:2;
-  row.innerHTML='';
-  for(let i=0;i<count;i++){
-    const d=document.createElement('div');
-    d.className='die-face';d.id='df'+i;
-    d.innerHTML=makeDieSVG(1);
-    row.appendChild(d);
+function buildDice() {
+  var count = (diceMode === '2d6' || diceMode === 'stat') ? 2 : 1;
+  var faces = document.getElementById('diceFaces');
+  if (!faces) return;
+  faces.innerHTML = '';
+  for (var i = 0; i < count; i++) {
+    var d = document.createElement('div');
+    d.className = 'die';
+    d.id = 'die' + i;
+    d.innerHTML = makeDie(1);
+    faces.appendChild(d);
   }
 }
 
-function setMode(m){
-  diceMode=m;
-  ['2d6','1d6','stat','luck'].forEach(id=>{
-    const el=document.getElementById('m'+id);
-    if(el)el.classList.toggle('active',id===m);
+var modeButtons = document.querySelectorAll('.dice-mode-btn');
+for (var i = 0; i < modeButtons.length; i++) {
+  modeButtons[i].addEventListener('click', function() {
+    diceMode = this.getAttribute('data-mode');
+    for (var j = 0; j < modeButtons.length; j++) {
+      modeButtons[j].classList.remove('active');
+    }
+    this.classList.add('active');
+    buildDice();
+    var res = document.getElementById('diceResult');
+    if (res) res.textContent = '';
   });
-  buildDiceFaces();
-  const res=document.getElementById('diceResult');
-  if(res)res.textContent='';
 }
 
-function rollDice(){
-  if(diceRolling)return;
-  diceRolling=true;
-  const count=(diceMode==='1d6'||diceMode==='luck')?1:2;
-  const results=[];
-  for(let i=0;i<count;i++)results.push(d6());
+document.getElementById('rollBtn').addEventListener('click', function() {
+  if (diceRolling) return;
+  diceRolling = true;
+  var count = (diceMode === '2d6' || diceMode === 'stat') ? 2 : 1;
+  var results = [];
+  for (var i = 0; i < count; i++) results.push(d6());
 
-  // アニメーション：高速でランダム目を表示
-  let frames=0;
-  const TOTAL_FRAMES=18;
-  const iv=setInterval(()=>{
-    for(let i=0;i<count;i++){
-      const el=document.getElementById('df'+i);
-      if(el){
-        const rnd=d6();
-        el.innerHTML=makeDieSVG(rnd);
-        el.style.transform=`rotate(${(Math.random()-0.5)*30}deg) scale(${0.9+Math.random()*0.2})`;
-        el.style.opacity='0.8';
-      }
+  var frames = 0;
+  var total_frames = 16;
+  var iv = setInterval(function() {
+    for (var i = 0; i < count; i++) {
+      var el = document.getElementById('die' + i);
+      if (el) el.innerHTML = makeDie(d6());
     }
     frames++;
-    if(frames>=TOTAL_FRAMES){
+    if (frames >= total_frames) {
       clearInterval(iv);
-      // 最終結果を表示
-      for(let i=0;i<count;i++){
-        const el=document.getElementById('df'+i);
-        if(el){
-          el.innerHTML=makeDieSVG(results[i]);
-          el.style.transform='rotate(0) scale(1)';
-          el.style.opacity='1';
-          el.classList.add('landed');
-          setTimeout(()=>el.classList.remove('landed'),500);
+      for (var i = 0; i < count; i++) {
+        var el = document.getElementById('die' + i);
+        if (el) el.innerHTML = makeDie(results[i]);
+      }
+      var total = results.reduce(function(a,b){ return a+b; }, 0);
+      var res = document.getElementById('diceResult');
+      if (!res) { diceRolling = false; return; }
+      if (diceMode === '2d6') {
+        res.innerHTML = '合計 <strong>' + total + '</strong> (' + results.join('+') + ')';
+      } else if (diceMode === '1d6') {
+        var msgs = {1:'完全暴走（体力1/3減）',2:'一撃必殺',3:'力の乱流（技術－2）',4:'一撃必殺',5:'行動不能',6:'一撃必殺'};
+        res.innerHTML = '出目 <strong>' + results[0] + '</strong>: ' + msgs[results[0]];
+      } else if (diceMode === 'stat') {
+        res.innerHTML = '技術:<strong>' + (results[0]+6) + '</strong> 体力:<strong>' + (results[0]+results[1]+12) + '</strong> 運勢:<strong>' + (results[1]+6) + '</strong>';
+        autoFillStats(results[0]+6, results[0]+results[1]+12, results[1]+6);
+      } else if (diceMode === 'luck') {
+        var cur = parseInt(document.getElementById('lk-c').value) || 0;
+        var ok = total <= cur;
+        res.innerHTML = total + ' vs ' + cur + ' → <strong style="color:' + (ok?'#111':'#c00') + '">' + (ok?'成功':'失敗') + '</strong>';
+        if (cur > 0) {
+          var lkEl = document.getElementById('lk-c');
+          lkEl.value = Math.max(0, cur - 1);
+          save();
         }
       }
-      // 結果テキスト
-      const total=results.reduce((a,b)=>a+b,0);
-      const res=document.getElementById('diceResult');
-      if(res){
-        if(diceMode==='2d6'){
-          res.innerHTML=`合計 <strong>${total}</strong> (${results.join('+')})<br>猿の右手テーブルを参照`;
-        }else if(diceMode==='stat'){
-          const sk=results[0]+6, st=results[0]+results[1]+12, lk=results[1]+6;
-          res.innerHTML=`技術:<strong>${sk}</strong> 体力:<strong>${st}</strong> 運勢:<strong>${lk}</strong>`;
-          // シートへ自動入力確認
-          autoFillStats(sk,st,lk);
-        }else if(diceMode==='1d6'){
-          const msgs={1:'完全暴走（体力1/3減）',2:'一撃必殺',3:'力の乱流（技術－2）',4:'一撃必殺',5:'意識の混濁（1T行動不能）',6:'一撃必殺'};
-          res.innerHTML=`出目 <strong>${results[0]}</strong><br>${msgs[results[0]]}`;
-        }else if(diceMode==='luck'){
-          const cur=parseInt(document.getElementById('s-luck-c')?.value||0);
-          const success=total<=cur;
-          res.innerHTML=`${results[0]}+${results[1]}=<strong>${total}</strong><br>運勢点${cur}以下→<strong style="color:${success?'#000':'#c00'}">${success?'成功':'失敗'}</strong>`;
-          if(cur>0){document.getElementById('s-luck-c').value=Math.max(0,cur-1);}
-        }
-      }
-      diceRolling=false;
+      diceRolling = false;
     }
-  },50);
-}
+  }, 50);
+});
 
-function autoFillStats(sk,st,lk){
-  const si=document.getElementById('s-skill-i');
-  const sc=document.getElementById('s-skill-c');
-  const sti=document.getElementById('s-stam-i');
-  const stc=document.getElementById('s-stam-c');
-  const li=document.getElementById('s-luck-i');
-  const lc=document.getElementById('s-luck-c');
-  if(si&&!si.value){si.value=sk;sc.value=sk;}
-  if(sti&&!sti.value){sti.value=st;stc.value=st;}
-  if(li&&!li.value){li.value=lk;lc.value=lk;}
-}
-
-function toggleDice(){
-  const p=document.getElementById('dicePopup');
-  if(!p)return;
-  const opening=!p.classList.contains('open');
+// サイコロボタン開閉
+document.getElementById('diceBtn').addEventListener('click', function() {
+  var p = document.getElementById('dicePopup');
+  var s = document.getElementById('sheetModal');
+  var opening = !p.classList.contains('open');
   p.classList.toggle('open');
-  document.getElementById('sheetModal').classList.remove('open');
-  if(opening)buildDiceFaces();
-}
-document.addEventListener('click',e=>{
-  const p=document.getElementById('dicePopup');
-  if(p&&p.classList.contains('open')){
-    const fab=document.querySelector('.dice-fab');
-    if(!p.contains(e.target)&&fab&&!fab.contains(e.target))p.classList.remove('open');
+  if (s) s.classList.remove('open');
+  if (opening) buildDice();
+});
+
+// 外クリックで閉じる
+document.addEventListener('click', function(e) {
+  var p = document.getElementById('dicePopup');
+  var btn = document.getElementById('diceBtn');
+  if (p && p.classList.contains('open') && !p.contains(e.target) && !btn.contains(e.target)) {
+    p.classList.remove('open');
   }
 });
 
-// ===================== 冒険者シート =====================
-function toggleSheet(){
-  const m=document.getElementById('sheetModal');
-  if(!m)return;
-  const opening=!m.classList.contains('open');
+// ============================================================
+// 冒険者シート
+// ============================================================
+
+// シート開閉
+document.getElementById('sheetBtn').addEventListener('click', function() {
+  var m = document.getElementById('sheetModal');
+  var p = document.getElementById('dicePopup');
+  var opening = !m.classList.contains('open');
   m.classList.toggle('open');
-  document.getElementById('dicePopup').classList.remove('open');
-  if(opening)buildItems();
-}
-function closeSheetOutside(e){
-  if(e.target===document.getElementById('sheetModal'))toggleSheet();
+  if (p) p.classList.remove('open');
+  if (opening) buildItems();
+});
+document.getElementById('sheetClose').addEventListener('click', function() {
+  document.getElementById('sheetModal').classList.remove('open');
+});
+document.getElementById('sheetModal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+
+// 能力値自動入力
+function autoFillStats(sk, st, lk) {
+  var si = document.getElementById('sk-i');
+  var sc = document.getElementById('sk-c');
+  var sti = document.getElementById('st-i');
+  var stc = document.getElementById('st-c');
+  var li = document.getElementById('lk-i');
+  var lc = document.getElementById('lk-c');
+  if (si && !si.value) { si.value = sk; sc.value = sk; }
+  if (sti && !sti.value) { sti.value = st; stc.value = st; }
+  if (li && !li.value) { li.value = lk; lc.value = lk; }
+  save();
 }
 
-// 能力値ロール
-function d6r(){return Math.floor(Math.random()*6)+1;}
-function rollOneStat(s){
-  const btn=document.getElementById('b-'+s);
-  if(btn&&btn.disabled)return;
-  let val;
-  if(s==='stam')val=d6r()+d6r()+12;
-  else val=d6r()+6;
-  const i=document.getElementById('s-'+s+'-i');
-  const c=document.getElementById('s-'+s+'-c');
-  if(i){i.value=val;flashEl(i);}
-  if(c){c.value=val;flashEl(c);}
-  if(btn){btn.textContent='✓ 確定済';btn.classList.add('done');btn.disabled=true;}
-  saveSheet();
+// 個別ロール
+function rollStat(stat) {
+  var val;
+  if (stat === 'st') val = d6() + d6() + 12;
+  else val = d6() + 6;
+  var iEl = document.getElementById(stat + '-i');
+  var cEl = document.getElementById(stat + '-c');
+  if (iEl) { iEl.value = val; iEl.style.background = '#fffacd'; setTimeout(function(){ iEl.style.background = ''; }, 500); }
+  if (cEl) { cEl.value = val; cEl.style.background = '#fffacd'; setTimeout(function(){ cEl.style.background = ''; }, 500); }
+  save();
 }
-function rollAllStats(){
-  ['skill','stam','luck'].forEach(s=>rollOneStat(s));
+
+var statRollBtns = document.querySelectorAll('.stat-roll-btn');
+for (var i = 0; i < statRollBtns.length; i++) {
+  statRollBtns[i].addEventListener('click', function() {
+    var s = this.getAttribute('data-stat');
+    rollStat(s);
+    this.textContent = '✓ 確定';
+    this.classList.add('done');
+    this.disabled = true;
+  });
 }
-function adjStat(s,n){
-  const el=document.getElementById('s-'+s+'-c');
-  if(!el)return;
-  const init=parseInt(document.getElementById('s-'+s+'-i')?.value||30);
-  const cur=parseInt(el.value||0);
-  el.value=Math.max(0,Math.min(init,cur+n));
-  flashEl(el);
-  saveSheet();
-}
-function flashEl(el){
-  el.style.background='#fffacd';
-  setTimeout(()=>{el.style.background='transparent';},400);
+
+document.getElementById('rollAllBtn').addEventListener('click', function() {
+  var btns = document.querySelectorAll('.stat-roll-btn');
+  for (var i = 0; i < btns.length; i++) {
+    if (!btns[i].disabled) {
+      rollStat(btns[i].getAttribute('data-stat'));
+      btns[i].textContent = '✓ 確定';
+      btns[i].classList.add('done');
+      btns[i].disabled = true;
+    }
+  }
+});
+
+// ±ボタン
+var adjBtns = document.querySelectorAll('.stat-adj');
+for (var i = 0; i < adjBtns.length; i++) {
+  adjBtns[i].addEventListener('click', function() {
+    var s = this.getAttribute('data-stat');
+    var d = parseInt(this.getAttribute('data-d'));
+    var el = document.getElementById(s + '-c');
+    var init = parseInt(document.getElementById(s + '-i').value) || 99;
+    if (el) {
+      el.value = Math.max(0, Math.min(init, (parseInt(el.value) || 0) + d));
+      el.style.background = '#fffacd';
+      setTimeout(function(){ el.style.background = ''; }, 400);
+      save();
+    }
+  });
 }
 
 // 経験値
-const LEVELS=[
-  {min:0,lv:1,name:'ならず者の無頼漢',next:3,fx:null},
-  {min:3,lv:2,name:'浮足立つ冒険者',next:7,fx:'skill+1'},
-  {min:7,lv:3,name:'豪傑の勇者',next:12,fx:'stam+4'},
-  {min:12,lv:4,name:'ヴァルデアのレジェンド',next:999,fx:'skill+1,luck+1'},
+var LEVELS = [
+  {min:0,  lv:1, name:'ならず者の無頼漢',      next:3,   fx:null},
+  {min:3,  lv:2, name:'浮足立つ冒険者',          next:7,   fx:{sk:1}},
+  {min:7,  lv:3, name:'豪傑の勇者',              next:12,  fx:{st:4}},
+  {min:12, lv:4, name:'ヴァルデアのレジェンド',  next:999, fx:{sk:1, lk:1}}
 ];
-let currentExp=0;
-function getLv(e){let l=LEVELS[0];for(const x of LEVELS){if(e>=x.min)l=x;}return l;}
-function updateExp(prevLv){
-  const lv=getLv(currentExp);
-  const num=document.getElementById('expNum');
-  const bar=document.getElementById('expBar');
-  const lvEl=document.getElementById('expLv');
-  if(num)num.textContent=currentExp;
-  if(lvEl)lvEl.textContent='Lv.'+lv.lv+' '+lv.name;
-  const pct=lv.lv===4?100:Math.round((currentExp-lv.min)/(lv.next-lv.min)*100);
-  if(bar)bar.style.width=Math.min(100,pct)+'%';
-  const msg=document.getElementById('lvMsg');
-  if(prevLv!==null&&lv.lv>prevLv&&lv.fx&&msg){
-    // 自動で能力値に反映
-    let effectTxt='';
-    lv.fx.split(',').forEach(fx=>{
-      const [stat,val]=fx.split('+');
-      const n=parseInt(val);
-      const iEl=document.getElementById('s-'+stat+'-i');
-      const cEl=document.getElementById('s-'+stat+'-c');
-      if(iEl&&iEl.value){iEl.value=parseInt(iEl.value)+n;flashEl(iEl);}
-      if(cEl&&cEl.value){cEl.value=parseInt(cEl.value)+n;flashEl(cEl);}
-      const names={skill:'技術点',stam:'体力点初期値',luck:'運勢点'};
-      effectTxt+=names[stat]+'＋'+n+' ';
-    });
-    msg.innerHTML='&#x1F389; Lv.'+lv.lv+'「'+lv.name+'」へ昇格！<br>'+effectTxt+'を自動反映しました';
-    setTimeout(()=>{if(msg)msg.textContent='';},7000);
+var exp = 0;
+
+function getLv(e) {
+  var lv = LEVELS[0];
+  for (var i = 0; i < LEVELS.length; i++) {
+    if (e >= LEVELS[i].min) lv = LEVELS[i];
   }
-  saveSheet();
+  return lv;
 }
-function addExp(n){
-  const p=getLv(currentExp).lv;
-  currentExp=Math.max(0,Math.min(currentExp+n,20));
-  updateExp(p);
+
+function updateExp(prevLv) {
+  var lv = getLv(exp);
+  var numEl = document.getElementById('expNum');
+  var barEl = document.getElementById('expBar');
+  var lvEl  = document.getElementById('expLv');
+  var msgEl = document.getElementById('lvMsg');
+  if (numEl) numEl.textContent = exp;
+  if (lvEl)  lvEl.textContent = 'Lv.' + lv.lv + ' ' + lv.name;
+  var pct = lv.lv === 4 ? 100 : Math.round((exp - lv.min) / (lv.next - lv.min) * 100);
+  if (barEl) barEl.style.width = Math.min(100, pct) + '%';
+  if (prevLv !== null && lv.lv > prevLv && lv.fx) {
+    var msg = 'Lv.' + lv.lv + '「' + lv.name + '」昇格！ ';
+    if (lv.fx.sk) {
+      var el = document.getElementById('sk-c');
+      if (el && el.value) { el.value = parseInt(el.value) + lv.fx.sk; }
+      var eli = document.getElementById('sk-i');
+      if (eli && eli.value) eli.value = parseInt(eli.value) + lv.fx.sk;
+      msg += '技術点+' + lv.fx.sk + ' ';
+    }
+    if (lv.fx.st) {
+      var el = document.getElementById('st-c');
+      if (el && el.value) el.value = parseInt(el.value) + lv.fx.st;
+      var eli = document.getElementById('st-i');
+      if (eli && eli.value) eli.value = parseInt(eli.value) + lv.fx.st;
+      msg += '体力点+' + lv.fx.st + ' ';
+    }
+    if (lv.fx.lk) {
+      var el = document.getElementById('lk-c');
+      if (el && el.value) el.value = parseInt(el.value) + lv.fx.lk;
+      var eli = document.getElementById('lk-i');
+      if (eli && eli.value) eli.value = parseInt(eli.value) + lv.fx.lk;
+      msg += '運勢点+' + lv.fx.lk;
+    }
+    if (msgEl) {
+      msgEl.textContent = msg;
+      setTimeout(function(){ if (msgEl) msgEl.textContent = ''; }, 7000);
+    }
+  }
+  save();
+}
+
+var expBtns = document.querySelectorAll('.exp-btn');
+for (var i = 0; i < expBtns.length; i++) {
+  expBtns[i].addEventListener('click', function() {
+    var prev = getLv(exp).lv;
+    var d = parseInt(this.getAttribute('data-exp'));
+    exp = Math.max(0, Math.min(20, exp + d));
+    updateExp(prev);
+  });
 }
 
 // 猿の右手
-function setPaw(s){
-  ['u','s'].forEach(id=>{
-    const el=document.getElementById('paw-'+id);
-    if(el)el.classList.toggle('active',id===s);
-  });
-  saveSheet();
-}
+document.getElementById('paw-u').addEventListener('click', function() {
+  this.classList.add('active');
+  document.getElementById('paw-s').classList.remove('active');
+  save();
+});
+document.getElementById('paw-s').addEventListener('click', function() {
+  this.classList.add('active');
+  document.getElementById('paw-u').classList.remove('active');
+  save();
+});
 
 // 金貨・食料
-function adj(id,n){
-  const el=document.getElementById(id);
-  if(!el)return;
-  const max=id==='food'?10:999;
-  el.value=Math.max(0,Math.min(max,parseInt(el.value||0)+n));
-  flashEl(el);
-  saveSheet();
+var gfBtns = document.querySelectorAll('.gf-adj');
+for (var i = 0; i < gfBtns.length; i++) {
+  gfBtns[i].addEventListener('click', function() {
+    var id = this.getAttribute('data-id');
+    var d  = parseInt(this.getAttribute('data-d'));
+    var el = document.getElementById(id);
+    var max = id === 'food' ? 10 : 999;
+    if (el) {
+      el.value = Math.max(0, Math.min(max, (parseInt(el.value) || 0) + d));
+      save();
+    }
+  });
 }
 
-// 所持品（入力式）
-const ITEM_LABELS=[
-  'ザル＝カラムの地図','回復薬','固いパン','強壮剤',
-  'ロットンのつるぎ','死神の首飾り','賢者の石','(空き)'
-];
-function buildItems(){
-  const grid=document.getElementById('itemsGrid');
-  if(!grid||grid.children.length>0)return;
-  for(let i=0;i<8;i++){
-    const row=document.createElement('div');
-    row.className='item-row-s';
-    // チェックボックス＋テキスト入力
-    row.innerHTML=
-      '<input type="checkbox" class="item-chk" id="ichk'+i+'" onchange="saveSheet()" style="margin-right:4px;accent-color:#000;">'+
-      '<input class="item-inp" type="text" id="iinp'+i+'" placeholder="（空き）" oninput="saveSheet()">';
+// 所持品
+function buildItems() {
+  var grid = document.getElementById('itemsGrid');
+  if (!grid || grid.children.length > 0) return;
+  for (var i = 1; i <= 8; i++) {
+    var row = document.createElement('div');
+    row.className = 'item-row';
+    row.innerHTML =
+      '<span class="item-num">' + i + '.</span>' +
+      '<input type="checkbox" class="item-chk" id="ic' + i + '">' +
+      '<input type="text" class="item-txt" id="it' + i + '" placeholder="（空き）">';
     grid.appendChild(row);
   }
-  loadSheet();
+  load();
+  grid.addEventListener('change', save);
+  grid.addEventListener('input', save);
 }
 
-// ローカルセーブ（sessionStorage使用）
-function saveSheet(){
-  try{
-    const data={
-      skill_i:document.getElementById('s-skill-i')?.value,
-      skill_c:document.getElementById('s-skill-c')?.value,
-      stam_i:document.getElementById('s-stam-i')?.value,
-      stam_c:document.getElementById('s-stam-c')?.value,
-      luck_i:document.getElementById('s-luck-i')?.value,
-      luck_c:document.getElementById('s-luck-c')?.value,
-      exp:currentExp,
-      paw:document.getElementById('paw-s')?.classList.contains('active')?'s':'u',
-      gold:document.getElementById('gold')?.value,
-      food:document.getElementById('food')?.value,
-      memo:document.getElementById('memo')?.value,
-      items:[]
-    };
-    for(let i=0;i<8;i++){
-      data.items.push({
-        chk:document.getElementById('ichk'+i)?.checked||false,
-        txt:document.getElementById('iinp'+i)?.value||''
-      });
-    }
-    sessionStorage.setItem('valdea_sheet',JSON.stringify(data));
-  }catch(e){}
-}
-function loadSheet(){
-  try{
-    const raw=sessionStorage.getItem('valdea_sheet');
-    if(!raw)return;
-    const d=JSON.parse(raw);
-    const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined&&v!=='')el.value=v;};
-    set('s-skill-i',d.skill_i);set('s-skill-c',d.skill_c);
-    set('s-stam-i',d.stam_i);set('s-stam-c',d.stam_c);
-    set('s-luck-i',d.luck_i);set('s-luck-c',d.luck_c);
-    set('gold',d.gold);set('food',d.food);
-    if(d.memo)document.getElementById('memo').value=d.memo;
-    if(d.exp!==undefined){currentExp=d.exp;updateExp(null);}
-    if(d.paw)setPaw(d.paw);
-    if(d.items){
-      d.items.forEach((item,i)=>{
-        const chk=document.getElementById('ichk'+i);
-        const inp=document.getElementById('iinp'+i);
-        if(chk)chk.checked=item.chk;
-        if(inp)inp.value=item.txt;
-      });
-    }
-    // 振り済みボタンを反映
-    ['skill','stam','luck'].forEach(s=>{
-      const i=document.getElementById('s-'+s+'-i');
-      const btn=document.getElementById('b-'+s);
-      if(i&&i.value&&btn){btn.textContent='✓ 確定済';btn.classList.add('done');btn.disabled=true;}
-    });
-  }catch(e){}
-}
-function resetSheet(){
-  if(!confirm('シートをリセットしますか？'))return;
-  sessionStorage.removeItem('valdea_sheet');
-  ['s-skill-i','s-skill-c','s-stam-i','s-stam-c','s-luck-i','s-luck-c'].forEach(id=>{
-    const el=document.getElementById(id);if(el)el.value='';
+// リセット
+document.getElementById('resetBtn').addEventListener('click', function() {
+  if (!confirm('シートをリセットしますか？')) return;
+  ['sk','st','lk'].forEach(function(s) {
+    var i = document.getElementById(s+'-i');
+    var c = document.getElementById(s+'-c');
+    if (i) i.value = '';
+    if (c) c.value = '';
   });
-  ['skill','stam','luck'].forEach(s=>{
-    const btn=document.getElementById('b-'+s);
-    if(btn){btn.textContent='&#9670; 振る';btn.classList.remove('done');btn.disabled=false;}
-  });
-  document.getElementById('gold').value=3;
-  document.getElementById('food').value=0;
-  document.getElementById('memo').value='';
-  currentExp=0;updateExp(null);
-  setPaw('u');
-  for(let i=0;i<8;i++){
-    const chk=document.getElementById('ichk'+i);
-    const inp=document.getElementById('iinp'+i);
-    if(chk)chk.checked=false;
-    if(inp)inp.value='';
+  var btns = document.querySelectorAll('.stat-roll-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].textContent = '振る';
+    btns[i].classList.remove('done');
+    btns[i].disabled = false;
   }
+  document.getElementById('gold').value = 3;
+  document.getElementById('food').value = 0;
+  document.getElementById('memo').value = '';
+  exp = 0;
+  updateExp(null);
+  document.getElementById('paw-u').classList.add('active');
+  document.getElementById('paw-s').classList.remove('active');
+  for (var i = 1; i <= 8; i++) {
+    var chk = document.getElementById('ic'+i);
+    var txt = document.getElementById('it'+i);
+    if (chk) chk.checked = false;
+    if (txt) txt.value = '';
+  }
+  try { sessionStorage.removeItem('v_sheet'); } catch(e) {}
+});
+
+// オートセーブ
+function save() {
+  try {
+    var data = {
+      sk_i: document.getElementById('sk-i').value,
+      sk_c: document.getElementById('sk-c').value,
+      st_i: document.getElementById('st-i').value,
+      st_c: document.getElementById('st-c').value,
+      lk_i: document.getElementById('lk-i').value,
+      lk_c: document.getElementById('lk-c').value,
+      exp: exp,
+      paw: document.getElementById('paw-s').classList.contains('active') ? 's' : 'u',
+      gold: document.getElementById('gold').value,
+      food: document.getElementById('food').value,
+      memo: document.getElementById('memo').value,
+      items: []
+    };
+    for (var i = 1; i <= 8; i++) {
+      var chk = document.getElementById('ic'+i);
+      var txt = document.getElementById('it'+i);
+      data.items.push({ c: chk ? chk.checked : false, t: txt ? txt.value : '' });
+    }
+    sessionStorage.setItem('v_sheet', JSON.stringify(data));
+  } catch(e) {}
 }
 
-// 入力変更時にオートセーブ
-document.querySelectorAll('#sheetModal input,#sheetModal textarea').forEach(el=>{
-  el.addEventListener('change',saveSheet);
-  el.addEventListener('input',saveSheet);
-});
-</script>
+function load() {
+  try {
+    var raw = sessionStorage.getItem('v_sheet');
+    if (!raw) return;
+    var d = JSON.parse(raw);
+    function set(id, v) {
+      var el = document.getElementById(id);
+      if (el && v !== undefined && v !== '') el.value = v;
+    }
+    set('sk-i', d.sk_i); set('sk-c', d.sk_c);
+    set('st-i', d.st_i); set('st-c', d.st_c);
+    set('lk-i', d.lk_i); set('lk-c', d.lk_c);
+    set('gold', d.gold); set('food', d.food);
+    if (d.memo) document.getElementById('memo').value = d.memo;
+    if (d.exp !== undefined) { exp = d.exp; updateExp(null); }
+    if (d.paw === 's') {
+      document.getElementById('paw-s').classList.add('active');
+      document.getElementById('paw-u').classList.remove('active');
+    }
+    if (d.items) {
+      d.items.forEach(function(item, i) {
+        var chk = document.getElementById('ic'+(i+1));
+        var txt = document.getElementById('it'+(i+1));
+        if (chk) chk.checked = item.c;
+        if (txt) txt.value = item.t;
+      });
+    }
+    // ロール済みボタンを反映
+    ['sk','st','lk'].forEach(function(s) {
+      var el = document.getElementById(s+'-i');
+      if (el && el.value) {
+        var btn = document.querySelector('.stat-roll-btn[data-stat="'+s+'"]');
+        if (btn) { btn.textContent = '✓ 確定'; btn.classList.add('done'); btn.disabled = true; }
+      }
+    });
+  } catch(e) {}
+}
 
-</body>
+// 入力変更で自動保存
+document.getElementById('sheetModal').addEventListener('change', save);
+document.getElementById('sheetModal').addEventListener('input', save);
+
+// 初期化
+buildDice();
+updateExp(null);
+</script>
 </body>
 </html>
