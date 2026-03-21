@@ -24,8 +24,8 @@ body{height:100%;overflow:hidden;background:#000;font-family:'Hiragino Mincho Pr
 .warning{display:none;}
 .toc-bar{display:none;}
 .book-body{flex:1;position:relative;overflow:hidden;background:#fff;color:#000;min-height:0;}
-.section{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:1rem 1rem 5rem;writing-mode:vertical-rl;text-orientation:mixed;background:#fff;color:#000;}
-.section.active{display:block;background:#fff;color:#000;}
+.section{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:1rem 1rem 5rem 1rem;writing-mode:vertical-rl;text-orientation:mixed;background:#ffffff !important;color:#000000 !important;}
+.section.active{display:block !important;background:#ffffff !important;color:#000000 !important;}
 .section.slide-in{animation:sIn 0.18s ease-out;}
 @keyframes sIn{from{opacity:0;}to{opacity:1;}}
 .section-num{writing-mode:horizontal-tb;display:block;font-size:1.05rem;font-weight:700;color:#000;border-bottom:2px solid #000;margin-bottom:0.85rem;padding-bottom:0.3rem;}
@@ -115,6 +115,11 @@ body{height:100%;overflow:hidden;background:#000;font-family:'Hiragino Mincho Pr
 .die-face.landed{animation:landPop 0.3s ease-out;}
 @keyframes landPop{0%{transform:scale(1.3);}60%{transform:scale(0.95);}100%{transform:scale(1);}}
 .item-chk{width:14px;height:14px;cursor:pointer;flex-shrink:0;}
+
+/* 文字色強制 */
+.section *{color:#000000;}
+.section p,.section>p,.choices p,.note,.end-text,.section-num{color:#000000 !important;}
+.jump{color:#000000 !important;border-bottom:1.5px solid #000000 !important;}
 </style>
 </head>
 <body>
@@ -2221,7 +2226,15 @@ setMode('2d6');
 function showSection(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active','slide-in'));
   const t=document.getElementById(id);
-  if(t){t.classList.add('active','slide-in');t.scrollTop=0;history.replaceState(null,'','#'+id);}
+  if(!t){
+    console.warn('節が見つかりません:', id);
+    const fallback=document.getElementById('一');
+    if(fallback){fallback.classList.add('active','slide-in');fallback.scrollTop=0;}
+    return;
+  }
+  t.classList.add('active','slide-in');
+  t.scrollTop=0;
+  history.replaceState(null,'','#'+id);
 }
 document.querySelectorAll('a.jump').forEach(a=>{
   a.addEventListener('click',function(e){
