@@ -2,132 +2,463 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-  <meta property="og:title" content="ヴァルデアの遺産 — LEGACY OF VALDEA">
-  <meta property="og:description" content="あなたは流れ者の冒険者。左手に刻まれた古代の紋章が、断片の時代の命運を握っている。ひとりで読み進める本格ゲームブック。">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://flashpapa-sketch.github.io/valdea-legacy/ogp.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ヴァルデアの遺産 — LEGACY OF VALDEA">
-  <meta name="twitter:description" content="あなたは流れ者の冒険者。左手に刻まれた古代の紋章が、断片の時代の命運を握っている。ひとりで読み進める本格ゲームブック。">
-  <meta name="twitter:image" content="https://flashpapa-sketch.github.io/valdea-legacy/ogp.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="ヴァルデアの遺産 — LEGACY OF VALDEA">
+<meta property="og:description" content="あなたは流れ者の冒険者。左手に刻まれた古代の紋章が、断片の時代の命運を握っている。ひとりで読み進める本格ゲームブック。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://flashpapa-sketch.github.io/valdea-legacy/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://flashpapa-sketch.github.io/valdea-legacy/ogp.png">
 <title>ヴァルデアの遺産 — LEGACY OF VALDEA</title>
 
-
 <style>
-html,body{height:100%;margin:0;padding:0;overflow:hidden;}
-body{background:#000;display:flex;flex-direction:column;font-family:'Hiragino Mincho ProN','YuMincho','Yu Mincho','游明朝',serif;}
-.book-wrap{display:flex;flex-direction:column;height:100%;max-width:720px;margin:0 auto;width:100%;background:#ffffff;}
-.book-header{background:#000;padding:0.45rem 1rem;text-align:center;flex-shrink:0;border-bottom:1px solid #333;}
-.book-header h1{font-size:clamp(0.85rem,3vw,1.1rem);color:#fff;font-weight:700;letter-spacing:0.1em;display:inline;}
-.subtitle{font-size:0.6rem;color:#888;font-family:sans-serif;margin-left:0.4rem;display:inline;}
-.warning{display:none;}.toc-bar{display:none;}
-.book-body{flex:1;position:relative;overflow:hidden;background:#ffffff;min-height:0;}
-.section{display:none;position:absolute;top:0;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:1rem 1rem 5rem;writing-mode:vertical-rl;text-orientation:mixed;background:#ffffff;color:#000000;}
-.section.active{display:block;background:#ffffff;color:#000000;}
-.section.slide-in{animation:sIn 0.18s ease-out;}
-@keyframes sIn{from{opacity:0;}to{opacity:1;}}
-.section *{color:#000000;}
-.section-num{writing-mode:horizontal-tb;display:block;font-size:1.05rem;font-weight:700;color:#000;border-bottom:2px solid #000;margin-bottom:0.85rem;padding-bottom:0.3rem;}
-.section-num::before{content:"◆ ";font-size:0.82rem;}
-.end-label{writing-mode:horizontal-tb;display:inline-block;font-size:0.65rem;font-family:sans-serif;padding:1px 5px;border-radius:2px;margin-left:0.3rem;vertical-align:middle;border:1px solid #000;color:#000;}
-.section>p{writing-mode:vertical-rl;text-orientation:mixed;line-height:2.3;font-size:1rem;color:#000;margin-left:1rem;}
-.choices{writing-mode:vertical-rl;text-orientation:mixed;margin-top:1.2rem;margin-left:0.8rem;padding:0.6rem;border-left:3px solid #000;}
-.choices p{writing-mode:vertical-rl;text-orientation:mixed;line-height:2.3;font-size:0.9rem;color:#000;margin-left:0.8rem;}
-.jump{color:#000;font-weight:700;text-decoration:none;border-bottom:1.5px solid #000;cursor:pointer;}
-.note{writing-mode:horizontal-tb;display:block;font-size:0.78rem;color:#000;font-style:italic;background:#f5f5f5;border:1px solid #ccc;border-radius:2px;padding:0.5rem 0.75rem;margin:0.8rem 0;line-height:1.75;font-family:sans-serif;}
-.end-text{writing-mode:horizontal-tb;display:block;margin-top:1rem;padding:0.8rem 1rem;background:#f5f5f5;border:1px solid #000;border-radius:2px;font-style:italic;font-size:0.9rem;line-height:1.9;text-align:center;color:#000;}
-.back-top{writing-mode:horizontal-tb;display:block;text-align:right;font-size:0.7rem;color:#555;font-family:sans-serif;text-decoration:none;margin-top:0.9rem;cursor:pointer;}
-.book-footer{background:#000;padding:0.3rem 0.8rem;text-align:center;font-size:0.6rem;color:#666;font-family:sans-serif;flex-shrink:0;border-top:1px solid #333;}
-.book-footer a{color:#888;text-decoration:none;}
-.floating-ui{position:fixed;bottom:14px;right:10px;z-index:9000;display:flex;flex-direction:column;gap:7px;align-items:flex-end;}
-.dice-fab,.sheet-fab{width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.35);transition:transform 0.1s;-webkit-tap-highlight-color:transparent;font-size:1.3rem;}
-.dice-fab{background:#000;color:#fff;}
-.sheet-fab{background:#444;color:#fff;font-size:1.1rem;}
-.dice-fab:active,.sheet-fab:active{transform:scale(0.93);}
-.dice-popup{display:none;position:fixed;bottom:120px;right:10px;z-index:9001;background:#fff;border:2px solid #000;border-radius:8px;padding:0.8rem;width:200px;box-shadow:0 4px 20px rgba(0,0,0,0.25);}
+/* === リセット === */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;-webkit-text-size-adjust:100%;}
+
+/* === ベース === */
+body{
+  background:#f0f0f0;
+  color:#111;
+  font-family:'Hiragino Mincho ProN','Hiragino Mincho Pro','YuMincho','Yu Mincho','游明朝',serif;
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  overflow:hidden;
+}
+
+/* === ボタン共通（ChatGPT提案ベース） === */
+button{
+  background:#222;
+  color:#fff;
+  border:1px solid #444;
+  padding:8px 12px;
+  margin:3px;
+  cursor:pointer;
+  border-radius:4px;
+  font-family:sans-serif;
+  font-size:0.78rem;
+  -webkit-tap-highlight-color:transparent;
+}
+button:hover{background:#444;}
+button:active{opacity:0.8;}
+
+/* === レイアウト === */
+.book-wrap{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  max-width:720px;
+  margin:0 auto;
+  width:100%;
+  background:#ffffff;
+  box-shadow:0 0 20px rgba(0,0,0,0.15);
+}
+
+/* === ヘッダー === */
+.book-header{
+  background:#111;
+  padding:0.5rem 1rem;
+  text-align:center;
+  flex-shrink:0;
+  border-bottom:2px solid #333;
+}
+.book-header h1{
+  font-size:clamp(0.9rem,3vw,1.2rem);
+  color:#ffffff;
+  font-weight:700;
+  letter-spacing:0.12em;
+  display:inline;
+}
+.subtitle{
+  font-size:0.62rem;
+  color:#aaa;
+  font-family:sans-serif;
+  margin-left:0.5rem;
+  display:inline;
+}
+.warning{display:none;}
+.toc-bar{display:none;}
+
+/* === 本文エリア === */
+.book-body{
+  flex:1;
+  position:relative;
+  overflow:hidden;
+  background:#ffffff;
+  min-height:0;
+}
+
+/* === 節（1節1画面） === */
+.section{
+  display:none;
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:1.2rem 1.2rem 6rem;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  background:#ffffff;
+  color:#111111;
+}
+.section.active{
+  display:block;
+  background:#ffffff;
+  color:#111111;
+}
+.section *{color:#111111;}
+.section.slide-in{animation:sIn 0.2s ease-out;}
+@keyframes sIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* === 節番号 === */
+.section-num{
+  writing-mode:horizontal-tb;
+  display:block;
+  font-size:1.1rem;
+  font-weight:700;
+  color:#111;
+  border-bottom:2px solid #111;
+  margin-bottom:1rem;
+  padding-bottom:0.4rem;
+}
+.section-num::before{content:"◆ ";font-size:0.85rem;}
+
+/* === エンドラベル === */
+.end-label{
+  writing-mode:horizontal-tb;
+  display:inline-block;
+  font-size:0.68rem;
+  font-family:sans-serif;
+  padding:2px 6px;
+  border-radius:3px;
+  margin-left:0.4rem;
+  vertical-align:middle;
+  border:1px solid #111;
+  color:#111;
+}
+
+/* === 本文 === */
+.section>p{
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  line-height:2.4;
+  font-size:1rem;
+  color:#111;
+  margin-left:1.1rem;
+}
+
+/* === 選択肢 === */
+.choices{
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  margin-top:1.4rem;
+  margin-left:0.9rem;
+  padding:0.8rem 0.6rem;
+  border-left:3px solid #111;
+  background:#f8f8f8;
+}
+.choices p{
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  line-height:2.4;
+  font-size:0.93rem;
+  color:#111;
+  margin-left:0.9rem;
+}
+.jump{
+  color:#111;
+  font-weight:700;
+  text-decoration:none;
+  border-bottom:2px solid #111;
+  cursor:pointer;
+}
+.jump:hover{background:#f0f0f0;}
+
+/* === 注記 === */
+.note{
+  writing-mode:horizontal-tb;
+  display:block;
+  font-size:0.8rem;
+  color:#111;
+  font-style:italic;
+  background:#f5f5f5;
+  border-left:4px solid #111;
+  padding:0.6rem 0.8rem;
+  margin:0.9rem 0;
+  line-height:1.8;
+  font-family:sans-serif;
+}
+
+/* === エンドテキスト === */
+.end-text{
+  writing-mode:horizontal-tb;
+  display:block;
+  margin-top:1.2rem;
+  padding:1rem 1.2rem;
+  background:#f5f5f5;
+  border:2px solid #111;
+  border-radius:4px;
+  font-style:italic;
+  font-size:0.95rem;
+  line-height:2;
+  text-align:center;
+  color:#111;
+}
+
+/* === 戻るリンク === */
+.back-top{
+  writing-mode:horizontal-tb;
+  display:block;
+  text-align:right;
+  font-size:0.72rem;
+  color:#555;
+  font-family:sans-serif;
+  text-decoration:none;
+  margin-top:1rem;
+  cursor:pointer;
+}
+.back-top:hover{color:#111;}
+
+/* === フッター === */
+.book-footer{
+  background:#111;
+  padding:0.4rem 0.8rem;
+  text-align:center;
+  font-size:0.65rem;
+  color:#888;
+  font-family:sans-serif;
+  flex-shrink:0;
+  border-top:1px solid #333;
+}
+.book-footer a{color:#aaa;text-decoration:none;}
+
+/* === 右下ボタン === */
+.floating-ui{
+  position:fixed;
+  bottom:16px;right:12px;
+  z-index:9000;
+  display:flex;flex-direction:column;gap:8px;align-items:flex-end;
+}
+.dice-fab,.sheet-fab{
+  width:50px;height:50px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 3px 12px rgba(0,0,0,0.3);
+  transition:transform 0.1s;
+  -webkit-tap-highlight-color:transparent;
+  font-size:1.4rem;
+  padding:0;margin:0;
+}
+.dice-fab{background:#111;color:#fff;}
+.sheet-fab{background:#444;color:#fff;font-size:1.2rem;}
+.dice-fab:active,.sheet-fab:active{transform:scale(0.92);}
+
+/* === サイコロポップアップ === */
+.dice-popup{
+  display:none;
+  position:fixed;bottom:125px;right:12px;
+  z-index:9001;
+  background:#fff;
+  border:2px solid #111;
+  border-radius:8px;
+  padding:0.9rem;
+  width:210px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.2);
+}
 .dice-popup.open{display:block;}
-.dice-popup-title{font-family:sans-serif;font-size:0.68rem;font-weight:700;color:#000;margin-bottom:0.45rem;text-align:center;border-bottom:1px solid #ccc;padding-bottom:0.3rem;}
-.dice-mode-btns{display:flex;gap:3px;margin-bottom:0.45rem;}
-.dice-mode-btn{flex:1;font-family:sans-serif;font-size:0.6rem;padding:3px 2px;border:1px solid #ccc;background:transparent;color:#333;border-radius:3px;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent;}
-.dice-mode-btn.active{background:#000;color:#fff;border-color:#000;}
-.dice-faces-row{display:flex;gap:7px;justify-content:center;margin-bottom:0.45rem;min-height:46px;align-items:center;}
-.die-face{width:40px;height:40px;display:flex;align-items:center;justify-content:center;transition:transform 0.08s;}
+.dice-popup-title{
+  font-family:sans-serif;font-size:0.7rem;font-weight:700;
+  color:#111;margin-bottom:0.5rem;text-align:center;
+  border-bottom:1px solid #ddd;padding-bottom:0.35rem;
+}
+.dice-mode-btns{display:flex;gap:3px;margin-bottom:0.5rem;}
+.dice-mode-btn{
+  flex:1;font-family:sans-serif;font-size:0.6rem;
+  padding:4px 2px;border:1px solid #ccc;
+  background:#fff;color:#333;border-radius:3px;
+  cursor:pointer;text-align:center;margin:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.dice-mode-btn:hover{background:#f0f0f0;}
+.dice-mode-btn.active{background:#111;color:#fff;border-color:#111;}
+.dice-faces-row{
+  display:flex;gap:8px;justify-content:center;
+  margin-bottom:0.5rem;min-height:48px;align-items:center;
+}
+.die-face{
+  width:42px;height:42px;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 0.08s;
+}
 .die-face svg{display:block;}
 .die-face.landed{animation:landPop 0.3s ease-out;}
 @keyframes landPop{0%{transform:scale(1.3);}60%{transform:scale(0.95);}100%{transform:scale(1);}}
-.dice-roll-btn{width:100%;padding:0.4rem;background:#000;color:#fff;border:none;border-radius:4px;font-family:sans-serif;font-size:0.76rem;font-weight:700;cursor:pointer;margin-bottom:0.3rem;-webkit-tap-highlight-color:transparent;}
-.dice-result-text{font-family:sans-serif;font-size:0.63rem;color:#333;text-align:center;min-height:1rem;line-height:1.4;}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:flex-end;justify-content:center;}
+.dice-roll-btn{
+  width:100%;padding:0.45rem;
+  background:#111;color:#fff;border:none;border-radius:4px;
+  font-family:sans-serif;font-size:0.8rem;font-weight:700;
+  cursor:pointer;margin:0 0 0.4rem 0;
+  -webkit-tap-highlight-color:transparent;
+}
+.dice-result-text{
+  font-family:sans-serif;font-size:0.65rem;
+  color:#333;text-align:center;min-height:1.1rem;line-height:1.5;
+}
+
+/* === 冒険者シートモーダル === */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.7);
+  z-index:9999;align-items:flex-end;justify-content:center;
+}
 .modal-overlay.open{display:flex;}
-.modal-box{background:#fff;border-top:3px solid #000;border-radius:12px 12px 0 0;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-.modal-head{background:#000;padding:0.65rem 1rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1;}
-.modal-head h2{color:#fff;font-size:0.85rem;font-family:sans-serif;}
-.modal-close{background:transparent;border:none;color:#fff;font-size:1.5rem;cursor:pointer;line-height:1;padding:0 4px;-webkit-tap-highlight-color:transparent;}
-.modal-body{padding:0.9rem;color:#000;background:#fff;}
-.modal-body *{color:#000;}
-.sheet-sec{margin-bottom:0.85rem;}
-.sheet-sec-label{font-family:sans-serif;font-size:0.68rem;font-weight:700;color:#000;margin-bottom:0.32rem;border-bottom:1px solid #ccc;padding-bottom:0.16rem;}
-.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;margin-bottom:0.4rem;}
-.stat-card-s{background:#f5f5f5;border:1px solid #ccc;border-radius:4px;padding:0.42rem;text-align:center;}
-.stat-card-s .sn{font-family:sans-serif;font-size:0.6rem;color:#333;margin-bottom:2px;}
+.modal-box{
+  background:#fff;border-top:3px solid #111;
+  border-radius:12px 12px 0 0;
+  width:100%;max-width:520px;max-height:88vh;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.modal-head{
+  background:#111;padding:0.7rem 1rem;
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:1;
+}
+.modal-head h2{color:#fff;font-size:0.9rem;font-family:sans-serif;}
+.modal-close{
+  background:transparent;border:none;color:#fff;
+  font-size:1.5rem;cursor:pointer;line-height:1;padding:0 4px;margin:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.modal-body{padding:1rem;background:#fff;color:#111;}
+.modal-body *{color:#111;}
+.sheet-sec{margin-bottom:1rem;}
+.sheet-sec-label{
+  font-family:sans-serif;font-size:0.7rem;font-weight:700;
+  color:#111;margin-bottom:0.35rem;
+  border-bottom:1px solid #ccc;padding-bottom:0.2rem;
+}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.45rem;margin-bottom:0.45rem;}
+.stat-card-s{
+  background:#f8f8f8;border:1px solid #ddd;
+  border-radius:4px;padding:0.45rem;text-align:center;
+}
+.stat-card-s .sn{font-family:sans-serif;font-size:0.62rem;color:#333;margin-bottom:2px;}
 .stat-card-s .sv{display:flex;gap:3px;justify-content:center;align-items:flex-end;}
 .stat-block{display:flex;flex-direction:column;align-items:center;gap:2px;}
 .stat-lbl{font-family:sans-serif;font-size:0.55rem;color:#888;}
 .stat-adj-row{display:flex;align-items:center;gap:2px;}
-.stat-adj{width:22px;height:22px;border:1px solid #ccc;background:transparent;border-radius:3px;cursor:pointer;font-size:0.85rem;color:#333;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;flex-shrink:0;}
-.stat-num-input{width:32px;text-align:center;border:none;border-bottom:2px solid #000;background:transparent;font-family:sans-serif;font-size:1rem;font-weight:700;color:#000;outline:none;padding:1px 0;}
-.stat-sep{font-family:sans-serif;font-size:0.72rem;color:#888;padding-bottom:2px;}
-.stat-hint{font-family:sans-serif;font-size:0.57rem;color:#888;margin-top:2px;}
-.roll-stat-btn{margin-top:3px;padding:2px 5px;font-family:sans-serif;font-size:0.58rem;border:1px solid #ccc;background:transparent;color:#333;border-radius:3px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.roll-stat-btn.done{background:#000;color:#fff;border-color:#000;}
-.roll-all-s{width:100%;padding:0.36rem;background:#000;color:#fff;border:none;border-radius:4px;font-family:sans-serif;font-size:0.74rem;font-weight:700;cursor:pointer;margin-bottom:0.42rem;-webkit-tap-highlight-color:transparent;}
-.exp-bar-bg{background:#e0e0e0;border-radius:99px;height:7px;overflow:hidden;flex:1;}
-.exp-bar-fill{background:#000;height:100%;border-radius:99px;transition:width 0.4s;}
-.exp-row-ui{display:flex;align-items:center;gap:5px;margin-bottom:5px;}
-.exp-num-ui{font-family:sans-serif;font-size:1rem;font-weight:700;color:#000;min-width:26px;}
-.exp-lv-ui{font-family:sans-serif;font-size:0.63rem;color:#333;font-weight:700;}
-.exp-btns-ui{display:flex;gap:3px;flex-wrap:wrap;}
-.exp-btn-s{font-family:sans-serif;font-size:0.63rem;padding:2px 7px;border:1px solid #ccc;background:transparent;color:#333;border-radius:99px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.lv-up-msg{font-family:sans-serif;font-size:0.66rem;color:#000;font-weight:700;min-height:1rem;margin-top:3px;}
-.paw-row{display:flex;gap:5px;}
-.paw-btn-s{flex:1;padding:0.3rem;border:1px solid #ccc;background:transparent;color:#333;border-radius:4px;font-family:sans-serif;font-size:0.68rem;cursor:pointer;text-align:center;-webkit-tap-highlight-color:transparent;}
-.paw-btn-s.active{background:#000;color:#fff;border-color:#000;}
-.gold-food-row{display:flex;gap:0.8rem;flex-wrap:wrap;}
-.gf-block{display:flex;flex-direction:column;gap:3px;}
-.gf-lbl{font-family:sans-serif;font-size:0.65rem;color:#555;}
-.gf-ctrl{display:flex;align-items:center;gap:4px;}
-.items-ui{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
-.item-row-s{display:flex;align-items:center;gap:3px;border-bottom:0.5px solid #e0e0e0;padding:3px 2px;}
-.item-num-s{font-family:sans-serif;font-size:0.6rem;color:#888;min-width:12px;}
-.item-inp{flex:1;border:none;background:transparent;font-size:0.74rem;color:#000;outline:none;min-width:0;font-family:sans-serif;}
-.item-inp::placeholder{color:#bbb;font-size:0.68rem;}
-.item-chk{width:14px;height:14px;cursor:pointer;flex-shrink:0;}
-.gold-row-s{display:flex;align-items:center;gap:5px;}
-.gold-inp{width:50px;text-align:center;border:none;border-bottom:2px solid #000;background:transparent;font-family:sans-serif;font-size:1rem;font-weight:700;color:#000;outline:none;}
-.gold-lbl{font-family:sans-serif;font-size:0.7rem;color:#333;}
-.gold-adj-s{border:1px solid #ccc;background:transparent;border-radius:3px;padding:2px 7px;font-size:0.85rem;cursor:pointer;color:#333;-webkit-tap-highlight-color:transparent;}
-.memo-s{width:100%;border:1px solid #ccc;background:#fafafa;font-size:0.74rem;color:#000;resize:none;outline:none;line-height:1.8;min-height:52px;padding:5px 7px;border-radius:3px;font-family:sans-serif;}
-@media(max-width:480px){.section{padding:0.75rem 0.75rem 5rem;}.section>p{font-size:0.92rem;}.choices p{font-size:0.88rem;}.dice-popup{width:188px;right:8px;bottom:110px;}.floating-ui{right:8px;bottom:10px;}.dice-fab,.sheet-fab{width:44px;height:44px;}}
+.stat-adj{
+  width:22px;height:22px;border:1px solid #ccc;
+  background:#fff;border-radius:3px;cursor:pointer;
+  font-size:0.85rem;color:#333;
+  display:flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;flex-shrink:0;padding:0;margin:0;
+}
+.stat-adj:hover{background:#f0f0f0;}
+.stat-num-input{
+  width:34px;text-align:center;border:none;
+  border-bottom:2px solid #111;background:transparent;
+  font-family:sans-serif;font-size:1.05rem;font-weight:700;
+  color:#111;outline:none;padding:1px 0;
+}
+.stat-sep{font-family:sans-serif;font-size:0.75rem;color:#888;padding-bottom:2px;}
+.stat-hint{font-family:sans-serif;font-size:0.58rem;color:#888;margin-top:2px;}
+.roll-stat-btn{
+  margin-top:3px;padding:3px 6px;font-family:sans-serif;font-size:0.6rem;
+  border:1px solid #ccc;background:#fff;color:#333;
+  border-radius:3px;cursor:pointer;margin-left:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.roll-stat-btn:hover{background:#f0f0f0;}
+.roll-stat-btn.done{background:#111;color:#fff;border-color:#111;}
+.roll-all-s{
+  width:100%;padding:0.42rem;background:#111;color:#fff;
+  border:none;border-radius:4px;font-family:sans-serif;
+  font-size:0.76rem;font-weight:700;cursor:pointer;
+  margin:0 0 0.5rem 0;-webkit-tap-highlight-color:transparent;
+}
+.roll-all-s:hover{background:#333;}
+.exp-bar-bg{background:#e0e0e0;border-radius:99px;height:8px;overflow:hidden;flex:1;}
+.exp-bar-fill{background:#111;height:100%;border-radius:99px;transition:width 0.4s;}
+.exp-row-ui{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.exp-num-ui{font-family:sans-serif;font-size:1.05rem;font-weight:700;color:#111;min-width:28px;}
+.exp-lv-ui{font-family:sans-serif;font-size:0.65rem;color:#333;font-weight:700;}
+.exp-btns-ui{display:flex;gap:4px;flex-wrap:wrap;}
+.exp-btn-s{
+  font-family:sans-serif;font-size:0.65rem;padding:3px 8px;
+  border:1px solid #ccc;background:#fff;color:#333;
+  border-radius:99px;cursor:pointer;margin:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.exp-btn-s:hover{background:#f0f0f0;}
+.lv-up-msg{font-family:sans-serif;font-size:0.68rem;color:#111;font-weight:700;min-height:1rem;margin-top:4px;}
+.paw-row{display:flex;gap:6px;}
+.paw-btn-s{
+  flex:1;padding:0.35rem;border:1px solid #ccc;
+  background:#fff;color:#333;border-radius:4px;
+  font-family:sans-serif;font-size:0.7rem;cursor:pointer;
+  text-align:center;margin:0;-webkit-tap-highlight-color:transparent;
+}
+.paw-btn-s:hover{background:#f0f0f0;}
+.paw-btn-s.active{background:#111;color:#fff;border-color:#111;}
+.gold-food-row{display:flex;gap:1rem;flex-wrap:wrap;}
+.gf-block{display:flex;flex-direction:column;gap:4px;}
+.gf-lbl{font-family:sans-serif;font-size:0.67rem;color:#555;font-weight:700;}
+.gf-ctrl{display:flex;align-items:center;gap:5px;}
+.gold-inp{
+  width:52px;text-align:center;border:none;
+  border-bottom:2px solid #111;background:transparent;
+  font-family:sans-serif;font-size:1.05rem;font-weight:700;
+  color:#111;outline:none;
+}
+.gold-lbl{font-family:sans-serif;font-size:0.72rem;color:#333;}
+.gold-adj-s{
+  border:1px solid #ccc;background:#fff;border-radius:3px;
+  padding:3px 8px;font-size:0.9rem;cursor:pointer;color:#333;margin:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.gold-adj-s:hover{background:#f0f0f0;}
+.items-ui{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.item-row-s{
+  display:flex;align-items:center;gap:4px;
+  border-bottom:1px solid #eee;padding:4px 2px;
+}
+.item-num-s{font-family:sans-serif;font-size:0.62rem;color:#888;min-width:14px;}
+.item-inp{
+  flex:1;border:none;background:transparent;
+  font-size:0.76rem;color:#111;outline:none;min-width:0;font-family:sans-serif;
+}
+.item-inp::placeholder{color:#bbb;font-size:0.7rem;}
+.item-chk{width:15px;height:15px;cursor:pointer;flex-shrink:0;accent-color:#111;}
+.memo-s{
+  width:100%;border:1px solid #ddd;background:#fafafa;
+  font-size:0.76rem;color:#111;resize:none;outline:none;
+  line-height:1.8;min-height:55px;padding:6px 8px;
+  border-radius:3px;font-family:sans-serif;
+}
+.memo-s:focus{border-color:#111;}
+
+/* === レスポンシブ === */
+@media(max-width:480px){
+  .section{padding:0.8rem 0.8rem 6rem;}
+  .section>p{font-size:0.93rem;}
+  .choices p{font-size:0.88rem;}
+  .dice-popup{width:195px;right:8px;bottom:115px;}
+  .floating-ui{right:8px;bottom:12px;}
+  .dice-fab,.sheet-fab{width:46px;height:46px;}
+}
 </style>
 </head>
 <body>
-<div class="book-wrap">
-
-<div class="book-header">
-  <h1>ヴァルデアの遺産</h1>
-  <div class="subtitle">LEGACY OF VALDEA</div>
-  <div class="warning">
-    これはひとりで読み進めるゲームブックである。<br>
-    冒険者シートのダイスローラーで能力値を決定し、記録してから読み始めよ。<br>
-    指示された番号以外のページを先読みしてはならない。
+<div id="book-wrap">
+  <div id="book-header">
+    <h1>ヴァルデアの遺産</h1>
+    <span class="subtitle">LEGACY OF VALDEA</span>
   </div>
-</div>
-
-
-
-<div class="book-body">
-
+  <div id="book-body">
 <!-- 一 -->
 <div class="section" id="一">
 <div class="section-num">一</div>
@@ -2038,6 +2369,10 @@ setMode('2d6');
 </script>
 
 <!-- ===== 右上固定UI ===== -->
+  </div>
+  <div id="book-footer"><a href="guide.html">冒険者の手引き</a>　｜　ヴァルデアの遺産</div>
+</div>
+
 <div class="floating-ui">
   <button class="sheet-fab" onclick="toggleSheet()" title="冒険者シート">&#x1F4CB;</button>
   <button class="dice-fab" onclick="toggleDice()" title="サイコロ">&#x1F3B2;</button>
@@ -2596,8 +2931,5 @@ document.querySelectorAll('#sheetModal input,#sheetModal textarea').forEach(el=>
 });
 </script>
 
-<div class="book-footer"><a href="guide.html">冒険者の手引き</a>　｜　ヴァルデアの遺産</div>
-
-</div><!-- /book-wrap -->
 </body>
 </html>
