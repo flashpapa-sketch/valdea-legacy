@@ -123,16 +123,33 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>隅のテーブルでは三人組の男たちが声を潜めて話し込んでいる。人間が二人とドワーフが一人。地図らしきものをテーブルに広げているが、あなたが視線を向けると素早く丸めてしまった。</p>
 <p>二階への階段の傍には「本日の空き室　残り一」と書かれた木の札が下がっている。財布には金貨三枚。一泊の宿代は金貨一枚のはずだ。</p>
 <div class="note">技術点、体力点、運勢点の初期値をまだ決めていなければ、今すぐ下のボタンでダイスを振れ（3回まで）。</div>
-<div style="margin:1rem 0;padding:1rem;background:#f9f9f9;border:1px solid #ddd;border-radius:6px;">
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
-    <button id="roll-btn-main" onclick="rollAllMain()" style="padding:8px 16px;background:#111;color:#fff;border:none;border-radius:4px;font-size:0.9rem;cursor:pointer;font-family:sans-serif;">🎲 ダイスを振る（1回目）</button>
-    <button onclick="resetAll()" style="padding:8px 16px;background:#fff;color:#888;border:1px solid #ccc;border-radius:4px;font-size:0.9rem;cursor:pointer;font-family:sans-serif;">リセット</button>
+<div style="margin:1rem 0;padding:1.2rem;background:#f9f9f9;border:1px solid #ddd;border-radius:8px;">
+  <style>
+  .dice-wrap{display:flex;gap:12px;justify-content:center;margin:1rem 0;}
+  .die{width:52px;height:52px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,0.4);}
+  .die.rolling{animation:dieShake 0.6s ease;}
+  @keyframes dieShake{0%{transform:rotate(0) scale(1)}15%{transform:rotate(-20deg) scale(1.1)}30%{transform:rotate(20deg) scale(0.9)}45%{transform:rotate(-15deg) scale(1.1)}60%{transform:rotate(15deg) scale(0.95)}75%{transform:rotate(-10deg) scale(1.05)}90%{transform:rotate(5deg) scale(1)}100%{transform:rotate(0) scale(1)}}
+  .stat-boxes{display:flex;gap:10px;justify-content:center;margin-top:1rem;}
+  .stat-box{text-align:center;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;min-width:66px;}
+  .stat-box .slabel{font-size:0.68rem;color:#666;font-family:sans-serif;}
+  .stat-box .sval{font-size:1.6rem;font-weight:bold;color:#111;}
+  </style>
+  <p style="font-size:0.85rem;color:#555;font-family:sans-serif;margin-bottom:0.5rem;">サイコロを振って初期値を決めよ（3回まで）</p>
+  <div class="dice-wrap">
+    <div class="die" id="die1">？</div>
+    <div class="die" id="die2">？</div>
+    <div class="die" id="die3">？</div>
+    <div class="die" id="die4">？</div>
   </div>
-  <div id="roll-result-main" style="display:none;font-size:0.9rem;font-family:sans-serif;font-weight:bold;padding:6px 10px;background:#eafaea;border-radius:4px;border:1px solid #2a7a2a;color:#1a5a1a;"></div>
-  <div style="margin-top:8px;font-size:0.8rem;color:#555;font-family:sans-serif;">
-    <span>体力点: <strong id="hp-inline">—</strong></span>　
-    <span>技術点: <strong id="sk-inline">—</strong></span>　
-    <span>運勢点: <strong id="lk-inline">—</strong></span>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+    <button id="roll-btn-main" onclick="rollAllMain()" style="flex:1;padding:10px;background:#111;color:#fff;border:none;border-radius:6px;font-size:0.9rem;cursor:pointer;font-family:sans-serif;">🎲 ダイスを振る（残り3回）</button>
+    <button onclick="resetAll()" style="padding:10px 16px;background:#fff;color:#888;border:1px solid #ccc;border-radius:6px;font-size:0.9rem;cursor:pointer;font-family:sans-serif;">リセット</button>
+  </div>
+  <div id="roll-result-main" style="display:none;font-size:0.85rem;font-family:sans-serif;font-weight:bold;padding:6px 10px;background:#eafaea;border-radius:4px;border:1px solid #2a7a2a;color:#1a5a1a;margin-bottom:8px;"></div>
+  <div class="stat-boxes">
+    <div class="stat-box"><div class="slabel">体力点</div><div class="sval" id="hp-inline">—</div></div>
+    <div class="stat-box"><div class="slabel">技術点</div><div class="sval" id="sk-inline">—</div></div>
+    <div class="stat-box"><div class="slabel">運勢点</div><div class="sval" id="lk-inline">—</div></div>
   </div>
 </div>
 <div class="choices">
@@ -1825,39 +1842,67 @@ function d6(){ return Math.floor(Math.random()*6)+1; }
 
 function rollAllMain(){
   if(rollCount >= MAX_ROLLS) return;
-  rollAll();
-  // インライン表示も更新
+  var faces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+  var ids = ['die1','die2','die3','die4'];
+  // アニメ開始
+  ids.forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.classList.remove('rolling');
+    void el.offsetWidth;
+    el.classList.add('rolling');
+  });
+  // シェイク中ランダム表示
+  var iv = setInterval(function(){
+    ids.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.textContent = faces[Math.floor(Math.random()*6)];
+    });
+  }, 80);
+  // 600ms後に確定
   setTimeout(function(){
-    var hp = document.getElementById('hp-inline');
-    var sk = document.getElementById('sk-inline');
-    var lk = document.getElementById('lk-inline');
-    if(hp) hp.textContent = stats.hp;
-    if(sk) sk.textContent = stats.sk;
-    if(lk) lk.textContent = stats.lk;
-    var msg = document.getElementById('roll-result-main');
-    var btn = document.getElementById('roll-btn-main');
-    var remaining = MAX_ROLLS - rollCount;
-    if(msg){
-      if(rollCount < MAX_ROLLS){
-        msg.textContent = '🎲 体力点:'+stats.hp+'  技術点:'+stats.sk+'  運勢点:'+stats.lk+'　（あと'+remaining+'回振れます）';
-      } else {
-        msg.textContent = '⚠️ 体力点:'+stats.hp+'  技術点:'+stats.sk+'  運勢点:'+stats.lk+'　（これが最終値です）';
-        msg.style.background='#fff3e0'; msg.style.borderColor='#c66'; msg.style.color='#c00';
+    clearInterval(iv);
+    ids.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el) el.classList.remove('rolling');
+    });
+    // 値を確定してrollAllを呼ぶ
+    rollAll();
+    // インライン表示更新
+    setTimeout(function(){
+      var r1=Math.floor(Math.random()*6), r2=Math.floor(Math.random()*6),
+          r3=Math.floor(Math.random()*6), r4=Math.floor(Math.random()*6);
+      var d = document.getElementById('die1'); if(d) d.textContent=faces[r1];
+      d = document.getElementById('die2'); if(d) d.textContent=faces[r2];
+      d = document.getElementById('die3'); if(d) d.textContent=faces[r3];
+      d = document.getElementById('die4'); if(d) d.textContent=faces[r4];
+      var hp=document.getElementById('hp-inline'); if(hp) hp.textContent=stats.hp;
+      var sk=document.getElementById('sk-inline'); if(sk) sk.textContent=stats.sk;
+      var lk=document.getElementById('lk-inline'); if(lk) lk.textContent=stats.lk;
+      var msg=document.getElementById('roll-result-main');
+      var btn=document.getElementById('roll-btn-main');
+      var remaining=MAX_ROLLS-rollCount;
+      if(msg){
+        if(rollCount<MAX_ROLLS){
+          msg.textContent='体力点:'+stats.hp+'　技術点:'+stats.sk+'　運勢点:'+stats.lk+'　（あと'+remaining+'回振れます）';
+          msg.style.background='#eafaea'; msg.style.color='#1a5a1a'; msg.style.borderColor='#2a7a2a';
+        } else {
+          msg.textContent='⚠️ 体力点:'+stats.hp+'　技術点:'+stats.sk+'　運勢点:'+stats.lk+'　（これが最終値です）';
+          msg.style.background='#fff3e0'; msg.style.color='#c00'; msg.style.borderColor='#c66';
+        }
+        msg.style.display='block';
       }
-      msg.style.display='block';
-    }
-    if(btn){
-      if(rollCount >= MAX_ROLLS){
-        btn.disabled=true;
-        btn.textContent='🎲 ロール済み（3/3）';
-        btn.style.background='#888';
-        btn.style.cursor='not-allowed';
-      } else {
-        btn.textContent='🎲 ダイスを振る（'+rollCount+'回目）';
+      if(btn){
+        if(rollCount>=MAX_ROLLS){
+          btn.disabled=true; btn.textContent='🎲 ロール済み（3/3）'; btn.style.background='#888'; btn.style.cursor='not-allowed';
+        } else {
+          btn.textContent='🎲 もう一度振る（残り'+remaining+'回）';
+        }
       }
-    }
-  }, 50);
+    }, 30);
+  }, 600);
 }
+
 
 function rollAll(){
   stats.skMax = d6()+6; stats.sk = stats.skMax;
