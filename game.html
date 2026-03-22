@@ -122,7 +122,19 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>扉を押し開けると、煙草の煙と獣脂の臭いが鼻をついた。薄暗い店内に、十人ほどの客が思い思いに酒を飲んでいる。カウンターの奥では、ホビットの女将が胡散臭そうにあなたを見ている。腰まで届く赤茶けた巻き毛と、値踏みするような細い目が特徴的だ。</p>
 <p>隅のテーブルでは三人組の男たちが声を潜めて話し込んでいる。人間が二人とドワーフが一人。地図らしきものをテーブルに広げているが、あなたが視線を向けると素早く丸めてしまった。</p>
 <p>二階への階段の傍には「本日の空き室　残り一」と書かれた木の札が下がっている。財布には金貨三枚。一泊の宿代は金貨一枚のはずだ。</p>
-<div class="note">技術点、体力点、運勢点の初期値をまだ決めていなければ、冒険者シートのダイスローラーで今すぐ決定せよ。冒険者シートに記録すること。</div>
+<div class="note">技術点、体力点、運勢点の初期値をまだ決めていなければ、今すぐ下のボタンでダイスを振れ（3回まで）。</div>
+<div style="margin:1rem 0;padding:1rem;background:#f9f9f9;border:1px solid #ddd;border-radius:6px;">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+    <button id="roll-btn-main" onclick="rollAllMain()" style="padding:8px 16px;background:#111;color:#fff;border:none;border-radius:4px;font-size:0.9rem;cursor:pointer;font-family:sans-serif;">🎲 ダイスを振る（1回目）</button>
+    <button onclick="resetAll()" style="padding:8px 16px;background:#fff;color:#888;border:1px solid #ccc;border-radius:4px;font-size:0.9rem;cursor:pointer;font-family:sans-serif;">リセット</button>
+  </div>
+  <div id="roll-result-main" style="display:none;font-size:0.9rem;font-family:sans-serif;font-weight:bold;padding:6px 10px;background:#eafaea;border-radius:4px;border:1px solid #2a7a2a;color:#1a5a1a;"></div>
+  <div style="margin-top:8px;font-size:0.8rem;color:#555;font-family:sans-serif;">
+    <span>体力点: <strong id="hp-inline">—</strong></span>　
+    <span>技術点: <strong id="sk-inline">—</strong></span>　
+    <span>運勢点: <strong id="lk-inline">—</strong></span>
+  </div>
+</div>
 <div class="choices">
 <p><a href="#十二" class="jump">女将のマグダに話しかけるなら十二へ進め</a></p>
 <p><a href="#八十三" class="jump">三人組の男たちに近づくなら八十三へ進め</a></p>
@@ -300,6 +312,7 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <div class="choices">
 <p><a href="#百八十八" class="jump">百八十八へ進め</a></p>
 </div>
+<p><a href="#五百八" class="jump">オーク族長と交渉が成立したなら五百八へ進め</a></p>
 <p><a href="#hdr" class="back-top">▲ 先頭へ</a></p>
 </div>
 <div class="section" id="百七十九">
@@ -321,10 +334,14 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>しばらく進むと、木々の間に淡い光が見えた。ゴルムが足を止めた。「エルフの隠れ里か」と彼は呟いた。どこか苦い声だった。</p>
 <p>「寄っていく必要はない」とシラは言った。しかしその声には迷いがあった。</p>
 <p>あなたは光の方向を見た。何かが引き寄せている。左手の紋章ではない。もっと単純な、人間的な好奇心だ。</p>
+<div class="auto-btns">
+<button class="auto-btn" style="background:#2a7a2a;color:#fff;" onclick="applyDelta('hp',4)">体力点+4</button>
+</div>
 <div class="choices">
 <p><a href="#二百三" class="jump">エルフの里に立ち寄る場合は体力点を四点回復し（初期値を超えることはできない）、「エルフの里に立ち寄った」とメモ欄に記録してから二百三へ進め</a></p>
 <p><a href="#二百三" class="jump">時間を節約してそのまま進む場合は二百三へ進め</a></p>
 </div>
+<p><a href="#五百九" class="jump">森の中でシラが立ち止まったなら五百九へ進め</a></p>
 <p><a href="#hdr" class="back-top">▲ 先頭へ</a></p>
 </div>
 <div class="section" id="百九十四">
@@ -333,11 +350,16 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>一行が街道を進み始めて間もなく、前方に篝火が見えた。商人の隊列か、とゴルムが言った。しかし篝火は動かない。</p>
 <p>「罠だ」とシラが囁いた。「この街道には盗賊団が出る」</p>
 <p>案の定、闇の中から人影が現れた。六人。武装している。先頭の男が「通行料だ」と言った。笑みを浮かべているが、目は笑っていない。</p>
+<div class="auto-btns">
+<button class="auto-btn" style="background:#8a6a00;color:#fff;" onclick="applyDelta('gold',-5)">金貨-5</button>
+</div>
 <div class="choices">
 <p><a href="#二百三" class="jump">金貨を払うなら金貨五枚を失い二百三へ進め</a></p>
 <p><a href="#二百三" class="jump">戦うなら盗賊三人（技術点六／体力点七）と戦え。勝利したなら経験値を一体につき一点（合計三点）獲得せよ。冒険者シートに記録し、レベルアップ条件を確認すること。その後二百三へ進め。体力点が零になったなら四百七十三へ進め</a></p>
 <p><a href="#二百三" class="jump">ゴルムが前に出る。運試しを行え。成功したなら盗賊たちは退散し二百三へ進め。失敗したなら戦闘へ</a></p>
 </div>
+<p><a href="#五百五" class="jump">道中で荷馬車の老人と話すなら五百五へ進め</a></p>
+<p><a href="#五百十一" class="jump">ナックが話しかけてきたなら五百十一へ進め</a></p>
 <p><a href="#hdr" class="back-top">▲ 先頭へ</a></p>
 </div>
 <div class="section" id="二百三">
@@ -443,6 +465,7 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p><a href="#二百四十一" class="jump">扉を開けるなら二百四十一へ進め</a></p>
 <p><a href="#二百七十八" class="jump">扉を無視して先へ進むなら二百七十八へ進め</a></p>
 </div>
+<p><a href="#六百八" class="jump">地下二層へ向かう前にゴルムに話しかけるなら六百八へ進め</a></p>
 <p><a href="#hdr" class="back-top">▲ 先頭へ</a></p>
 </div>
 <div class="section" id="二百四十一">
@@ -505,6 +528,8 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p><a href="#二百八十四" class="jump">左の祭壇へ向かうなら二百八十四へ進め</a></p>
 <p><a href="#二百八十四" class="jump">右の守護者の間へ向かうなら二百八十四へ進め</a></p>
 </div>
+<p><a href="#六百九" class="jump">廊下に霧が漂っているなら六百九へ進め</a></p>
+<p><a href="#六百十" class="jump">「星脈の鏡」を持っているなら六百十へ進め</a></p>
 <p><a href="#hdr" class="back-top">▲ 先頭へ</a></p>
 </div>
 <div class="section" id="二百八十四">
@@ -547,11 +572,16 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>古代の守護者は、人の形をしていなかった。</p>
 <p>四本腕の石像が、信じられない速さで動いていた。ゴルムが「退け！」と叫ぶ。シラが左に飛ぶ。あなたは剣を抜いた。</p>
 <div class="note">古代の守護者と戦闘を行え。守護者：技術点十／体力点十四。守護者は一ラウンドに二回攻撃を行う。二回目の攻撃では技術点から二点を引いた値で判定せよ。「ロットンのつるぎ」を持っている場合、一ラウンドに与えるダメージは三点となる。</div>
+<div class="auto-btns">
+<button class="auto-btn" style="background:#c00;color:#fff;" onclick="applyDelta('sk',-1)">技術点-1</button>
+</div>
 <div class="choices">
 <p><a href="#三百十二" class="jump">勝利したなら三百十二へ進め</a></p>
 <p><a href="#四百二十八" class="jump">体力点が四点以下になったなら、猿の右手を使う選択肢がある。使うなら四百二十八へ進め。使わないなら戦闘を続けよ</a></p>
 <p><a href="#四百七十三" class="jump">体力点が零になったなら四百七十三へ進め</a></p>
 </div>
+<p><a href="#六百十一" class="jump">廊下を進んでいるなら六百十一へ進め</a></p>
+<p><a href="#六百十二" class="jump">守護者エイサーを倒したなら六百十二へ進め</a></p>
 <p><a href="#hdr" class="back-top">▲ 先頭へ</a></p>
 </div>
 <div class="section" id="三百十二">
@@ -625,6 +655,11 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p><a href="#三百八十三" class="jump">テニスタ・テニストのエルフの長老に会いに行くなら三百八十三へ進め</a></p>
 <p><a href="#三百九十一" class="jump">一人で戻ると決めるなら三百九十一へ進め</a></p>
 </div>
+<p><a href="#八百一" class="jump">ドーランに一度戻るなら八百一へ進め</a></p>
+<p><a href="#八百五" class="jump">道中でナックが話しかけてきたなら八百五へ進め</a></p>
+<p><a href="#八百六" class="jump">野営中にシラが話しかけてきたなら八百六へ進め</a></p>
+<p><a href="#八百七" class="jump">前夜にゴルムが隣に座ったなら八百七へ進め</a></p>
+<p><a href="#三百九十七" class="jump">南へ急ぐなら三百九十七へ進め</a></p>
 <p><a href="#hdr" class="back-top">▲ 先頭へ</a></p>
 </div>
 <div class="section" id="三百六十八">
@@ -635,6 +670,9 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>シラは黙っていた。その目には、何か複雑な感情が混じっていた。黄金時代の知識がまた一国の手に渡る。それは過去の悲劇の繰り返しかもしれない。</p>
 <p>部屋の隅で、老いた占星術師がじっとあなたの左手を見ていた。</p>
 <div class="note">軍の支援を受ける場合、最終決戦で技術点に一点のボーナスを得る。「ニフルユーム王国と契約した」とメモ欄に記録せよ。これは後のエンディングに影響する。</div>
+<div class="auto-btns">
+<button class="auto-btn" style="background:#1a5fa8;color:#fff;" onclick="applyDelta('sk',1)">技術点+1</button>
+</div>
 <div class="choices">
 <p><a href="#四百二" class="jump">条件を飲むなら「ニフルユーム王国と契約した」と記録し四百二へ進め</a></p>
 <p><a href="#三百五十六" class="jump">断って別の道を探すなら三百五十六へ戻れ</a></p>
@@ -1066,6 +1104,7 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <div class="choices">
 <p><a href="#百七" class="jump">オルドのもとへ戻るなら百七へ進め</a></p>
 </div>
+<p><a href="#二十" class="jump">謎の金属円盤をオルドに見せるなら二十へ進め</a></p>
 <p><a href="#hdr" class="back-top">▲ 先頭へ</a></p>
 </div>
 <div class="section" id="二十">
@@ -1333,6 +1372,9 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>廊下の途中で、床から薄い霧が漏れてきた。</p>
 <p>ナックが素早く壁際に退いた。「毒だ。匂いで分かる」</p>
 <p>前に進むには霧の中を通るしかない。しかし解毒薬を持っていれば先に飲めばいい。縄があれば天井の梁に引っかけて迂回できる。</p>
+<div class="auto-btns">
+<button class="auto-btn" style="background:#c00;color:#fff;" onclick="applyDelta('hp',-2)">体力点-2</button>
+</div>
 <div class="choices">
 <p><a href="#二百七十八" class="jump">「解毒薬」を所持しているなら飲んで通り抜け、先へ進め。解毒薬を失い二百七十八へ進め</a></p>
 <p><a href="#二百七十八" class="jump">「縄」を所持しているなら天井伝いに迂回し二百七十八へ進め。縄を失う</a></p>
@@ -1512,6 +1554,8 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p><a href="#九百二" class="jump">記憶を受け入れて進むなら九百二へ進め</a></p>
 <p><a href="#三百二十四" class="jump">記憶を押しつぶして進むなら三百二十四へ進め</a></p>
 </div>
+<p><a href="#九百五" class="jump">条件を全て満たしているなら九百五へ進め</a></p>
+<p><a href="#九百六" class="jump">条件が欠けているなら九百六へ進め</a></p>
 <p><a href="#hdr" class="back-top">▲ 先頭へ</a></p>
 </div>
 <div class="section" id="九百二">
@@ -1778,6 +1822,42 @@ var stats = { hp:0, hpMax:0, sk:0, skMax:0, lk:0, lkMax:0, gold:3 };
 var items = [];
 
 function d6(){ return Math.floor(Math.random()*6)+1; }
+
+function rollAllMain(){
+  if(rollCount >= MAX_ROLLS) return;
+  rollAll();
+  // インライン表示も更新
+  setTimeout(function(){
+    var hp = document.getElementById('hp-inline');
+    var sk = document.getElementById('sk-inline');
+    var lk = document.getElementById('lk-inline');
+    if(hp) hp.textContent = stats.hp;
+    if(sk) sk.textContent = stats.sk;
+    if(lk) lk.textContent = stats.lk;
+    var msg = document.getElementById('roll-result-main');
+    var btn = document.getElementById('roll-btn-main');
+    var remaining = MAX_ROLLS - rollCount;
+    if(msg){
+      if(rollCount < MAX_ROLLS){
+        msg.textContent = '🎲 体力点:'+stats.hp+'  技術点:'+stats.sk+'  運勢点:'+stats.lk+'　（あと'+remaining+'回振れます）';
+      } else {
+        msg.textContent = '⚠️ 体力点:'+stats.hp+'  技術点:'+stats.sk+'  運勢点:'+stats.lk+'　（これが最終値です）';
+        msg.style.background='#fff3e0'; msg.style.borderColor='#c66'; msg.style.color='#c00';
+      }
+      msg.style.display='block';
+    }
+    if(btn){
+      if(rollCount >= MAX_ROLLS){
+        btn.disabled=true;
+        btn.textContent='🎲 ロール済み（3/3）';
+        btn.style.background='#888';
+        btn.style.cursor='not-allowed';
+      } else {
+        btn.textContent='🎲 ダイスを振る（'+rollCount+'回目）';
+      }
+    }
+  }, 50);
+}
 
 function rollAll(){
   stats.skMax = d6()+6; stats.sk = stats.skMax;
