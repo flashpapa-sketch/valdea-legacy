@@ -120,32 +120,48 @@
     <div class="stat-card"><div class="sname">体力点</div><div class="sen">STAMINA</div><div class="sroll">サイコロ2個＋12</div><div class="sdesc">生命力・耐久力。零になると死亡。食料や回復薬で回復できる。</div></div>
     <div class="stat-card"><div class="sname">運勢点</div><div class="sen">LUCK</div><div class="sroll">サイコロ1個＋6</div><div class="sdesc">幸運・直感。「運試し」で使うたびに一点減る。</div></div>
   </div>
-  <div class="dice-section">
-    <h3>◆ ダイスローラーで自動決定する</h3>
-    <button class="roll-all-btn" id="rollAllBtn" onclick="rollAll()">▶ 全能力値を一括で振る</button>
-    <div class="dice-row">
-      <span class="dice-label">技術点</span>
-      <button class="dice-btn" id="btn-skill" onclick="rollStat('skill')">振る（1d6+6）</button>
-      <span class="dice-val" id="val-skill">—</span>
-      <span class="dice-detail" id="det-skill"></span>
-      <span class="dice-check" id="chk-skill"></span>
-    </div>
-    <div class="dice-row">
-      <span class="dice-label">体力点</span>
-      <button class="dice-btn" id="btn-stamina" onclick="rollStat('stamina')">振る（2d6+12）</button>
-      <span class="dice-val" id="val-stamina">—</span>
-      <span class="dice-detail" id="det-stamina"></span>
-      <span class="dice-check" id="chk-stamina"></span>
-    </div>
-    <div class="dice-row">
-      <span class="dice-label">運勢点</span>
-      <button class="dice-btn" id="btn-luck" onclick="rollStat('luck')">振る（1d6+6）</button>
-      <span class="dice-val" id="val-luck">—</span>
-      <span class="dice-detail" id="det-luck"></span>
-      <span class="dice-check" id="chk-luck"></span>
-    </div>
-    <button class="reset-btn" onclick="resetStats()">リセット</button>
+<h3 style="font-size:1rem;font-weight:700;margin:1.5rem 0 0.5rem;border-left:4px solid #111;padding-left:0.6rem;">◆ ダイスローラー</h3>
+<div style="border:0.5px solid #ccc;border-radius:8px;overflow:hidden;margin:0.5rem 0 1.5rem;">
+<style>
+.ds-step{padding:0.9rem 1rem;border-bottom:0.5px solid #eee;background:#fafafa;}
+.ds-step:last-child{border-bottom:none;}
+.ds-label{font-family:sans-serif;font-size:11px;color:#666;margin-bottom:8px;}
+.ds-row{display:flex;align-items:center;gap:12px;}
+.ds-die{width:44px;height:44px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;flex-shrink:0;}
+.ds-die.rolling{animation:dsShake 0.5s ease;}
+@keyframes dsShake{0%{transform:rotate(0) scale(1)}20%{transform:rotate(-18deg) scale(1.1)}40%{transform:rotate(18deg) scale(0.9)}60%{transform:rotate(-12deg) scale(1.05)}80%{transform:rotate(8deg) scale(0.98)}100%{transform:rotate(0) scale(1)}}
+.ds-btn{padding:6px 14px;background:#111;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer;font-family:sans-serif;flex-shrink:0;}
+.ds-btn:disabled{background:#999;cursor:not-allowed;}
+.ds-out{font-family:sans-serif;font-size:13px;color:#555;}
+.ds-out strong{font-size:20px;color:#111;margin-left:4px;}
+</style>
+<div class="ds-step">
+  <div class="ds-label">① 体力点　サイコロ2個 ＋ 12</div>
+  <div class="ds-row">
+    <div style="display:flex;gap:6px;"><div class="ds-die" id="g-hp-d1">？</div><div class="ds-die" id="g-hp-d2">？</div></div>
+    <button class="ds-btn" id="g-hp-btn" onclick="gRollHP()">🎲 振る</button>
+    <span class="ds-out">HP <strong id="g-hp-out">—</strong></span>
   </div>
+</div>
+<div class="ds-step">
+  <div class="ds-label">② 技術点　サイコロ1個 ＋ 6</div>
+  <div class="ds-row">
+    <div style="display:flex;gap:6px;"><div class="ds-die" id="g-sk-d1">？</div></div>
+    <button class="ds-btn" id="g-sk-btn" onclick="gRollSK()">🎲 振る</button>
+    <span class="ds-out">SK <strong id="g-sk-out">—</strong></span>
+  </div>
+</div>
+<div class="ds-step">
+  <div class="ds-label">③ 運勢点　サイコロ1個 ＋ 6</div>
+  <div class="ds-row">
+    <div style="display:flex;gap:6px;"><div class="ds-die" id="g-lk-d1">？</div></div>
+    <button class="ds-btn" id="g-lk-btn" onclick="gRollLK()">🎲 振る</button>
+    <span class="ds-out">LK <strong id="g-lk-out">—</strong></span>
+  </div>
+</div>
+</div>
+
+  
   <div class="rule-box"><strong>重要：</strong>初期値は変化があった場合も書き換えるな。体力点は食料や回復薬で回復できるが<strong>初期値を超えることはできない。</strong></div>
 </div>
 
@@ -425,5 +441,67 @@ updateExp(null);
   </p>
 </section>
 
+
+<script>
+var gFaces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+var gRollCounts = {hp:0, sk:0, lk:0};
+var G_MAX = 3;
+function gD6(){ return Math.floor(Math.random()*6)+1; }
+function gAnim(ids, cb){
+  ids.forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el) return;
+    el.classList.remove('rolling');
+    void el.offsetWidth;
+    el.classList.add('rolling');
+  });
+  var iv=setInterval(function(){
+    ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=gFaces[Math.floor(Math.random()*6)]; });
+  },80);
+  setTimeout(function(){
+    clearInterval(iv);
+    ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('rolling'); });
+    cb();
+  },500);
+}
+function gUpdBtn(stat){
+  var btn=document.getElementById('g-'+stat+'-btn');
+  if(!btn) return;
+  var rem=G_MAX-gRollCounts[stat];
+  if(rem<=0){ btn.disabled=true; btn.textContent='振り済み'; btn.style.background='#999'; }
+  else { btn.textContent='🎲 振る（残'+rem+'）'; }
+}
+function gRollHP(){
+  if(gRollCounts.hp>=G_MAX) return;
+  gAnim(['g-hp-d1','g-hp-d2'], function(){
+    var r1=gD6(),r2=gD6();
+    document.getElementById('g-hp-d1').textContent=gFaces[r1-1];
+    document.getElementById('g-hp-d2').textContent=gFaces[r2-1];
+    var v=r1+r2+12;
+    var o=document.getElementById('g-hp-out'); if(o) o.textContent=v;
+    gRollCounts.hp++; gUpdBtn('hp');
+  });
+}
+function gRollSK(){
+  if(gRollCounts.sk>=G_MAX) return;
+  gAnim(['g-sk-d1'], function(){
+    var r=gD6();
+    document.getElementById('g-sk-d1').textContent=gFaces[r-1];
+    var v=r+6;
+    var o=document.getElementById('g-sk-out'); if(o) o.textContent=v;
+    gRollCounts.sk++; gUpdBtn('sk');
+  });
+}
+function gRollLK(){
+  if(gRollCounts.lk>=G_MAX) return;
+  gAnim(['g-lk-d1'], function(){
+    var r=gD6();
+    document.getElementById('g-lk-d1').textContent=gFaces[r-1];
+    var v=r+6;
+    var o=document.getElementById('g-lk-out'); if(o) o.textContent=v;
+    gRollCounts.lk++; gUpdBtn('lk');
+  });
+}
+</script>
 </body>
 </html>

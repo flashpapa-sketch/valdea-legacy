@@ -63,6 +63,8 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>左手の甲が、じわりと熱を帯びた。</p>
 <p>またこれだ、とあなたは思う。生まれた時からそこにある古代文字の紋章。旅の途中で何人かの学者に見せたが、誰も首を傾げるだけだった。ただ一人、北の廃村で出会った老婆だけが顔色を変えた。「その印を持つ者に会ったことがある」と彼女は囁いた。「黄金時代の遺物から聞いた話だ。猿の右手は願いを叶える。だが運命を曲げようとする者には、必ず災いが返ってくる。叶えたいことがあるなら、言葉を慎重に選べ」。老婆はそれ以上何も言わなかった。</p>
 <p>あなたは左手を握り締め、ドーランの街門をくぐった。</p>
+<div class="note">冒険を始める前に、各能力値のサイコロを振って初期値を決めよ（各3回まで）。</div>
+
 <div class="choices">
 <p><a href="#四十七" class="jump">四十七へ進め</a></p>
 </div>
@@ -122,35 +124,45 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>扉を押し開けると、煙草の煙と獣脂の臭いが鼻をついた。薄暗い店内に、十人ほどの客が思い思いに酒を飲んでいる。カウンターの奥では、ホビットの女将が胡散臭そうにあなたを見ている。腰まで届く赤茶けた巻き毛と、値踏みするような細い目が特徴的だ。</p>
 <p>隅のテーブルでは三人組の男たちが声を潜めて話し込んでいる。人間が二人とドワーフが一人。地図らしきものをテーブルに広げているが、あなたが視線を向けると素早く丸めてしまった。</p>
 <p>二階への階段の傍には「本日の空き室　残り一」と書かれた木の札が下がっている。財布には金貨三枚。一泊の宿代は金貨一枚のはずだ。</p>
-<div class="note">技術点、体力点、運勢点の初期値をまだ決めていなければ、今すぐ下のボタンでダイスを振れ（3回まで）。</div>
-<div style="margin:1rem 0;padding:1.2rem;background:#f9f9f9;border:1px solid #ddd;border-radius:8px;">
-  <style>
-  .dice-wrap{display:flex;gap:12px;justify-content:center;margin:1rem 0;}
-  .die{width:52px;height:52px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,0.4);}
-  .die.rolling{animation:dieShake 0.6s ease;}
-  @keyframes dieShake{0%{transform:rotate(0) scale(1)}15%{transform:rotate(-20deg) scale(1.1)}30%{transform:rotate(20deg) scale(0.9)}45%{transform:rotate(-15deg) scale(1.1)}60%{transform:rotate(15deg) scale(0.95)}75%{transform:rotate(-10deg) scale(1.05)}90%{transform:rotate(5deg) scale(1)}100%{transform:rotate(0) scale(1)}}
-  .stat-boxes{display:flex;gap:10px;justify-content:center;margin-top:1rem;}
-  .stat-box{text-align:center;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;min-width:66px;}
-  .stat-box .slabel{font-size:0.68rem;color:#666;font-family:sans-serif;}
-  .stat-box .sval{font-size:1.6rem;font-weight:bold;color:#111;}
-  </style>
-  <p style="font-size:0.85rem;color:#555;font-family:sans-serif;margin-bottom:0.5rem;">サイコロを振って初期値を決めよ（3回まで）</p>
-  <div class="dice-wrap">
-    <div class="die" id="die1">？</div>
-    <div class="die" id="die2">？</div>
-    <div class="die" id="die3">？</div>
-    <div class="die" id="die4">？</div>
+<div class="note">冒険を始める前に各能力値のサイコロを振れ（各3回まで）。</div>
+<div style="border:0.5px solid #ccc;border-radius:8px;overflow:hidden;margin:1rem 0;">
+<style>
+.ds-step{padding:0.9rem 1rem;border-bottom:0.5px solid #eee;background:#fafafa;}
+.ds-step:last-child{border-bottom:none;}
+.ds-label{font-family:sans-serif;font-size:11px;color:#666;margin-bottom:8px;}
+.ds-row{display:flex;align-items:center;gap:12px;}
+.ds-die{width:44px;height:44px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;flex-shrink:0;}
+.ds-die.rolling{animation:dsShake 0.5s ease;}
+@keyframes dsShake{0%{transform:rotate(0) scale(1)}20%{transform:rotate(-18deg) scale(1.1)}40%{transform:rotate(18deg) scale(0.9)}60%{transform:rotate(-12deg) scale(1.05)}80%{transform:rotate(8deg) scale(0.98)}100%{transform:rotate(0) scale(1)}}
+.ds-btn{padding:6px 14px;background:#111;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer;font-family:sans-serif;flex-shrink:0;}
+.ds-btn:disabled{background:#999;cursor:not-allowed;}
+.ds-out{font-family:sans-serif;font-size:13px;color:#555;}
+.ds-out strong{font-size:20px;color:#111;margin-left:4px;}
+</style>
+<div class="ds-step">
+  <div class="ds-label">① 体力点　サイコロ2個 ＋ 12</div>
+  <div class="ds-row">
+    <div style="display:flex;gap:6px;"><div class="ds-die" id="hp-d1">？</div><div class="ds-die" id="hp-d2">？</div></div>
+    <button class="ds-btn" id="hp-btn" onclick="rollHP()">🎲 振る</button>
+    <span class="ds-out">HP <strong id="hp-val-inline">—</strong></span>
   </div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
-    <button id="roll-btn-main" onclick="rollAllMain()" style="flex:1;padding:10px;background:#111;color:#fff;border:none;border-radius:6px;font-size:0.9rem;cursor:pointer;font-family:sans-serif;">🎲 ダイスを振る（残り3回）</button>
-    <button onclick="resetAll()" style="padding:10px 16px;background:#fff;color:#888;border:1px solid #ccc;border-radius:6px;font-size:0.9rem;cursor:pointer;font-family:sans-serif;">リセット</button>
+</div>
+<div class="ds-step">
+  <div class="ds-label">② 技術点　サイコロ1個 ＋ 6</div>
+  <div class="ds-row">
+    <div style="display:flex;gap:6px;"><div class="ds-die" id="sk-d1">？</div></div>
+    <button class="ds-btn" id="sk-btn" onclick="rollSK()">🎲 振る</button>
+    <span class="ds-out">SK <strong id="sk-val-inline">—</strong></span>
   </div>
-  <div id="roll-result-main" style="display:none;font-size:0.85rem;font-family:sans-serif;font-weight:bold;padding:6px 10px;background:#eafaea;border-radius:4px;border:1px solid #2a7a2a;color:#1a5a1a;margin-bottom:8px;"></div>
-  <div class="stat-boxes">
-    <div class="stat-box"><div class="slabel">体力点</div><div class="sval" id="hp-inline">—</div></div>
-    <div class="stat-box"><div class="slabel">技術点</div><div class="sval" id="sk-inline">—</div></div>
-    <div class="stat-box"><div class="slabel">運勢点</div><div class="sval" id="lk-inline">—</div></div>
+</div>
+<div class="ds-step">
+  <div class="ds-label">③ 運勢点　サイコロ1個 ＋ 6</div>
+  <div class="ds-row">
+    <div style="display:flex;gap:6px;"><div class="ds-die" id="lk-d1">？</div></div>
+    <button class="ds-btn" id="lk-btn" onclick="rollLK()">🎲 振る</button>
+    <span class="ds-out">LK <strong id="lk-val-inline">—</strong></span>
   </div>
+</div>
 </div>
 <div class="choices">
 <p><a href="#十二" class="jump">女将のマグダに話しかけるなら十二へ進め</a></p>
@@ -1695,44 +1707,6 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 
 </div>
 <div id="ftr"><a href="guide.html">冒険者の手引き</a>　｜　ヴァルデアの遺産</div>
-      <div class="stat-row">
-        <span class="stat-name">技術点 SK</span>
-        <span class="stat-val" id="sk-val">—</span>
-        <span class="stat-max" id="sk-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="sk-bar" style="width:100%;background:#1a5fa8;"></div></div>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">運勢点 LK</span>
-        <span class="stat-val" id="lk-val">—</span>
-        <span class="stat-max" id="lk-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="lk-bar" style="width:100%;background:#7a4fa8;"></div></div>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">金貨</span>
-        <span class="stat-val" id="gold-val">3</span>
-        <span class="stat-max">枚</span>
-      </div>
-    
-    <div class="ss">
-      <h4>初期値設定（最初に1回だけ）</h4>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
-        <button onclick="rollAll()" style="padding:6px 12px;background:#111;color:#fff;border:none;border-radius:4px;font-size:0.8rem;cursor:pointer;">🎲 全能力値をロール</button>
-        <button onclick="resetAll()" style="padding:6px 12px;background:#fff;color:#888;border:1px solid #ccc;border-radius:4px;font-size:0.8rem;cursor:pointer;">リセット</button>
-      </div>
-      <div id="roll-result" style="display:none;font-size:0.78rem;color:#2a7a2a;font-family:sans-serif;font-weight:bold;padding:4px 8px;background:#eafaea;border-radius:4px;border:1px solid #2a7a2a;"></div>
-    </div>
-    <div class="ss">
-      <h4>所持品</h4>
-      <div class="item-grid" id="itemGrid"></div>
-      <button onclick="addItem()" style="margin-top:6px;padding:4px 10px;background:#111;color:#fff;border:none;border-radius:4px;font-size:0.75rem;cursor:pointer;">＋ 追加</button>
-    </div>
-    <div class="ss">
-      <h4>メモ</h4>
-      <textarea class="memo-area" id="memo" placeholder="フラグ・合言葉など..."></textarea>
-    </div>
-  
-
-
 
 <!-- ===== ワールドマップ ===== -->
 <div id="worldmap-section" style="margin-top:1.5rem;padding:1rem;background:#f5ead8;border:1px solid #3a2a10;border-radius:6px;">
@@ -1838,86 +1812,140 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 var stats = { hp:0, hpMax:0, sk:0, skMax:0, lk:0, lkMax:0, gold:3 };
 var items = [];
 
-function d6(){ return Math.floor(Math.random()*6)+1; }
 
-function rollAllMain(){
-  if(rollCount >= MAX_ROLLS) return;
-  var faces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
-  var ids = ['die1','die2','die3','die4'];
-  // アニメ開始
+function animateDice(ids, cb){
   ids.forEach(function(id){
-    var el = document.getElementById(id);
+    var el=document.getElementById(id);
     if(!el) return;
     el.classList.remove('rolling');
     void el.offsetWidth;
     el.classList.add('rolling');
   });
-  // シェイク中ランダム表示
-  var iv = setInterval(function(){
+  var iv=setInterval(function(){
     ids.forEach(function(id){
-      var el = document.getElementById(id);
-      if(el) el.textContent = faces[Math.floor(Math.random()*6)];
+      var el=document.getElementById(id);
+      if(el) el.textContent=faces[Math.floor(Math.random()*6)];
     });
-  }, 80);
-  // 600ms後に確定
+  },80);
   setTimeout(function(){
     clearInterval(iv);
+    ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('rolling'); });
+    cb();
+  },500);
+}
+
+function updateStepBtn(stat){
+  var btn=document.getElementById(stat+'-btn');
+  if(!btn) return;
+  var rem=MAX_STAT_ROLLS-rollCounts[stat];
+  if(rem<=0){ btn.disabled=true; btn.textContent='振り済み（3/3）'; btn.style.background='#888'; }
+  else { btn.textContent='🎲 振る（あと'+rem+'回）'; }
+}
+
+function rollHP(){
+  if(rollCounts.hp>=MAX_STAT_ROLLS) return;
+  animateDice(['hp-d1','hp-d2'], function(){
+    var r1=d6(),r2=d6();
+    var d1=document.getElementById('hp-d1'); if(d1) d1.textContent=faces[r1-1];
+    var d2=document.getElementById('hp-d2'); if(d2) d2.textContent=faces[r2-1];
+    stats.hpMax=r1+r2+12; stats.hp=stats.hpMax;
+    var v=document.getElementById('hp-val-inline'); if(v) v.textContent=stats.hp;
+    rollCounts.hp++; updateStepBtn('hp'); save(); updateSheet();
+  });
+}
+function rollSK(){
+  if(rollCounts.sk>=MAX_STAT_ROLLS) return;
+  animateDice(['sk-d1'], function(){
+    var r=d6();
+    var d=document.getElementById('sk-d1'); if(d) d.textContent=faces[r-1];
+    stats.skMax=r+6; stats.sk=stats.skMax;
+    var v=document.getElementById('sk-val-inline'); if(v) v.textContent=stats.sk;
+    rollCounts.sk++; updateStepBtn('sk'); save(); updateSheet();
+  });
+}
+function rollLK(){
+  if(rollCounts.lk>=MAX_STAT_ROLLS) return;
+  animateDice(['lk-d1'], function(){
+    var r=d6();
+    var d=document.getElementById('lk-d1'); if(d) d.textContent=faces[r-1];
+    stats.lkMax=r+6; stats.lk=stats.lkMax;
+    var v=document.getElementById('lk-val-inline'); if(v) v.textContent=stats.lk;
+    rollCounts.lk++; updateStepBtn('lk'); save(); updateSheet();
+  });
+}
+
+
+var faces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+var rollCounts = {hp:0, sk:0, lk:0};
+var MAX_STAT_ROLLS = 3;
+
+function animDice(ids, cb){
+  ids.forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el) return;
+    el.classList.remove('rolling');
+    void el.offsetWidth;
+    el.classList.add('rolling');
+  });
+  var iv=setInterval(function(){
     ids.forEach(function(id){
-      var el = document.getElementById(id);
-      if(el) el.classList.remove('rolling');
+      var el=document.getElementById(id);
+      if(el) el.textContent=faces[Math.floor(Math.random()*6)];
     });
-    // 値を確定してrollAllを呼ぶ
-    rollAll();
-    // インライン表示更新
-    setTimeout(function(){
-      var r1=Math.floor(Math.random()*6), r2=Math.floor(Math.random()*6),
-          r3=Math.floor(Math.random()*6), r4=Math.floor(Math.random()*6);
-      var d = document.getElementById('die1'); if(d) d.textContent=faces[r1];
-      d = document.getElementById('die2'); if(d) d.textContent=faces[r2];
-      d = document.getElementById('die3'); if(d) d.textContent=faces[r3];
-      d = document.getElementById('die4'); if(d) d.textContent=faces[r4];
-      var hp=document.getElementById('hp-inline'); if(hp) hp.textContent=stats.hp;
-      var sk=document.getElementById('sk-inline'); if(sk) sk.textContent=stats.sk;
-      var lk=document.getElementById('lk-inline'); if(lk) lk.textContent=stats.lk;
-      var msg=document.getElementById('roll-result-main');
-      var btn=document.getElementById('roll-btn-main');
-      var remaining=MAX_ROLLS-rollCount;
-      if(msg){
-        if(rollCount<MAX_ROLLS){
-          msg.textContent='体力点:'+stats.hp+'　技術点:'+stats.sk+'　運勢点:'+stats.lk+'　（あと'+remaining+'回振れます）';
-          msg.style.background='#eafaea'; msg.style.color='#1a5a1a'; msg.style.borderColor='#2a7a2a';
-        } else {
-          msg.textContent='⚠️ 体力点:'+stats.hp+'　技術点:'+stats.sk+'　運勢点:'+stats.lk+'　（これが最終値です）';
-          msg.style.background='#fff3e0'; msg.style.color='#c00'; msg.style.borderColor='#c66';
-        }
-        msg.style.display='block';
-      }
-      if(btn){
-        if(rollCount>=MAX_ROLLS){
-          btn.disabled=true; btn.textContent='🎲 ロール済み（3/3）'; btn.style.background='#888'; btn.style.cursor='not-allowed';
-        } else {
-          btn.textContent='🎲 もう一度振る（残り'+remaining+'回）';
-        }
-      }
-    }, 30);
-  }, 600);
-}
-
-
-function rollAll(){
-  stats.skMax = d6()+6; stats.sk = stats.skMax;
-  stats.hpMax = d6()+d6()+12; stats.hp = stats.hpMax;
-  stats.lkMax = d6()+6; stats.lk = stats.lkMax;
-  save();
+  },80);
   setTimeout(function(){
-    updateSheet();
-    var msg = document.getElementById('roll-result');
-    if(msg){
-      msg.textContent = '✅ 技術点:'+stats.sk+'  体力点:'+stats.hp+'  運勢点:'+stats.lk;
-      msg.style.display = 'block';
-    }
-  }, 30);
+    clearInterval(iv);
+    ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('rolling'); });
+    cb();
+  },500);
 }
+
+function updDiceBtn(stat){
+  var btn=document.getElementById(stat+'-btn');
+  if(!btn) return;
+  var rem=MAX_STAT_ROLLS-rollCounts[stat];
+  if(rem<=0){ btn.disabled=true; btn.textContent='振り済み'; btn.style.background='#999'; }
+  else { btn.textContent='🎲 振る（残'+rem+'）'; }
+}
+
+function rollHP(){
+  if(rollCounts.hp>=MAX_STAT_ROLLS) return;
+  animDice(['hp-d1','hp-d2'], function(){
+    var r1=d6(),r2=d6();
+    var e1=document.getElementById('hp-d1'); if(e1) e1.textContent=faces[r1-1];
+    var e2=document.getElementById('hp-d2'); if(e2) e2.textContent=faces[r2-1];
+    stats.hpMax=r1+r2+12; stats.hp=stats.hpMax;
+    var v=document.getElementById('hp-val-inline'); if(v) v.textContent=stats.hp;
+    rollCounts.hp++; updDiceBtn('hp'); save(); updateSheet();
+  });
+}
+function rollSK(){
+  if(rollCounts.sk>=MAX_STAT_ROLLS) return;
+  animDice(['sk-d1'], function(){
+    var r=d6();
+    var e=document.getElementById('sk-d1'); if(e) e.textContent=faces[r-1];
+    stats.skMax=r+6; stats.sk=stats.skMax;
+    var v=document.getElementById('sk-val-inline'); if(v) v.textContent=stats.sk;
+    rollCounts.sk++; updDiceBtn('sk'); save(); updateSheet();
+  });
+}
+function rollLK(){
+  if(rollCounts.lk>=MAX_STAT_ROLLS) return;
+  animDice(['lk-d1'], function(){
+    var r=d6();
+    var e=document.getElementById('lk-d1'); if(e) e.textContent=faces[r-1];
+    stats.lkMax=r+6; stats.lk=stats.lkMax;
+    var v=document.getElementById('lk-val-inline'); if(v) v.textContent=stats.lk;
+    rollCounts.lk++; updDiceBtn('lk'); save(); updateSheet();
+  });
+}
+
+
+function d6(){ return Math.floor(Math.random()*6)+1; }
+
+
+
+
 
 function applyDelta(stat, delta){
   if(stat==='hp'){
@@ -1965,7 +1993,7 @@ function toggleSheet(){
   } else {
     overlay.classList.add('open');
     panel.classList.add('open');
-    setTimeout(function(){ updateSheet(); }, 30);
+    setTimeout(function(){ updateSheet(); }, 100);
   }
 }
 
@@ -2017,6 +2045,18 @@ function load(){
   }catch(e){}
 }
 function resetAll(){
+  rollCounts = { hp:0, sk:0, lk:0 };
+  ['hp-btn','sk-btn','lk-btn'].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b){ b.disabled=false; b.textContent='🎲 振る'; b.style.background='#111'; }
+  });
+  ['hp-d1','hp-d2','sk-d1','lk-d1'].forEach(function(id){
+    var d=document.getElementById(id); if(d) d.textContent='？';
+  });
+  ['hp-val-inline','sk-val-inline','lk-val-inline'].forEach(function(id){
+    var v=document.getElementById(id); if(v) v.textContent='—';
+  });
+  // 元のresetAll処理
   if(!confirm('リセットしますか？')) return;
   stats = {hp:0,hpMax:0,sk:0,skMax:0,lk:0,lkMax:0,gold:3};
   items = [];
