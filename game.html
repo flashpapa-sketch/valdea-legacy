@@ -43,11 +43,30 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 .memo-area { width:100%; border:1px solid #ddd; border-radius:4px; padding:6px 8px; font-size:0.76rem; color:#111; resize:none; min-height:60px; outline:none; font-family:sans-serif; }
 #ftr { background:#111; color:#888; font-family:sans-serif; font-size:0.62rem; text-align:center; padding:0.4rem; }
 #ftr a { color:#aaa; text-decoration:none; }
+#fab { position:fixed; bottom:20px; right:16px; z-index:9999; display:flex; flex-direction:column; gap:8px; align-items:center; }
+#diceBtn,#sheetBtn { width:52px; height:52px; border-radius:50%; background:#111; color:#fff; border:none; font-size:1.4rem; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,0.4); display:block; }
+#diceOverlay { display:none; position:fixed; inset:0; z-index:9996; }
+#diceOverlay.open { display:block; }
+#dicePanel { display:none; position:fixed; bottom:20px; right:76px; width:260px; background:#fff; border-radius:12px; border:1px solid #ddd; box-shadow:0 4px 20px rgba(0,0,0,0.25); z-index:9997; overflow:hidden; }
+#dicePanel.open { display:block; }
+#dicePanelHead { background:#111; padding:0.6rem 1rem; display:flex; justify-content:space-between; align-items:center; color:#fff; font-family:sans-serif; font-size:0.85rem; }
+#dicePanelHead button { background:none; border:none; color:#fff; font-size:1.2rem; cursor:pointer; }
+#dicePanelBody { padding:0.8rem; }
+.dp-step { margin-bottom:0.7rem; padding-bottom:0.7rem; border-bottom:1px solid #eee; }
+.dp-step:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+.dp-label { font-family:sans-serif; font-size:11px; color:#666; margin-bottom:6px; }
+.dp-row { display:flex; align-items:center; gap:8px; }
+.dp-die { width:36px; height:36px; background:#111; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:16px; color:#fff; flex-shrink:0; }
+.dp-die.rolling { animation:dsShake 0.5s ease; }
+.dp-btn { padding:4px 10px; background:#111; color:#fff; border:none; border-radius:5px; font-size:12px; cursor:pointer; font-family:sans-serif; flex-shrink:0; }
+.dp-btn:disabled { background:#999; cursor:not-allowed; }
+.dp-out { font-family:sans-serif; font-size:12px; color:#555; }
+.dp-out strong { font-size:16px; color:#111; margin-left:2px; }
 
 /* === シートUI === */
 #fab { position:fixed; bottom:20px; right:16px; z-index:9999; }
-#sheetBtn { width:56px; height:56px; border-radius:50%; background:#111; color:#fff; border:none; font-size:1.5rem; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,0.4); }
-#sheetOverlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9998; }
+
+#sheetOverlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9998; }
 #sheetOverlay.open { display:block; }
 #sheetPanel { display:none; position:fixed; bottom:0; left:0; right:0; margin:0 auto; width:100%; max-width:520px; max-height:88vh; overflow-y:auto; background:#fff; border-radius:12px 12px 0 0; border-top:3px solid #111; z-index:9999; }
 #sheetPanel.open { display:block; }
@@ -65,6 +84,46 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>あなたは左手を握り締め、ドーランの街門をくぐった。</p>
 <div class="note">冒険を始める前に、各能力値のサイコロを振って初期値を決めよ（各3回まで）。</div>
 
+<div class="note">冒険を始める前に各能力値のサイコロを振れ（各3回まで）。</div>
+<div style="border:0.5px solid #ccc;border-radius:8px;overflow:hidden;margin:1rem 0;">
+<style>
+.ds-step{padding:0.9rem 1rem;border-bottom:0.5px solid #eee;background:#fafafa;}
+.ds-step:last-child{border-bottom:none;}
+.ds-label{font-family:sans-serif;font-size:11px;color:#666;margin-bottom:8px;}
+.ds-row{display:flex;align-items:center;gap:12px;}
+.ds-die{width:44px;height:44px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;flex-shrink:0;}
+.ds-die.rolling{animation:dsShake 0.5s ease;}
+@keyframes dsShake{0%{transform:rotate(0) scale(1)}20%{transform:rotate(-18deg) scale(1.1)}40%{transform:rotate(18deg) scale(0.9)}60%{transform:rotate(-12deg) scale(1.05)}80%{transform:rotate(8deg) scale(0.98)}100%{transform:rotate(0) scale(1)}}
+.ds-btn{padding:6px 14px;background:#111;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer;font-family:sans-serif;flex-shrink:0;}
+.ds-btn:disabled{background:#999;cursor:not-allowed;}
+.ds-out{font-family:sans-serif;font-size:13px;color:#555;}
+.ds-out strong{font-size:20px;color:#111;margin-left:4px;}
+</style>
+<div class="ds-step">
+  <div class="ds-label">① 体力点　サイコロ2個 ＋ 12</div>
+  <div class="ds-row">
+    <div style="display:flex;gap:6px;"><div class="ds-die" id="hp-d1">？</div><div class="ds-die" id="hp-d2">？</div></div>
+    <button class="ds-btn" id="hp-btn" onclick="rollHP()">🎲 振る</button>
+    <span class="ds-out">HP <strong id="hp-val-inline">—</strong></span>
+  </div>
+</div>
+<div class="ds-step">
+  <div class="ds-label">② 技術点　サイコロ1個 ＋ 6</div>
+  <div class="ds-row">
+    <div style="display:flex;gap:6px;"><div class="ds-die" id="sk-d1">？</div></div>
+    <button class="ds-btn" id="sk-btn" onclick="rollSK()">🎲 振る</button>
+    <span class="ds-out">SK <strong id="sk-val-inline">—</strong></span>
+  </div>
+</div>
+<div class="ds-step">
+  <div class="ds-label">③ 運勢点　サイコロ1個 ＋ 6</div>
+  <div class="ds-row">
+    <div style="display:flex;gap:6px;"><div class="ds-die" id="lk-d1">？</div></div>
+    <button class="ds-btn" id="lk-btn" onclick="rollLK()">🎲 振る</button>
+    <span class="ds-out">LK <strong id="lk-val-inline">—</strong></span>
+  </div>
+</div>
+</div>
 <div class="choices">
 <p><a href="#四十七" class="jump">四十七へ進め</a></p>
 </div>
@@ -125,45 +184,7 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 <p>隅のテーブルでは三人組の男たちが声を潜めて話し込んでいる。人間が二人とドワーフが一人。地図らしきものをテーブルに広げているが、あなたが視線を向けると素早く丸めてしまった。</p>
 <p>二階への階段の傍には「本日の空き室　残り一」と書かれた木の札が下がっている。財布には金貨三枚。一泊の宿代は金貨一枚のはずだ。</p>
 <div class="note">冒険を始める前に各能力値のサイコロを振れ（各3回まで）。</div>
-<div style="border:0.5px solid #ccc;border-radius:8px;overflow:hidden;margin:1rem 0;">
-<style>
-.ds-step{padding:0.9rem 1rem;border-bottom:0.5px solid #eee;background:#fafafa;}
-.ds-step:last-child{border-bottom:none;}
-.ds-label{font-family:sans-serif;font-size:11px;color:#666;margin-bottom:8px;}
-.ds-row{display:flex;align-items:center;gap:12px;}
-.ds-die{width:44px;height:44px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;flex-shrink:0;}
-.ds-die.rolling{animation:dsShake 0.5s ease;}
-@keyframes dsShake{0%{transform:rotate(0) scale(1)}20%{transform:rotate(-18deg) scale(1.1)}40%{transform:rotate(18deg) scale(0.9)}60%{transform:rotate(-12deg) scale(1.05)}80%{transform:rotate(8deg) scale(0.98)}100%{transform:rotate(0) scale(1)}}
-.ds-btn{padding:6px 14px;background:#111;color:#fff;border:none;border-radius:6px;font-size:13px;cursor:pointer;font-family:sans-serif;flex-shrink:0;}
-.ds-btn:disabled{background:#999;cursor:not-allowed;}
-.ds-out{font-family:sans-serif;font-size:13px;color:#555;}
-.ds-out strong{font-size:20px;color:#111;margin-left:4px;}
-</style>
-<div class="ds-step">
-  <div class="ds-label">① 体力点　サイコロ2個 ＋ 12</div>
-  <div class="ds-row">
-    <div style="display:flex;gap:6px;"><div class="ds-die" id="hp-d1">？</div><div class="ds-die" id="hp-d2">？</div></div>
-    <button class="ds-btn" id="hp-btn" onclick="rollHP()">🎲 振る</button>
-    <span class="ds-out">HP <strong id="hp-val-inline">—</strong></span>
-  </div>
-</div>
-<div class="ds-step">
-  <div class="ds-label">② 技術点　サイコロ1個 ＋ 6</div>
-  <div class="ds-row">
-    <div style="display:flex;gap:6px;"><div class="ds-die" id="sk-d1">？</div></div>
-    <button class="ds-btn" id="sk-btn" onclick="rollSK()">🎲 振る</button>
-    <span class="ds-out">SK <strong id="sk-val-inline">—</strong></span>
-  </div>
-</div>
-<div class="ds-step">
-  <div class="ds-label">③ 運勢点　サイコロ1個 ＋ 6</div>
-  <div class="ds-row">
-    <div style="display:flex;gap:6px;"><div class="ds-die" id="lk-d1">？</div></div>
-    <button class="ds-btn" id="lk-btn" onclick="rollLK()">🎲 振る</button>
-    <span class="ds-out">LK <strong id="lk-val-inline">—</strong></span>
-  </div>
-</div>
-</div>
+
 <div class="choices">
 <p><a href="#十二" class="jump">女将のマグダに話しかけるなら十二へ進め</a></p>
 <p><a href="#八十三" class="jump">三人組の男たちに近づくなら八十三へ進め</a></p>
@@ -1807,6 +1828,50 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
   </div>
 </div>
 
+
+
+<div id="diceOverlay" onclick="toggleDicePanel()"></div>
+<div id="dicePanel">
+  <div id="dicePanelHead">
+    <span>🎲 ダイスローラー</span>
+    <button onclick="toggleDicePanel()">✕</button>
+  </div>
+  <div id="dicePanelBody">
+    <div class="dp-step">
+      <div class="dp-label">① 体力点　2個＋12</div>
+      <div class="dp-row">
+        <div style="display:flex;gap:5px;"><div class="dp-die" id="p-hp-d1">？</div><div class="dp-die" id="p-hp-d2">？</div></div>
+        <button class="dp-btn" id="p-hp-btn" onclick="pRollHP()">🎲 振る</button>
+        <span class="dp-out">HP <strong id="p-hp-out">—</strong></span>
+      </div>
+    </div>
+    <div class="dp-step">
+      <div class="dp-label">② 技術点　1個＋6</div>
+      <div class="dp-row">
+        <div class="dp-die" id="p-sk-d1">？</div>
+        <button class="dp-btn" id="p-sk-btn" onclick="pRollSK()">🎲 振る</button>
+        <span class="dp-out">SK <strong id="p-sk-out">—</strong></span>
+      </div>
+    </div>
+    <div class="dp-step">
+      <div class="dp-label">③ 運勢点　1個＋6</div>
+      <div class="dp-row">
+        <div class="dp-die" id="p-lk-d1">？</div>
+        <button class="dp-btn" id="p-lk-btn" onclick="pRollLK()">🎲 振る</button>
+        <span class="dp-out">LK <strong id="p-lk-out">—</strong></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div id="fab">
+  <button id="diceBtn" onclick="toggleDicePanel()" title="ダイスローラー">🎲</button>
+  <button id="sheetBtn" onclick="toggleSheet()" title="冒険者シート">📋</button>
+</div>
+
 <script>
 // ===== 能力値管理 =====
 var stats = { hp:0, hpMax:0, sk:0, skMax:0, lk:0, lkMax:0, gold:3 };
@@ -1982,6 +2047,55 @@ function updateSheet(){
   renderItems();
 }
 
+function toggleDicePanel(){
+  var p=document.getElementById('dicePanel');
+  var o=document.getElementById('diceOverlay');
+  if(!p) return;
+  var isOpen=p.classList.contains('open');
+  if(isOpen){ p.classList.remove('open'); if(o) o.classList.remove('open'); }
+  else { p.classList.add('open'); if(o) o.classList.add('open'); }
+}
+
+function pUpdBtn(stat){
+  var btn=document.getElementById('p-'+stat+'-btn');
+  if(!btn) return;
+  var rem=MAX_STAT_ROLLS-rollCounts[stat];
+  if(rem<=0){ btn.disabled=true; btn.textContent='振り済み'; btn.style.background='#999'; }
+  else { btn.textContent='🎲 振る（残'+rem+'）'; }
+}
+
+function pRollHP(){
+  if(rollCounts.hp>=MAX_STAT_ROLLS) return;
+  animDice(['p-hp-d1','p-hp-d2'],function(){
+    var r1=d6(),r2=d6();
+    var e1=document.getElementById('p-hp-d1'); if(e1) e1.textContent=faces[r1-1];
+    var e2=document.getElementById('p-hp-d2'); if(e2) e2.textContent=faces[r2-1];
+    stats.hpMax=r1+r2+12; stats.hp=stats.hpMax;
+    var v=document.getElementById('p-hp-out'); if(v) v.textContent=stats.hp;
+    rollCounts.hp++; pUpdBtn('hp'); updDiceBtn('hp'); save(); updateSheet();
+  });
+}
+function pRollSK(){
+  if(rollCounts.sk>=MAX_STAT_ROLLS) return;
+  animDice(['p-sk-d1'],function(){
+    var r=d6();
+    var e=document.getElementById('p-sk-d1'); if(e) e.textContent=faces[r-1];
+    stats.skMax=r+6; stats.sk=stats.skMax;
+    var v=document.getElementById('p-sk-out'); if(v) v.textContent=stats.sk;
+    rollCounts.sk++; pUpdBtn('sk'); updDiceBtn('sk'); save(); updateSheet();
+  });
+}
+function pRollLK(){
+  if(rollCounts.lk>=MAX_STAT_ROLLS) return;
+  animDice(['p-lk-d1'],function(){
+    var r=d6();
+    var e=document.getElementById('p-lk-d1'); if(e) e.textContent=faces[r-1];
+    stats.lkMax=r+6; stats.lk=stats.lkMax;
+    var v=document.getElementById('p-lk-out'); if(v) v.textContent=stats.lk;
+    rollCounts.lk++; pUpdBtn('lk'); updDiceBtn('lk'); save(); updateSheet();
+  });
+}
+
 function toggleSheet(){
   var overlay = document.getElementById('sheetOverlay');
   var panel = document.getElementById('sheetPanel');
@@ -2045,6 +2159,11 @@ function load(){
   }catch(e){}
 }
 function resetAll(){
+  rollCounts={hp:0,sk:0,lk:0};
+  ['hp-btn','sk-btn','lk-btn'].forEach(function(id){var b=document.getElementById(id);if(b){b.disabled=false;b.textContent='🎲 振る';b.style.background='#111';}});
+  ['hp-d1','hp-d2','sk-d1','lk-d1'].forEach(function(id){var d=document.getElementById(id);if(d)d.textContent='？';});
+  ['p-hp-d1','p-hp-d2','p-sk-d1','p-lk-d1'].forEach(function(id){var d=document.getElementById(id);if(d)d.textContent='？';});
+  ['hp-val-inline','sk-val-inline','lk-val-inline','p-hp-out','p-sk-out','p-lk-out'].forEach(function(id){var v=document.getElementById(id);if(v)v.textContent='—';});
   rollCounts = { hp:0, sk:0, lk:0 };
   ['hp-btn','sk-btn','lk-btn'].forEach(function(id){
     var b=document.getElementById(id);
@@ -2065,13 +2184,13 @@ function resetAll(){
   try{ localStorage.removeItem('vs'); }catch(e){}
 }
 
-document.getElementById('memo').addEventListener('input', save);
-window.addEventListener('load', load);
+document.addEventListener('DOMContentLoaded',function(){
+  var memo=document.getElementById('memo');
+  if(memo) memo.addEventListener('input',save);
+  load();
+});
 </script>
 
-<div id="fab">
-  <button id="sheetBtn" onclick="toggleSheet()">📋</button>
-</div>
 <div id="sheetOverlay" onclick="toggleSheet()"></div>
 <div id="sheetPanel">
   <div style="background:#111;padding:0.7rem 1rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;border-radius:12px 12px 0 0;">
