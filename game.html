@@ -29,9 +29,9 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 .auto-btns { display:flex; gap:8px; flex-wrap:wrap; margin:1rem 0; padding:0.8rem; background:#f9f9f9; border:1px solid #ddd; border-radius:6px; }
 .auto-btn { padding:0.4rem 1rem; border:none; border-radius:4px; font-size:0.85rem; font-family:sans-serif; font-weight:700; cursor:pointer; }
 .auto-btn:active { opacity:0.7; }
-#fab { position:fixed; bottom:20px; right:16px; z-index:9999 !important; }
+#fab { position:fixed; bottom:20px; right:16px; z-index:9999; }
 #sheetBtn { width:50px; height:50px; border-radius:50%; background:#111; color:#fff; border:none; font-size:1.3rem; cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,0.3); }
-#sheetBg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:10000 !important; align-items:flex-end; justify-content:center; }
+#sheetBg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:10000; align-items:flex-end; justify-content:center; }
 #sheetBg.open { display:flex; }
 #sheetBox { background:#fff; border-top:3px solid #111; border-radius:12px 12px 0 0; width:100%; max-width:520px; max-height:88vh; overflow-y:auto; font-family:sans-serif; }
 #sheetHead { background:#111; padding:0.7rem 1rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; }
@@ -1755,10 +1755,6 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
   </div>
 </div>
 
-<div id="fab" style="position:fixed;bottom:20px;right:16px;z-index:9999;">
-  <button id="sheetBtn" onclick="toggleSheet()" style="width:54px;height:54px;border-radius:50%;background:#111;color:#fff;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.4);">📋</button>
-</div>
-
 <script>
 // ===== 能力値管理 =====
 var stats = { hp:0, hpMax:0, sk:0, skMax:0, lk:0, lkMax:0, gold:3 };
@@ -1852,10 +1848,11 @@ function updateSheet(){
 
 function toggleSheet(){
   var m = document.getElementById('sheetBg');
-  if(!m) return;
-  var isOpen = m.style.display === 'flex';
-  m.style.display = isOpen ? 'none' : 'flex';
-  if(!isOpen) setTimeout(function(){ updateSheet(); }, 50);
+  m.classList.toggle('open');
+  if(m.classList.contains('open')){
+    // display:flexになってからupdateSheetを呼ぶ
+    setTimeout(function(){ updateSheet(); }, 50);
+  }
 }
 
 // ===== 所持品 =====
@@ -1960,29 +1957,10 @@ document.addEventListener('DOMContentLoaded', function(){ load(); });
   <div id="sheetBody">
     <div class="ss">
       <h4>能力値</h4>
-      <div class="stat-row">
-        <span class="stat-name">体力点 HP</span>
-        <span class="stat-val" id="hp-val">—</span>
-        <span class="stat-max" id="hp-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="hp-bar" style="width:100%;background:#2a7a2a;"></div></div>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">技術点 SK</span>
-        <span class="stat-val" id="sk-val">—</span>
-        <span class="stat-max" id="sk-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="sk-bar" style="width:100%;background:#1a5fa8;"></div></div>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">運勢点 LK</span>
-        <span class="stat-val" id="lk-val">—</span>
-        <span class="stat-max" id="lk-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="lk-bar" style="width:100%;background:#7a4fa8;"></div></div>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">金貨</span>
-        <span class="stat-val" id="gold-val">3</span>
-        <span class="stat-max">枚</span>
-      </div>
+      <div class="stat-row"><span class="stat-name">体力点 HP</span><span class="stat-val" id="hp-val">—</span><span class="stat-max" id="hp-max"></span><div class="stat-bar-bg"><div class="stat-bar-fill" id="hp-bar" style="width:0%;background:#2a7a2a;"></div></div></div>
+      <div class="stat-row"><span class="stat-name">技術点 SK</span><span class="stat-val" id="sk-val">—</span><span class="stat-max" id="sk-max"></span><div class="stat-bar-bg"><div class="stat-bar-fill" id="sk-bar" style="width:0%;background:#1a5fa8;"></div></div></div>
+      <div class="stat-row"><span class="stat-name">運勢点 LK</span><span class="stat-val" id="lk-val">—</span><span class="stat-max" id="lk-max"></span><div class="stat-bar-bg"><div class="stat-bar-fill" id="lk-bar" style="width:0%;background:#7a4fa8;"></div></div></div>
+      <div class="stat-row"><span class="stat-name">金貨</span><span class="stat-val" id="gold-val">3</span><span class="stat-max">枚</span></div>
     </div>
     <div class="ss">
       <h4>初期値設定（最初に1回だけ）</h4>
