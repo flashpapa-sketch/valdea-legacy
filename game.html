@@ -1755,64 +1755,73 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
   </div>
 </div>
 
+<div id="fab" style="position:fixed;bottom:20px;right:16px;z-index:9999;">
+  <button id="sheetBtn" onclick="toggleSheet()" style="width:54px;height:54px;border-radius:50%;background:#111;color:#fff;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.4);">📋</button>
+</div>
+
 <div id="fab">
   <button id="sheetBtn" onclick="toggleSheet()" title="冒険者シート">📋</button>
 </div>
 
-<div id="sheetBg" onclick="if(event.target===this)toggleSheet()">
-<div id="sheetBox">
-  <div id="sheetHead">
-    <h2>📋 冒険者シート</h2>
-    <button id="sheetClose" onclick="toggleSheet()">✕</button>
+<div id="sheetBg" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);z-index:10000;align-items:flex-end;justify-content:center;">
+<div id="sheetBox" style="background:#fff;border-top:3px solid #111;border-radius:12px 12px 0 0;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;font-family:sans-serif;">
+  <div style="background:#111;padding:0.7rem 1rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;border-radius:12px 12px 0 0;">
+    <h2 style="color:#fff;font-size:0.9rem;margin:0;">📋 冒険者シート</h2>
+    <button onclick="toggleSheet()" style="background:transparent;border:none;color:#fff;font-size:1.5rem;cursor:pointer;line-height:1;">✕</button>
   </div>
-  <div id="sheetBody">
-    <div class="ss">
-      <h4>能力値</h4>
-      <div class="stat-row">
-        <span class="stat-name">体力点 HP</span>
-        <span class="stat-val" id="hp-val">—</span>
-        <span class="stat-max" id="hp-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="hp-bar" style="width:100%;background:#2a7a2a;"></div></div>
+  <div id="sheetBody" style="padding:1rem;">
+    <div style="margin-bottom:1rem;">
+      <div style="font-size:0.72rem;font-weight:700;color:#111;border-bottom:1px solid #ccc;padding-bottom:0.2rem;margin-bottom:0.5rem;">能力値</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:0.75rem;color:#555;min-width:80px;">体力点 HP</span>
+        <span id="hp-val" style="font-size:1.4rem;font-weight:700;color:#111;min-width:36px;text-align:center;">—</span>
+        <span id="hp-max" style="font-size:0.7rem;color:#888;"></span>
+        <div style="flex:1;background:#e0e0e0;border-radius:99px;height:8px;overflow:hidden;">
+          <div id="hp-bar" style="height:100%;background:#2a7a2a;border-radius:99px;width:0%;transition:width 0.3s;"></div>
+        </div>
       </div>
-      <div class="stat-row">
-        <span class="stat-name">技術点 SK</span>
-        <span class="stat-val" id="sk-val">—</span>
-        <span class="stat-max" id="sk-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="sk-bar" style="width:100%;background:#1a5fa8;"></div></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:0.75rem;color:#555;min-width:80px;">技術点 SK</span>
+        <span id="sk-val" style="font-size:1.4rem;font-weight:700;color:#111;min-width:36px;text-align:center;">—</span>
+        <span id="sk-max" style="font-size:0.7rem;color:#888;"></span>
+        <div style="flex:1;background:#e0e0e0;border-radius:99px;height:8px;overflow:hidden;">
+          <div id="sk-bar" style="height:100%;background:#1a5fa8;border-radius:99px;width:0%;transition:width 0.3s;"></div>
+        </div>
       </div>
-      <div class="stat-row">
-        <span class="stat-name">運勢点 LK</span>
-        <span class="stat-val" id="lk-val">—</span>
-        <span class="stat-max" id="lk-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="lk-bar" style="width:100%;background:#7a4fa8;"></div></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:0.75rem;color:#555;min-width:80px;">運勢点 LK</span>
+        <span id="lk-val" style="font-size:1.4rem;font-weight:700;color:#111;min-width:36px;text-align:center;">—</span>
+        <span id="lk-max" style="font-size:0.7rem;color:#888;"></span>
+        <div style="flex:1;background:#e0e0e0;border-radius:99px;height:8px;overflow:hidden;">
+          <div id="lk-bar" style="height:100%;background:#7a4fa8;border-radius:99px;width:0%;transition:width 0.3s;"></div>
+        </div>
       </div>
-      <div class="stat-row">
-        <span class="stat-name">金貨</span>
-        <span class="stat-val" id="gold-val">3</span>
-        <span class="stat-max">枚</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:0.75rem;color:#555;min-width:80px;">金貨</span>
+        <span id="gold-val" style="font-size:1.4rem;font-weight:700;color:#111;min-width:36px;text-align:center;">3</span>
+        <span style="font-size:0.7rem;color:#888;">枚</span>
       </div>
     </div>
-    <div class="ss">
-      <h4>初期値設定（最初に1回だけ）</h4>
+    <div style="margin-bottom:1rem;">
+      <div style="font-size:0.72rem;font-weight:700;color:#111;border-bottom:1px solid #ccc;padding-bottom:0.2rem;margin-bottom:0.5rem;">初期値設定（3回まで）</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
         <button id="roll-btn" onclick="rollAll()" style="padding:6px 12px;background:#111;color:#fff;border:none;border-radius:4px;font-size:0.8rem;cursor:pointer;">🎲 ロール（1回目）</button>
         <button onclick="resetAll()" style="padding:6px 12px;background:#fff;color:#888;border:1px solid #ccc;border-radius:4px;font-size:0.8rem;cursor:pointer;">リセット</button>
       </div>
-      <div id="roll-result" style="display:none;font-size:0.78rem;color:#2a7a2a;font-family:sans-serif;font-weight:bold;padding:4px 8px;background:#eafaea;border-radius:4px;border:1px solid #2a7a2a;"></div>
+      <div id="roll-result" style="display:none;font-size:0.78rem;font-weight:bold;padding:4px 8px;background:#eafaea;border-radius:4px;border:1px solid #2a7a2a;color:#2a7a2a;"></div>
     </div>
-    <div class="ss">
-      <h4>所持品</h4>
-      <div class="item-grid" id="itemGrid"></div>
+    <div style="margin-bottom:1rem;">
+      <div style="font-size:0.72rem;font-weight:700;color:#111;border-bottom:1px solid #ccc;padding-bottom:0.2rem;margin-bottom:0.5rem;">所持品</div>
+      <div id="itemGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;"></div>
       <button onclick="addItem()" style="margin-top:6px;padding:4px 10px;background:#111;color:#fff;border:none;border-radius:4px;font-size:0.75rem;cursor:pointer;">＋ 追加</button>
     </div>
-    <div class="ss">
-      <h4>メモ</h4>
-      <textarea class="memo-area" id="memo" placeholder="フラグ・合言葉など..."></textarea>
+    <div style="margin-bottom:1rem;">
+      <div style="font-size:0.72rem;font-weight:700;color:#111;border-bottom:1px solid #ccc;padding-bottom:0.2rem;margin-bottom:0.5rem;">メモ</div>
+      <textarea id="memo" placeholder="フラグ・合言葉など..." style="width:100%;border:1px solid #ddd;border-radius:4px;padding:6px 8px;font-size:0.76rem;resize:none;min-height:60px;outline:none;font-family:sans-serif;box-sizing:border-box;"></textarea>
     </div>
   </div>
 </div>
 </div>
-
 
 <script>
 // ===== 能力値管理 =====
@@ -1907,11 +1916,10 @@ function updateSheet(){
 
 function toggleSheet(){
   var m = document.getElementById('sheetBg');
-  m.classList.toggle('open');
-  if(m.classList.contains('open')){
-    // display:flexになってからupdateSheetを呼ぶ
-    setTimeout(function(){ updateSheet(); }, 50);
-  }
+  if(!m) return;
+  var isOpen = m.style.display === 'flex';
+  m.style.display = isOpen ? 'none' : 'flex';
+  if(!isOpen) setTimeout(function(){ updateSheet(); }, 50);
 }
 
 // ===== 所持品 =====
