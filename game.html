@@ -1653,64 +1653,6 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
 </div>
 <div id="ftr"><a href="guide.html">冒険者の手引き</a>　｜　ヴァルデアの遺産</div>
 
-<div id="fab">
-  <button id="sheetBtn" onclick="toggleSheet()" title="冒険者シート">📋</button>
-</div>
-
-<div id="sheetBg" onclick="if(event.target===this)toggleSheet()">
-<div id="sheetBox">
-  <div id="sheetHead">
-    <h2>📋 冒険者シート</h2>
-    <button id="sheetClose" onclick="toggleSheet()">✕</button>
-  </div>
-  <div id="sheetBody">
-    <div class="ss">
-      <h4>能力値</h4>
-      <div class="stat-row">
-        <span class="stat-name">体力点 HP</span>
-        <span class="stat-val" id="hp-val">—</span>
-        <span class="stat-max" id="hp-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="hp-bar" style="width:100%;background:#2a7a2a;"></div></div>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">技術点 SK</span>
-        <span class="stat-val" id="sk-val">—</span>
-        <span class="stat-max" id="sk-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="sk-bar" style="width:100%;background:#1a5fa8;"></div></div>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">運勢点 LK</span>
-        <span class="stat-val" id="lk-val">—</span>
-        <span class="stat-max" id="lk-max"></span>
-        <div class="stat-bar-bg"><div class="stat-bar-fill" id="lk-bar" style="width:100%;background:#7a4fa8;"></div></div>
-      </div>
-      <div class="stat-row">
-        <span class="stat-name">金貨</span>
-        <span class="stat-val" id="gold-val">3</span>
-        <span class="stat-max">枚</span>
-      </div>
-    </div>
-    <div class="ss">
-      <h4>初期値設定（最初に1回だけ）</h4>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
-        <button id="roll-btn" onclick="rollAll()" style="padding:6px 12px;background:#111;color:#fff;border:none;border-radius:4px;font-size:0.8rem;cursor:pointer;">🎲 ロール（1回目）</button>
-        <button onclick="resetAll()" style="padding:6px 12px;background:#fff;color:#888;border:1px solid #ccc;border-radius:4px;font-size:0.8rem;cursor:pointer;">リセット</button>
-      </div>
-      <div id="roll-result" style="display:none;font-size:0.78rem;color:#2a7a2a;font-family:sans-serif;font-weight:bold;padding:4px 8px;background:#eafaea;border-radius:4px;border:1px solid #2a7a2a;"></div>
-    </div>
-    <div class="ss">
-      <h4>所持品</h4>
-      <div class="item-grid" id="itemGrid"></div>
-      <button onclick="addItem()" style="margin-top:6px;padding:4px 10px;background:#111;color:#fff;border:none;border-radius:4px;font-size:0.75rem;cursor:pointer;">＋ 追加</button>
-    </div>
-    <div class="ss">
-      <h4>メモ</h4>
-      <textarea class="memo-area" id="memo" placeholder="フラグ・合言葉など..."></textarea>
-    </div>
-  </div>
-</div>
-</div>
-
 
 <!-- ===== ワールドマップ ===== -->
 <div id="worldmap-section" style="margin-top:1.5rem;padding:1rem;background:#f5ead8;border:1px solid #3a2a10;border-radius:6px;">
@@ -1812,6 +1754,65 @@ p { line-height:2; font-size:1rem; color:#111; margin-bottom:0.8rem; }
     ヴァルデアの遺産 — 断片の時代の世界図
   </div>
 </div>
+
+<div id="fab">
+  <button id="sheetBtn" onclick="toggleSheet()" title="冒険者シート">📋</button>
+</div>
+
+<div id="sheetBg" onclick="if(event.target===this)toggleSheet()">
+<div id="sheetBox">
+  <div id="sheetHead">
+    <h2>📋 冒険者シート</h2>
+    <button id="sheetClose" onclick="toggleSheet()">✕</button>
+  </div>
+  <div id="sheetBody">
+    <div class="ss">
+      <h4>能力値</h4>
+      <div class="stat-row">
+        <span class="stat-name">体力点 HP</span>
+        <span class="stat-val" id="hp-val">—</span>
+        <span class="stat-max" id="hp-max"></span>
+        <div class="stat-bar-bg"><div class="stat-bar-fill" id="hp-bar" style="width:100%;background:#2a7a2a;"></div></div>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">技術点 SK</span>
+        <span class="stat-val" id="sk-val">—</span>
+        <span class="stat-max" id="sk-max"></span>
+        <div class="stat-bar-bg"><div class="stat-bar-fill" id="sk-bar" style="width:100%;background:#1a5fa8;"></div></div>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">運勢点 LK</span>
+        <span class="stat-val" id="lk-val">—</span>
+        <span class="stat-max" id="lk-max"></span>
+        <div class="stat-bar-bg"><div class="stat-bar-fill" id="lk-bar" style="width:100%;background:#7a4fa8;"></div></div>
+      </div>
+      <div class="stat-row">
+        <span class="stat-name">金貨</span>
+        <span class="stat-val" id="gold-val">3</span>
+        <span class="stat-max">枚</span>
+      </div>
+    </div>
+    <div class="ss">
+      <h4>初期値設定（最初に1回だけ）</h4>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+        <button id="roll-btn" onclick="rollAll()" style="padding:6px 12px;background:#111;color:#fff;border:none;border-radius:4px;font-size:0.8rem;cursor:pointer;">🎲 ロール（1回目）</button>
+        <button onclick="resetAll()" style="padding:6px 12px;background:#fff;color:#888;border:1px solid #ccc;border-radius:4px;font-size:0.8rem;cursor:pointer;">リセット</button>
+      </div>
+      <div id="roll-result" style="display:none;font-size:0.78rem;color:#2a7a2a;font-family:sans-serif;font-weight:bold;padding:4px 8px;background:#eafaea;border-radius:4px;border:1px solid #2a7a2a;"></div>
+    </div>
+    <div class="ss">
+      <h4>所持品</h4>
+      <div class="item-grid" id="itemGrid"></div>
+      <button onclick="addItem()" style="margin-top:6px;padding:4px 10px;background:#111;color:#fff;border:none;border-radius:4px;font-size:0.75rem;cursor:pointer;">＋ 追加</button>
+    </div>
+    <div class="ss">
+      <h4>メモ</h4>
+      <textarea class="memo-area" id="memo" placeholder="フラグ・合言葉など..."></textarea>
+    </div>
+  </div>
+</div>
+</div>
+
 
 <script>
 // ===== 能力値管理 =====
