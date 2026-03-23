@@ -277,6 +277,15 @@ body{
 /* inv/memo */
 .inv-sec,.memo-sec{padding-top:.6rem;border-top:1px solid #2a2620;margin-bottom:.6rem}
 .inv-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:.3rem;min-height:1.2rem}
+
+.inv-tag.inv-use{
+  cursor:pointer;border-color:#4a8a4a;color:#8ab48a;
+  transition:background .15s;
+}
+.inv-tag.inv-use:hover,.inv-tag.inv-use:active{
+  background:#1a3a1a;border-color:#6aaa6a;
+}
+
 .inv-tag{font-size:.65rem;padding:.1rem .4rem;background:#1e1a14;border:1px solid #2a2620;color:var(--dim)}
 .sb-ta{
   width:100%;background:#0d0d0f;border:1px solid #2a2620;
@@ -440,7 +449,7 @@ body{
 <div class="para" id="五">
 <div class="para-num">◆ <span>五</span></div>
 <div class="para-body">
-<p>「……あそこには行くな」と職人は言った。感情の乏しい声だが、その一言には重みがある。「三十年前、七人で入った。帰ってきたのは私だけだった。仲間たちは皆、死んだ者の声に引き寄せられて消えた。あの遺跡は訪れた者の弱いところを突いてくる」</p>
+<p>「……あそこには行くな」と職人は言った。感情の乏しい声だが、その一言には重みがある。「五十年前、七人で入った。帰ってきたのは私だけだった。仲間たちは皆、死んだ者の声に引き寄せられて消えた。あの遺跡は訪れた者の弱いところを突いてくる」</p>
 <p>「紋章のことは知っているか」とあなたは問う。</p>
 <p>職人は一瞬だけあなたを見た。「神殿のオルドに聞け。七十年あそこにいる。知っているとしたら、あの老人だけだ」</p>
 </div>
@@ -831,8 +840,8 @@ body{
 <div class="rule">「回復薬」を所持品に記録せよ。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('十八')">ザル＝</button>
-<button class="choice-btn" onclick="goto('百三十八')">今夜すぐにザル＝</button>
+<button class="choice-btn" onclick="goto('十八')">ザル＝カラムへ出発する</button>
+<button class="choice-btn" onclick="goto('百三十八')">今夜すぐに出発する</button>
 </div>
 
 </div>
@@ -875,18 +884,15 @@ body{
 <div class="para" id="百六十七">
 <div class="para-num">◆ <span>百六十七</span></div>
 <div class="para-body">
-<p>四人組のリーダーの後ろに、さらに大きな影があった。オークだ。頭一つ分背が高く、古い傷跡が顔を横切っている。冒険者たちの護衛か、あるいは一緒に旅をしている者か。</p>
-<p>あなたは武器を収め、両手を広げて近づいた。オークの目が細くなる。後ろの仲間たちが武器を構える。</p>
-<p>「通してほしい」とあなたは言った。「ザル＝カラムへ行く」</p>
-<p>オークは長い沈黙の後、低い声で言った。「死にたいのか、人間」</p>
-<p>「かもしれない」とあなたは答えた。「だがあの遺跡が目覚めれば、この荒野も飲み込まれる」</p>
-<p>またの沈黙。オークはあなたの左手を見た。その目に、何か認識の光が走った。</p>
-<p>「……行け」と彼は低く言った。「ただし、戻ってくる時は別の道を通れ。次は通さない」</p>
-<p>技術点に一点を加えよ。この判断が、あなたを生かした。</p>
+<p>「一緒に来るか」とあなたは四人組のリーダーに言った。赤いスカーフを巻いた男が、しばらくあなたを見た。</p>
+<p>「…あんた、紋章を持ってるな」と男は低く言った。「見たことがある。古い本に。ザル＝カラムの扉を開ける鍵だと」</p>
+<p>四人は顔を見合わせた。それから男が言った。「一緒に行こう。俺たちはあの遺跡に入るだけの腕がある。あんたには開けられない扉があるはずだ。お互い、持っていないものを補い合える」</p>
+<p>技術点に一点を加えよ。この出会いが、あなたを少し強くした。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('百八十八')">先へ進む</button>
-<button class="choice-btn" onclick="goto('五百八')">オーク族長ラグタルとの交渉が成立した</button>
+<button class="choice-btn" onclick="adj('sk',1);goto('百八十八')">共に行く</button>
+<button class="choice-btn" onclick="goto('五百八')">オーク族長ラグタルと話す</button>
+<button class="choice-btn" onclick="goto('百七十九')">断って単独で進む</button>
 </div>
 
 </div>
@@ -898,7 +904,7 @@ body{
 <p>相手は荒野の山賊三人組で、それぞれが短剣と革鎧で武装していた。リーダーは額に古い傷跡がある三十代の男で、目に飢えた輝きがある。荒廃した大地で食料を奪うしか生きる術がない者の目だ。ヴァルデアの断片の時代が生んだ、悲しい産物だ。</p>
 <p>戦いは終わった。倒れた者たちの荷物を調べると、干し肉と水袋、そして一枚の紙があった。ザル＝カラムへの簡単な地図だ。彼らも遺跡を目指していたのかもしれない。</p>
 <p>あなたは先へ進んだ。</p>
-<div class="rule">オーク三体と戦闘を行え。それぞれの技術点は七、体力点は八である。一体ずつ順番に戦え。一体を倒すごとに次のオークと戦う。戦闘中に食料や回復薬を使用することはできない。オーク：技術点七／体力点八（三体）／経験値：一体につき一点（合計三点）。冒険者シートの経験値欄に記録し、合計が三点に達したならLv.2「浮足立つ冒険者」へ昇格し技術点＋一せよ。七点に達したならLv.3「豪傑の勇者」へ昇格し体力点最大値＋四せよ。十二点に達したならLv.4「ヴァルデアのレジェンド」へ昇格し運勢点＋一・技術点＋一せよ。</div>
+<div class="rule">山賊三人組と戦闘を行え。一人ずつ順番に戦え。山賊：技術点六／体力点七。戦闘中に食料や回復薬は使用不可。一人倒すごとに経験値一点を得よ（合計三点）。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百八十八')">全員を倒した</button>
@@ -968,6 +974,7 @@ body{
 <div class="rule">番人ゴーレムと戦闘を行え。ゴーレム：技術点九／体力点十二。ゴーレムの皮膚は石でできている。技術点八以下の武器では一ラウンドに与えられるダメージは一点のみとなる。「ロットンのつるぎ」を持っている場合はこの制限を受けない。撃破時の経験値：二点。冒険者シートに記録し、レベルアップ条件を確認すること。</div>
 </div>
 <div class="choices">
+<button class="choice-btn" onclick="addXP(2);goto('二百二十九')">勝利して先へ進む</button>
 <button class="choice-btn" onclick="equipNeck()">死神の首飾りを装備する</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
@@ -1157,11 +1164,9 @@ body{
 <div class="rule">古代の守護者と戦闘を行え。守護者：技術点十／体力点十四。守護者は一ラウンドに二回攻撃を行う。二回目の攻撃では技術点から二点を引いた値で判定せよ。「ロットンのつるぎ」を持っている場合、一ラウンドに与えるダメージは三点となる。経験値：二点。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('三百十二')">勝利して先へ進む</button>
-<button class="choice-btn" onclick="goto('四百二十八')">（体力4以下）猿の右手を使う</button>
+<button class="choice-btn" onclick="addXP(2);goto('六百十二')">勝利して先へ進む</button>
+<button class="choice-btn" onclick="monkeyManual()">猿の右手を使う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
-<button class="choice-btn" onclick="goto('六百十一')">廊下を進んでいる</button>
-<button class="choice-btn" onclick="goto('六百十二')">守護者エイサーを倒した</button>
 </div>
 
 </div>
@@ -1247,8 +1252,8 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('三百六十二')">ニフルユーム王国の城門へ向かう</button>
-<button class="choice-btn" onclick="goto('三百七十一')">タンガリー山岳のトール＝</button>
-<button class="choice-btn" onclick="goto('三百八十三')">テニスタ・</button>
+<button class="choice-btn" onclick="goto('三百七十一')">タンガリー山岳のトール＝グルムへ向かう</button>
+<button class="choice-btn" onclick="goto('三百八十三')">テニスタ・テニストの森へ向かう</button>
 <button class="choice-btn" onclick="goto('三百九十一')">一人で戻ると決める</button>
 <button class="choice-btn" onclick="goto('八百一')">ドーランに一度戻る</button>
 <button class="choice-btn" onclick="goto('八百五')">道中でナックが話しかけてきた</button>
@@ -1269,6 +1274,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('三百六十八')">王に謁見する</button>
+<button class="choice-btn" onclick="goto('四百二')">交渉せず先を急ぐ</button>
 </div>
 
 </div>
@@ -1369,7 +1375,7 @@ body{
 <span class="stat-effect">体力+4（使用時）</span>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百二')">ザル＝</button>
+<button class="choice-btn" onclick="goto('四百二')">ザル＝カラムへ出発する</button>
 </div>
 
 </div>
@@ -1424,7 +1430,8 @@ body{
 <div class="rule">猿の右手テーブルを参照し、効果と代償を適用した後、四百十五へ戻って戦闘を続けよ。ただし出目が十二「伝説の一手」の場合はヴォルカネスの体力点を半分にする。出目が二「悪魔の嘲笑」の場合はヴォルカネスが激怒し次のラウンドのダメージが二倍になる。猿の右手は使用済みとなった。冒険者シートに記録せよ。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百十五')">四百十五へ戻って戦闘を続けよ</button>
+<button class="choice-btn" onclick="goto('三百二十四')">声の主に向かう</button>
+<button class="choice-btn" onclick="goto('四百十五')">戦闘を続ける</button>
 </div>
 
 </div>
@@ -1612,8 +1619,7 @@ body{
 <div class="rule">「地下一層で操られた者がいた」「地下一層に古い日誌がある」とメモ欄に記録せよ。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('百五十二')">荒野ルートで進む</button>
-<button class="choice-btn" onclick="goto('百八十八')">森ルートで進む</button>
+<button class="choice-btn" onclick="goto('二百三')">礼を言い先へ進む</button>
 </div>
 
 </div>
@@ -1628,8 +1634,7 @@ body{
 <div class="rule">「地下一層に古い日誌がある」とメモ欄に記録せよ。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('百五十二')">荒野ルートで進む</button>
-<button class="choice-btn" onclick="goto('百八十八')">森ルートで進む</button>
+<button class="choice-btn" onclick="goto('二百三')">礼を言い先へ進む</button>
 </div>
 
 </div>
@@ -1655,10 +1660,11 @@ body{
 <div class="rule">解毒薬（金貨三枚）：一度だけ使用でき、毒霧や呪いによる体力損失を防ぐ。縄（金貨一枚）：長さ十メートルの丈夫な麻縄。火打石（金貨一枚）：暗闇での明かりに。小瓶の水（金貨一枚）：清潔な水。「全部買っていく金はないだろうが」と老人は言った。「縄と解毒薬は特に役に立つはずだ。ザル＝カラムには毒霧の出る廊下と落とし穴がある。私が生き延びられたのは、この二つのおかげだ」</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('百五十二')">購入後</button>
-<button class="choice-btn" onclick="goto('百九十四')">購入後</button>
-<button class="choice-btn" onclick="goto('百五十二')">何も買わず荒野ルートで進む</button>
-<button class="choice-btn" onclick="goto('百九十四')">何も買わず古代街道ルートで進む</button>
+<button class="choice-btn" onclick="payGoto(3,'二百三','解毒薬を購入した（金貨-3）')">解毒薬を買う（金貨3枚）</button>
+<button class="choice-btn" onclick="payGoto(1,'二百三','縄を購入した（金貨-1）')">縄を買う（金貨1枚）</button>
+<button class="choice-btn" onclick="payGoto(1,'二百三','火打石を購入した（金貨-1）')">火打石を買う（金貨1枚）</button>
+<button class="choice-btn" onclick="goto('百四十五')">何も買わず荒野を行く</button>
+<button class="choice-btn" onclick="goto('百九十四')">何も買わず古代街道を行く</button>
 </div>
 
 </div>
@@ -1780,7 +1786,7 @@ body{
 <div class="rule">番人ゴーレム（二体連戦）と戦闘を行え。一体目：技術点九／体力点十二。二体目：技術点八／体力点十。一体目を倒してから二体目と戦え。一体目撃破後に所持品から回復薬・食料を使用できる。ゴーレムの皮膚は星脈術で硬化されている。技術点八以下の武器では一ラウンドに与えられるダメージは一点のみとなる。「ロットンのつるぎ」を持っている場合はこの制限を受けない。二体撃破の経験値：合計四点。冒険者シートに記録せよ。勝利後、二百二十九へ進め。体力点が零になったなら四百七十三へ進め。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百二十九')">全て倒した</button>
+<button class="choice-btn" onclick="addXP(2);goto('六百十一')">全て倒して廊下を進む</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
@@ -2073,10 +2079,10 @@ body{
 <div class="para" id="百三十八">
 <div class="para-num">◆ <span>百三十八</span></div>
 <div class="para-body">
-<p>夜のドーランは静かだった。あなたは街門を出た。荒野の闇の中に、遠く青白い光が灯っている。ザル＝カラムだ。地図によれば、ここから三時間ほどの距離だ。</p>
+<p>夜のドーランは静かだった。あなたは街門を出た。荒野の風が頬を打つ。闇の向こうに、青白い光が瞬いている。ザル＝カラムだ。三百年間、誰もその光の意味を知らなかった。</p>
 <p>背後で足音がした。振り返ると、酒場で話した老ドワーフ――ゴルムが立っていた。旅装束に身を包み、戦斧を背負っている。「一人で行くつもりか」「止めるつもりか」「逆だ。儂も行く。あの遺跡には、昔の借りがある」</p>
-<p>さらにもう一人。フードを被った人影。銀髪のエルフ、シラだ。「私も行く。三百年、この日を待っていた」</p>
-<p>道は三つに分かれている。</p>
+<p>さらにもう一人。フードを被った人影。銀髪のエルフ、シラだ。「私も行く。三百年、この日を待っていた」その声に迷いはなかった。</p>
+<p>荒野の果てに光は揺れている。どれほど遠くとも、あるいはどれほど近くとも、関係ない。あなたはもうここまで来てしまった。</p>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百四十五')">荒野を行く</button>
@@ -2252,7 +2258,7 @@ function dflt(){
     sk:gs,hp:gh,lk:gl,
     sk0:gs,hp0:gh,lk0:gl,
     gold:3,xp:0,
-    inv:[],flags:{},memo:'',invText:'',
+    inv:['食料','食料','食料'],flags:{},memo:'',invText:'',
     mkUsed:false,neck:false,
     hist:[]
   };
@@ -2407,6 +2413,20 @@ function spend(n){S.gold=Math.max(0,S.gold-n);save();render();}
 // ============================================================
 // ITEMS & FLAGS
 // ============================================================
+
+function useFood(){
+  if(!hasItem('食料')){ fb('食料がない','f'); return; }
+  if(S.hp>=S.hp0){ fb('体力は最大値だ','f'); return; }
+  remItem('食料');
+  heal(2);
+  fb('食料を使った。体力+2','s');
+}
+function useRecovery(){
+  if(!hasItem('回復薬')){ fb('回復薬がない','f'); return; }
+  remItem('回復薬');
+  heal(6);
+  fb('回復薬を使った。体力+6','s');
+}
 function addItem(name){if(!S.inv.includes(name))S.inv.push(name);save();render();}
 function remItem(name){S.inv=S.inv.filter(i=>i!==name);save();render();}
 function hasItem(name){return S.inv.includes(name);}
@@ -2730,7 +2750,17 @@ function render(){
   // 所持品
   const inv=document.getElementById('sb-inv');
   if(S.inv.length>0){
-    inv.innerHTML=S.inv.map(i=>'<span class="inv-tag">'+i+'</span>').join('');
+    // 同名アイテムをまとめて表示、食料・回復薬はタップ使用可能
+    const counts={};
+    for(const i of S.inv) counts[i]=(counts[i]||0)+1;
+    inv.innerHTML=Object.entries(counts).map(([name,cnt])=>{
+      const label=name+(cnt>1?' ×'+cnt:'');
+      if(name==='食料')
+        return '<span class="inv-tag inv-use" onclick="useFood()" title="タップで使用（体力+2）">'+label+'</span>';
+      if(name==='回復薬')
+        return '<span class="inv-tag inv-use" onclick="useRecovery()" title="タップで使用（体力+6）">'+label+'</span>';
+      return '<span class="inv-tag">'+label+'</span>';
+    }).join('');
   }else{
     inv.innerHTML='<span style="font-size:.68rem;color:var(--dim)">（なし）</span>';
   }
