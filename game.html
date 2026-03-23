@@ -270,6 +270,18 @@ body{
 }
 .sb-ta:focus{outline:none;border-color:var(--acc)}
 
+
+.save-sec{padding-top:.6rem;border-top:1px solid #1e1c18;margin-top:.4rem}
+.save-row{display:flex;gap:.35rem;align-items:center;margin-top:.4rem}
+.sv-btn{flex:1;padding:.32rem .4rem;border:1px solid;background:none;font-size:.72rem;cursor:pointer;transition:all .15s}
+.sv-btn.write{color:#8ab48a;border-color:#2a4a2a}
+.sv-btn.write:hover{background:#1a3a1a;border-color:#4a8a4a}
+.sv-btn.read{color:var(--link);border-color:#2a2a4a}
+.sv-btn.read:hover:not(:disabled){background:#1a1a3a;border-color:#4a4aaa}
+.sv-btn.read:disabled{opacity:.35;cursor:not-allowed}
+.sv-info{font-size:.62rem;color:var(--dim);margin-top:.3rem;line-height:1.6;min-height:1rem}
+.sv-info.has-data{color:var(--acc)}
+
 .back-top{display:none}
 </style>
 </head>
@@ -418,7 +430,8 @@ body{
 <p>人影はあなたに気づくと壁に張り付いた。しかし逃げない。じっとあなたの左手を見ている。「その紋章……本物だ」と小さな声がした。「おれ、読める。古代文字が。ドーランでそれができるのは、おれだけだ」</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('七')">金貨一枚か食料を渡して話を聞く</button>
+<button class="choice-btn" onclick="payGoto(1,'七','金貨一枚を渡した')">金貨一枚を渡して話を聞く</button>
+<button class="choice-btn" onclick="goto('九')">金貨がない</button>
 <button class="choice-btn" onclick="goto('四十七')">断って酒場へ向かう</button>
 <button class="choice-btn" onclick="goto('六十一')">無視して神殿へ向かう</button>
 </div>
@@ -464,7 +477,8 @@ body{
 <div class="rule">「ナックの本音を聞いた」とメモ欄に記録せよ。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('百三十八')">先へ進む</button>
+<button class="choice-btn" onclick="goto('十')">ナックの話を聞く</button>
+<button class="choice-btn" onclick="goto('百三十八')">断り出発する</button>
 </div>
 
 </div>
@@ -537,9 +551,10 @@ body{
 <div class="rule">「マグダの話を聞いた」とメモ欄に記録せよ。</div>
 </div>
 <div class="choices">
+<button class="choice-btn" onclick="goto('十四')">「なぜ分かった」と聞く</button>
 <button class="choice-btn" onclick="goto('八十三')">三人組に近づく</button>
 <button class="choice-btn" onclick="goto('六十一')">神殿へ向かう</button>
-<button class="choice-btn" onclick="goto('二十六')">一晩休んでから行く</button>
+<button class="choice-btn" onclick="heal(3); goto('百三十八')">一晩休んで出発する</button>
 <button class="choice-btn" onclick="goto('百三十八')">今すぐ出発する</button>
 </div>
 
@@ -570,6 +585,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('十六')">シラに問い詰める</button>
+<button class="choice-btn" onclick="goto('十七')">ゴルムに問い返す</button>
 <button class="choice-btn" onclick="goto('百三十八')">今すぐ出発する</button>
 </div>
 
@@ -909,7 +925,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('六百一')">正面から堂々と入る</button>
-<button class="choice-btn" onclick="goto('二百二十九')">別の入口を探すなら運試しを行え。成功したなら二百二十九へ直接進め</button>
+<button class="choice-btn" onclick="luckCheck('二百二十九','二百十五','別の入口を探す')">別の入口を探す</button>
 </div>
 
 </div>
@@ -1153,9 +1169,10 @@ body{
 <p>あなたは剣を構えた。左手の紋章が激しく輝いている。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('三百三十三')">儀式を止めるために戦う</button>
-<button class="choice-btn" onclick="goto('九百三')">「オルト＝ヴァルの記憶を受け入れた」</button>
+<button class="choice-btn" onclick="goto('三百三十三')">戦う</button>
+<button class="choice-btn" onclick="hasFlag('オルト＝ヴァルの記憶を受け入れた') ? goto('九百三') : fb('オルト＝ヴァルの記憶が必要だ','f')">名を呼んで対話を試みる</button>
 <button class="choice-btn" onclick="goto('三百四十一')">儀式を利用することを考える</button>
+<button class="choice-btn" onclick="goto('四百四十六')">力を振り絞り、封印を強制的に閉じる</button>
 </div>
 
 </div>
@@ -1341,7 +1358,8 @@ body{
 <span class="stat-effect">全能力値+2（自動昇格）</span>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百十五')">最深部へ進む</button>
+<button class="choice-btn" onclick="lvUp5(); goto('九百一')">最深部へ進む</button>
+<button class="choice-btn" onclick="goto('三百五十六')">同盟を集めてから向かう</button>
 </div>
 
 </div>
@@ -1528,10 +1546,11 @@ body{
 <p>シラは何も言わなかった。ただ、北の方角を見つめていた。その目に、三百年の記憶がある。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('五百二')">建物を調べる</button>
-<button class="choice-btn" onclick="goto('百五十二')">荒野ルートで進む</button>
-<button class="choice-btn" onclick="goto('百八十八')">森ルートで進む</button>
-<button class="choice-btn" onclick="goto('百九十四')">古代街道ルートで進む</button>
+<button class="choice-btn" onclick="goto('五百二')">廃村の建物を調べる</button>
+<button class="choice-btn" onclick="hasFlag('ナックを仲間にした') ? goto('五百十') : goto('百四十五')">ナックが話しかけてきた</button>
+<button class="choice-btn" onclick="goto('百四十五')">荒野を行く</button>
+<button class="choice-btn" onclick="goto('百八十八')">森を行く</button>
+<button class="choice-btn" onclick="goto('百九十四')">古代街道を行く</button>
 </div>
 
 </div>
@@ -2135,7 +2154,17 @@ body{
     <textarea class="sb-ta" id="ta-memo" rows="4" placeholder="フラグ・メモを記録" oninput="S.memo=this.value;save()"></textarea>
   </div>
 
-  <div style="padding-top:.6rem;border-top:1px solid #1e1c18">
+  <!-- セーブ -->
+  <div class="save-sec">
+    <div class="sb-head" style="border:none;margin-bottom:.25rem">セーブ</div>
+    <div class="sv-info" id="sv-info">セーブデータなし</div>
+    <div class="save-row">
+      <button class="sv-btn write" onclick="doSave()">💾 保存</button>
+      <button class="sv-btn read" id="sv-load" onclick="doLoad()" disabled>▶ 読込</button>
+    </div>
+  </div>
+
+  <div style="padding-top:.6rem;border-top:1px solid #1e1c18;margin-top:.4rem">
     <button class="d-btn" style="color:var(--danger);border-color:var(--danger)" onclick="if(confirm('リセットしますか？'))resetAll()">リセット</button>
   </div>
 </div>
@@ -2195,6 +2224,66 @@ function save(){
   clearTimeout(el._t);
   el._t=setTimeout(()=>el.classList.remove('show'),1400);
 }
+
+// ============================================================
+// SAVE SLOT — 1スロット手動セーブ
+// ============================================================
+const SAVE_SLOT_KEY = 'valdea_save1';
+
+function doSave(){
+  const meta = {
+    data: JSON.stringify(S),
+    para: S.cur,
+    lv:   'Lv.' + getlv().lv + ' ' + getlv().name,
+    hp:   S.hp + '/' + S.hp0,
+    gold: S.gold,
+    ts:   new Date().toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})
+  };
+  localStorage.setItem(SAVE_SLOT_KEY, JSON.stringify(meta));
+  fb('セーブしました','s');
+  renderSaveInfo();
+}
+
+function doLoad(){
+  const raw = localStorage.getItem(SAVE_SLOT_KEY);
+  if(!raw){ fb('セーブデータがありません','f'); return; }
+  if(!confirm('セーブデータを読み込みますか？\n現在の状態は失われます。')){ return; }
+  try{
+    const meta = JSON.parse(raw);
+    S = JSON.parse(meta.data);
+    save();
+    render();
+    renderSaveInfo();
+    goto(S.cur || '一');
+    fb('読み込みました','s');
+  }catch(e){
+    fb('読み込みに失敗しました','f');
+  }
+}
+
+function renderSaveInfo(){
+  const raw = localStorage.getItem(SAVE_SLOT_KEY);
+  const infoEl  = document.getElementById('sv-info');
+  const loadBtn = document.getElementById('sv-load');
+  if(!infoEl) return;
+  if(raw){
+    try{
+      const m = JSON.parse(raw);
+      infoEl.className = 'sv-info has-data';
+      infoEl.textContent = m.ts + '  ◆' + m.para + '  HP:' + m.hp + '  金貨:' + m.gold + '  ' + m.lv;
+      loadBtn.disabled = false;
+    }catch(e){
+      infoEl.className = 'sv-info';
+      infoEl.textContent = '（データ破損）';
+      loadBtn.disabled = true;
+    }
+  }else{
+    infoEl.className = 'sv-info';
+    infoEl.textContent = 'セーブデータなし';
+    loadBtn.disabled = true;
+  }
+}
+
 function resetAll(){
   localStorage.removeItem(SK);
   S=dflt();save();render();goto('一');
