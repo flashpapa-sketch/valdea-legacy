@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ヴァルデアの遺産 — LEGACY OF VALDEA</title>
 <style>
 :root{
@@ -11,14 +11,16 @@
   --danger:#c0392b;--success:#27ae60;--warn:#e67e22;
 }
 *{box-sizing:border-box;margin:0;padding:0}
+*{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html{scroll-behavior:smooth}
 body{
   background:var(--bg);color:var(--fg);
   font-family:"Noto Serif JP",Georgia,serif;
   line-height:1.9;min-height:100vh;
   display:grid;
-  grid-template-columns:1fr 300px;
+  grid-template-columns:1fr 260px;
   grid-template-rows:auto 1fr;
+  overflow-x:hidden;
 }
 @media(max-width:800px){body{grid-template-columns:1fr;grid-template-rows:auto 1fr auto}}
 
@@ -27,6 +29,8 @@ body{
   grid-column:1/-1;background:var(--card);
   border-bottom:1px solid var(--acc2);
   padding:.7rem 1.5rem;
+  padding-left:max(1.5rem, env(safe-area-inset-left));
+  padding-right:max(1.5rem, env(safe-area-inset-right));
   display:flex;align-items:center;justify-content:space-between;
   position:sticky;top:0;z-index:100;gap:.5rem;flex-wrap:wrap;
 }
@@ -40,7 +44,7 @@ body{
 
 /* ── メイン本文 ── */
 #main-col{padding:2rem 2rem 6rem;max-width:680px;overflow-y:auto}
-@media(max-width:800px){#main-col{padding:1.2rem 1rem 14rem;max-width:100%}}
+@media(max-width:800px){#main-col{padding:1.2rem 1rem calc(14rem + env(safe-area-inset-bottom));max-width:100%}}
 
 /* ── パラグラフ ── */
 .para{display:none}
@@ -73,6 +77,7 @@ body{
   position:relative;
 }
 .choice-btn:hover:not(:disabled){border-color:var(--acc);background:#1a1814;color:var(--acc)}
+@media(max-width:800px){.choice-btn{padding:.8rem 1rem;font-size:.92rem;}}
 .choice-btn:disabled{opacity:.38;cursor:not-allowed}
 .choice-btn .tag{
   float:right;font-size:.65rem;padding:.1rem .35rem;
@@ -180,11 +185,16 @@ body{
     height:auto;max-height:56vh;
     border-left:none;border-top:1px solid var(--acc2);
     padding:.8rem 1rem 1.2rem;
+    padding-bottom:calc(.8rem + env(safe-area-inset-bottom));
     transform:translateY(100%);
-    transition:transform .25s ease;z-index:200;
+    -webkit-transform:translateY(100%);
+    transition:transform .25s ease,-webkit-transform .25s ease;
+    z-index:200;
+    -webkit-overflow-scrolling:touch;
   }
-  #sb.open{transform:translateY(0)}
+  #sb.open{transform:translateY(0);-webkit-transform:translateY(0)}
   #mob-fab{display:flex!important}
+  #mob-fab{bottom:calc(1rem + env(safe-area-inset-bottom))}
 }
 #mob-fab{
   display:none;
@@ -220,6 +230,11 @@ body{
   width:20px;height:20px;border:1px solid #2a2620;background:none;
   color:var(--dim);font-size:.75rem;cursor:pointer;
   display:flex;align-items:center;justify-content:center;line-height:1;
+  -webkit-tap-highlight-color:transparent;
+}
+@media(max-width:800px){
+  .adj-btn{width:32px;height:32px;font-size:.9rem;}
+  .adj-btn:hover{border-color:var(--acc);color:var(--acc)}
 }
 .adj-btn:hover{border-color:var(--acc);color:var(--acc)}
 .num-in{
@@ -281,6 +296,20 @@ body{
 .sv-btn.read:disabled{opacity:.35;cursor:not-allowed}
 .sv-info{font-size:.62rem;color:var(--dim);margin-top:.3rem;line-height:1.6;min-height:1rem}
 .sv-info.has-data{color:var(--acc)}
+
+
+@media(max-width:375px){
+  .para-body p{font-size:.88rem;}
+  .choice-btn{font-size:.82rem;padding:.7rem .8rem;}
+  #hdr h1{font-size:.88rem;}
+  .sb-head{font-size:.58rem;}
+}
+@media(max-width:320px){
+  #hdr h1{font-size:.78rem;letter-spacing:.05em;}
+  .para-body p{font-size:.84rem;}
+  .choice-btn{font-size:.78rem;padding:.65rem .7rem;}
+  #hdr{padding:.6rem .8rem;}
+}
 
 .back-top{display:none}
 </style>
@@ -2165,8 +2194,24 @@ body{
     </div>
   </div>
 
-  <div style="padding-top:.6rem;border-top:1px solid #1e1c18;margin-top:.4rem">
+  <div style="padding-top:.6rem;border-top:1px solid #1e1c18;margin-top:.4rem;display:flex;gap:.3rem;flex-wrap:wrap">
     <button class="d-btn" style="color:var(--danger);border-color:var(--danger)" onclick="if(confirm('リセットしますか？'))resetAll()">リセット</button>
+    <button class="d-btn" onclick="toggleDebug()" id="debug-toggle-btn">🔧 状態</button>
+  </div>
+
+  <!-- デバッグパネル -->
+  <div id="debug-panel" style="display:none;margin-top:.6rem;padding:.6rem;background:#0a0a0c;border:1px solid #2a2620;font-size:.62rem;line-height:1.9;color:#7a7060">
+    <div style="color:#b8860b;margin-bottom:.3rem;letter-spacing:.1em">▼ 現在の状態</div>
+    <div>現在地: <span id="dbg-cur" style="color:#c8a040"></span></div>
+    <div>localStorage cur: <span id="dbg-ls-cur" style="color:#8ab48a"></span></div>
+    <div>フラグ数: <span id="dbg-flags" style="color:#c8a040"></span></div>
+    <div style="margin-top:.4rem;color:#b8860b">▼ 起動テスト</div>
+    <div style="display:flex;gap:.25rem;margin-top:.2rem;flex-wrap:wrap">
+      <button class="d-btn" style="font-size:.6rem" onclick="dbgSetCur('五百一')">cur=五百一に</button>
+      <button class="d-btn" style="font-size:.6rem" onclick="dbgSetCur('一')">cur=一に</button>
+      <button class="d-btn" style="font-size:.6rem;color:#c0392b;border-color:#c0392b" onclick="dbgClearLS()">LS消去</button>
+    </div>
+    <div id="dbg-result" style="margin-top:.3rem;color:#27ae60;min-height:.8rem"></div>
   </div>
 </div>
 
@@ -2283,6 +2328,43 @@ function renderSaveInfo(){
     infoEl.textContent = 'セーブデータなし';
     loadBtn.disabled = true;
   }
+}
+
+// ============================================================
+// DEBUG PANEL
+// ============================================================
+function toggleDebug(){
+  const p=document.getElementById('debug-panel');
+  p.style.display=p.style.display==='none'?'block':'none';
+  if(p.style.display==='block') updateDebug();
+}
+function updateDebug(){
+  const cur=document.getElementById('dbg-cur');
+  const lsCur=document.getElementById('dbg-ls-cur');
+  const flags=document.getElementById('dbg-flags');
+  if(cur) cur.textContent=S.cur||'—';
+  try{
+    const raw=localStorage.getItem(SK);
+    const ls=raw?JSON.parse(raw):{};
+    if(lsCur) lsCur.textContent=ls.cur||'（なし）';
+    if(flags) flags.textContent=Object.keys(S.flags||{}).length+'件';
+  }catch(e){}
+}
+function dbgSetCur(val){
+  try{
+    const raw=localStorage.getItem(SK);
+    const ls=raw?JSON.parse(raw):{};
+    ls.cur=val;
+    localStorage.setItem(SK,JSON.stringify(ls));
+    S.cur=val;
+    document.getElementById('dbg-result').textContent='✓ curを「'+val+'」に設定。次の起動で確認できます';
+    updateDebug();
+  }catch(e){}
+}
+function dbgClearLS(){
+  localStorage.removeItem(SK);
+  document.getElementById('dbg-result').textContent='✓ localStorage消去。次の起動は「一」から開始されます';
+  updateDebug();
 }
 
 function resetAll(){
@@ -2658,6 +2740,9 @@ function render(){
   const tamemo=document.getElementById('ta-memo');
   if(document.activeElement!==tainv)tainv.value=S.invText||S.inv.join('\n');
   if(document.activeElement!==tamemo)tamemo.value=S.memo||'';
+  // デバッグパネルが開いていれば更新
+  const dp=document.getElementById('debug-panel');
+  if(dp&&dp.style.display==='block') updateDebug();
 }
 
 // ============================================================
@@ -2710,7 +2795,7 @@ function vasDecline(){
 // INIT
 // ============================================================
 window.addEventListener('DOMContentLoaded',()=>{
-  // guide.htmlで確定した初期値を反映（まだ反映していない場合）
+  // guide.htmlで確定した初期値を反映
   if(!S.guideDone){
     const gs=parseInt(localStorage.getItem('valdea_sk'));
     const gh=parseInt(localStorage.getItem('valdea_hp'));
@@ -2723,19 +2808,24 @@ window.addEventListener('DOMContentLoaded',()=>{
   renderSaveInfo();
   render();
 
-  // 「冒険を始める」（?new=1付き）から来た場合は必ず「一」から開始
+  // 「冒険を始める」からの起動判定（複数の方法で検出）
   const urlParams=new URLSearchParams(window.location.search);
-  if(urlParams.get('new')==='1'){
-    // オートセーブをリセットして「一」から
+  const isNewGame=
+    urlParams.get('new')==='1' ||                          // ?new=1パラメータ
+    document.referrer.includes('index.html') ||            // index.htmlから来た
+    document.referrer.includes('guide.html') ||            // guide.htmlから来た
+    !localStorage.getItem(SK);                             // セーブデータがない
+
+  if(isNewGame){
     S.cur='一';
     save();
     goto('一');
     return;
   }
 
-  // エンディングや問題のあるパラグラフにいた場合も「一」に戻す
+  // エンディングにいた場合も「一」から
   const ENDINGS=['四百三十七','四百三十七の二','四百四十六','四百四十六の二','四百五十五','四百六十四','四百七十三'];
-  const start = (!S.cur || ENDINGS.includes(S.cur)) ? '一' : S.cur;
+  const start=(!S.cur||ENDINGS.includes(S.cur))?'一':S.cur;
   goto(start);
 });
 </script>
