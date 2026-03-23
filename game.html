@@ -2720,8 +2720,23 @@ window.addEventListener('DOMContentLoaded',()=>{
       S.guideDone=true;save();
     }
   }
+  renderSaveInfo();
   render();
-  goto(S.cur||'一');
+
+  // 「冒険を始める」（?new=1付き）から来た場合は必ず「一」から開始
+  const urlParams=new URLSearchParams(window.location.search);
+  if(urlParams.get('new')==='1'){
+    // オートセーブをリセットして「一」から
+    S.cur='一';
+    save();
+    goto('一');
+    return;
+  }
+
+  // エンディングや問題のあるパラグラフにいた場合も「一」に戻す
+  const ENDINGS=['四百三十七','四百三十七の二','四百四十六','四百四十六の二','四百五十五','四百六十四','四百七十三'];
+  const start = (!S.cur || ENDINGS.includes(S.cur)) ? '一' : S.cur;
+  goto(start);
 });
 </script>
 </body>
