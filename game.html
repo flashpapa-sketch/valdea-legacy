@@ -821,7 +821,7 @@ body{
 <div class="choices">
 <button class="choice-btn" onclick="goto('百六十七')">交渉を試みるなら百六十七へ進め</button>
 <button class="choice-btn" onclick="goto('百七十九')">正面から戦うなら百七十九へ進め</button>
-<button class="choice-btn" onclick="goto('百八十八')">迂回路を探すなら運試しを行え。運勢点以下ならば百八十八へ進め。失敗したならば百七十九へ進め</button>
+<button class="choice-btn" onclick="luckCheck('百八十八','百七十九','迂回路を探す')">迂回路を探す</button>
 </div>
 
 </div>
@@ -857,7 +857,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百八十八')">全員を倒したなら百八十八へ進め</button>
-<button class="choice-btn" onclick="goto('百八十八')">体力点が三点以下になったなら、今すぐ食料か回復薬を使用してもよい。その後百八十八へ進め</button>
+<button class="choice-btn" onclick="goto('百八十八')">体力が三点以下なら回復アイテムを使い、先へ進む</button>
 <button class="choice-btn" onclick="goto('四百七十三')">体力点が零になったなら四百七十三へ進め</button>
 </div>
 
@@ -873,9 +873,9 @@ body{
 <p>あなたは光の方向を見た。何かが引き寄せている。左手の紋章ではない。もっと単純な、人間的な好奇心だ。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百三')">エルフの里に立ち寄る場合は体力点を四点回復し（初期値を超えることはできない）、「エルフの里に立ち寄った」とメモ欄に記録してから二百三へ進め</button>
-<button class="choice-btn" onclick="goto('二百三')">時間を節約してそのまま進む場合は二百三へ進め</button>
-<button class="choice-btn" onclick="goto('五百九')">森の中でシラが立ち止まったなら五百九へ進め</button>
+<button class="choice-btn" onclick="hpRecover(4); setFlag('エルフの里に立ち寄った'); goto('二百三')">エルフの里に立ち寄る</button>
+<button class="choice-btn" onclick="goto('五百九')">シラが立ち止まった</button>
+<button class="choice-btn" onclick="goto('二百三')">時間を節約してそのまま進む</button>
 </div>
 
 </div>
@@ -889,11 +889,11 @@ body{
 <p>案の定、闇の中から人影が現れた。六人。武装している。先頭の男が「通行料だ」と言った。笑みを浮かべているが、目は笑っていない。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百三')">金貨を払うなら金貨五枚を失い二百三へ進め</button>
-<button class="choice-btn" onclick="goto('二百三')">戦うなら盗賊三人（技術点六／体力点七）と戦え。勝利したなら経験値を一体につき一点（合計三点）獲得せよ。冒険者シートに記録し、レベルアップ条件を確認すること。その後二百三へ進め。体力点が零になったなら四百七十三へ進め</button>
-<button class="choice-btn" onclick="goto('二百三')">ゴルムが前に出る。運試しを行え。成功したなら盗賊たちは退散し二百三へ進め。失敗したなら戦闘へ</button>
-<button class="choice-btn" onclick="goto('五百五')">道中で荷馬車の老人と話すなら五百五へ進め</button>
-<button class="choice-btn" onclick="goto('五百十一')">ナックが何か言いたそうにしているなら五百十一へ進め</button>
+<button class="choice-btn" onclick="payGoto(5,'二百三','通行料を払って通り抜けた')">通行料を払う</button>
+<button class="choice-btn" onclick="startCombat('街道の盗賊',6,7,1,'二百三',{chain:[{sk:6,hp:7},{sk:6,hp:7}]})">戦う</button>
+<button class="choice-btn" onclick="luckCheck('二百三','百七十九','ゴルムが前に出る')">ゴルムに任せる</button>
+<button class="choice-btn" onclick="goto('五百五')">荷馬車の老人に話しかける</button>
+<button class="choice-btn" onclick="goto('五百十一')">ナックが何か言いたそうにしている</button>
 </div>
 
 </div>
@@ -909,7 +909,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('六百一')">正面から堂々と入るなら六百一へ進め</button>
-<button class="choice-btn" onclick="goto('二百二十九')">別の入口を探すなら運試しを行え。成功したなら二百二十九へ直接進め。失敗したなら二百十五へ進め</button>
+<button class="choice-btn" onclick="luckCheck('二百二十九','二百十五','別の入口を探す')">別の入口を探す</button>
 </div>
 
 </div>
@@ -959,8 +959,8 @@ body{
 <p>残りの文字は血で滲み、読めなかった。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百二十九')">首飾りを装備するなら体力点を現在値の半分にせよ（端数切り捨て）。そのかわり以降の戦闘で受けるダメージが毎ラウンド一点軽減される。「死神の首飾りを装備」とメモ欄に記録し二百四十一へ進め</button>
-<button class="choice-btn" onclick="goto('二百四十一')">首飾りには触れず先へ進むなら二百四十一へ進め</button>
+<button class="choice-btn" onclick="equipNeck()">首飾りを装備する</button>
+<button class="choice-btn" onclick="goto('二百四十一')">首飾りには触れず先へ進む</button>
 </div>
 
 </div>
@@ -978,7 +978,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('六百七')">ヴァズの話をもっと聞くなら六百七へ進め</button>
-<button class="choice-btn" onclick="goto('二百五十六')">取引に応じるなら「ヴァズと取引した」とメモ欄に記録し二百五十六へ進め</button>
+<button class="choice-btn" onclick="goto('二百五十六')">取引に応じる</button>
 <button class="choice-btn" onclick="goto('二百六十三')">断るなら二百六十三へ進め</button>
 </div>
 
@@ -1046,7 +1046,7 @@ body{
 <p>台座の下に石板があり、こう刻まれていた。「ロットンのつるぎ。星脈術師ロットンが黄金時代に鍛えた最後の一振り。これを握る者の技術は、研ぎ澄まされた刃のごとく冴え渡る」</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百七十八')">剣を手に取るなら「ロットンのつるぎ」を入手し技術点の初期値と現在値に永久に二点を加えよ。所持品欄に記録してから二百七十八へ進め</button>
+<button class="choice-btn" onclick="addItem('ロットンのつるぎ'); statChange('sk',2); goto('二百七十八')">剣を手に取る</button>
 <button class="choice-btn" onclick="goto('二百七十八')">剣を置いていくなら二百七十八へ進め</button>
 </div>
 
@@ -1113,7 +1113,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('三百十二')">勝利したなら三百十二へ進め</button>
-<button class="choice-btn" onclick="goto('四百二十八')">体力点が四点以下になったなら、猿の右手を使う選択肢がある。使うなら四百二十八へ進め</button>
+<button class="choice-btn" onclick="goto('四百二十八')">猿の右手を使う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">体力点が零になったなら四百七十三へ進め</button>
 <button class="choice-btn" onclick="goto('六百十一')">廊下を進んでいるなら六百十一へ進め</button>
 <button class="choice-btn" onclick="goto('六百十二')">守護者エイサーを倒したなら六百十二へ進め</button>
@@ -1154,7 +1154,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('三百三十三')">儀式を止めるために戦うなら三百三十三へ進め</button>
-<button class="choice-btn" onclick="goto('九百三')">「オルト＝ヴァルの記憶を受け入れた」とメモにあるなら名を呼んで対話を試みるなら九百三へ進め</button>
+<button class="choice-btn" onclick="hasFlag('オルト＝ヴァルの記憶を受け入れた') ? goto('九百三') : showFeedback('オルト＝ヴァルの記憶が必要だ','f')">名を呼んで対話を試みる</button>
 <button class="choice-btn" onclick="goto('三百四十一')">儀式を利用することを考えるなら三百四十一へ進め</button>
 </div>
 
@@ -1994,7 +1994,7 @@ body{
 <p>声は静かだった。怒りでも、憎しみでも、脅しでもない。三百年間、暗闇の中に封じられ続けた者の声だ。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百十五')">四百十五へ進め（最終決戦へ）</button>
+<button class="choice-btn" onclick="goto('四百十五')">四百十五へ進め</button>
 </div>
 
 </div>
@@ -2014,7 +2014,7 @@ body{
 <div class="rule">メモ欄に「オルト＝ヴァルと対話した」と記録せよ。これはGOOD END 1への唯一の道だ。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百三十七')">紋章を核に触れさせ、力を解放するなら四百三十七へ進め（真のエンディング）</button>
+<button class="choice-btn" onclick="goto('四百三十七')">紋章を核に触れさせ、力を解放する</button>
 <button class="choice-btn" onclick="goto('四百十五')">信じられず戦うことを選ぶなら四百十五へ進め</button>
 </div>
 
@@ -2031,9 +2031,9 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('五百一')">出発前に廃村の調査をする</button>
-<button class="choice-btn" onclick="goto('百四十五')">荒野ルートを行く（戦闘あり）</button>
-<button class="choice-btn" onclick="goto('百八十八')">森ルートを行く（罠あり）</button>
-<button class="choice-btn" onclick="goto('百九十四')">古代街道を行く（盗賊あり）</button>
+<button class="choice-btn" onclick="goto('百四十五')">荒野ルートを行く</button>
+<button class="choice-btn" onclick="goto('百八十八')">森ルートを行く</button>
+<button class="choice-btn" onclick="goto('百九十四')">古代街道を行く</button>
 </div>
 </div>
 
@@ -2177,7 +2177,7 @@ function dflt(){
     sk:gs,hp:gh,lk:gl,
     sk0:gs,hp0:gh,lk0:gl,
     gold:3,xp:0,
-    inv:[],flags:{},memo:'',invText:'',
+    inv:['食料','食料','食料'],flags:{},memo:'',invText:'食料\n食料\n食料',
     mkUsed:false,neck:false,
     hist:[]
   };
@@ -2557,11 +2557,17 @@ function render(){
 
   // 所持品
   const inv=document.getElementById('sb-inv');
+  // 金貨タグ＋所持品タグを合わせて表示
+  let invHtml='<span class="inv-tag" style="border-color:#8a5a1a;color:#c48a3a">💰 金貨×'+S.gold+'</span>';
   if(S.inv.length>0){
-    inv.innerHTML=S.inv.map(i=>'<span class="inv-tag">'+i+'</span>').join('');
-  }else{
-    inv.innerHTML='<span style="font-size:.68rem;color:var(--dim)">（なし）</span>';
+    // 同名アイテムをまとめて表示
+    const counts={};
+    for(const i of S.inv)counts[i]=(counts[i]||0)+1;
+    for(const [name,cnt] of Object.entries(counts)){
+      invHtml+='<span class="inv-tag">'+name+(cnt>1?' ×'+cnt:'')+'</span>';
+    }
   }
+  inv.innerHTML=invHtml;
 
   // テキストエリア
   const tainv=document.getElementById('ta-inv');
