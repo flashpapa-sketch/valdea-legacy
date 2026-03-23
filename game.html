@@ -476,7 +476,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('八')">ナックにもっと聞く</button>
-<button class="choice-btn" onclick="goto('四十七')">ナックを連れて酒場へ向かう</button>
+<button class="choice-btn" onclick="flag('ナックを仲間にした');goto('四十七')">ナックを連れて酒場へ向かう</button>
 <button class="choice-btn" onclick="goto('百三十八')">仲間もできた</button>
 </div>
 
@@ -522,7 +522,7 @@ body{
 <div class="rule">「ナックを仲間にした（後払い）」とメモ欄に記録せよ。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('百三十八')">出発する</button>
+<button class="choice-btn" onclick="flag('ナックを仲間にした');goto('百三十八')">出発する</button>
 </div>
 
 </div>
@@ -785,7 +785,7 @@ body{
 <div class="rule">「ゴルムたちと接触済み」とメモ欄に記録せよ。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('五十八')">老ドワーフの話を聞く</button>
+<button class="choice-btn" onclick="flag('ゴルムを仲間にした');goto('五十八')">老ドワーフの話を聞く</button>
 <button class="choice-btn" onclick="goto('百三十八')">罠を警戒し断り</button>
 </div>
 
@@ -849,9 +849,9 @@ body{
 <div class="rule">【中ボス戦】荒野の処刑人「グラッハ」との戦闘を行え。グラッハ：技術点十／体力点十六。グラッハは偶数ラウンド（第二・四・六…ラウンド）に通常ダメージに加えてさらに一点の追加ダメージを与える。「ロットンのつるぎ」を持っている場合、追加ダメージを無効化できる。勝利後、経験値四点を得て百五十二へ進め。体力点が零になったなら四百七十三へ進め。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百二十八')">猿の右手をまだ使っていない場合</button>
-<button class="choice-btn" onclick="goto('百五十二')">勝利した</button>
-<button class="choice-btn" onclick="goto('四百七十三')">体力点が零になった</button>
+<button class="choice-btn" onclick="goto('四百二十八')">猿の右手を使う</button>
+<button class="choice-btn" onclick="goto('百五十二')">勝利して先へ進む</button>
+<button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
 </div>
@@ -902,8 +902,8 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百八十八')">全員を倒した</button>
-<button class="choice-btn" onclick="goto('百八十八')">体力点が三点以下になったなら、今すぐ食料か回復薬を使用してもよい</button>
-<button class="choice-btn" onclick="goto('四百七十三')">体力点が零になった</button>
+<button class="choice-btn" onclick="goto('百八十八')">（体力3以下）食料か回復薬を使う</button>
+<button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
 </div>
@@ -968,8 +968,8 @@ body{
 <div class="rule">番人ゴーレムと戦闘を行え。ゴーレム：技術点九／体力点十二。ゴーレムの皮膚は石でできている。技術点八以下の武器では一ラウンドに与えられるダメージは一点のみとなる。「ロットンのつるぎ」を持っている場合はこの制限を受けない。撃破時の経験値：二点。冒険者シートに記録し、レベルアップ条件を確認すること。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百二十九')">勝利した</button>
-<button class="choice-btn" onclick="goto('四百七十三')">体力点が零になった</button>
+<button class="choice-btn" onclick="equipNeck()">死神の首飾りを装備する</button>
+<button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
 </div>
@@ -1004,7 +1004,7 @@ body{
 <p>残りの文字は血で滲み、読めなかった。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百二十九')">首飾りを装備するなら体力点を現在値の半分にせよ（端数切り捨て）。そのかわり以降の戦闘で受けるダメージが毎ラウンド一点軽減される。「死神の首飾りを装備」</button>
+<button class="choice-btn" onclick="equipNeck()">死神の首飾りを装備する</button>
 <button class="choice-btn" onclick="goto('二百四十一')">首飾りには触れず先へ進む</button>
 </div>
 
@@ -1023,7 +1023,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('六百七')">ヴァズの話をもっと聞く</button>
-<button class="choice-btn" onclick="goto('二百五十六')">取引に応じるなら「ヴァズと取引した」</button>
+<button class="choice-btn" onclick="flag('オルト＝ヴァルの記憶を受け入れた');goto('二百五十六')">取引に応じる</button>
 <button class="choice-btn" onclick="goto('二百六十三')">断る</button>
 </div>
 
@@ -1091,7 +1091,7 @@ body{
 <p>台座の下に石板があり、こう刻まれていた。「ロットンのつるぎ。星脈術師ロットンが黄金時代に鍛えた最後の一振り。これを握る者の技術は、研ぎ澄まされた刃のごとく冴え渡る」</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百七十八')">剣を手に取るなら「ロットンのつるぎ」を入手し技術点の初期値と現在値に永久に二点を加えよ</button>
+<button class="choice-btn" onclick="goto('二百七十八')">ロットンのつるぎを手に取る</button>
 <button class="choice-btn" onclick="goto('二百七十八')">剣を置いていく</button>
 </div>
 
@@ -1125,9 +1125,9 @@ body{
 <span class="stat-effect">体力-2（吸収）</span><span class="stat-effect">体力+2（エイサー回復）</span>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百二十八')">猿の右手をまだ使っていない場合</button>
-<button class="choice-btn" onclick="goto('二百八十九')">勝利した</button>
-<button class="choice-btn" onclick="goto('四百七十三')">体力点が零になった</button>
+<button class="choice-btn" onclick="goto('四百二十八')">猿の右手を使う</button>
+<button class="choice-btn" onclick="goto('二百八十九')">勝利して先へ進む</button>
+<button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
 </div>
@@ -1157,9 +1157,9 @@ body{
 <div class="rule">古代の守護者と戦闘を行え。守護者：技術点十／体力点十四。守護者は一ラウンドに二回攻撃を行う。二回目の攻撃では技術点から二点を引いた値で判定せよ。「ロットンのつるぎ」を持っている場合、一ラウンドに与えるダメージは三点となる。経験値：二点。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('三百十二')">勝利した</button>
-<button class="choice-btn" onclick="goto('四百二十八')">体力点が四点以下になったなら、猿の右手を使う選択肢がある</button>
-<button class="choice-btn" onclick="goto('四百七十三')">体力点が零になった</button>
+<button class="choice-btn" onclick="goto('三百十二')">勝利して先へ進む</button>
+<button class="choice-btn" onclick="goto('四百二十八')">（体力4以下）猿の右手を使う</button>
+<button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 <button class="choice-btn" onclick="goto('六百十一')">廊下を進んでいる</button>
 <button class="choice-btn" onclick="goto('六百十二')">守護者エイサーを倒した</button>
 </div>
@@ -1215,8 +1215,8 @@ body{
 <p>祭壇まであと十歩。五歩。三歩――</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百二十八')">猿の右手をまだ使っていない場合</button>
-<button class="choice-btn" onclick="goto('四百十五')">使わずそのまま戦闘へ進む</button>
+<button class="choice-btn" onclick="goto('四百二十八')">猿の右手を使う</button>
+<button class="choice-btn" onclick="goto('四百十五')">そのまま戦闘へ進む</button>
 </div>
 
 </div>
@@ -1284,7 +1284,7 @@ body{
 <div class="rule">軍の支援を受ける場合、最終決戦で技術点に一点のボーナスを得る。「ニフルユーム王国と契約した」とメモ欄に記録せよ。これは後のエンディングに影響する。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百二')">条件を飲むなら「ニフルユーム王国と契約した」</button>
+<button class="choice-btn" onclick="goto('四百二')">条件を飲んで軍の支援を受ける</button>
 </div>
 
 </div>
@@ -1405,9 +1405,9 @@ body{
 <span class="stat-effect">体力-3（波動失敗時）</span>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百二十八')">猿の右手をまだ使っていない場合</button>
-<button class="choice-btn" onclick="goto('三百二十四')">勝利した</button>
-<button class="choice-btn" onclick="goto('四百七十三')">体力点が零になった</button>
+<button class="choice-btn" onclick="goto('四百二十八')">猿の右手を使う</button>
+<button class="choice-btn" onclick="goto('三百二十四')">勝利して先へ進む</button>
+<button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
 </div>
@@ -1781,7 +1781,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('二百二十九')">全て倒した</button>
-<button class="choice-btn" onclick="goto('四百七十三')">体力点が零になった</button>
+<button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
 </div>
