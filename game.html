@@ -295,6 +295,13 @@ body{
 .sb-ta:focus{outline:none;border-color:var(--acc)}
 
 
+
+.flag-sec{padding-top:.6rem;border-top:1px solid #2a2620}
+.flag-sec .sb-head{border:none;margin-bottom:.35rem}
+.flag-list{display:flex;flex-direction:column;gap:2px;max-height:12rem;overflow-y:auto}
+.flag-item{font-size:.62rem;padding:.15rem .45rem;background:#0d1a0d;border:1px solid #1a3a1a;color:#6aaa6a;border-radius:2px;line-height:1.5}
+.flag-none{font-size:.62rem;color:var(--dim);font-style:italic}
+
 .save-sec{padding-top:.6rem;border-top:1px solid #1e1c18;margin-top:.4rem}
 .save-row{display:flex;gap:.35rem;align-items:center;margin-top:.4rem}
 .sv-btn{flex:1;padding:.32rem .4rem;border:1px solid;background:none;font-size:.72rem;cursor:pointer;transition:all .15s}
@@ -434,7 +441,7 @@ body{
 <div class="para-num">◆ <span>四</span></div>
 <div class="para-body">
 <p>金貨三枚を払うと、職人は無言で短剣を差し出した。刃は古びているが、手入れはされている。実用に足る。</p>
-<p class="rule">「短剣」を所持品に記録せよ。金貨を三枚失え。</p>
+<p class="rule">金貨を三枚失え。</p>
 <p>受け取ろうとした時、職人が低く言った。「……五十年前にも、そんな紋章を持つ奴がいた。あの遺跡に入っていった。二度と出てこなかった」それだけ言って、また作業に戻った。</p>
 </div>
 <div class="choices">
@@ -481,7 +488,7 @@ body{
 <div class="para-body">
 <p>ゴブリンは受け取ると目を見開いた。「ナック、って呼んでくれ。情報屋だ。今日拾ったのがこれ」と彼はポケットから小さな石板を取り出した。「商人が捨ててた。読んだら『ザル＝カラム、地下一層、左の廊下、三番目の扉』って書いてある。何の扉かは分からない」</p>
 <p>ナックはあなたの左手をもう一度見た。「あんたがそこへ行くなら、おれも行く。古代文字を読める人間が一人もいないと困るだろ？」</p>
-<div class="rule">「ナックと知り合った」とメモ欄に記録せよ。金貨一枚か食料を一つ失え。</div>
+<div class="rule">金貨一枚か食料を一つ失え。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('八')">ナックにもっと聞く</button>
@@ -497,7 +504,7 @@ body{
 <p>「じいちゃんから聞いた話がある」とナックは言った。「三百年前、黄金時代が終わった夜、ザル＝カラムで大きな爆発があった。その夜を境に、ヴァルデア中の星脈術師が力を失った。まるで大地の脈が一夜にして枯れたみたいに」</p>
 <p>「ヴォルカネスのしたことか」</p>
 <p>「違う。ヴォルカネスは召喚された悪魔じゃなく、元は人間の星脈術師だったらしい。別の名前があった。でも何かに触れて変わってしまった。ザル＝カラムの地下にある何かに」彼は声を落とした。「ゴブリンはあの遺跡に近づかない。千年前から。でも本能的に分かる。あそこは行ってはいけない場所だ。それでもおれは証人になりたい」</p>
-<div class="rule">「ナックを仲間にした」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四十七')">酒場で情報を集めてから行く</button>
@@ -513,7 +520,7 @@ body{
 <p>ナックは少し間を置いてから、声を落とした。「さっきのこと、正直に言う。あんたのことを利用できると思ってた。ザル＝カラムに一緒に行けば、黄金時代の遺物が手に入ると。それを売れば、この街から出られると思った」</p>
 <p>彼は目をそらした。「でも、あんたが正直に『金貨がない』って言ったのを聞いて、なんか違うと思った。おれが見てきた利用しようとする奴らは、みんな嘘をつく。あんたは嘘をつかなかった」</p>
 <p>荒野の夜風が吹き抜けた。遠くにザル＝カラムの青白い光が瞬いている。</p>
-<div class="rule">「ナックを仲間にした」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('十')">ナックの話を聞く</button>
@@ -528,7 +535,7 @@ body{
 <p>「金貨が足りない」とあなたは正直に言った。</p>
 <p>ナックは耳を立てた。「正直なやつだな。じゃあこうしよう。金貨はなくていい。その代わり、ザル＝カラムで見つけた古代の品物のうち、一つをおれに選ばせてくれ。それで十分だ」</p>
 <p>彼はニヤリと笑った。「それに、おれが一緒に行けば死ぬ確率が半分になる。罠の作動機構は古代文字で書いてある。読めない人間は全部踏む。おれなら避けられる」</p>
-<div class="rule">「ナックを仲間にした（後払い）」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="flag('ナックを仲間にした');goto('百三十八')">出発する</button>
@@ -541,7 +548,7 @@ body{
 <div class="para-body">
 <p>北の方角に青白い光が瞬いているのが見えた。ザル＝カラムだ。夜ごと少しずつ強くなっているという。宿の窓から、路地に人影が動くのが見えた。</p>
 <p>部屋の外から声が漏れてきた。「……満月の前夜だ。あの扉が開く」「紋章の持ち主が現れたと聞いた」低く抑えた声が続く。</p>
-<div class="rule">「夜に怪しい会話を聞いた」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('十一の二')">路地へ降りて確かめる</button>
@@ -555,7 +562,7 @@ body{
 <div class="para-body">
 <p>路地に降りると、人影はすでになかった。しかし地面に小さな金属製の円盤が落ちていた。直径は親指ほどで、表面に細かな模様が刻まれている。拾い上げると、左手の紋章が僅かに熱を帯びた。</p>
 <p>近くで見ると模様は古代文字だ。三日月と蛇の印、そして数字ではない文字列――日付らしき何かが刻まれている。</p>
-<div class="rule">「謎の金属円盤」を所持品に記録せよ。これは闇の商会の印だ。</div>
+<div class="rule">これは闇の商会の印だ。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('二十六')">宿に戻って眠る</button>
@@ -587,7 +594,7 @@ body{
 <p>「……夢を見るからだ」と彼女は続けた。「この街の人間、みんな同じ夢を見てる。暗い扉の夢。誰かに名前を呼ばれる夢。あんたも見ただろ？」</p>
 <p>あなたは答えなかった。</p>
 <p>「ドーランに来る者は皆、呼ばれて来る」とマグダは静かに言った。「この街はザル＝カラムの入口なんだよ。遺跡が、近づける者を選んで引き寄せてる」</p>
-<div class="rule">「マグダの話を聞いた」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('十四')">「なぜ分かった」と聞く</button>
@@ -605,7 +612,7 @@ body{
 <p>「私も見たから」とマグダは静かに言った。「二十年前、この街に来た時から。毎晩同じ夢を見る。だからここを離れられない。でも二十年間同じ夢を見続けて、私はもう怖くない。ただ、待っている」</p>
 <p>「何を」</p>
 <p>「左手に紋章を持つ、誰かが来るのを。その人が来た時、何かが終わる。あるいは始まる」マグダはあなたを真っ直ぐに見た。「……来たじゃないか」</p>
-<div class="rule">「マグダが二十年待っていた」とメモ欄に記録せよ。これはエンディングに影響する。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('八十三')">三人組の話を聞く</button>
@@ -637,7 +644,7 @@ body{
 <p>「それがなぜ」</p>
 <p>「私が契約を結ばせたから」シラの声が揺れた。「混沌の軍勢がヴァルデアに侵攻してきた時、私は彼に強大な力を授けた。でも彼は勝ちすぎた。力が彼の内側から蝕んでいくのを、私は止められなかった」</p>
 <p>「その紋章はオルト＝ヴァルが最後に刻んだものだ。彼が変わり果てる直前に。意味は――『鍵を持つ者よ、私を解放せよ』。解放とは何を意味するのか、私にも分からない」</p>
-<div class="rule">「シラはヴォルカネスと契約していた過去を持つ」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百三十八')">シラを信じて共に行く</button>
@@ -665,7 +672,7 @@ body{
 <p>神殿の奥に、一人の男が横たわっていた。三十代と思しき人間の男で、革鎧がずたずたに裂けている。意識はあるが、蒼白な顔色だ。五日前にザル＝カラムへ入り、他の仲間十五人は戻らなかった。</p>
 <p>男はあなたに気づくと、震える手で腕を掴んだ。「行くな。地下に降りたら戻れない。番人がいる。石でできた巨人だ。そして声が……聞こえてくる。仲間の声が。死んだはずの仲間の声が呼んでくる。罠だと分かっていても、足が動かなくなる」</p>
 <p>「地下一層の奥に日誌があった」と彼は続けた。「研究者のものだ。ヴォルカネスが何者かが書いてある。机の上に。まだあるかもしれない」</p>
-<div class="rule">「地下一層に古い日誌がある」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('十九')">もっと詳しく聞く</button>
@@ -694,7 +701,7 @@ body{
 <div class="para-body">
 <p>謎の金属円盤をオルドに見せると、老司祭の顔色が変わった。「これは……闇の商会の印だ。ヴォルカネス復活を望む組織。今の秩序で利益を得ている者たちだ」</p>
 <p>裏面の文字を読んでもらうと、オルドの表情がさらに険しくなった。「日付だ。満月の日。三日以内だ。急いで行け」</p>
-<div class="rule">「闇の商会が動いている」「満月の三日後に何かが起きる」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百三十八')">今すぐ出発する</button>
@@ -760,7 +767,7 @@ body{
 <p>「三人とは」</p>
 <p>「一人は私だ」ゴルムは戦斧の柄を静かに撫でた。「一人はザル＝カラムの最深部にいる。そしてもう一人は――」</p>
 <p>彼の目が、扉の方を向いた。何者かが酒場に入ってきた。フードを深く被った人物だ。</p>
-<div class="rule">「ゴルムから鍵の話を聞いた」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('九十二')">フードの人物に注目する</button>
@@ -776,7 +783,7 @@ body{
 <p>神殿は街の北の端にあった。石造りの質素な建物で、扉は固く閉ざされていた。ノックをすると、しばらく沈黙があり、やがて細く扉が開いた。</p>
 <p>老いた目がのぞいた。司祭だ。七十は超えているだろう。しかしその目には何かを待っていた者の色がある。あなたが左手を上げた瞬間、彼は動きを止めた。紋章に釘付けになっていた。</p>
 <p>「……中に入りなさい」と司祭は囁いた。「見られてはならない」</p>
-<div class="rule">「神殿の司祭と接触済み」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百七')">中に入る</button>
@@ -791,7 +798,7 @@ body{
 <p>三人組に近づくと、老ドワーフがじっとあなたの左手を見た。「……その紋章」と彼は呟いた。「どこで手に入れた」</p>
 <p>「生まれた時からある」</p>
 <p>三人は顔を見合わせた。老ドワーフが口を開く。「座れ。話がある。お前を三週間前から探していた」</p>
-<div class="rule">「ゴルムたちと接触済み」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="flag('ゴルムを仲間にした');goto('五十八')">老ドワーフの話を聞く</button>
@@ -806,7 +813,7 @@ body{
 <p>フードが外れた。長い銀髪と、時間の重さを湛えた緑の瞳。エルフだ。その佇まいは何百年もの歳月を感じさせた。首には古びた銀のペンダントがかかっている――黄金時代の護符だ。その表面には、あなたの左手の紋章と似た文字が刻まれている。</p>
 <p>「テニスタ・テニストの森を出てからずっと、あなたを探していた」とシラは静かに言った。「三百年前から、この夜を待っていた」</p>
 <p>「もう時間がない」と彼女は続けた。「今夜、ザル＝カラムで何かが起きる。あなたはそこへ行くことになる。止められない」</p>
-<div class="rule">「シラと接触済み」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('十五')">シラとゴルムの話をもっと聞く</button>
@@ -821,7 +828,7 @@ body{
 <p>司祭の名はオルドといった。神殿の奥の小部屋に通されると、彼は震える手で古い羊皮紙を広げた。ザル＝カラムの地図だ。地下三層にわたる構造が詳細に記されている。中央に、あなたの左手の紋章と同じ形が刻まれていた。</p>
 <p>「三百年前、黄金時代が終わった夜、一人の賢者がこれを私の師に預けた。いつかこの紋章を持つ者が現れる。その者にこれを渡せ、と」</p>
 <p>「封印を解く者は、必ず選択を迫られる。力を継ぐか。力に飲まれるか。あるいは――力ごと、すべてを葬るか」</p>
-<div class="rule">「ザル＝カラムの地図」を所持品に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百二十三')">地図についてさらに詳しく聞く</button>
@@ -837,7 +844,7 @@ body{
 <p>「地上層は番人ゴーレムが守っている。地下一層には研究区画がある。地下二層には神殿がある。星脈術の祭壇だ。その紋章があれば、祭壇に触れることができる」とオルドは言った。「しかし触れるかどうかは、あなた自身が決めることだ」</p>
 <p>オルドはあなたの目を真っ直ぐ見た。「あの場所に入ったら、引き返せると思うな。ザル＝カラムはあなたを変える。良い方向にも、悪い方向にも」</p>
 <p>老司祭は立ち上がり、小部屋の奥から小さな瓶を取り出した。「回復薬だ。一度だけ使える。体力点を六点回復する」</p>
-<div class="rule">「回復薬」を所持品に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('十八')">ザル＝カラムへ出発する</button>
@@ -858,8 +865,8 @@ body{
 <div class="rule">【中ボス戦】荒野の処刑人「グラッハ」との戦闘を行え。グラッハ：技術点十／体力点十六。グラッハは偶数ラウンド（第二・四・六…ラウンド）に通常ダメージに加えてさらに一点の追加ダメージを与える。「ロットンのつるぎ」を持っている場合、追加ダメージを無効化できる。勝利後、経験値四点を得て百五十二へ進め。体力点が零になったなら四百七十三へ進め。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百二十八')">猿の右手を使う</button>
-<button class="choice-btn" onclick="goto('百五十二')">勝利して先へ進む</button>
+<button class="choice-btn" onclick="startCombat('グラッハ',10,16,4,'百五十二',{evenBonus:1})">戦う</button>
+<button class="choice-btn" onclick="monkeyManual()">猿の右手を使う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
@@ -974,7 +981,7 @@ body{
 <div class="rule">番人ゴーレムと戦闘を行え。ゴーレム：技術点九／体力点十二。ゴーレムの皮膚は石でできている。技術点八以下の武器では一ラウンドに与えられるダメージは一点のみとなる。「ロットンのつるぎ」を持っている場合はこの制限を受けない。撃破時の経験値：二点。冒険者シートに記録し、レベルアップ条件を確認すること。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="addXP(2);goto('二百二十九')">勝利して先へ進む</button>
+<button class="choice-btn" onclick="startCombat('番人ゴーレム',9,12,2,'二百二十九',{})">戦う</button>
 <button class="choice-btn" onclick="equipNeck()">死神の首飾りを装備する</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
@@ -1047,7 +1054,7 @@ body{
 <p>ヴァズは静かに答えた。「すでに取った。あなたの左手に触れた時に」</p>
 <p>あなたは左手を見た。紋章は変わっていない。しかし――何かが、確かに薄くなっていた。</p>
 <p>「技術の一部だ」とヴァズは言った。「永遠に戻らない。しかし賢者の石がある限り、あなたは死なない。どちらが得かは、自分で判断しろ」</p>
-<div class="rule">「賢者の石」を入手した。所持品欄に記録せよ。技術点の初期値を永久に２点減らせ（現在値・上限値ともに）。冒険者シートに反映すること。賢者の石の効果：所持している限り、サイコロを振るたびに体力点を１点回復する（初期値を超えることはできない）。「ヴァズと取引した」「隠し通路を知っている」とメモ欄に記録せよ。</div>
+<div class="rule">賢者の石の効果：所持している限り、サイコロを振るたびに体力点を１点回復する。技術点が２点下がる。「ヴァズと取引した」</div>
 <span class="stat-effect">体力+1（毎ダイス）</span>
 </div>
 <div class="choices">
@@ -1079,7 +1086,7 @@ body{
 <p>幅一メートルほどの隠し通路が現れた。黄金時代の建築特有の構造で、職人技の塊だ。ナックが「こういう仕掛けを作った人、センスがある」と言った。</p>
 <p>通路の先は短く、すぐに別の部屋に出た。研究室のようだ。石造りの棚に、古い書物が並んでいる。ほとんどは三百年の湿気で判読不能だが、一冊だけ状態が良い。表紙に「オルト＝ヴァルの日誌・第三巻」と書かれている。</p>
 <p>あなたは日誌を手に取った。紙が黄ばんでいるが、文字はまだ読める。これはヴォルカネスが人間だった頃に書いた日誌だ。最後のページを開くと、こんな一文がある。「私は間違いを犯した。しかしまだ取り返せると信じている。もし後世に誰かがこれを読むなら――紋章を持つ者に伝えよ。私は解放を求めている。破滅ではなく、解放を」</p>
-<div class="rule">所持品欄に「オルト＝ヴァルの日誌」と記録せよ。メモ欄に「日誌を読んだ」「オルト＝ヴァルの記憶を受け入れた」と記録せよ。これはGOOD END 1への条件の一つだ。「隠し通路を通過した」とメモ欄に記録せよ。守護者（二百九十七）との戦闘を回避できる。</div>
+<div class="rule">守護者（二百九十七）との戦闘を回避できる。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('二百七十二')">台座の剣を調べる</button>
@@ -1132,8 +1139,8 @@ body{
 <span class="stat-effect">体力-2（吸収）</span><span class="stat-effect">体力+2（エイサー回復）</span>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百二十八')">猿の右手を使う</button>
-<button class="choice-btn" onclick="goto('二百八十九')">勝利して先へ進む</button>
+<button class="choice-btn" onclick="startCombat('エイサー',11,18,4,'二百八十九',{drain:3})">戦う</button>
+<button class="choice-btn" onclick="monkeyManual()">猿の右手を使う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
@@ -1147,7 +1154,7 @@ body{
 <p>シラが息を飲んだ。「星脈の核だ。まだ生きている」</p>
 <p>あなたは台座に近づいた。左手の紋章が、これまでにない強さで熱を帯びた。球体に触れると、膨大な何かが流れ込んでくる感覚があった。記憶のような、知識のような。</p>
 <p>突然、部屋の奥で音がした。石が砕ける音だ。守護者が目覚めた。</p>
-<div class="rule">「星脈の祭壇に触れた」とメモ欄に記録せよ。これはGOOD END 1の条件の一つだ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('二百九十七')">先へ進む</button>
@@ -1164,7 +1171,7 @@ body{
 <div class="rule">古代の守護者と戦闘を行え。守護者：技術点十／体力点十四。守護者は一ラウンドに二回攻撃を行う。二回目の攻撃では技術点から二点を引いた値で判定せよ。「ロットンのつるぎ」を持っている場合、一ラウンドに与えるダメージは三点となる。経験値：二点。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="addXP(2);goto('六百十二')">勝利して先へ進む</button>
+<button class="choice-btn" onclick="startCombat('古代の守護者',10,14,2,'六百十二',{})">戦う</button>
 <button class="choice-btn" onclick="monkeyManual()">猿の右手を使う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
@@ -1220,8 +1227,8 @@ body{
 <p>祭壇まであと十歩。五歩。三歩――</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百二十八')">猿の右手を使う</button>
-<button class="choice-btn" onclick="goto('四百十五')">そのまま戦闘へ進む</button>
+<button class="choice-btn" onclick="startCombat('ヴォルカネス（前哨）',11,14,0,'四百十五',{})">突撃する</button>
+<button class="choice-btn" onclick="monkeyManual()">猿の右手を使う</button>
 </div>
 
 </div>
@@ -1287,7 +1294,7 @@ body{
 <p>王は静かに答えた。「分かっている。しかし民を守るためには力が必要だ。知識は力だ」</p>
 <p>シラは黙っていた。その目には、何か複雑な感情が混じっていた。黄金時代の知識がまた一国の手に渡る。それは過去の悲劇の繰り返しかもしれない。</p>
 <p>部屋の隅で、老いた占星術師がじっとあなたの左手を見ていた。</p>
-<div class="rule">軍の支援を受ける場合、最終決戦で技術点に一点のボーナスを得る。「ニフルユーム王国と契約した」とメモ欄に記録せよ。これは後のエンディングに影響する。</div>
+<div class="rule">軍の支援を受ける場合、最終決戦で技術点に一点のボーナスを得る。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四百二')">条件を飲んで軍の支援を受ける</button>
@@ -1318,7 +1325,7 @@ body{
 <p>ヴァルナはあなたの左手を見た。「その紋章はトール＝グルムの記録にある。三百年前の最後の大戦。その紋章を持つ者が封印の扉を閉じた。そして同じ紋章を持つ者が現れた時、封印の時代が終わると記されている」</p>
 <p>「終わるとはどういう意味だ」とゴルムが問う。</p>
 <p>「解放か、崩壊か、どちらかだ」とヴァルナは静かに言った。「どちらになるかは、紋章の持ち主が決める」</p>
-<div class="rule">「星脈の核を渡す約束をした」とメモ欄に記録せよ。「ロットンのつるぎ」を未所持の場合のみここで入手できる。これは後のエンディングに影響する。</div>
+<div class="rule">「ロットンのつるぎ」を未所持の場合のみここで入手できる。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四百二')">条件を飲む</button>
@@ -1333,7 +1340,7 @@ body{
 <p>テニスタ・テニストの森はヴァルデア北部に広がる大森林で、その広さは歩いて三日では抜けられない。エルフ語で「星が歌う森」を意味するという。黄金時代の星脈術の影響で、木々が特殊な進化を遂げており、葉が夜に微光を放つ。</p>
 <p>案内なしには入れない。森は外部の者を迷わせる仕組みになっており、道が変化し方位が狂う。シラがいなければ、とっくに迷子になっていた。</p>
 <p>やがて開けた場所に出た。木々の間に、石造りの建物が点在している。エルフの隠れ里だ。建物は木と一体化しており、近くに来るまで気づかない。十数名のエルフが、静かにあなたたちを見ている。その目は好意的ではないが、敵意もない。</p>
-<div class="rule">「黄金時代の真実を知った」とメモ欄に記録せよ。これはGOOD END 1の条件の一つだ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四百二')">先へ進む</button>
@@ -1371,7 +1378,7 @@ body{
 <p>「行く」とあなたは答えた。</p>
 <p>ゴルムは頷いた。「なら儂たちはここで待つ。お前が戻ってくるまで」</p>
 <p>シラがあなたに近づき、小さな木の実を渡した。「テニスタ・テニストの古木の実だ。食べれば体力点を四点回復できる。最後に取っておけ」</p>
-<div class="rule">「テニスタ・テニストの木の実」を入手した。いつでも使用でき体力点を四点回復する（初期値を超えることはできない）。所持品欄に記録せよ。</div>
+<div class="rule">「テニスタ・テニストの木の実」を入手した。いつでも使用でき体力点を四点回復する。</div>
 <span class="stat-effect">体力+4（使用時）</span>
 </div>
 <div class="choices">
@@ -1411,8 +1418,8 @@ body{
 <span class="stat-effect">体力-3（波動失敗時）</span>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('四百二十八')">猿の右手を使う</button>
-<button class="choice-btn" onclick="goto('三百二十四')">勝利して先へ進む</button>
+<button class="choice-btn" onclick="startCombat('ヴォルカネス',12,20,0,'三百二十四',{})">戦う</button>
+<button class="choice-btn" onclick="monkeyManual()">猿の右手を使う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
@@ -1427,7 +1434,7 @@ body{
 <p>「あなたはオルト＝ヴァルか」とあなたは問うた。</p>
 <p>長い沈黙があった。「その名前を知っているのか。三百年間、誰も私をその名で呼ばなかった。皆、ヴォルカネスと呼ぶ。悪魔の名で」</p>
 <p>声が、わずかに揺れた。「私はオルト＝ヴァルだった。その名前を、忘れかけていた」</p>
-<div class="rule">猿の右手テーブルを参照し、効果と代償を適用した後、四百十五へ戻って戦闘を続けよ。ただし出目が十二「伝説の一手」の場合はヴォルカネスの体力点を半分にする。出目が二「悪魔の嘲笑」の場合はヴォルカネスが激怒し次のラウンドのダメージが二倍になる。猿の右手は使用済みとなった。冒険者シートに記録せよ。</div>
+<div class="rule">猿の右手テーブルを参照し、効果と代償を適用した後、四百十五へ戻って戦闘を続けよ。ただし出目が十二「伝説の一手」の場合はヴォルカネスの体力点を半分にする。出目が二「悪魔の嘲笑」の場合はヴォルカネスが激怒し次のラウンドのダメージが二倍になる。猿の右手は使用済みとなった。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('三百二十四')">声の主に向かう</button>
@@ -1616,7 +1623,7 @@ body{
 <p>「全員そうなったのか」</p>
 <p>「私以外は全員。私は最初に逃げ出した。臆病者だと思われてもいい」</p>
 <p>ロサは最後にこう言った。「一つだけ教える。中に古い日誌があった。研究者のものだ。ヴォルカネスが何者かが書いてある。地下一層の実験室の机の上に。まだあるかもしれない」</p>
-<div class="rule">「地下一層で操られた者がいた」「地下一層に古い日誌がある」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('二百三')">礼を言い先へ進む</button>
@@ -1631,7 +1638,7 @@ body{
 <p>「地下一層の奥に、石碑がある」と彼女は言った。「十五人の仲間の名前が刻まれていた。あそこに入った冒険者全員の名前が。死者の記録だ。でも、その中に一人だけ違う文字で書かれた名前があった」</p>
 <p>「何という名前だ」</p>
 <p>「読めなかった。古代のドワーフ語だった。でも、誰かが最近追記したようで、文字が新しかった」ロサは包帯を締め直した。「あの石碑の前で、何かの声を聞いた。返せ、と言っていた。何を返せと言っているのか分からなかった。でも恐ろしくて逃げた」</p>
-<div class="rule">「地下一層に古い日誌がある」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('二百三')">礼を言い先へ進む</button>
@@ -1689,7 +1696,7 @@ body{
 <p>族長のオーク、その名をラグタルといった。交渉に応じた後、彼はあなたをしばらく見ていた。</p>
 <p>「紋章を持つ者のことは、われらの間にも伝わっている」と彼は言った。「断片の時代が終わり、新しい時代が来る時、紋章を持つ者が現れる。われらオークはかつて古代帝国の兵士だった。星脈術師に仕えた。その記憶は血に刻まれている」</p>
 <p>ラグタルは腰から古びた石板を取り出した。「これを持っていけ。古代の言葉で何か書いてある。儂には読めないが、賢者なら読めるかもしれない。ずっと持っていても仕方がない」</p>
-<div class="rule">「古代の石板」を入手した。所持品欄に記録せよ。ヴァズか神殿のオルドが読める可能性がある。</div>
+<div class="rule">「古代の石板」を入手した。ヴァズか神殿のオルドが読める可能性がある。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百八十八')">先へ進む</button>
@@ -1710,7 +1717,7 @@ body{
 <p>「日が変わる前。あと三時間もない」</p>
 <p>ゴルムが低く唸った。「走るしかないな」</p>
 <p>「もう一つ」とシラは言った。その目が、あなたをまっすぐ見た。「核に触れた時、あなたは選択を迫られる。私は三百年間、あなたに何を選んでほしいかを考えてきた。でも今は――あなた自身が決めることだと思っている。どんな選択でも、私はそこにいる」</p>
-<div class="rule">「テニスタ・テニストの森があなたを認識した」とメモ欄に記録せよ。これはGOOD END 1の条件の一つだ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('二百三')">急いで進む</button>
@@ -1732,7 +1739,7 @@ body{
 <p>しばらく沈黙があった。</p>
 <p>「礼を言う」とあなたは言った。</p>
 <p>ナックは耳をぱたぱたさせた。「礼はいらん。帰りに飯を奢れ」</p>
-<div class="rule">「ナックの動機を知った」とメモ欄に記録せよ。これはナックのエンディングに影響する。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百三十八')">先へ進む</button>
@@ -1749,7 +1756,7 @@ body{
 <p>ナックはしばらく黙ってから、声を落とした。「あの老人の荷台に、変なものが載ってた。隠してあったけど、おれの目はごまかせない。布の下に、古代文字の刻まれた箱があった。ザル＝カラムの紋章と同じ形の。あの老人、ただの物売りじゃないかもしれない」</p>
 <p>ゴルムが眉を寄せた。「なぜ黙っていた」</p>
 <p>「証拠もなく人を疑うと、ドーランじゃ石を投げられる。ゴブリンはな」とナックは言った。その声に苦いものがある。「でも、おれの感はよく当たる。あの箱は危ない」</p>
-<div class="rule">「ナックが不審な荷物に気づいた」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('五百十二')">引き返して老人に問い正す</button>
@@ -1766,7 +1773,7 @@ body{
 <p>「……ばれたか」と老人は言った。「そうだな。あんたには話しておくべきかもしれない」</p>
 <p>老人は布をめくった。箱の表面には確かに紋章と似た文字が刻まれている。しかし近くで見ると、それは紋章そのものではなく、封印の文字だった。</p>
 <p>「中に入っているのは『星脈の鏡』だ」と老人は言った。「ザル＝カラムの地下から持ち出した。三十年前に。本当は返すつもりだったが、怖くて戻れなかった。あんたが持っていくなら、持っていけ。俺には使いこなせない」</p>
-<div class="rule">「星脈の鏡」を入手した。所持品欄に記録せよ。効果は地下二層で明らかになる（二百七十八・六百十参照）。</div>
+<div class="rule">「星脈の鏡」を入手した。効果は地下二層で明らかになる。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('二百三')">礼を言い先へ進む</button>
@@ -1783,10 +1790,10 @@ body{
 <p>目が赤く輝き、石の擦れる音が夜の荒野に響いた。高さ五メートルの番人ゴーレムが、地面を揺らしながら前に出てくる。通常の剣では歯が立たない。しかし目の発光部分――水晶結晶でできた箇所――に強い衝撃を集中させれば止められる。</p>
 <p>ゴルムが吠えた。「左を引きつけろ！　俺が右をやる！」</p>
 <p>戦いが始まった。</p>
-<div class="rule">番人ゴーレム（二体連戦）と戦闘を行え。一体目：技術点九／体力点十二。二体目：技術点八／体力点十。一体目を倒してから二体目と戦え。一体目撃破後に所持品から回復薬・食料を使用できる。ゴーレムの皮膚は星脈術で硬化されている。技術点八以下の武器では一ラウンドに与えられるダメージは一点のみとなる。「ロットンのつるぎ」を持っている場合はこの制限を受けない。二体撃破の経験値：合計四点。冒険者シートに記録せよ。勝利後、二百二十九へ進め。体力点が零になったなら四百七十三へ進め。</div>
+<div class="rule">番人ゴーレム（二体連戦）と戦闘を行え。一体目：技術点九／体力点十二。二体目：技術点八／体力点十。一体目を倒してから二体目と戦え。一体目撃破後に所持品から回復薬・食料を使用できる。ゴーレムの皮膚は星脈術で硬化されている。技術点八以下の武器では一ラウンドに与えられるダメージは一点のみとなる。「ロットンのつるぎ」を持っている場合はこの制限を受けない。二体撃破の経験値：合計四点。勝利後、二百二十九へ進め。体力点が零になったなら四百七十三へ進め。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="addXP(2);goto('六百十一')">全て倒して廊下を進む</button>
+<button class="choice-btn" onclick="startCombat('番人ゴーレム',9,12,2,'六百十一',{chain:[{sk:8,hp:10}]})">戦う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
@@ -1800,7 +1807,7 @@ body{
 <p>「ヴァズ……さっき会った奴じゃないか」とナックが呟いた。</p>
 <p>日誌をめくると、最後のページにこう書かれていた。「オルト＝ヴァルは力に飲まれ始めている。私には止められない。封印を施すしか方法がなかった。だが封印は完璧ではない。いつか誰かが来た時のために、ここに記す。ヴォルカネスはオルト＝ヴァルではない。オルト＝ヴァルは今も中にいる。呼びかければ、聞こえるかもしれない」</p>
 <p>机の引き出しに、小さな水晶のかけらがあった。微かに光っている。</p>
-<div class="rule">「ヴァズの日誌を読んだ」「オルト＝ヴァルの記憶を受け入れた」とメモ欄に記録せよ。これはGOOD END 1への条件の一つだ。「光る水晶のかけら」を所持品欄に記録せよ。体力点を二点回復せよ。</div>
+<div class="rule">「ヴァズの日誌を読んだ」体力点を二点回復せよ。</div>
 <span class="stat-effect">体力+2</span>
 </div>
 <div class="choices">
@@ -1819,7 +1826,7 @@ body{
 <p>「ヴォルカネスになったのか」</p>
 <p>「そう呼ばれるようになった。でも完全ではない。封印の中に、師の意識の残滓が今も生きている。三百年間、その残滓が私を呼び続けている。解放してくれ、と」</p>
 <p>ヴァズの目が、あなたの左手を見た。「その紋章。師が最後に刻んだものだ。意味は『鍵を持つ者よ、名を呼べ』。名前で呼びかければ、最深部で師はまだ応えられるかもしれない」</p>
-<div class="rule">「封印の扉を正しく開ける方法を知った」「オルト＝ヴァルの記憶を受け入れた」とメモ欄に記録せよ。これはGOOD END 1の条件の一つだ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('二百五十六')">取引に応じて話を続ける</button>
@@ -1857,7 +1864,7 @@ body{
 <p>足元に、小さな石板が沈んでいた。拾い上げると、古代文字が刻まれている。ナックが読んだ。「地下二層、神殿区画。祭壇は核の真下。鍵は紋章。ただし――ここから先は、誰かを信じなければ進めない」</p>
 <p>「誰かを信じなければ」とゴルムが繰り返した。「儂たちのことか」</p>
 <p>シラが静かに言った。「あるいは、自分自身のことかもしれない」</p>
-<div class="rule">「霧の中の石板を発見した」とメモ欄に記録せよ。体力点を一点回復せよ（霧がわずかに傷を癒す）。</div>
+<div class="rule">体力点を一点回復せよ（霧がわずかに傷を癒す）。</div>
 <span class="stat-effect">体力+1</span>
 </div>
 <div class="choices">
@@ -1874,7 +1881,7 @@ body{
 <p>鏡面を廊下にかざすと、霧が薄れていった。鏡が星脈エネルギーを吸収しているのだ。同時に、鏡の中に映像が浮かんだ。かつてのザル＝カラムの姿だ。賢者たちが議論を交わし、星脈術の実験を行い、この廊下を行き来している。生きていた頃の遺跡の記憶だ。</p>
 <p>そして一瞬、鏡の中に一人の男が映った。細面の顔、穏やかな目、左手に紋章と同じ形の指輪をした人間の男。彼はこちらを見た。そして微かに、うなずいた。</p>
 <p>オルト＝ヴァルだ、とシラが囁いた。声が震えていた。</p>
-<div class="rule">「星脈の鏡でオルト＝ヴァルの姿を見た」「オルト＝ヴァルの記憶を受け入れた」とメモ欄に記録せよ。これはGOOD END 1の条件の一つだ。最終決戦で技術点に一点のボーナスを得る。</div>
+<div class="rule">「星脈の鏡でオルト＝ヴァルの姿を見た」最終決戦で技術点に一点のボーナスを得る。</div>
 <span class="stat-effect">技術+1</span>
 </div>
 <div class="choices">
@@ -1891,7 +1898,7 @@ body{
 <p>廊下の中ほどで、小さな祠があった。黄金時代の旅人が置いていったものだろう、風化した像が一体、壁の窪みに収まっている。大地の女神だ。足元に、誰かが最近置いたと思しき生花が一輪あった。</p>
 <p>花に触れると、左手の紋章が温かくなった。怒りや恐怖ではなく、静かな何かだ。オルドの神殿で感じたものと同じ種類の温もり。</p>
 <p>ゴルムが花を一瞥して、黙って歩き続けた。</p>
-<div class="rule">「廊下の祠に立ち寄った」とメモ欄に記録せよ。運勢点を一点回復せよ（初期値を超えることはできない）。</div>
+<div class="rule">運勢点を一点回復せよ（初期値を超えることはできない）。</div>
 <span class="stat-effect">運勢+1</span>
 </div>
 <div class="choices">
@@ -1908,7 +1915,7 @@ body{
 <p>シラがしゃがんで水晶を見つめた。「エイサーの意識の欠片だ」と彼女は静かに言った。「完全に消えてはいない。どこか遠くへ行っただけだ」</p>
 <p>その光が、ふっと増した。まるで聞こえているかのように。</p>
 <p>あなたは水晶を握り締め、立ち上がった。エイサーが守り続けたこの場所に、もう番人はいない。しかし扉は開いている。彼が最後に開いてくれた扉が。</p>
-<div class="rule">「守護者の水晶」を入手した。所持品欄に記録せよ。これはGOOD END 1のエンディングで意味を持つ。体力点を三点回復せよ。</div>
+<div class="rule">「守護者の水晶」を入手した。体力点を三点回復せよ。</div>
 <span class="stat-effect">体力+3</span>
 </div>
 <div class="choices">
@@ -1927,7 +1934,7 @@ body{
 <p>「儂の役目はここまでだ」ゴルムは戦斧を両手で持ち、静かに置いた。「五十年間、弟の消息を追って、この遺跡の周りをうろついた。今夜ようやく分かった。あいつはここで逝った。ちゃんと逝った。石碑に名前があった。それで十分だ」</p>
 <p>老ドワーフはあなたに近づき、肩に手を置いた。「お前は弟よりずっと強い。だが、弟みたいに優しい顔をしている。そういう奴が、最後は勝つ。儂はここで信じて待つ」</p>
 <p>「行け」とゴルムは言った。「ヴァルデアの名前を変えてこい」</p>
-<div class="rule">「ゴルムとの別れ」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('九百一')">階段を下りる</button>
@@ -1945,7 +1952,7 @@ body{
 <p>「でも」とナックは続けた。「あんたは行ける。おれにはわかる。ゴブリンは嘘くさい人間を見分けるのが得意だ。あんたは本物だ」</p>
 <p>彼はポケットから小さな石板を取り出した。路地で拾ったあの板だ。「これ、返す。おれが読んだ意味は分かった。でもあんたが持っていた方がいい。向こうで役に立つかもしれない」</p>
 <p>「あと」とナックは少し間を置いた。「帰ってきたら、飯の話をしよう。高いやつ」</p>
-<div class="rule">「ナックとの別れ」とメモ欄に記録せよ。技術点を一点加えよ（ナックの言葉があなたを少し強くした）。</div>
+<div class="rule">技術点を一点加えよ（ナックの言葉があなたを少し強くした）。</div>
 <span class="stat-effect">技術+1</span>
 </div>
 <div class="choices">
@@ -1986,7 +1993,7 @@ body{
 <p>荒野の風が吹いた。遠くにザル＝カラムの光が瞬いている。</p>
 <p>「今も、そう思ってるか」とあなたは聞いた。</p>
 <p>ナックは少しの間黙った。「半分はな」と彼は正直に言った。「でも半分は違う。あんたが何のために行くのか、見たくなった。ゴブリンが大事なものを見た時、じいちゃんはそれを証人になれって言ってた。おれは証人になりたい」</p>
-<div class="rule">「ナックの本音を聞いた」とメモ欄に記録せよ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四百二')">先へ進む</button>
@@ -2006,7 +2013,7 @@ body{
 <p>火が爆ぜた。</p>
 <p>「でも今夜は」とシラは続けた。「後悔より別のものを考えている。もし彼がまだあの中にいるなら。三百年間、暗闇の中で一人でいたなら。それはどれほど孤独だったかと」</p>
 <p>彼女はあなたを見た。「あなたが名前で呼んでやれるなら、彼はそれを三百年間待っていたかもしれない」</p>
-<div class="rule">「シラの後悔と希望を聞いた」「オルト＝ヴァルの記憶を受け入れた」とメモ欄に記録せよ。これはGOOD END 1の条件の一つだ。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四百二')">先へ進む</button>
@@ -2024,7 +2031,7 @@ body{
 <p>「ドゥルムは遺跡マニアだと言ったな。本当だ。でも理由がある。あいつはずっと、黄金時代のことが好きだった。その時代に生きた人間の話が。ただの人間が、星脈術を学んで、世界を変えようとした時代の話が」</p>
 <p>ゴルムの目が炎を映した。「お前の左手の紋章を見た時、儂はドゥルムを思い出した。あいつならこの紋章を見て、何と言うか。おそらく、すごいな、と言う。ただそれだけ言って、でも目がきらきらしてる。そういう奴だった」</p>
 <p>老ドワーフは深く息をついた。「お前が明日何を選んでも、儂はついていく。理由はそれだけだ」</p>
-<div class="rule">「ゴルムの本音を聞いた」とメモ欄に記録せよ。最終決戦で運勢の判定に一点のボーナスを得る。</div>
+<div class="rule">最終決戦で運勢の判定に一点のボーナスを得る。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四百二')">先へ進む</button>
@@ -2065,7 +2072,7 @@ body{
 <p>「私は間違いを犯した」とオルト＝ヴァルは言った。「力を求めすぎた。世界を救おうとして、世界を壊しかけた。日誌に書いたことは本当だ。私はずっと、解放を求めていた。破滅ではなく」</p>
 <p>「どうすれば解放できる」</p>
 <p>「核に触れ、力を開放してほしい。ただし」と声は続けた。「それは制御された開放でなければならない。暴走させれば、ヴァルデア全土が焼ける。あなたの左手の紋章が、鍵であり、安全弁だ。紋章があれば、核の力を正しく流すことができる」</p>
-<div class="rule">メモ欄に「オルト＝ヴァルと対話した」と記録せよ。これはGOOD END 1への唯一の道だ。</div>
+<div class="rule">これはGOOD END 1への唯一の道だ。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四百三十七')">紋章を核に触れさせ、力を解放する</button>
@@ -2182,6 +2189,14 @@ body{
     <div class="sb-head" style="border:none;margin-bottom:.35rem">所持品</div>
     <div class="inv-tags" id="sb-inv"></div>
     <textarea class="sb-ta" id="ta-inv" rows="2" placeholder="アイテムを記録" oninput="S.invText=this.value;save()"></textarea>
+  </div>
+
+  <!-- 記録・フラグ -->
+  <div class="flag-sec">
+    <div class="sb-head" style="font-size:.62rem">冒険の記録</div>
+    <div class="flag-list" id="sb-flags">
+      <span class="flag-none">まだ記録なし</span>
+    </div>
   </div>
 
   <!-- メモ -->
@@ -2373,6 +2388,51 @@ function dbgClearLS(){
   updateDebug();
 }
 
+
+// ============================================================
+// FLAG LABELS — フラグの表示名定義
+// ============================================================
+const FLAG_LABELS = {
+  'ナックを仲間にした': 'ナック同行中',
+  'ナックを仲間にした（後払い）': 'ナック同行中（後払い）',
+  'ゴルムを仲間にした': 'ゴルム同行中',
+  'ナックと知り合った': 'ナックと知り合い',
+  '夜に怪しい会話を聞いた': '怪しい会話を聞いた',
+  'マグダの話を聞いた': 'マグダの話を聞いた',
+  'マグダが二十年待っていた': 'マグダが二十年待っていた',
+  'シラはヴォルカネスと契約していた過去を持つ': 'シラの過去を知った',
+  '地下一層に古い日誌がある': '地下一層に日誌あり',
+  '闇の商会が動いている': '闇の商会が動いている',
+  'ゴルムから鍵の話を聞いた': '鍵の話を聞いた',
+  '神殿の司祭と接触済み': '神殿司祭と接触',
+  'ゴルムたちと接触済み': 'ゴルムと接触',
+  'シラと接触済み': 'シラと接触',
+  'ヴァズと取引した': 'ヴァズと取引',
+  '隠し通路を知っている': '隠し通路を知っている',
+  '日誌を読んだ': '日誌を読んだ',
+  'オルト＝ヴァルの記憶を受け入れた': 'オルト＝ヴァルの記憶',
+  '隠し通路を通過した': '隠し通路を通過',
+  '星脈の祭壇に触れた': '祭壇に触れた',
+  'ニフルユーム王国と契約した': 'ニフルユームと契約',
+  '星脈の核を渡す約束をした': '核を渡す約束',
+  '黄金時代の真実を知った': '黄金時代の真実を知った',
+  '地下一層で操られた者がいた': '操られた者がいた',
+  'テニスタ・テニストの森があなたを認識した': '森があなたを認識',
+  'ナックの動機を知った': 'ナックの動機を知った',
+  'ナックが不審な荷物に気づいた': 'ナックが荷物を発見',
+  'ヴァズの日誌を読んだ': 'ヴァズの日誌を読んだ',
+  '封印の扉を正しく開ける方法を知った': '封印の開け方を知った',
+  '霧の中の石板を発見した': '霧の石板を発見',
+  '星脈の鏡でオルト＝ヴァルの姿を見た': '鏡でオルト＝ヴァルを見た',
+  '廊下の祠に立ち寄った': '廊下の祠に立ち寄った',
+  'ゴルムとの別れ': 'ゴルムと別れた',
+  'ナックとの別れ': 'ナックと別れた',
+  'ナックの本音を聞いた': 'ナックの本音を聞いた',
+  'シラの後悔と希望を聞いた': 'シラの告白を聞いた',
+  'ゴルムの本音を聞いた': 'ゴルムの本音を聞いた',
+  '死神の首飾りを装備': '死神の首飾り装備中',
+};
+
 function resetAll(){
   localStorage.removeItem(SK);
   S=dflt();save();render();goto('一');
@@ -2548,57 +2608,6 @@ function clog(msg,cls){
   el.scrollTop=el.scrollHeight;
 }
 
-document.getElementById('c-atk').addEventListener('click',()=>{
-  if(!CS)return;
-  CS.round++;
-  const pd=rollN(2),ed=rollN(2);
-  const pTot=pd.total+S.sk;
-  const eTot=ed.total+CS.esk;
-  clog('R'+CS.round+': あなた('+pd.total+'+'+S.sk+'='+pTot+') vs 敵('+ed.total+'+'+CS.esk+'='+eTot+')');
-
-  if(pTot>eTot){
-    let d=2;
-    if(hasItem('ロットンのつるぎ')&&CS.opts.doubleAtk)d=3;
-    CS.ehp-=d;
-    clog('  ✦ あなたの攻撃！ 敵に'+d+'点','l-dmg-p');
-  }else if(eTot>pTot){
-    let d=2;
-    if(CS.opts.evenBonus&&CS.round%2===0&&!hasItem('ロットンのつるぎ'))d+=CS.opts.evenBonus;
-    if(CS.opts.drain&&CS.round%CS.opts.drain===0){
-      const da=hasItem('賢者の石')?1:2;
-      CS.ehp+=da;d+=da;
-      clog('  ✦ 体力吸収！（あなた-'+da+'、敵+'+da+'）','l-sp');
-    }
-    if(S.neck)d=Math.max(0,d-1);
-    S.hp=Math.max(0,S.hp-d);
-    clog('  ✦ 敵の攻撃！ あなたに'+d+'点','l-dmg-e');
-  }else{
-    clog('  互角！ ダメージなし');
-  }
-
-  if(hasItem('賢者の石'))heal(1);
-  document.getElementById('c-php').textContent=S.hp;
-  document.getElementById('c-ehp').textContent=Math.max(0,CS.ehp);
-  save();render();
-
-  if(CS.ehp<=0){
-    clog('◆ '+CS.name+'を倒した！','l-res');
-    // 連戦
-    if(CS.opts.chain&&CS.opts.chain.length>0){
-      const nx=CS.opts.chain.shift();
-      clog('── 次の敵が現れた！','l-sp');
-      CS.esk=nx.sk;CS.ehp=nx.hp;CS.ehp0=nx.hp;
-      document.getElementById('c-ehp').textContent=CS.ehp;
-      document.getElementById('c-esk').textContent='技術 '+CS.esk;
-      return;
-    }
-    if(CS.xp>0){addXP(CS.xp);clog('  経験値+'+CS.xp+'点','l-sp');}
-    endCombat(true);
-  }else if(S.hp<=0){
-    clog('◆ あなたは倒れた……','l-res');
-    endCombat(false);
-  }
-});
 
 function endCombat(won){
   document.getElementById('c-atk').disabled=true;
@@ -2618,25 +2627,7 @@ function endCombat(won){
   }
 }
 
-document.getElementById('c-item').addEventListener('click',()=>{
-  if(!CS)return;
-  const order=['固いパン','テニスタ・テニストの木の実','回復薬'];
-  for(const it of order){
-    if(hasItem(it)){
-      const a=it==='回復薬'?6:it==='テニスタ・テニストの木の実'?4:1;
-      remItem(it);heal(a);
-      clog(it+'を使用。体力+'+a,'l-sp');
-      document.getElementById('c-php').textContent=S.hp;
-      return;
-    }
-  }
-  clog('使えるアイテムがない','l-sp');
-});
 
-document.getElementById('c-mk').addEventListener('click',()=>{
-  if(S.mkUsed||!CS)return;
-  monkeyInCombat();
-});
 
 // ============================================================
 // MONKEY'S PAW
@@ -2773,6 +2764,19 @@ function render(){
   // デバッグパネルが開いていれば更新
   const dp=document.getElementById('debug-panel');
   if(dp&&dp.style.display==='block') updateDebug();
+  // フラグ表示更新
+  const flagList=document.getElementById('sb-flags');
+  if(flagList){
+    const activeFlags=Object.keys(S.flags||{}).filter(k=>S.flags[k]);
+    if(activeFlags.length===0){
+      flagList.innerHTML='<span class="flag-none">まだ記録なし</span>';
+    }else{
+      flagList.innerHTML=activeFlags.map(k=>{
+        const label=FLAG_LABELS[k]||k;
+        return '<span class="flag-item">'+label+'</span>';
+      }).join('');
+    }
+  }
 }
 
 // ============================================================
@@ -2837,6 +2841,77 @@ window.addEventListener('DOMContentLoaded',()=>{
   }
   renderSaveInfo();
   render();
+  // 戦闘ボタンのイベントリスナー
+  document.getElementById('c-atk').addEventListener('click',()=>{
+  if(!CS)return;
+  CS.round++;
+  const pd=rollN(2),ed=rollN(2);
+  const pTot=pd.total+S.sk;
+  const eTot=ed.total+CS.esk;
+  clog('R'+CS.round+': あなた('+pd.total+'+'+S.sk+'='+pTot+') vs 敵('+ed.total+'+'+CS.esk+'='+eTot+')');
+
+  if(pTot>eTot){
+    let d=2;
+    if(hasItem('ロットンのつるぎ')&&CS.opts.doubleAtk)d=3;
+    CS.ehp-=d;
+    clog('  ✦ あなたの攻撃！ 敵に'+d+'点','l-dmg-p');
+  }else if(eTot>pTot){
+    let d=2;
+    if(CS.opts.evenBonus&&CS.round%2===0&&!hasItem('ロットンのつるぎ'))d+=CS.opts.evenBonus;
+    if(CS.opts.drain&&CS.round%CS.opts.drain===0){
+      const da=hasItem('賢者の石')?1:2;
+      CS.ehp+=da;d+=da;
+      clog('  ✦ 体力吸収！（あなた-'+da+'、敵+'+da+'）','l-sp');
+    }
+    if(S.neck)d=Math.max(0,d-1);
+    S.hp=Math.max(0,S.hp-d);
+    clog('  ✦ 敵の攻撃！ あなたに'+d+'点','l-dmg-e');
+  }else{
+    clog('  互角！ ダメージなし');
+  }
+
+  if(hasItem('賢者の石'))heal(1);
+  document.getElementById('c-php').textContent=S.hp;
+  document.getElementById('c-ehp').textContent=Math.max(0,CS.ehp);
+  save();render();
+
+  if(CS.ehp<=0){
+    clog('◆ '+CS.name+'を倒した！','l-res');
+    // 連戦
+    if(CS.opts.chain&&CS.opts.chain.length>0){
+      const nx=CS.opts.chain.shift();
+      clog('── 次の敵が現れた！','l-sp');
+      CS.esk=nx.sk;CS.ehp=nx.hp;CS.ehp0=nx.hp;
+      document.getElementById('c-ehp').textContent=CS.ehp;
+      document.getElementById('c-esk').textContent='技術 '+CS.esk;
+      return;
+    }
+    if(CS.xp>0){addXP(CS.xp);clog('  経験値+'+CS.xp+'点','l-sp');}
+    endCombat(true);
+  }else if(S.hp<=0){
+    clog('◆ あなたは倒れた……','l-res');
+    endCombat(false);
+  }
+});
+  document.getElementById('c-item').addEventListener('click',()=>{
+  if(!CS)return;
+  const order=['固いパン','テニスタ・テニストの木の実','回復薬'];
+  for(const it of order){
+    if(hasItem(it)){
+      const a=it==='回復薬'?6:it==='テニスタ・テニストの木の実'?4:1;
+      remItem(it);heal(a);
+      clog(it+'を使用。体力+'+a,'l-sp');
+      document.getElementById('c-php').textContent=S.hp;
+      return;
+    }
+  }
+  clog('使えるアイテムがない','l-sp');
+});
+  document.getElementById('c-mk').addEventListener('click',()=>{
+  if(S.mkUsed||!CS)return;
+  monkeyInCombat();
+});
+
 
   // 「冒険を始める」からの起動判定（複数の方法で検出）
   const urlParams=new URLSearchParams(window.location.search);
