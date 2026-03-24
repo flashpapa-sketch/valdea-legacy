@@ -866,7 +866,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="startCombat('グラッハ',10,16,4,'百五十二',{evenBonus:1})">戦う</button>
-<button class="choice-btn" onclick="monkeyManual()">猿の右手を使う</button>
+<button class="choice-btn" onclick="if(!S.mkUsed){monkeyManual();goto('四百二十八');}else{fb('猿の右手はすでに使用済みだ','f');}">猿の右手を使う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
@@ -1140,7 +1140,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="startCombat('エイサー',11,18,4,'二百八十九',{drain:3})">戦う</button>
-<button class="choice-btn" onclick="monkeyManual()">猿の右手を使う</button>
+<button class="choice-btn" onclick="if(!S.mkUsed){monkeyManual();goto('四百二十八');}else{fb('猿の右手はすでに使用済みだ','f');}">猿の右手を使う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
@@ -1228,7 +1228,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="startCombat('ヴォルカネス（前哨）',11,14,0,'四百十五',{})">突撃する</button>
-<button class="choice-btn" onclick="monkeyManual()">猿の右手を使う</button>
+<button class="choice-btn" onclick="if(!S.mkUsed){monkeyManual();goto('四百二十八');}else{fb('猿の右手はすでに使用済みだ','f');}">猿の右手を使う</button>
 </div>
 
 </div>
@@ -1418,7 +1418,7 @@ body{
 <span class="stat-effect">体力-3（波動失敗時）</span>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="startCombat('ヴォルカネス',12,20,0,'三百二十四',{})">戦う</button>
+<button class="choice-btn" onclick="startCombat('ヴォルカネス',11,20,0,'三百二十四',{})">戦う</button>
 <button class="choice-btn" onclick="monkeyManual()">猿の右手を使う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
@@ -2845,6 +2845,12 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('c-atk').addEventListener('click',()=>{
   if(!CS)return;
   CS.round++;
+  // 最大30ラウンドで強制終了（体力が多い方が勝利）
+  if(CS.round>=30){
+    if(S.hp>CS.ehp){clog('◆ 消耗戦を制した！','l-res');if(CS.xp>0)addXP(CS.xp);endCombat(true);}
+    else{clog('◆ 力尽きた……','l-res');endCombat(false);}
+    return;
+  }
   const pd=rollN(2),ed=rollN(2);
   const pTot=pd.total+S.sk;
   const eTot=ed.total+CS.esk;
@@ -2867,7 +2873,10 @@ window.addEventListener('DOMContentLoaded',()=>{
     S.hp=Math.max(0,S.hp-d);
     clog('  ✦ 敵の攻撃！ あなたに'+d+'点','l-dmg-e');
   }else{
-    clog('  互角！ ダメージなし');
+    // 同点：両者1点ダメージ（膠着防止）
+    CS.ehp-=1;
+    S.hp=Math.max(0,S.hp-1);
+    clog('  互角！ 両者1点ダメージ');
   }
 
   if(hasItem('賢者の石'))heal(1);
