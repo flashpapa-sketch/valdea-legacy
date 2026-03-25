@@ -225,7 +225,13 @@ body{
 .st-cell label{font-size:.6rem;color:var(--dim);display:block;margin-bottom:1px;letter-spacing:.05em}
 .st-cell .val{font-size:1.05rem;font-weight:700;color:var(--acc)}
 .st-cell .init{font-size:.6rem;color:#3a3830}
-.adj-row{display:flex;align-items:center;gap:2px;margin-top:2px}
+
+
+.st-val{
+  font-size:1.4rem;font-weight:700;color:var(--acc);
+  text-align:center;padding:.2rem 0;line-height:1;
+}
+
 .adj-btn{
   width:20px;height:20px;border:1px solid #2a2620;background:none;
   color:var(--dim);font-size:.75rem;cursor:pointer;
@@ -233,16 +239,17 @@ body{
   -webkit-tap-highlight-color:transparent;
 }
 @media(max-width:800px){
-  .adj-btn{width:32px;height:32px;font-size:.9rem;}
+  
+.st-val{
+  font-size:1.4rem;font-weight:700;color:var(--acc);
+  text-align:center;padding:.2rem 0;line-height:1;
+}
+
+.adj-btn{width:32px;height:32px;font-size:.9rem;}
   .adj-btn:hover{border-color:var(--acc);color:var(--acc)}
 }
 .adj-btn:hover{border-color:var(--acc);color:var(--acc)}
-.num-in{
-  width:40px;background:#0d0d0f;border:1px solid #2a2620;
-  color:var(--fg);padding:.1rem .25rem;font-size:.82rem;text-align:center;
-  -moz-appearance:textfield;
-}
-.num-in::-webkit-inner-spin-button,.num-in::-webkit-outer-spin-button{-webkit-appearance:none}
+
 .num-in:focus{outline:none;border-color:var(--acc)}
 
 /* dice */
@@ -2117,38 +2124,22 @@ body{
   <div class="st-grid">
     <div class="st-cell">
       <label>体力 HP</label>
-      <div class="adj-row">
-        <button class="adj-btn" onclick="adj('hp',-1)">－</button>
-        <input class="num-in" id="in-hp" type="number" min="0" max="40" onchange="set('hp',+this.value)">
-        <button class="adj-btn" onclick="adj('hp',+1)">＋</button>
-      </div>
+      <div class="st-val" id="in-hp">—</div>
       <div class="init">初期 <span id="sb-hpi">—</span></div>
     </div>
     <div class="st-cell">
       <label>技術 SK</label>
-      <div class="adj-row">
-        <button class="adj-btn" onclick="adj('sk',-1)">－</button>
-        <input class="num-in" id="in-sk" type="number" min="0" max="30" onchange="set('sk',+this.value)">
-        <button class="adj-btn" onclick="adj('sk',+1)">＋</button>
-      </div>
+      <div class="st-val" id="in-sk">—</div>
       <div class="init">初期 <span id="sb-ski">—</span></div>
     </div>
     <div class="st-cell">
       <label>運勢 LK</label>
-      <div class="adj-row">
-        <button class="adj-btn" onclick="adj('lk',-1)">－</button>
-        <input class="num-in" id="in-lk" type="number" min="0" max="20" onchange="set('lk',+this.value)">
-        <button class="adj-btn" onclick="adj('lk',+1)">＋</button>
-      </div>
+      <div class="st-val" id="in-lk">—</div>
       <div class="init">初期 <span id="sb-lki">—</span></div>
     </div>
     <div class="st-cell">
       <label>💰 金貨</label>
-      <div class="adj-row">
-        <button class="adj-btn" onclick="adj('gold',-1)">－</button>
-        <input class="num-in" id="in-gold" type="number" min="0" onchange="set('gold',+this.value)">
-        <button class="adj-btn" onclick="adj('gold',+1)">＋</button>
-      </div>
+      <div class="st-val" id="in-gold">—</div>
     </div>
   </div>
 
@@ -2274,7 +2265,7 @@ function dflt(){
     sk0:gs,hp0:gh,lk0:gl,
     gold:3,xp:0,
     inv:['食料','食料','食料'],flags:{},memo:'',invText:'',
-    mkUsed:false,neck:false,
+    mkUsed:false,neck:false,lvupQ:[],
     hist:[]
   };
 }
@@ -2677,13 +2668,64 @@ function addXP(n){
   const prev=getlv();
   S.xp+=n;
   const cur=getlv();
+  // レベルアップキューに積む
+  if(!S.lvupQ) S.lvupQ=[];
   for(let lv=prev.lv+1;lv<=cur.lv;lv++){
-    if(lv===2){S.sk++;S.sk0++;fb('Lv.2！ 技術+1','s');}
-    if(lv===3){S.hp0+=4;S.hp+=4;fb('Lv.3！ 体力最大+4','s');}
-    if(lv===4){S.lk++;S.lk0++;S.sk++;S.sk0++;fb('Lv.4！ 運勢+1 技術+1','s');}
-    if(lv===5){fb('Lv.5「招かれざる者」覚醒！','s');}
+    S.lvupQ.push(lv);
   }
   save();render();
+  // キューがあれば選択モーダルを表示
+  if(S.lvupQ.length>0) showLvupModal();
+}
+
+function showLvupModal(){
+  if(!S.lvupQ||S.lvupQ.length===0) return;
+  const lv=S.lvupQ[0];
+  const lv_data=LVS.find(l=>l.lv===lv);
+  const modal=document.getElementById('lvup-modal');
+  document.getElementById('lvup-title').textContent='Lv.'+lv+' 「'+(lv_data?lv_data.name:'')+'」';
+  document.getElementById('lvup-sub').textContent=
+    lv===5?'覚醒！ すべての能力値に＋2（自動適用）':'レベルアップ！ パラメータを1つ選んで強化してください。';
+  // Lv5は自動処理
+  if(lv===5){
+    S.sk+=2;S.sk0+=2;S.hp+=2;S.hp0+=2;S.lk+=2;S.lk0+=2;
+    S.lvupQ.shift();
+    save();render();
+    // モーダルを一瞬表示してから閉じる
+    modal.style.display='flex';
+    document.getElementById('lvup-sk').style.display='none';
+    document.getElementById('lvup-lk').style.display='none';
+    document.getElementById('lvup-hp').style.display='none';
+    setTimeout(()=>{
+      modal.style.display='none';
+      document.getElementById('lvup-sk').style.display='';
+      document.getElementById('lvup-lk').style.display='';
+      document.getElementById('lvup-hp').style.display='';
+      fb('Lv.5「招かれざる者」覚醒！ 全能力+2','s');
+      if(S.lvupQ.length>0) showLvupModal();
+    },1800);
+    return;
+  }
+  modal.style.display='flex';
+}
+
+function lvupChoose(stat){
+  if(!S.lvupQ||S.lvupQ.length===0) return;
+  const lv=S.lvupQ.shift();
+  if(stat==='hp'){
+    S.hp+=2;S.hp0+=2;
+    fb('Lv.'+lv+'！ 体力最大+2','s');
+  }else if(stat==='sk'){
+    S.sk++;S.sk0++;
+    fb('Lv.'+lv+'！ 技術+1','s');
+  }else if(stat==='lk'){
+    S.lk++;S.lk0++;
+    fb('Lv.'+lv+'！ 運勢+1','s');
+  }
+  document.getElementById('lvup-modal').style.display='none';
+  save();render();
+  // 連続レベルアップの場合は次を表示
+  if(S.lvupQ.length>0) setTimeout(showLvupModal,400);
 }
 function getlv(){
   let c=LVS[0];
@@ -2715,10 +2757,10 @@ function render(){
   }
   hearts.innerHTML=h;
 
-  // 入力欄
+  // 能力値表示（読み取り専用）
   ['hp','sk','lk','gold'].forEach(s=>{
     const el=document.getElementById('in-'+s);
-    if(el&&document.activeElement!==el)el.value=S[s];
+    if(el) el.textContent=S[s];
   });
   // 初期値表示
   document.getElementById('sb-hpi').textContent=S.hp0;
@@ -2943,5 +2985,20 @@ window.addEventListener('DOMContentLoaded',()=>{
   goto(start);
 });
 </script>
+
+<!-- レベルアップ選択モーダル -->
+<div id="lvup-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center">
+  <div style="background:var(--card);border:1px solid var(--acc);padding:1.5rem 1.2rem;max-width:320px;width:90%;text-align:center">
+    <div id="lvup-title" style="color:var(--acc);font-size:1rem;letter-spacing:.1em;margin-bottom:.4rem"></div>
+    <div id="lvup-sub" style="color:var(--fg);font-size:.82rem;margin-bottom:1rem;line-height:1.7"></div>
+    <div style="font-size:.75rem;color:var(--dim);margin-bottom:.8rem">上げるパラメータを選んでください</div>
+    <div style="display:flex;flex-direction:column;gap:.5rem">
+      <button class="choice-btn" id="lvup-sk" onclick="lvupChoose('sk')">技術点 ＋1</button>
+      <button class="choice-btn" id="lvup-lk" onclick="lvupChoose('lk')">運勢点 ＋1</button>
+      <button class="choice-btn" id="lvup-hp" onclick="lvupChoose('hp')">体力点 ＋2（最大値も上昇）</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
