@@ -62,7 +62,6 @@ body{
   display:inline-block;font-size:.75rem;padding:.1rem .5rem;
   margin:.15rem .15rem;border-radius:2px;border:1px solid;
 }
-.fx-good{color:var(--success);border-color:#1a4a2a;background:#0d1a0d}
 .fx-bad {color:var(--danger);border-color:#5a1a14;background:#1a0d0d}
 .fx-neu {color:var(--acc);  border-color:var(--acc2);background:#1a1410}
 
@@ -86,9 +85,7 @@ body{
 }
 .choice-btn .tag.sk{border-color:#5a8a5a;color:#8ab48a}
 .choice-btn .tag.lk{border-color:#8a8a5a;color:#c4c47a}
-.choice-btn .tag.cost{border-color:#8a5a1a;color:#c48a3a}
-
-/* ── ダイスオーバーレイ ── */
+.choice-btn .tag/* ── ダイスオーバーレイ ── */
 #dice-ov{
   display:none;position:fixed;inset:0;
   background:rgba(0,0,0,.78);z-index:600;
@@ -230,7 +227,6 @@ body{
   letter-spacing:-.02em;
 }
 
-
 @media(max-width:800px){
   
 .st-val{
@@ -239,10 +235,8 @@ body{
   letter-spacing:-.02em;
 }
 
-
   
 }
-
 
 .num-in:focus{outline:none;border-color:var(--acc)}
 
@@ -295,8 +289,6 @@ body{
 }
 .sb-ta:focus{outline:none;border-color:var(--acc)}
 
-
-
 .flag-sec{padding-top:.6rem;border-top:1px solid #2a2620}
 .flag-sec .sb-head{border:none;margin-bottom:.35rem}
 .flag-list{display:flex;flex-direction:column;gap:2px;max-height:12rem;overflow-y:auto}
@@ -312,10 +304,7 @@ body{
 .sv-btn.read:hover:not(:disabled){background:#1a1a3a;border-color:#4a4aaa}
 .sv-btn.read:disabled{opacity:.35;cursor:not-allowed}
 .sv-info{font-size:.62rem;color:var(--dim);margin-top:.3rem;line-height:1.6;min-height:1rem}
-.sv-info.has-data{color:var(--acc)}
-
-
-@media(max-width:375px){
+.sv-info@media(max-width:375px){
   .para-body p{font-size:.88rem;}
   .choice-btn{font-size:.82rem;padding:.7rem .8rem;}
   #hdr h1{font-size:.88rem;}
@@ -328,7 +317,6 @@ body{
   #hdr{padding:.6rem .8rem;}
 }
 
-.back-top{display:none}
 </style>
 </head>
 <body>
@@ -871,7 +859,7 @@ body{
 <p>ゴルムが低く唸った。「グラッハだ。ヴォルカネスの先兵。荒野の処刑人と呼ばれた男だ」</p>
 <p><span id="145-shira-line" style="display:none">シラが囁いた。「五十年前に死んだはずだった。よみがえらされたのか」</span><span id="145-noshira-line" style="display:none">「五十年前に死んだはずだった……よみがえらされたのか」誰かが低く呟いた。</span><script>(function(){var a=document.getElementById("145-shira-line"),b=document.getElementById("145-noshira-line");if(a&&b){if(typeof hasFlag==="function"&&hasFlag("シラと接触済み")){a.style.display="";}else{b.style.display="";}}})();</script></p>
 <p>逃げ道はない。グラッハが大剣を構えた。</p>
-<div class="rule">【中ボス戦】荒野の処刑人「グラッハ」との戦闘を行え。グラッハ：技術点十／体力点十六。グラッハは偶数ラウンド（第二・四・六…ラウンド）に通常ダメージに加えてさらに一点の追加ダメージを与える。「ロットンのつるぎ」を持っている場合、追加ダメージを無効化できる。勝利後、経験値四点を得て百五十二へ進め。体力点が零になったなら四百七十三へ進め。</div>
+<div class="rule">【中ボス戦】荒野の処刑人「グラッハ」との戦闘。技術点10・体力点16。偶数ラウンドに追加ダメージ1点。「ロットンのつるぎ」所持時はダメージ+1。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="startCombat('グラッハ',10,16,4,'百五十二',{evenBonus:1,loot:{gold:5,item:'黒鉄の破片'}})">戦う</button>
@@ -922,7 +910,7 @@ body{
 <p>相手は荒野の山賊三人組で、それぞれが短剣と革鎧で武装していた。リーダーは額に古い傷跡がある三十代の男で、目に飢えた輝きがある。荒廃した大地で食料を奪うしか生きる術がない者の目だ。ヴァルデアの断片の時代が生んだ、悲しい産物だ。</p>
 <p>戦いは終わった。倒れた者たちの荷物を調べると、干し肉と水袋、そして一枚の紙があった。ザル＝カラムへの簡単な地図だ。彼らも遺跡を目指していたのかもしれない。</p>
 <p>あなたは先へ進んだ。</p>
-<div class="rule">山賊三人組と戦闘を行え。一人ずつ順番に戦え。山賊：技術点六／体力点七。戦闘中に食料や回復薬は使用不可。一人倒すごとに経験値一点を得よ（合計三点）。</div>
+
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="startCombat('ゾンゲリラ',7,10,1,'二百三',{loot:{gold:1}})">戦う</button>
@@ -988,7 +976,7 @@ body{
 <p>石像が動いた。</p>
 <p>右の石像だ。ゆっくりと、石の擦れる音とともに首が回転する。目の部分が赤く光り始めた。高さ五メートルの石の巨人――番人ゴーレムだ。黄金時代の賢者たちが遺跡を守るために造った、生きた石の守護者。三百年間この場所を守り続けてきた。</p>
 <p>ゴーレムの材質は通常の石ではない。星脈術で硬化された特殊な岩で、普通の剣では傷一つつかない。弱点は目の発光部分だ――そこだけは魔法結晶で作られており、強い衝撃を与えれば機能を停止させることができる。</p>
-<div class="rule">番人ゴーレムと戦闘を行え。ゴーレム：技術点九／体力点十二。ゴーレムの皮膚は石でできている。技術点八以下の武器では一ラウンドに与えられるダメージは一点のみとなる。「ロットンのつるぎ」を持っている場合はこの制限を受けない。撃破時の経験値：二点。経験値は自動で反映される。</div>
+<div class="rule">番人ゴーレム：技術点9・体力点12。「ロットンのつるぎ」なしでは1ラウンドのダメージが1点になる。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="startCombat('番人ゴーレム',9,12,2,'二百二十九',{loot:{item:'発光結晶'}})">戦う</button>
@@ -1149,7 +1137,7 @@ body{
 <p>神殿区画の入口に、何かが立っていた。</p>
 <p>人間の形をしているが、人間ではない。高さは二メートル半。全身が古びた鎧に包まれているが、鎧の隙間から見える肌は石のような灰色だ。目はなく、頭部には古代文字が刻まれた冠が嵌まっている。それが光っていた。</p>
 <p>「守護者エイサー」とシラが囁いた。「黄金時代の賢者会議が、最後の防衛ラインとして置いた存在だ。生者でも死者でもない。純粋な星脈術で造られた番人。三百年間、ここを守り続けている」</p>
-<div class="rule">【中ボス戦】神殿の番人「エイサー」との戦闘を行え。エイサー：技術点十一／体力点十八。エイサーは三ラウンドに一度、体力吸収を行う。吸収を受けた場合、あなたの体力点を二点失い、エイサーの体力点が二点回復する。「賢者の石」を持っている場合、吸収の効果を一点に軽減できる。撃破後は二百八十九へ進め。体力点が零になったなら四百七十三へ進め。</div>
+<div class="rule">【中ボス戦】神殿の番人「エイサー」：技術点10・体力点16。4ラウンドごとに体力吸収（あなた-1、エイサー+1）。</div>
 <span class="stat-effect">体力-2（吸収）</span><span class="stat-effect">体力+2（エイサー回復）</span>
 </div>
 <div class="choices">
@@ -1183,7 +1171,7 @@ body{
 <p>古代の守護者は、人の形をしていなかった。</p>
 <p>最初はそう見えた。しかし近づくと分かる。それは人の骨格を模した骨組みに、黄金時代の武具を纏わせたものだ。関節部分に発光する水晶が嵌め込まれており、それが動力源になっている。</p>
 <p>「これは賢者たちが命を懸けて造った最後の守護者だ」とシラが言った。彼女の声に、三百年前の記憶への畏敬がある。「造った者の名はエイサー。最も優れた防衛術師だった。自らの意識をこの鎧に封じ込め、永遠の番人になることを選んだ」</p>
-<div class="rule">古代の守護者と戦闘を行え。守護者：技術点十／体力点十四。守護者は一ラウンドに二回攻撃を行う。二回目の攻撃では技術点から二点を引いた値で判定せよ。「ロットンのつるぎ」を持っている場合、一ラウンドに与えるダメージは三点となる。経験値：二点。</div>
+<div class="rule">古代の守護者：技術点10・体力点14。「ロットンのつるぎ」所持時はダメージ+1。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="startCombat('古代の守護者',10,14,2,'六百十二',{loot:{item:'古代の鎧片',hp:4}})">戦う</button>
@@ -1438,7 +1426,7 @@ body{
 <p>空気が、皮膚に触れるだけで電気のような刺激を与える。星脈術のエネルギーが限界まで凝縮されているのだ。</p>
 <p>中心に、台座があった。高さ一メートルほどの黒水晶の台座で、その上に光る球体が浮いている。直径三十センチほど、青白く輝く球体。これが星脈の核だ。ヴォルカネスがここに封印されている源泉だ。</p>
 <p>球体に近づくと、頭の中に声が聞こえた。</p>
-<div class="rule">ヴォルカネスとの最終決戦を行え。ヴォルカネス：技術点十二／体力点二十。ヴォルカネスは三ラウンドに一度、「星脈の波動」を放つ。波動を受けた場合、運試しを行え。失敗したなら体力点を三点失う。成功したなら紋章が防いだものとして被害なし。勝利したなら三百二十四へ進め。体力点が零になったなら四百七十三へ進め。</div>
+<div class="rule">【最終決戦】ヴォルカネス：技術点11・体力点18。3ラウンドごとに「星脈の波動」を放つ。波動を受けた場合、運試しを行え。失敗すると体力点を3点失う。</div>
 <span class="stat-effect">体力-3（波動失敗時）</span>
 </div>
 <div class="choices">
@@ -1601,8 +1589,7 @@ body{
 <div id="death-result" style="margin-top:1rem;padding:.8rem;background:#1a0a0a;border:1px solid #4a1a1a;border-radius:4px;font-size:.8rem;line-height:2">
   <div style="color:#c05050;font-weight:700;margin-bottom:.3rem">― 冒険の記録 ―</div>
   <div>生存時間：<span id="dr-time" style="color:var(--acc)">—</span></div>
-  <div>称号：<span id="dr-honor" style="color:var(--acc)">—</span></div>
-  <div>体験XP：<span id="dr-xp" style="color:var(--acc)">—</span></div>
+    <div>体験XP：<span id="dr-xp" style="color:var(--acc)">—</span></div>
 </div>
 </div>
 <div class="choices">
@@ -1831,7 +1818,7 @@ body{
 <p>目が赤く輝き、石の擦れる音が夜の荒野に響いた。高さ五メートルの番人ゴーレムが、地面を揺らしながら前に出てくる。通常の剣では歯が立たない。しかし目の発光部分――水晶結晶でできた箇所――に強い衝撃を集中させれば止められる。</p>
 <p>ゴルムが吠えた。「左を引きつけろ！　俺が右をやる！」</p>
 <p>戦いが始まった。</p>
-<div class="rule">番人ゴーレム（二体連戦）と戦闘を行え。一体目：技術点九／体力点十二。二体目：技術点八／体力点十。一体目を倒してから二体目と戦え。一体目撃破後に所持品から回復薬・食料を使用できる。ゴーレムの皮膚は星脈術で硬化されている。技術点八以下の武器では一ラウンドに与えられるダメージは一点のみとなる。「ロットンのつるぎ」を持っている場合はこの制限を受けない。二体撃破の経験値：合計四点。勝利後、二百二十九へ進め。体力点が零になったなら四百七十三へ進め。</div>
+<div class="rule">番人ゴーレム（二体連戦）：一体目SK9/HP12、二体目SK8/HP10。一体目撃破後に回復可。「ロットンのつるぎ」なしでは各1点ダメージ。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="startCombat('番人ゴーレム',9,12,2,'六百十一',{chain:[{sk:8,hp:10}],loot:{item:'発光結晶',gold:2}})">戦う</button>
@@ -2124,8 +2111,6 @@ body{
 
 </div>
 
-
-
 <div class="para" id="百三十八">
 <div class="para-num">◆ <span>百三十八</span></div>
 <div class="para-body">
@@ -2156,7 +2141,6 @@ body{
 <button class="choice-btn" onclick="goto('五百一')">出発前に廃村の調査をする</button>
 </div>
 </div>
-
 
 </div><!-- /main-col -->
 
@@ -2191,7 +2175,7 @@ body{
     </div>
   </div>
 
-  <!-- 精神値・プレイ時間・称号 -->
+  <!-- 精神値・プレイ時間 -->
   <div style="padding-top:.5rem;border-top:1px solid #2a2620;margin-top:.4rem">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem">
       <label style="font-size:.62rem;color:var(--dim)">精神 MENTAL</label>
@@ -2204,8 +2188,6 @@ body{
       <span>⏱ 生存時間</span>
       <span id="sb-playtime" style="color:var(--link)">0秒</span>
     </div>
-    <div style="font-size:.62rem;color:var(--dim)">称号</div>
-    <div id="sb-honor" style="font-size:.72rem;color:var(--acc);margin-top:.1rem">—</div>
   </div>
 
   <!-- ダイス -->
@@ -2464,7 +2446,6 @@ function dbgClearLS(){
   updateDebug();
 }
 
-
 // ============================================================
 // FLAG LABELS — フラグの表示名定義
 // ============================================================
@@ -2481,34 +2462,15 @@ const FLAG_LABELS = {
   'バグを見た者': 'バグを見た者',
 };
 
-
 // ============================================================
-// BUZZ SYSTEM — 称号・X共有・死亡フィードバック
+// BUZZ SYSTEM — X共有・死亡フィードバック
 // ============================================================
-
-// 称号取得
-function getHonor(){
-  const t=S.playTime||0;
-  const m=S.mental||100;
-  if(S.flags['奇跡の生還者']) return '奇跡の生還者';
-  if(S.flags['ヴォルカネスを倒した']) return '英雄';
-  if(S.flags['死神の首飾りを装備']) return '死の使い';
-  if(t<10) return '瞬殺王';
-  if(t<30) return '短命な冒険者';
-  if(m<=0) return '精神崩壊者';
-  if(m>=100&&S.hp>0&&t>120) return '鋼鉄の精神';
-  if(S.xp>=12) return 'ヴァルデアのレジェンド';
-  if(S.xp>=7) return '豪傑の勇者';
-  return '';
-}
 
 // X(Twitter)共有
 function shareToX(msg){
-  const honor=getHonor();
   const t=S.playTime||0;
   const text=[
     msg||'冒険が終わった',
-    honor?'称号：'+honor:'',
     '生存時間：'+t+'秒',
     '#ヴァルデアの遺産 #ゲームブック',
     'https://flashpapa-sketch.github.io/valdea-legacy/'
@@ -2520,7 +2482,6 @@ function shareToX(msg){
 function showDeathResult(reason){
   S.dead=true;
   const t=S.playTime||0;
-  const honor=getHonor();
   save();render();
   // フィードバックメッセージを強化
   fb('⚔ '+reason,'f');
@@ -2631,7 +2592,7 @@ function eventBread(){
 
 // 奇跡イベント（レア）
 function eventMiracle(){
-  S.flags['奇跡の生還者']=true;
+  // 奇跡イベント達成（内部記録）
   S.hp=S.hp0;
   S.mental=100;
   fb('奇跡が起きた！ 全回復','s');
@@ -2657,7 +2618,6 @@ function randomEvent(){
   ];
   pool[Math.floor(Math.random()*pool.length)]();
 }
-
 
 // ============================================================
 // META SYSTEM — 死亡引き継ぎ・ローグライク強化
@@ -2821,14 +2781,12 @@ function checkNearDeath(){
 // ============================================================
 function showBuzzDeath(){
   const t = S.playTime || 0;
-  const honor = getHonor() || '凡人';
   const survive = Math.floor(Math.random()*100);
   const el = document.getElementById('death-result');
   if(el){
     el.innerHTML =
       '<div style="color:#c05050;font-weight:700;margin-bottom:.4rem">━━ 冒険の記録 ━━</div>' +
       '<div>生存時間：<b style="color:var(--acc)">' + t + '秒</b></div>' +
-      '<div>称号：<b style="color:var(--acc)">' + honor + '</b></div>' +
       '<div>累計死亡：<b style="color:var(--acc)">' + META.totalDeaths + '回</b></div>' +
       '<div>生存率：<b style="color:var(--acc)">' + survive + '%</b></div>' +
       '<div>引き継ぎ強化：<b style="color:var(--acc)">HP+' + META.hpBoost + '</b></div>';
@@ -3011,7 +2969,7 @@ function startCombat(name,esk,ehp,xp,winId,opts){
       clog('  あなたに'+d+'点の先制ダメージ！','l-dmg-e');
       save();render();
       if(S.hp<=0){clog('◆ 先制で倒された……','l-res');endCombat(false);}
-    },600);
+    },1000);
   }
 }
 
@@ -3023,7 +2981,6 @@ function clog(msg,cls){
   el.appendChild(d);
   el.scrollTop=el.scrollHeight;
 }
-
 
 function endCombat(won){
   document.getElementById('c-atk').disabled=true;
@@ -3062,8 +3019,6 @@ function endCombat(won){
     }
   }
 }
-
-
 
 // ============================================================
 // MONKEY'S PAW
@@ -3267,9 +3222,6 @@ function render(){
     const t=S.playTime||0;
     ptEl.textContent=t<60?t+'秒':Math.floor(t/60)+'分'+(t%60)+'秒';
   }
-  // 称号表示
-  const honorEl=document.getElementById('sb-honor');
-  if(honorEl) honorEl.textContent=getHonor()||'—';
   // メタ条件チェック
   updateMetaUI();
   if(META.totalDeaths===7 && !META.flags?.seen7){
@@ -3451,7 +3403,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   if(S.mkUsed||!CS)return;
   monkeyInCombat();
 });
-
 
   // 「冒険を始める」からの起動判定（複数の方法で検出）
   const urlParams=new URLSearchParams(window.location.search);
