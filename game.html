@@ -638,9 +638,15 @@ body{
 <p>「ヴォルカネスが完全に復活する。三百年前、黄金時代を終わらせた悪魔が。今回は三百年分の力を溜めている」ゴルムの目が暗くなった。「だが奴は元々は人間だった。名はオルト＝ヴァル。その紋章は奴が刻んだものだ。意味を知る者がまだいる」</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('十六')">シラに問い詰める</button>
+<button class="choice-btn" id="btn-shira-15" onclick="goto('十六')">シラに問い詰める</button>
 <button class="choice-btn" onclick="goto('十七')">ゴルムに問い返す</button>
 <button class="choice-btn" onclick="goto('百三十八')">今すぐ出発する</button>
+<script>
+(function(){
+  var b=document.getElementById('btn-shira-15');
+  if(b&&typeof hasFlag==='function'&&!hasFlag('シラと接触済み')) b.style.display='none';
+})();
+</script>
 </div>
 
 </div>
@@ -868,7 +874,7 @@ body{
 <p>大きい。人間の倍はあろうかという巨躯だ。黒鉄の鎧に身を包み、背丈を超える大剣を地に突き立てている。オークだ。しかし普通のオークではない。その目に、知性と残忍さが同居していた。</p>
 <p>「待っていたぞ」と巨躯は言った。声は地の底から響くようだった。「紋章の持ち主よ。我が主ヴォルカネスの命だ。ここで死ね」</p>
 <p>ゴルムが低く唸った。「グラッハだ。ヴォルカネスの先兵。荒野の処刑人と呼ばれた男だ」</p>
-<p>シラが囁いた。「五十年前に死んだはずだった。よみがえらされたのか」</p>
+<p><span id="145-shira-line" style="display:none">シラが囁いた。「五十年前に死んだはずだった。よみがえらされたのか」</span><span id="145-noshira-line" style="display:none">「五十年前に死んだはずだった……よみがえらされたのか」誰かが低く呟いた。</span><script>(function(){var a=document.getElementById("145-shira-line"),b=document.getElementById("145-noshira-line");if(a&&b){if(typeof hasFlag==="function"&&hasFlag("シラと接触済み")){a.style.display="";}else{b.style.display="";}}})();</script></p>
 <p>逃げ道はない。グラッハが大剣を構えた。</p>
 <div class="rule">【中ボス戦】荒野の処刑人「グラッハ」との戦闘を行え。グラッハ：技術点十／体力点十六。グラッハは偶数ラウンド（第二・四・六…ラウンド）に通常ダメージに加えてさらに一点の追加ダメージを与える。「ロットンのつるぎ」を持っている場合、追加ダメージを無効化できる。勝利後、経験値四点を得て百五十二へ進め。体力点が零になったなら四百七十三へ進め。</div>
 </div>
@@ -924,8 +930,7 @@ body{
 <div class="rule">山賊三人組と戦闘を行え。一人ずつ順番に戦え。山賊：技術点六／体力点七。戦闘中に食料や回復薬は使用不可。一人倒すごとに経験値一点を得よ（合計三点）。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('百八十八')">全員を倒した</button>
-<button class="choice-btn" onclick="goto('百八十八')">（体力3以下）食料か回復薬を使う</button>
+<button class="choice-btn" onclick="startCombat('山賊',6,7,1,'二百三',{})">戦う</button>
 <button class="choice-btn" onclick="goto('四百七十三')">倒れた（死亡エンド）</button>
 </div>
 
@@ -941,7 +946,7 @@ body{
 <p>あなたは光の方向を見た。何かが引き寄せている。左手の紋章ではない。もっと単純な、人間的な好奇心だ。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百三')">エルフの里に立ち寄る場合は体力点を四点回復し（初期値を超えることはできない）、「エルフの里に立ち寄った」</button>
+<button class="choice-btn" onclick="heal(4);goto('三百八十三')">エルフの隠れ里に立ち寄る（体力+4）</button>
 <button class="choice-btn" onclick="goto('二百三')">そのまま先へ進む</button>
 <button class="choice-btn" onclick="goto('五百九')">森の中でシラが立ち止まった</button>
 </div>
@@ -1131,10 +1136,9 @@ body{
 <p>あなたの左手の紋章が、これまでになく強く反応している。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百八十四')">左の祭壇へ向かう</button>
-<button class="choice-btn" onclick="goto('二百八十四')">右の守護者の間へ向かう</button>
-<button class="choice-btn" onclick="goto('六百九')">廊下に霧が漂っている</button>
-<button class="choice-btn" onclick="goto('六百十')">「星脈の鏡」</button>
+<button class="choice-btn" onclick="goto('二百八十四')">神殿区画（守護者の間）へ向かう</button>
+<button class="choice-btn" onclick="goto('六百九')">霧の漂う廊下を進む</button>
+<button class="choice-btn" onclick="hasItem('星脈の鏡')?goto('六百十'):fb('星脈の鏡を持っていない','f')">星脈の鏡を使う</button>
 </div>
 
 </div>
@@ -1251,7 +1255,7 @@ body{
 <p>眼前の存在は戦意を持っていない。それが分かった。ヴォルカネスの断片――三百年の封印の中で分離した、オルト＝ヴァルの意識の残滓だ。憎しみや怒りではなく、深い疲労と孤独がその気配から滲み出ている。</p>
 <p>「話を聞かせてくれ」とあなたは言った。</p>
 <p>存在が揺れた。まるで、三百年間誰にも言ってもらえなかった言葉を、初めて聞いたように。</p>
-<div class="rule">これはBAD END 1へつながるルートだ。本当にこの道を選ぶか。</div>
+<div class="rule">何かが、この先に待っている。それが何なのか、あなたはまだ知らない。</div>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四百五十五')">このまま交渉を続ける</button>
@@ -1365,7 +1369,7 @@ body{
 <p>「一人で行く」とあなたは言った。</p>
 <p>ゴルムが眉を顰めた。「馬鹿なことを言うな。三人で入るのと一人で入るのでは、生き延びる確率が三倍違う」</p>
 <p>「分かっている」とあなたは言った。「でも、最後の決断は私一人でしなければならない。あそこで何をするか、何を選ぶか。それは私だけの問題だ。あなたたちを巻き込めない」</p>
-<p>シラが静かに言った。「気持ちは分かる。でもゴルムの言う通りだ。一人では行かせられない」</p>
+<p><span id="391-shira" style="display:none">シラが静かに言った。「気持ちは分かる。でもゴルムの言う通りだ。一人では行かせられない」</span><script>(function(){var s=document.getElementById("391-shira");if(s&&typeof hasFlag==="function"&&hasFlag("シラと接触済み"))s.style.display="";})();</script></p>
 <p>「行かせてくれ」とあなたは頼んだ。「これだけは聞いてほしい。理由は、戻ってきてから話す」</p>
 <p>長い沈黙があった。ゴルムが深くため息をついた。「分かった。だが戻ってこなかったら、あの世まで追いかけて怒鳴りつけるからな」</p>
 <div class="rule">「強壮剤」を入手した。一度だけ使用でき、技術点を二点上げる効果がある（一つの戦闘の間のみ有効）。</div>
@@ -1470,7 +1474,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四百三十七の二')">後日譚を読む</button>
-<button class="choice-btn" onclick="shareToX('ヴァルデアを救った！真エンディング到達')" style="color:#1da1f2;border-color:#1da1f2">𝕏 クリアをポスト</button>
+<button class="choice-btn" onclick="shareToX('ヴァルデアを救った！真エンディング到達')" style="color:#1da1f2;border-color:#1da1f2">𝕏 Xでクリアを報告</button>
 <button class="choice-btn" onclick="resetAll()">▲ 最初から読む</button>
 </div>
 
@@ -1512,7 +1516,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('四百四十六の二')">後日譚を読む</button>
-<button class="choice-btn" onclick="shareToX('封印を閉じた。GOOD END到達')" style="color:#1da1f2;border-color:#1da1f2">𝕏 クリアをポスト</button>
+<button class="choice-btn" onclick="shareToX('封印を閉じた。GOOD END到達')" style="color:#1da1f2;border-color:#1da1f2">𝕏 Xでクリアを報告</button>
 <button class="choice-btn" onclick="resetAll()">▲ 最初から読む</button>
 </div>
 
@@ -1553,7 +1557,7 @@ body{
 <div class="rule">「あなたは英雄にはなれなかった。だが、歴史に刻まれる名を手に入れた」――あなたの冒険は、別の形で完結した。</div>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="shareToX('ヴォルカネスと融合した。BAD ENDに到達…')" style="color:#1da1f2;border-color:#1da1f2">𝕏 結果をポスト</button>
+<button class="choice-btn" onclick="shareToX('ヴォルカネスと融合した。BAD ENDに到達…')" style="color:#1da1f2;border-color:#1da1f2">𝕏 Xで晒す</button>
 <button class="choice-btn" onclick="resetAll()">▲ 最初から読む</button>
 </div>
 
@@ -1594,7 +1598,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="resetAll()">▲ 最初から挑戦</button>
-<button class="choice-btn" onclick="shareToX('冒険で命を落とした…')" style="color:#1da1f2;border-color:#1da1f2">𝕏 結果をポスト</button>
+<button class="choice-btn" onclick="shareToX('冒険で命を落とした…')" style="color:#1da1f2;border-color:#1da1f2">𝕏 Xで晒す</button>
 </div>
 
 </div>
@@ -1615,6 +1619,7 @@ body{
 <button class="choice-btn" onclick="hasFlag('ナックを仲間にした') ? goto('五百十') : fb('ナックはいない','f')">ナックが話しかけてきた</button>
 <button class="choice-btn" onclick="eventChest()">荒野で光るものを見つけた</button>
 <button class="choice-btn" onclick="eventVillager()">荒野で生存者に出会った</button>
+<button class="choice-btn" onclick="randomEvent()">なんとなく辺りを見回す</button>
 <button class="choice-btn" onclick="goto('百四十五')">荒野を行く</button>
 <button class="choice-btn" onclick="goto('百八十八')">森を行く</button>
 <button class="choice-btn" onclick="goto('百九十四')">古代街道を行く</button>
@@ -2110,10 +2115,25 @@ body{
 <div class="para" id="百三十八">
 <div class="para-num">◆ <span>百三十八</span></div>
 <div class="para-body">
-<p>夜のドーランは静かだった。あなたは街門を出た。荒野の風が頬を打つ。闇の向こうに、青白い光が瞬いている。ザル＝カラムだ。三百年間、誰もその光の意味を知らなかった。</p>
-<p>背後で足音がした。振り返ると、酒場で話した老ドワーフ――ゴルムが立っていた。旅装束に身を包み、戦斧を背負っている。「一人で行くつもりか」「止めるつもりか」「逆だ。儂も行く。あの遺跡には、昔の借りがある」</p>
-<p>さらにもう一人。フードを被った人影。銀髪のエルフ、シラだ。「私も行く。三百年、この日を待っていた」その声に迷いはなかった。</p>
-<p>荒野の果てに光は揺れている。どれほど遠くとも、あるいはどれほど近くとも、関係ない。あなたはもうここまで来てしまった。</p>
+<p>夜のドーランは静かだった。あなたは街門を出た。荒野の風が頬を打つ。闇の向こうに、青白い光が瞬いている。ザル＝カラムだ。</p>
+<p>背後で足音がした。振り返ると、ゴルムが立っていた。旅装束に身を包み、戦斧を背負っている。「一人で行くつもりか」「止めるつもりか」「逆だ。儂も行く。あの遺跡には、昔の借りがある」</p>
+<p id="138-shira-known" style="display:none">さらにもう一人。フードを被った人影――酒場で出会ったエルフ、シラだ。「私も行く。三百年、この日を待っていた」その声に迷いはなかった。</p>
+<p id="138-shira-unknown" style="display:none">さらにもう一人。フードを被った人影が、物陰から静かに歩み出た。エルフだ。長い銀髪と、時間の重さを湛えた緑の瞳。あなたの知らない顔だ。首には古びた銀のペンダントがかかっている。「私も行く」と彼女は静かに言った。「三百年、この日を待っていた」</p>
+<script>
+(function(){
+  var kn=document.getElementById('138-shira-known');
+  var un=document.getElementById('138-shira-unknown');
+  if(kn&&un){
+    if(typeof hasFlag==='function'&&hasFlag('シラと接触済み')){
+      kn.style.display='';
+    } else {
+      un.style.display='';
+      // ここで初めて出会った場合はフラグを立てる
+      if(typeof flag==='function') flag('シラと接触済み');
+    }
+  }
+})();
+</script>
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('百四十五')">荒野を行く</button>
@@ -2219,6 +2239,26 @@ body{
     <div class="flag-list" id="sb-flags">
       <span class="flag-none">まだ記録なし</span>
     </div>
+  </div>
+
+  <!-- META情報 -->
+  <div style="padding:.5rem 0;border-top:1px solid #2a2620;margin-top:.3rem">
+    <div style="font-size:.6rem;color:var(--dim);letter-spacing:.08em;margin-bottom:.3rem">ローグ引き継ぎ</div>
+    <div style="display:flex;flex-direction:column;gap:2px;font-size:.62rem">
+      <div style="display:flex;justify-content:space-between">
+        <span style="color:var(--dim)">累計死亡</span>
+        <span id="meta-deaths" style="color:#c05050">0回</span>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <span style="color:var(--dim)">引き継ぎ強化</span>
+        <span id="meta-boost" style="color:var(--acc)">なし</span>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <span style="color:var(--dim)">解放イベント</span>
+        <span id="meta-unlock" style="color:#6aaa6a">0件</span>
+      </div>
+    </div>
+    <button onclick="if(confirm('引き継ぎデータを全リセットしますか？')){resetMeta();fb('引き継ぎリセット完了','n');}" style="margin-top:.4rem;font-size:.55rem;padding:.15rem .4rem;background:none;border:0.5px solid #3a2a2a;color:var(--dim);cursor:pointer;border-radius:2px;width:100%">引き継ぎリセット</button>
   </div>
 
   <!-- メモ -->
@@ -2614,6 +2654,14 @@ function eventMiracle(){
 
 // ランダムイベント実行（ハブ）
 function randomEvent(){
+  // 3%で超激レア
+  if(eventRare()) return;
+  // 1%で奇跡
+  if(Math.random()<0.01){eventMiracle();return;}
+  // 5%でメタ発言（プレイ回数参照）
+  if(Math.random()<0.05){eventMeta();return;}
+  // 3%で理不尽死（バズ専用）
+  if(Math.random()<0.03){eventUnfair();return;}
   const pool=[
     eventChest,
     eventVillager,
@@ -2621,9 +2669,186 @@ function randomEvent(){
     eventBetrayal,
     eventBread,
   ];
-  // 1%で奇跡
-  if(Math.random()<0.01){eventMiracle();return;}
   pool[Math.floor(Math.random()*pool.length)]();
+}
+
+
+// ============================================================
+// META SYSTEM — 死亡引き継ぎ・ローグライク強化
+// ============================================================
+const META_KEY = 'valdea_meta';
+
+function loadMeta(){
+  try{
+    const raw = localStorage.getItem(META_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return {
+    totalDeaths: 0,
+    hpBoost: 0,
+    skBoost: 0,
+    lkBoost: 0,
+    resist: {},
+    unlockedEvents: [],
+    bestTime: 0,
+    totalPlays: 0,
+    skills: { surviveBoost: false, rareUp: false, poisonResist: false }
+  };
+}
+
+function saveMeta(){
+  localStorage.setItem(META_KEY, JSON.stringify(META));
+}
+
+function resetMeta(){
+  localStorage.removeItem(META_KEY);
+  META = loadMeta();
+  updateMetaUI();
+}
+
+// META はゲームをまたいで引き継ぐ
+let META = loadMeta();
+
+// メタ強化をSに適用（ゲーム開始時）
+function applyMetaBoosts(){
+  S.hp  += META.hpBoost;
+  S.hp0 += META.hpBoost;
+  S.sk  += META.skBoost;
+  S.sk0 += META.skBoost;
+  S.lk  += META.lkBoost;
+  S.lk0 += META.lkBoost;
+  // 死亡20回超で覚醒
+  if(META.totalDeaths >= 20){
+    S.hp  += 30; S.hp0 += 30;
+    if(!S.flags) S.flags = {};
+    S.flags['死神の覚醒'] = true;
+  }
+  save();
+}
+
+// 死亡時メタ更新
+function onDeath(reason){
+  META.totalDeaths++;
+  META.hpBoost += 2;           // 死ぬたびHP+2引き継ぎ
+  if(META.totalDeaths % 5 === 0) META.lkBoost++;   // 5死ごとに運+1
+  if(META.totalDeaths % 10 === 0) META.skBoost++;  // 10死ごとに技術+1
+  if(reason && reason.includes('毒')) META.skills.poisonResist = true;
+  if(reason && reason.includes('精神')) META.skills.surviveBoost = true;
+  // 最長生存記録
+  if((S.playTime||0) > (META.bestTime||0)) META.bestTime = S.playTime||0;
+  META.totalPlays++;
+  saveMeta();
+  updateMetaUI();
+}
+
+// メタUIの更新
+function updateMetaUI(){
+  const el = document.getElementById('meta-deaths');
+  const eb = document.getElementById('meta-boost');
+  const eu = document.getElementById('meta-unlock');
+  if(el) el.textContent = META.totalDeaths + '回';
+  if(eb) eb.textContent = '+HP'+(META.hpBoost||0)
+    +(META.skBoost?' +技術'+META.skBoost:'')
+    +(META.lkBoost?' +運'+META.lkBoost:'');
+  if(eu) eu.textContent = (META.unlockedEvents||[]).length + '件';
+}
+
+// アンロック
+function unlockEvent(name){
+  if(!META.unlockedEvents) META.unlockedEvents = [];
+  if(!META.unlockedEvents.includes(name)){
+    META.unlockedEvents.push(name);
+    fb('新イベント解放: ' + name, 's');
+    saveMeta();
+  }
+}
+
+// ============================================================
+// BUZZ EVENTS — バズ専用イベント（Sランク）
+// ============================================================
+
+// A: 理不尽死（確実にバズる）
+function eventUnfair(){
+  fb('突然の出来事が起きた…', 'n');
+  setTimeout(()=>{
+    S.hp = 0;
+    save(); render();
+    fb('特に理由もなく死亡した', 'f');
+    setTimeout(()=> goto('四百七十三'), 800);
+  }, 1200);
+}
+
+// B: プレイヤー煽り
+function eventInsult(){
+  const choices = document.getElementById('choices') ||
+    document.querySelector('.choices');
+  fb('その選択…本気でしたか？', 'n');
+  // 次の選択肢を強制上書き（煽り版）
+  S._insultPending = true;
+  save();
+}
+
+// C: メタ発言（プレイ回数参照）
+function eventMeta(){
+  const n = META.totalDeaths || 0;
+  if(n === 0){
+    fb('初めての挑戦ですね。ゆっくりどうぞ。', 'n');
+    heal(5);
+  } else if(n < 5){
+    fb(n + '回目の挑戦ですね。少しだけ優遇します。HP+10', 's');
+    heal(10);
+  } else if(n < 20){
+    fb(n + '回死にましたね。そろそろ学びましたか？', 'n');
+    mentalDmg(10);
+  } else {
+    fb('もう' + n + '回も死んでいる。あなたは何者ですか…', 's');
+    S.flags['死神の証人'] = true;
+    heal(20); save();
+  }
+  save(); render();
+}
+
+// D: 超激レア演出（3%）
+function eventRare(){
+  if(Math.random() < 0.03){
+    unlockEvent('開発者も想定外の事象');
+    S.flags['バグを見た者'] = true;
+    fb('【超激レア】開発者も想定していない事象が発生しました', 's');
+    heal(50);
+    save(); render();
+    return true;
+  }
+  return false;
+}
+
+// E: ギリギリ演出
+function checkNearDeath(){
+  if(S.hp > 0 && S.hp <= 3){
+    fb('あと一撃で終わる…！', 'f');
+    return true;
+  }
+  return false;
+}
+
+// ============================================================
+// 死亡エンドのバズ仕様強化（goto hook）
+// ============================================================
+function showBuzzDeath(){
+  const t = S.playTime || 0;
+  const honor = getHonor() || '凡人';
+  const survive = Math.floor(Math.random()*100);
+  const el = document.getElementById('death-result');
+  if(el){
+    el.innerHTML =
+      '<div style="color:#c05050;font-weight:700;margin-bottom:.4rem">━━ 冒険の記録 ━━</div>' +
+      '<div>生存時間：<b style="color:var(--acc)">' + t + '秒</b></div>' +
+      '<div>称号：<b style="color:var(--acc)">' + honor + '</b></div>' +
+      '<div>累計死亡：<b style="color:var(--acc)">' + META.totalDeaths + '回</b></div>' +
+      '<div>生存率：<b style="color:var(--acc)">' + survive + '%</b></div>' +
+      '<div>引き継ぎ強化：<b style="color:var(--acc)">HP+' + META.hpBoost + '</b></div>';
+    el.style.display = 'block';
+  }
+  onDeath('');
 }
 
 function resetAll(){
@@ -2641,12 +2866,7 @@ function goto(id){
     el.classList.add('active');S.cur=id;save();render();
     // 死亡エンドの記録を更新
     if(id==='四百七十三'){
-      const dt=document.getElementById('dr-time');
-      const dh=document.getElementById('dr-honor');
-      const dx=document.getElementById('dr-xp');
-      if(dt)dt.textContent=(S.playTime||0)+'秒';
-      if(dh)dh.textContent=getHonor()||'名もなき冒険者';
-      if(dx)dx.textContent=S.xp+'点';
+      showBuzzDeath();
     }
   }
   window.scrollTo(0,0);
@@ -3032,6 +3252,20 @@ function render(){
   // 称号表示
   const honorEl=document.getElementById('sb-honor');
   if(honorEl) honorEl.textContent=getHonor()||'—';
+  // メタ条件チェック
+  updateMetaUI();
+  if(META.totalDeaths===7 && !META.flags?.seen7){
+    if(!META.flags) META.flags={};
+    META.flags.seen7 = true;
+    saveMeta();
+    setTimeout(()=>fb('「7回目の死で、真実が見える」','n'),500);
+  }
+  if(META.totalDeaths===13 && !META.flags?.seen13){
+    if(!META.flags) META.flags={};
+    META.flags.seen13 = true;
+    saveMeta();
+    setTimeout(()=>fb('「まだここにいるのか……」','n'),500);
+  }
   // デバッグパネルが開いていれば更新
   const dp=document.getElementById('debug-panel');
   if(dp&&dp.style.display==='block') updateDebug();
@@ -3113,6 +3347,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   }
   renderSaveInfo();
   render();
+  // META初期化・強化適用
+  META = loadMeta();
+  updateMetaUI();
+  if(typeof applyMetaBoosts === 'function') applyMetaBoosts();
   // プレイ時間カウンター
   setInterval(()=>{ if(!S.dead){S.playTime=(S.playTime||0)+1;} },1000);
   // 戦闘ボタンのイベントリスナー
@@ -3157,6 +3395,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('c-php').textContent=S.hp;
   document.getElementById('c-ehp').textContent=Math.max(0,CS.ehp);
   save();render();
+  checkNearDeath();
 
   if(CS.ehp<=0){
     clog('◆ '+CS.name+'を倒した！','l-res');
@@ -3218,6 +3457,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       S.guideDone=true;
     }
     S.cur='一';
+    applyMetaBoosts();
     save();
     goto('一');
     return;
