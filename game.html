@@ -4030,11 +4030,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.addEventListener('click',e=>{
     if(e.target.classList.contains('choice-btn')&&typeof SND!=='undefined') SND.click_wood();
   });
-  history.pushState(null,'',location.href);
-  window.addEventListener('popstate',()=>{
-    history.pushState(null,'',location.href);
-    fb('ブラウザの「戻る」は使えません。ゲーム内の選択肢で進んでください。','n');
-  });
   setInterval(()=>{ if(!S.dead){S.playTime=(S.playTime||0)+1;} },1000);
   // 戦闘ボタンのイベントリスナー
 ;
