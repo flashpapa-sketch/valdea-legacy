@@ -2,9 +2,9 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="ヴァルデアの遺産 — IリビングストンとSジャクソンのゲームブックに着想を得た、ブラウザで遊べる一人用ゲームブック。">
+<meta name="description" content="観測者のいない記録 — valdea legacy — ゲームブック形式のブラウザ体験作品。">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ヴァルデアの遺産 — LEGACY OF VALDEA</title>
+<title>観測者のいない記録 — valdea legacy —</title>
 <style>
 :root{
   --bg:#0d0d0f;--fg:#e8e0d0;--acc:#b8860b;--acc2:#8b6914;
@@ -2486,7 +2486,7 @@ function shareToX(msg){
   const text=[
     msg||'冒険が終わった',
     '生存時間：'+t+'秒',
-    '#ヴァルデアの遺産 #ゲームブック',
+    '#観測者のいない記録 #valdealegacy',
     'https://flashpapa-sketch.github.io/valdea-legacy/'
   ].filter(Boolean).join('\n');
   window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text),'_blank');
@@ -3227,7 +3227,7 @@ function endCombat(won){
       ? '<span style="color:#9fe1cb">「……参りました」一礼ののち、霧となって消えた</span>'
       : '<span style="color:var(--success)">勝利！</span>';
     res.innerHTML=winMsg+(lootMsg?`<br><span style="font-size:.75rem;color:var(--acc)">${lootMsg.trim()}</span>`:'');
-    nx.textContent='先へ進む →';
+    nx.textContent='冒険を続ける →';
     nx.onclick=()=>{document.getElementById('combat-ui').classList.remove('show');goto(CS.winId);};
   }else{
     if(CS.opts&&CS.opts.noble){
