@@ -606,8 +606,6 @@ body{
 <button class="choice-btn" onclick="goto('十四')">「なぜ分かった」と聞く</button>
 <button class="choice-btn" onclick="goto('八十三')">三人組に近づく</button>
 <button class="choice-btn" onclick="goto('六十一')">神殿へ向かう</button>
-<button class="choice-btn" onclick="heal(3); goto('百三十八')">一晩休んで出発する</button>
-<button class="choice-btn" onclick="goto('百三十八')">今すぐ出発する</button>
 </div>
 
 </div>
@@ -762,10 +760,9 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('十二')">女将のマグダに話しかける</button>
-<button class="choice-btn" onclick="goto('八十三')">三人組に近づく</button>
-<button class="choice-btn" onclick="goto('二十六')">二階の部屋を借りて一晩休む</button>
+<button class="choice-btn" onclick="goto('八十三')">隅の三人組に近づく</button>
+<button class="choice-btn" onclick="payGoto(1,'二十六','宿代を払った')">二階の部屋を借りて一晩休む</button>
 <button class="choice-btn" onclick="goto('六十一')">酒場を出て神殿へ向かう</button>
-<button class="choice-btn" onclick="goto('百三十八')">酒場を出てすぐ出発する</button>
 </div>
 
 </div>
@@ -1281,15 +1278,10 @@ body{
 <button class="choice-btn" onclick="goto('三百六十二')">ニフルユーム王国の城門へ向かう</button>
 <button class="choice-btn" onclick="goto('三百七十一')">タンガリー山岳のトール＝グルムへ向かう</button>
 <button class="choice-btn" onclick="goto('三百八十三')">テニスタ・テニストの森へ向かう</button>
-<button class="choice-btn" onclick="goto('三百九十一')">一人で戻ると決める</button>
-<button class="choice-btn" onclick="goto('八百一')">ドーランに一度戻る</button>
-<button class="choice-btn" onclick="startCombat('手負いのバーサーカー',11,8,2,'四百二',{berserk:true,loot:{item:'血塗れの大斧',gold:3}})">追剥に突然襲われた（遭遇）</button>
-<button class="choice-btn" onclick="(function(){const ok=rollN(2).total<=S.lk;S.lk=Math.max(0,S.lk-1);save();if(ok){fb('逃げ切った','s');}else{startCombat('手負いのバーサーカー',11,8,2,'四百二',{berserk:true,loot:{item:'血塗れの大斧',gold:3}});}render();})()">全力で逃げる（運試し）</button>
-<button class="choice-btn" onclick="hasFlag('ナックを仲間にした')?goto('八百五'):fb('ナックはいない','f')">道中でナックが話しかけてきた</button>
-<button class="choice-btn" onclick="hasFlag('シラと接触済み')?goto('八百六'):fb('シラはいない','f')">野営中にシラが話しかけてきた</button>
-<button class="choice-btn" onclick="hasFlag('ゴルムを仲間にした')?goto('八百七'):fb('ゴルムはいない','f')">前夜にゴルムが隣に座った</button>
+<button class="choice-btn" onclick="goto('三百九十一')">一人でザル＝カラムへ戻る</button>
+<button class="choice-btn" onclick="goto('八百一')">ドーランへ一度戻る</button>
+<button class="choice-btn" onclick="(function(){const ok=rollN(2).total<=S.lk;S.lk=Math.max(0,S.lk-1);save();if(ok){fb('追剥を振り切った','s');goto('三百九十七');}else{startCombat('手負いのバーサーカー',11,8,2,'四百二',{berserk:true,loot:{item:'血塗れの大斧',gold:3}});}render();})()">街道を急ぐ（運試し：追剥の危険）</button>
 <button class="choice-btn" onclick="eventSeventhChoice()">同じ分かれ道に立っている気がする</button>
-<button class="choice-btn" onclick="goto('三百九十七')">南へ急ぐ</button>
 </div>
 
 </div>
@@ -1629,11 +1621,9 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('五百二')">廃村の建物を調べる</button>
-<button class="choice-btn" onclick="hasFlag('ナックを仲間にした') ? goto('五百十') : fb('ナックはいない','f')">ナックが話しかけてきた</button>
-<button class="choice-btn" onclick="(function(){const ok=rollN(2).total<=S.lk;S.lk=Math.max(0,S.lk-1);save();if(ok){fb('身を潜め、やり過ごした','s');}else{fb('ゾンゲリラが飛びかかってきた！','f');setTimeout(()=>startCombat('ゾンゲリラ',7,10,1,'五百一',{loot:{gold:1,item:'腐った鉄片'}}),600);}render();})()">夜中に物音がした……（運試しで気づく）</button>
-<button class="choice-btn" onclick="eventChest()">荒野で光るものを見つけた</button>
-<button class="choice-btn" onclick="eventVillager()">荒野で生存者に出会った</button>
-<button class="choice-btn" onclick="randomEvent()">なんとなく辺りを見回す</button>
+<button class="choice-btn" onclick="hasFlag('ナックを仲間にした')?goto('八百五'):fb('ナックはいない','f')">ナックが話しかけてきた</button>
+<button class="choice-btn" onclick="hasFlag('シラと接触済み')?goto('八百六'):fb('シラはいない','f')">シラが話しかけてきた</button>
+<button class="choice-btn" onclick="hasFlag('ゴルムを仲間にした')?goto('八百七'):fb('ゴルムはいない','f')">ゴルムが隣に座った</button>
 <button class="choice-btn" onclick="goto('百四十五')">荒野を行く</button>
 <button class="choice-btn" onclick="goto('百八十八')">森を行く</button>
 <button class="choice-btn" onclick="goto('百九十四')">古代街道を行く</button>
@@ -2155,6 +2145,7 @@ body{
 <button class="choice-btn" onclick="goto('百四十五')">荒野を行く</button>
 <button class="choice-btn" onclick="goto('百八十八')">森を行く</button>
 <button class="choice-btn" onclick="goto('百九十四')">古代街道を行く</button>
+<button class="choice-btn" onclick="hasFlag('ナックを仲間にした')?goto('五百十'):goto('五百一')">ナックが何か言いたそうにしている</button>
 <button class="choice-btn" onclick="goto('五百一')">出発前に廃村の調査をする</button>
 </div>
 </div>
@@ -2164,6 +2155,13 @@ body{
 <!-- サイドバー -->
 <div id="sb">
   <div class="sb-head">冒険者ステータス</div>
+  <div id="sb-goal" style="
+    font-size:.62rem;color:var(--acc);
+    background:#1a1410;border:1px solid var(--acc2);
+    border-radius:2px;padding:.3rem .6rem;
+    margin-bottom:.6rem;letter-spacing:.03em;
+    min-height:1.4rem;line-height:1.4;
+  "></div>
 
   <!-- HP -->
   <div class="hp-sec">
@@ -2995,6 +2993,54 @@ function seventhLeft(){
   }, 600);
 }
 
+
+// 現在の目的を返す
+function getGoal(){
+  const id = S.cur || '一';
+  // ドーラン探索フェーズ
+  if(['一','二','三','四','五','六','七','八','九','十','十一',
+      '十一の二','十二','十三','十四','十五','十六','十七','十八','十九','二十',
+      '二十六','三十五','四十七','五十八','六十一','八十三','九十二','百七','百二十三'].includes(id)){
+    return 'ドーランで情報を集める';
+  }
+  // 荒野移動フェーズ
+  if(['百三十八','百四十五','百五十二','百六十七','百七十九','百八十八','百九十四',
+      '五百一','五百二','五百三','五百四','五百五','五百六','五百七','五百八','五百九',
+      '五百十','五百十一','五百十二'].includes(id)){
+    return 'ザル＝カラムへ向かう';
+  }
+  // 遺跡地上フェーズ
+  if(['二百三','二百十五','六百一'].includes(id)){
+    return '遺跡の入口を突破する';
+  }
+  // 地下1層フェーズ
+  if(['二百二十九','二百三十五','二百四十一','二百五十六','二百六十三','二百六十八',
+      '二百七十二','六百六','六百七','六百八'].includes(id)){
+    return '地下一層を探索する';
+  }
+  // 地下2層フェーズ
+  if(['二百七十八','二百八十四','二百八十九','二百九十七','三百十二',
+      '六百九','六百十','六百十一','六百十二','六百十三','六百十四'].includes(id)){
+    return '地下二層の奥へ進む';
+  }
+  // 同盟フェーズ
+  if(['三百五十六','三百六十二','三百六十八','三百七十一','三百七十五',
+      '三百八十三','三百九十一','三百九十七','四百二','八百一','八百五','八百六','八百七'].includes(id)){
+    return '同盟を集め最深部へ';
+  }
+  // 最終決戦フェーズ
+  if(['四百十五','三百二十四','三百三十三','三百四十一','四百二十八',
+      '九百一','九百三'].includes(id)){
+    return 'ヴォルカネスと対峙する';
+  }
+  // エンディング
+  if(['四百三十七','四百三十七の二','四百四十六','四百四十六の二','四百五十五','四百六十四'].includes(id)){
+    return '冒険は完結した';
+  }
+  if(id === '四百七十三') return '力尽きた——再び挑め';
+  return '';
+}
+
 function resetAll(){
   localStorage.removeItem(SK);
   S=dflt();save();render();goto('一');
@@ -3392,6 +3438,9 @@ function render(){
   const tamemo=document.getElementById('ta-memo');
   if(document.activeElement!==tainv)tainv.value=S.invText||S.inv.join('\n');
   if(document.activeElement!==tamemo)tamemo.value=S.memo||'';
+  // 現在の目的表示
+  const goalEl=document.getElementById('sb-goal');
+  if(goalEl){const g=getGoal();goalEl.textContent=g?('▶ '+g):'';goalEl.style.display=g?'':'none';}
   // 精神値表示
   const mentalEl=document.getElementById('sb-mental');
   const mentalBar=document.getElementById('mental-bar');
