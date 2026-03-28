@@ -333,6 +333,11 @@ body{
     <h1>— valdea legacy —</h1>
   </div>
   <div class="hdr-right">
+    <button onclick="doSave()" title="手動セーブ" style="
+      font-size:.68rem;color:var(--dim);background:none;border:0.5px solid var(--acc2);
+      padding:.25rem .6rem;cursor:pointer;border-radius:2px;
+      font-family:inherit;letter-spacing:.05em;
+    ">✓ 保存</button>
     <a href="guide.html" class="guide-link">手引き</a>
     <span id="save-ind">✓ 保存</span>
   </div>
@@ -391,6 +396,7 @@ body{
 <p>あなたはその風に背を向けながら、地平線に浮かぶ街の輪郭を眺めていた。ドーラン。辺境の交易街。かつては北方交易路の要衝として栄えたが、黄金時代の崩壊とともに衰退し、今では名もなき旅人が最後に辿り着く場所と呼ばれている。街を囲む石壁には三百年前の戦の痕跡が今も残り、風化した守護神像が街門の両脇に佇んでいる。</p>
 <p>左手の甲が、じわりと熱を帯びた。またこれだ、と思う。生まれた時からそこにある古代文字の紋章。かつて北の廃村で出会った老婆だけが顔色を変えた。「猿の右手は願いを叶える。だが運命を曲げようとする者には、必ず災いが返ってくる。言葉を慎重に選べ」。</p>
 <p>地平線の彼方、北西の方角には黒ずんだ山脈の稜線が見える。タンガリー山岳だ。あの山の麓のどこかに、ザル＝カラムがある。荒野の北に、青白い光が瞬いていた。</p>
+<p>三週間前、故郷の村が燃えた。原因は分からない。気がつけばあなたは荒野を歩いていた。帰る場所も、追う者も、待つ者もない。あるのはこの左手の紋章と、北の空に瞬く青白い光だけだ。</p>
 <p>ドーランの街門は開いていた。</p>
 </div>
 <div class="choices">
@@ -408,6 +414,7 @@ body{
 <p>街門の脇に掲示板があった。色褪せた紙が何枚も貼られている。ほとんどは古い依頼書や失踪人の手配書だが、一枚だけ新しい紙があった。</p>
 <p>「ザル＝カラム調査隊参加者募集。報酬：金貨五十枚。依頼主：ドーラン商人組合」。その下に別の紙が重なっている。「依頼取消。向かった十七名全員消息不明。近づくな。―組合長」</p>
 <p>さらに下に手書きの文字があった。「紋章を持つ者へ。扉は内側からしか開かない」
+<p>掲示板の一番下、目立たない場所に小さな紙が貼られていた。「三ヶ月前の大地震でザル＝カラムの封印石が崩落。それ以来、北の光が再び灯り始めた。近づくな――組合長」</p>
 <p style="font-size:.6rem;color:var(--dim);opacity:.4;margin-top:1.5rem;letter-spacing:.05em">あなたは既に選ばれている</p></p>
 <p>あなたは左手を握った。紋章が微かに熱を持っている。</p>
 </div>
@@ -838,7 +845,7 @@ body{
 <div class="choices">
 <button class="choice-btn" onclick="goto('百二十三')">地図についてさらに詳しく聞く</button>
 <button class="choice-btn" onclick="goto('十八')">神殿の生き残りに会わせてもらう</button>
-<button class="choice-btn" onclick="goto('百三十八')">地図を持って今すぐ出発する</button>
+<button class="choice-btn" onclick="fb('出発前に保存を推奨します','n');setTimeout(()=>goto('百三十八'),700)">地図を持って今すぐ出発する</button>
 </div>
 
 </div>
@@ -853,7 +860,7 @@ body{
 </div>
 <div class="choices">
 <button class="choice-btn" onclick="goto('十八')">ザル＝カラムへ出発する</button>
-<button class="choice-btn" onclick="goto('百三十八')">今夜すぐに出発する</button>
+<button class="choice-btn" onclick="fb('出発前に保存を推奨します','n');setTimeout(()=>goto('百三十八'),700)">今夜すぐに出発する</button>
 </div>
 
 </div>
@@ -3545,6 +3552,12 @@ window.addEventListener('DOMContentLoaded',()=>{
   TRUTH = loadTruth();
   updateMetaUI();
   if(typeof applyMetaBoosts === 'function') applyMetaBoosts();
+  // ブラウザ「戻る」ボタン対策
+  history.pushState(null, '', location.href);
+  window.addEventListener('popstate', ()=>{
+    history.pushState(null, '', location.href);
+    fb('ブラウザの「戻る」は使えません。ゲーム内の選択肢で進んでください。','n');
+  });
   // プレイ時間カウンター
   setInterval(()=>{ if(!S.dead){S.playTime=(S.playTime||0)+1;} },1000);
   // 戦闘ボタンのイベントリスナー
