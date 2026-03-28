@@ -35,8 +35,8 @@ body{
   display:flex;align-items:center;justify-content:space-between;
   position:sticky;top:0;z-index:100;gap:.5rem;flex-wrap:wrap;
 }
-#hdr h1{font-size:1rem;letter-spacing:.15em;color:var(--acc)}
-.en{font-size:.7rem;letter-spacing:.25em;color:var(--dim)}
+#hdr h1{font-size:.85rem;letter-spacing:.25em;color:var(--acc);font-weight:400}
+.en{font-size:.65rem;letter-spacing:.2em;color:var(--acc);opacity:.7}
 .hdr-right{display:flex;align-items:center;gap:.8rem}
 .guide-link{font-size:.75rem;color:var(--dim);text-decoration:none;letter-spacing:.05em}
 .guide-link:hover{color:var(--acc)}
@@ -329,8 +329,8 @@ body{
 <body>
 <div id="hdr">
   <div>
-    <div class="en">LEGACY OF VALDEA</div>
-    <h1>ヴァルデアの遺産</h1>
+    <div class="en">観測者のいない記録</div>
+    <h1>— valdea legacy —</h1>
   </div>
   <div class="hdr-right">
     <a href="guide.html" class="guide-link">手引き</a>
@@ -407,7 +407,8 @@ body{
 <div class="para-body">
 <p>街門の脇に掲示板があった。色褪せた紙が何枚も貼られている。ほとんどは古い依頼書や失踪人の手配書だが、一枚だけ新しい紙があった。</p>
 <p>「ザル＝カラム調査隊参加者募集。報酬：金貨五十枚。依頼主：ドーラン商人組合」。その下に別の紙が重なっている。「依頼取消。向かった十七名全員消息不明。近づくな。―組合長」</p>
-<p>さらに下に手書きの文字があった。「紋章を持つ者へ。扉は内側からしか開かない」</p>
+<p>さらに下に手書きの文字があった。「紋章を持つ者へ。扉は内側からしか開かない」
+<p style="font-size:.6rem;color:var(--dim);opacity:.4;margin-top:1.5rem;letter-spacing:.05em">あなたは既に選ばれている</p></p>
 <p>あなたは左手を握った。紋章が微かに熱を持っている。</p>
 </div>
 <div class="choices">
@@ -952,11 +953,12 @@ body{
 <p>案の定、闇の中から人影が現れた。六人。武装している。先頭の男が「通行料だ」と言った。笑みを浮かべているが、目は笑っていない。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('二百三')">金貨を払う</button>
+<button class="choice-btn" onclick="payGoto(3,'二百三','通行料を支払った')">金貨を払う</button>
 <button class="choice-btn" onclick="startCombat('街道の山賊',7,8,1,'二百三',{loot:{gold:2}})">立ち向かう（戦闘になった）</button>
-<button class="choice-btn" onclick="goto('二百三')">ゴルムに任せる</button>
+<button class="choice-btn" onclick="hasFlag('ゴルムを仲間にした')?startCombat('街道の山賊',7,8,1,'二百三',{loot:{gold:2}}):fb('ゴルムはいない','f')">ゴルムに任せる</button>
 <button class="choice-btn" onclick="goto('五百五')">道中で荷馬車の老人と話す</button>
-<button class="choice-btn" onclick="goto('五百十一')">ナックが何か言いたそうにしている</button>
+<button class="choice-btn" onclick="hasFlag('ナックを仲間にした')?goto('五百十一'):fb('ナックはいない','f')">ナックが何か言いたそうにしている</button>
+<button class="choice-btn" onclick="eventKindMan()">街道で旅人が声をかけてきた</button>
 </div>
 
 </div>
@@ -1274,12 +1276,12 @@ body{
 <button class="choice-btn" onclick="goto('三百八十三')">テニスタ・テニストの森へ向かう</button>
 <button class="choice-btn" onclick="goto('三百九十一')">一人で戻ると決める</button>
 <button class="choice-btn" onclick="goto('八百一')">ドーランに一度戻る</button>
-<div class="rule">荒野の路傍に、血だらけの男が立っていた。全身に古い傷跡と新しい傷が重なり、鎧はぼろぼろだ。しかしその目だけが、常軌を逸した輝きを放っている。理性を失った者の目だ。「ぁあああ……ッ！」叫び声とともに、男は斧を振り上げた。<br>【注意】相手は既に瀕死──しかし狂戦士ゆえ<b>第一ラウンドは敵が先制攻撃</b>を行う。</div>
 <button class="choice-btn" onclick="startCombat('手負いのバーサーカー',11,8,2,'四百二',{berserk:true,loot:{item:'血塗れの大斧',gold:3}})">追剥に突然襲われた（遭遇）</button>
-<button class="choice-btn" onclick="luckCheck('四百二','四百七十三','追剥から逃げる')">全力で逃げる（運試し）</button>
+<button class="choice-btn" onclick="(function(){const ok=rollN(2).total<=S.lk;S.lk=Math.max(0,S.lk-1);save();if(ok){fb('逃げ切った','s');}else{startCombat('手負いのバーサーカー',11,8,2,'四百二',{berserk:true,loot:{item:'血塗れの大斧',gold:3}});}render();})()">全力で逃げる（運試し）</button>
 <button class="choice-btn" onclick="hasFlag('ナックを仲間にした')?goto('八百五'):fb('ナックはいない','f')">道中でナックが話しかけてきた</button>
 <button class="choice-btn" onclick="hasFlag('シラと接触済み')?goto('八百六'):fb('シラはいない','f')">野営中にシラが話しかけてきた</button>
 <button class="choice-btn" onclick="hasFlag('ゴルムを仲間にした')?goto('八百七'):fb('ゴルムはいない','f')">前夜にゴルムが隣に座った</button>
+<button class="choice-btn" onclick="eventSeventhChoice()">同じ分かれ道に立っている気がする</button>
 <button class="choice-btn" onclick="goto('三百九十七')">南へ急ぐ</button>
 </div>
 
@@ -1471,7 +1473,8 @@ body{
 <p>ゴルムの声だった。荒野の戦場に、老ドワーフの顔があった。その後ろにナックとシラがいる。そして遠くに、三勢力の兵士たちが歓声を上げているのが聞こえた。</p>
 <p>空の渦が消えていた。青白い光が消えていた。ザル＝カラムの方角の空が、三百年ぶりに普通の夜空に戻っていた。月が出ていた。星が見えた。</p>
 <p>ゴルムが差し出した手を取って、あなたは立ち上がった。</p>
-<p>「終わったのか」とナックが聞いた。</p>
+<p>「終わったのか」
+<p style="font-size:.58rem;color:var(--dim);opacity:.3;margin-top:2rem;text-align:right;letter-spacing:.08em">観測は既に完了している</p>とナックが聞いた。</p>
 <p>「終わった」とあなたは答えた。</p>
 <p>それだけで十分だった。</p>
 <div class="rule">――あなたの冒険は完結した。これは真のエンディングである。</div>
@@ -1641,8 +1644,9 @@ body{
 <p>ナックが素早く水袋を差し出した。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="goto('五百三')">ロサを助けて回復薬か食料を渡す</button>
+<button class="choice-btn" onclick="heal(4);goto('五百三')">ロサを助けて回復薬か食料を渡す</button>
 <button class="choice-btn" onclick="goto('五百四')">話だけ聞いて先へ進む</button>
+<button class="choice-btn" onclick="eventSilentWell()">廃村に古い井戸がある</button>
 </div>
 
 </div>
@@ -2258,6 +2262,10 @@ body{
       <div style="display:flex;justify-content:space-between">
         <span style="color:var(--dim)">解放イベント</span>
         <span id="meta-unlock" style="color:#6aaa6a">0件</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.62rem;margin-top:.2rem">
+      <span style="color:var(--dim)"></span>
+      <span id="meta-truth" style="color:var(--dim);letter-spacing:.2em;font-size:.7rem"></span>
       </div>
     </div>
     <button onclick="if(confirm('引き継ぎデータを全リセットしますか？')){resetMeta();fb('引き継ぎリセット完了','n');}" style="margin-top:.4rem;font-size:.55rem;padding:.15rem .4rem;background:none;border:0.5px solid #3a2a2a;color:var(--dim);cursor:pointer;border-radius:2px;width:100%">引き継ぎリセット</button>
@@ -2703,6 +2711,11 @@ function updateMetaUI(){
     +(META.skBoost?' +技術'+META.skBoost:'')
     +(META.lkBoost?' +運'+META.lkBoost:'');
   if(eu) eu.textContent = (META.unlockedEvents||[]).length + '件';
+  // TRUTH hintCount（ラベルなし）
+  const et = document.getElementById('meta-truth');
+  if(et && typeof TRUTH !== 'undefined'){
+    et.textContent = TRUTH.hintCount > 0 ? ('…'.repeat(Math.min(TRUTH.hintCount,3))) : '';
+  }
 }
 
 // アンロック
@@ -2799,6 +2812,207 @@ function showBuzzDeath(){
     el.style.display = 'block';
   }
   onDeath('');
+}
+
+
+// ============================================================
+// TRUTH SYSTEM — 象徴イベント・無言エンディング
+// ============================================================
+const TRUTH_KEY = 'valdea_truth';
+
+function loadTruth(){
+  try{
+    const raw = localStorage.getItem(TRUTH_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return {
+    sawWell: false,      // 井戸を覗かなかった
+    avoidedMan: false,   // 優しい男を断った
+    loopAware: false,    // 七度目の分岐を理解した
+    wellCount: 0,        // 井戸に近づいた回数
+    manCount: 0,         // 男に出会った回数
+    hintCount: 0         // 真実への手掛かり収集数
+  };
+}
+
+function saveTruth(){
+  localStorage.setItem(TRUTH_KEY, JSON.stringify(TRUTH));
+}
+
+let TRUTH = loadTruth();
+
+// 真実フラグチェック（第一層）
+function checkTrueEnd(){
+  if(TRUTH.sawWell && TRUTH.avoidedMan && TRUTH.loopAware){
+    silentEnding();
+    return true;
+  }
+  return false;
+}
+
+// 無言エンディング（第一層）
+function silentEnding(){
+  S.dead = true; save();
+  document.querySelectorAll('.para').forEach(p=>p.classList.remove('active'));
+  const el = document.getElementById('main-col');
+  if(!el) return;
+  // 全パラグラフを隠してカスタム表示
+  el.innerHTML = `
+    <div id="silent-end" style="
+      padding:4rem 2rem;text-align:left;
+      font-family:'Noto Serif JP',Georgia,serif;
+      color:var(--dim);line-height:3;
+      animation:fadeIn .8s ease;
+    ">
+      <p style="font-size:.9rem;margin-bottom:2rem">あなたは理解した</p>
+      <p id="se-p2" style="opacity:0;font-size:.8rem;transition:opacity 1.5s">……</p>
+      <p id="se-p3" style="opacity:0;font-size:.7rem;margin-top:2rem;color:var(--dim);transition:opacity 1.5s"></p>
+      <div id="se-restart" style="opacity:0;margin-top:3rem;transition:opacity 1.5s">
+        <button class="choice-btn" onclick="resetAll()" style="max-width:200px">再試行</button>
+      </div>
+    </div>
+  `;
+  setTimeout(()=>{
+    const p2=document.getElementById('se-p2');
+    if(p2) p2.style.opacity='1';
+  },2000);
+  setTimeout(()=>{
+    const p3=document.getElementById('se-p3');
+    if(p3){ p3.style.opacity='1'; p3.textContent='観測継続不可'; }
+  },4000);
+  setTimeout(()=>{
+    const re=document.getElementById('se-restart');
+    if(re) re.style.opacity='1';
+  },6000);
+}
+
+// ============================================================
+// 象徴イベント①：沈黙の井戸
+// ============================================================
+function eventSilentWell(){
+  TRUTH.wellCount++;
+  saveTruth();
+  fb('古い井戸がある。石に文字が刻まれている——「覗くな」', 'n');
+  // 選択肢を強制表示するためにパラグラフ選択肢を差し替える
+  const choices = document.querySelector('.para.active .choices');
+  if(!choices) return;
+  choices.innerHTML = `
+    <button class="choice-btn" onclick="wellLook()">覗き込む</button>
+    <button class="choice-btn" onclick="wellLeave()">立ち去る</button>
+  `;
+}
+
+function wellLook(){
+  // 即死：理由は説明しない
+  TRUTH.sawWell = false; // 覗いた者はフラグを得ない
+  saveTruth();
+  fb('','n');
+  setTimeout(()=>{
+    S.hp = 0; save(); render();
+    setTimeout(()=> goto('四百七十三'), 400);
+  }, 800);
+}
+
+function wellLeave(){
+  TRUTH.sawWell = true;
+  TRUTH.hintCount++;
+  saveTruth();
+  fb('背後に気配を感じた気がした……', 'n');
+  save(); render();
+  // 選択肢を元に戻す
+  const choices = document.querySelector('.para.active .choices');
+  if(choices){
+    choices.innerHTML = `
+      <button class="choice-btn" onclick="heal(4);goto('五百三')">ロサを助けて回復薬か食料を渡す</button>
+      <button class="choice-btn" onclick="goto('五百四')">話だけ聞いて先へ進む</button>
+    `;
+  }
+}
+
+// ============================================================
+// 象徴イベント②：優しい男
+// ============================================================
+function eventKindMan(){
+  TRUTH.manCount++;
+  saveTruth();
+  fb('男が微笑んでいる。「困っているなら、助けましょう」', 'n');
+  const choices = document.querySelector('.para.active .choices');
+  if(!choices) return;
+  choices.innerHTML = `
+    <button class="choice-btn" onclick="manTrust()">助けを求める</button>
+    <button class="choice-btn" onclick="manRefuse()">断る</button>
+  `;
+}
+
+function manTrust(){
+  // 即死：見た目は安全、実際は危険
+  TRUTH.avoidedMan = false;
+  saveTruth();
+  fb('','n');
+  setTimeout(()=>{
+    S.hp = 0; save(); render();
+    setTimeout(()=> goto('四百七十三'), 400);
+  }, 1000);
+}
+
+function manRefuse(){
+  TRUTH.avoidedMan = true;
+  TRUTH.hintCount++;
+  saveTruth();
+  fb('男は少し悲しそうな顔をした', 'n');
+  save(); render();
+  // 元の選択肢に戻す
+  const choices = document.querySelector('.para.active .choices');
+  if(choices){
+    choices.innerHTML = `
+      <button class="choice-btn" onclick="payGoto(3,'二百三','通行料を支払った')">金貨を払う</button>
+      <button class="choice-btn" onclick="startCombat('街道の山賊',7,8,1,'二百三',{loot:{gold:2}})">立ち向かう（戦闘になった）</button>
+      <button class="choice-btn" onclick="goto('五百五')">道中で荷馬車の老人と話す</button>
+      <button class="choice-btn" onclick="goto('百九十四')">先へ進む</button>
+    `;
+  }
+}
+
+// ============================================================
+// 象徴イベント③：七度目の分岐（META死亡回数参照）
+// ============================================================
+function eventSeventhChoice(){
+  const deaths = META.totalDeaths || 0;
+  fb('同じ場所に立っている気がする', 'n');
+  const choices = document.querySelector('.para.active .choices');
+  if(!choices) return;
+  choices.innerHTML = `
+    <button class="choice-btn" onclick="seventhRight(${deaths})">右へ行く</button>
+    <button class="choice-btn" onclick="seventhLeft()">左へ行く</button>
+  `;
+}
+
+function seventhRight(deaths){
+  if(deaths >= 6){
+    // 理解した者だけが通れる
+    TRUTH.loopAware = true;
+    TRUTH.hintCount++;
+    saveTruth();
+    fb('景色が、変わった', 'n');
+    setTimeout(()=>{
+      if(checkTrueEnd()) return; // 無言エンドへ
+      save(); render();
+    }, 1500);
+  } else {
+    fb('また同じ結末か……', 'f');
+    setTimeout(()=>{
+      S.hp = 0; save(); render();
+      setTimeout(()=> goto('四百七十三'), 400);
+    }, 800);
+  }
+}
+
+function seventhLeft(){
+  fb('またこの結末か……', 'f');
+  setTimeout(()=>{
+    S.hp = 0; save(); render();
+    setTimeout(()=> goto('四百七十三'), 400);
+  }, 600);
 }
 
 function resetAll(){
@@ -3328,6 +3542,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   render();
   // META初期化・強化適用
   META = loadMeta();
+  TRUTH = loadTruth();
   updateMetaUI();
   if(typeof applyMetaBoosts === 'function') applyMetaBoosts();
   // プレイ時間カウンター
@@ -3437,7 +3652,14 @@ window.addEventListener('DOMContentLoaded',()=>{
     S.cur='一';
     applyMetaBoosts();
     save();
-    goto('一');
+    // 記録開始演出
+    const mcEl=document.getElementById('main-col');
+    if(mcEl){
+      mcEl.innerHTML='<div style="padding:4rem 2rem;font-size:.78rem;color:var(--dim);letter-spacing:.2em;animation:fadeIn .8s ease;font-family:\'Noto Serif JP\',Georgia,serif">記録を開始する</div>';
+      setTimeout(()=>goto('一'),1600);
+    } else {
+      goto('一');
+    }
     return;
   }
 
