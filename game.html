@@ -338,10 +338,7 @@ body{
       padding:.25rem .6rem;cursor:pointer;border-radius:2px;
       font-family:inherit;letter-spacing:.05em;
     ">✓ 保存</button>
-    <button id="mute-btn" onclick="(function(){const m=SND.toggleMute();document.getElementById('mute-btn').textContent=m?'🔇':'🔈';})()" title="音のオン/オフ" style="
-      font-size:.75rem;background:none;border:0.5px solid var(--acc2);
-      padding:.25rem .5rem;cursor:pointer;border-radius:2px;
-    ">🔈</button>
+    <button id="mute-btn" onclick="(function(){const m=SND.toggleMute();document.getElementById('mute-btn').textContent=m?'🔇':'🔈';})()" title="音のオン/オフ" style="font-size:.75rem;background:none;border:0.5px solid var(--acc2);padding:.25rem .5rem;cursor:pointer;border-radius:2px;">🔈</button>
     <a href="guide.html" class="guide-link">手引き</a>
     <span id="save-ind">✓ 保存</span>
   </div>
@@ -2658,6 +2655,7 @@ function saveMeta(){
 function resetMeta(){
   localStorage.removeItem(META_KEY);
   META = loadMeta();
+  TRUTH = loadTruth();
   updateMetaUI();
 }
 
@@ -3045,6 +3043,53 @@ function getGoal(){
   return '';
 }
 
+// 現在の目的を返す
+function getGoal(){
+  const id = S.cur || '一';
+  // ドーラン探索フェーズ
+  if(['一','二','三','四','五','六','七','八','九','十','十一',
+      '十一の二','十二','十三','十四','十五','十六','十七','十八','十九','二十',
+      '二十六','三十五','四十七','五十八','六十一','八十三','九十二','百七','百二十三'].includes(id)){
+    return 'ドーランで情報を集める';
+  }
+  // 荒野移動フェーズ
+  if(['百三十八','百四十五','百五十二','百六十七','百七十九','百八十八','百九十四',
+      '五百一','五百二','五百三','五百四','五百五','五百六','五百七','五百八','五百九',
+      '五百十','五百十一','五百十二'].includes(id)){
+    return 'ザル＝カラムへ向かう';
+  }
+  // 遺跡地上フェーズ
+  if(['二百三','二百十五','六百一'].includes(id)){
+    return '遺跡の入口を突破する';
+  }
+  // 地下1層フェーズ
+  if(['二百二十九','二百三十五','二百四十一','二百五十六','二百六十三','二百六十八',
+      '二百七十二','六百六','六百七','六百八'].includes(id)){
+    return '地下一層を探索する';
+  }
+  // 地下2層フェーズ
+  if(['二百七十八','二百八十四','二百八十九','二百九十七','三百十二',
+      '六百九','六百十','六百十一','六百十二','六百十三','六百十四'].includes(id)){
+    return '地下二層の奥へ進む';
+  }
+  // 同盟フェーズ
+  if(['三百五十六','三百六十二','三百六十八','三百七十一','三百七十五',
+      '三百八十三','三百九十一','三百九十七','四百二','八百一','八百五','八百六','八百七'].includes(id)){
+    return '同盟を集め最深部へ';
+  }
+  // 最終決戦フェーズ
+  if(['四百十五','三百二十四','三百三十三','三百四十一','四百二十八',
+      '九百一','九百三'].includes(id)){
+    return 'ヴォルカネスと対峙する';
+  }
+  // エンディング
+  if(['四百三十七','四百三十七の二','四百四十六','四百四十六の二','四百五十五','四百六十四'].includes(id)){
+    return '冒険は完結した';
+  }
+  if(id === '四百七十三') return '力尽きた——再び挑め';
+  return '';
+}
+
 
 // ── SOUND ENGINE ──
 const SND = (()=>{
@@ -3119,13 +3164,6 @@ const SND = (()=>{
           const g2=ac.createGain();g2.gain.setValueAtTime(.2+Math.random()*.15,t+delay);g2.gain.exponentialRampToValueAtTime(.001,t+delay+.08);
           src.connect(f);f.connect(g2);g2.connect(g);src.start(t+delay);src.stop(t+delay+.1);
         }}catch(e){}
-    },
-    fire_crackle(){    // 炎・松明
-      try{const ac=getCtx(),g=masterGain(.25),t=ac.currentTime;
-        const src=ac.createBufferSource(),buf=noiseBuffer(.5);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='highpass';f.frequency.value=1200;
-        const g2=ac.createGain();g2.gain.setValueAtTime(.2,t);g2.gain.linearRampToValueAtTime(.1,t+.5);g2.gain.linearRampToValueAtTime(0,t+.6);
-        src.connect(f);f.connect(g2);g2.connect(g);src.start(t);src.stop(t+.6);}catch(e){}
     },
 
     // ── 夜・静寂 ──
@@ -3215,13 +3253,6 @@ const SND = (()=>{
         const o=ac.createOscillator();o.type='triangle';o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(60,t+.08);
         const g2=ac.createGain();g2.gain.setValueAtTime(.25,t);g2.gain.exponentialRampToValueAtTime(.001,t+.09);
         o.connect(g2);g2.connect(g);o.start(t);o.stop(t+.1);}catch(e){}
-    },
-    footstep_grass(){  // 草の上の足音
-      try{const ac=getCtx(),g=masterGain(.2),t=ac.currentTime;
-        const src=ac.createBufferSource(),buf=noiseBuffer(.06);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='highpass';f.frequency.value=1500;
-        const g2=ac.createGain();g2.gain.setValueAtTime(.15,t);g2.gain.exponentialRampToValueAtTime(.001,t+.07);
-        src.connect(f);f.connect(g2);g2.connect(g);src.start(t);src.stop(t+.08);}catch(e){}
     },
 
     // ── 天気・環境 ──
@@ -3383,127 +3414,6 @@ const SND = (()=>{
 
 
     // ── 追加音 ──
-    water_flow(){      // 水の流れ（川・水音）
-      try{const ac=getCtx(),g=masterGain(.2),t=ac.currentTime;
-        const src=ac.createBufferSource(),buf=noiseBuffer(1.5);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=800;f.Q.value=0.3;
-        const lfo=ac.createOscillator();lfo.frequency.value=0.8;
-        const lg=ac.createGain();lg.gain.value=200;lfo.connect(lg);lg.connect(f.frequency);
-        const g2=ac.createGain();g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.25,t+.4);g2.gain.linearRampToValueAtTime(0,t+1.5);
-        src.connect(f);f.connect(g2);g2.connect(g);lfo.start(t);src.start(t);src.stop(t+1.6);}catch(e){}
-    },
-    breath_tense(){    // 緊張した息遣い（恐怖・戦闘前）
-      try{const ac=getCtx(),g=masterGain(.2),t=ac.currentTime;
-        const src=ac.createBufferSource(),buf=noiseBuffer(.25);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=900;f.Q.value=2;
-        const g2=ac.createGain();g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.18,t+.05);g2.gain.linearRampToValueAtTime(0,t+.25);
-        src.connect(f);f.connect(g2);g2.connect(g);src.start(t);src.stop(t+.3);}catch(e){}
-    },
-    coin_drop(){       // 金貨を置く・払う音
-      try{const ac=getCtx(),g=masterGain(.3),t=ac.currentTime;
-        const o=ac.createOscillator();o.type='sine';o.frequency.setValueAtTime(1800,t);o.frequency.exponentialRampToValueAtTime(600,t+.12);
-        const g2=ac.createGain();g2.gain.setValueAtTime(.25,t);g2.gain.exponentialRampToValueAtTime(.001,t+.15);
-        o.connect(g2);g2.connect(g);o.start(t);o.stop(t+.16);}catch(e){}
-    },
-    sword_draw(){      // 剣を抜く音
-      try{const ac=getCtx(),g=masterGain(.3),t=ac.currentTime;
-        const src=ac.createBufferSource(),buf=noiseBuffer(.18);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=2000;f.Q.value=4;
-        const g2=ac.createGain();g2.gain.setValueAtTime(.25,t);g2.gain.linearRampToValueAtTime(.05,t+.18);g2.gain.linearRampToValueAtTime(0,t+.25);
-        src.connect(f);f.connect(g2);g2.connect(g);src.start(t);src.stop(t+.26);}catch(e){}
-    },
-    gate_open(){       // 城門・大きな門が開く
-      try{const ac=getCtx(),g=masterGain(.45),t=ac.currentTime;
-        const o=ac.createOscillator();o.type='sawtooth';o.frequency.setValueAtTime(120,t);o.frequency.linearRampToValueAtTime(60,t+.8);
-        const g2=ac.createGain();g2.gain.setValueAtTime(.35,t);g2.gain.exponentialRampToValueAtTime(.001,t+1);
-        const src=ac.createBufferSource(),buf=noiseBuffer(.8);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='lowpass';f.frequency.value=250;
-        const g3=ac.createGain();g3.gain.setValueAtTime(.3,t+.1);g3.gain.exponentialRampToValueAtTime(.001,t+.9);
-        o.connect(g2);g2.connect(g);src.connect(f);f.connect(g3);g3.connect(g);
-        o.start(t);o.stop(t+1.1);src.start(t+.1);src.stop(t+1);}catch(e){}
-    },
-    crowd_murmur(){    // 群衆のざわめき（遠く）
-      try{const ac=getCtx(),g=masterGain(.12),t=ac.currentTime;
-        const src=ac.createBufferSource(),buf=noiseBuffer(1.2);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=350;f.Q.value=0.2;
-        const lfo=ac.createOscillator();lfo.frequency.value=0.4;
-        const lg=ac.createGain();lg.gain.value=80;lfo.connect(lg);lg.connect(f.frequency);
-        const g2=ac.createGain();g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.18,t+.5);g2.gain.linearRampToValueAtTime(0,t+1.2);
-        src.connect(f);f.connect(g2);g2.connect(g);lfo.start(t);src.start(t);src.stop(t+1.3);}catch(e){}
-    },
-    mountain_wind(){   // 山岳の風（タンガリー山岳）
-      try{const ac=getCtx(),g=masterGain(.3),t=ac.currentTime;
-        const src=ac.createBufferSource(),buf=noiseBuffer(2);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=250;f.Q.value=0.2;
-        const lfo=ac.createOscillator();lfo.frequency.value=0.2;
-        const lg=ac.createGain();lg.gain.value=100;lfo.connect(lg);lg.connect(f.frequency);
-        const g2=ac.createGain();g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.4,t+.6);g2.gain.linearRampToValueAtTime(.3,t+1.6);g2.gain.linearRampToValueAtTime(0,t+2);
-        src.connect(f);f.connect(g2);g2.connect(g);lfo.start(t);src.start(t);src.stop(t+2.1);}catch(e){}
-    },
-    revelation(){      // 啓示・重要な発見（魔法的インパクト）
-      try{const ac=getCtx(),g=masterGain(.25),t=ac.currentTime;
-        [330,440,550,660].forEach((freq,i)=>{
-          const o=ac.createOscillator();o.type='sine';o.frequency.value=freq;
-          const g2=ac.createGain();g2.gain.setValueAtTime(0,t+i*.04);g2.gain.linearRampToValueAtTime(.1,t+i*.04+.1);g2.gain.linearRampToValueAtTime(0,t+1.2);
-          o.connect(g2);g2.connect(g);o.start(t+i*.04);o.stop(t+1.3);
-        });}catch(e){}
-    },
-    chain_rattle(){    // 鎖の音（封印・束縛）
-      try{const ac=getCtx(),g=masterGain(.3),t=ac.currentTime;
-        for(let i=0;i<6;i++){
-          const delay=i*.06+Math.random()*.03;
-          const o=ac.createOscillator();o.type='square';o.frequency.value=400+Math.random()*200;
-          const g2=ac.createGain();g2.gain.setValueAtTime(.15,t+delay);g2.gain.exponentialRampToValueAtTime(.001,t+delay+.05);
-          o.connect(g2);g2.connect(g);o.start(t+delay);o.stop(t+delay+.06);
-        }}catch(e){}
-    },
-    seal_break(){      // 封印が解ける音（低音+高音の混合）
-      try{const ac=getCtx(),g=masterGain(.4),t=ac.currentTime;
-        // 低音の地鳴り
-        const src=ac.createBufferSource(),buf=noiseBuffer(.8);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='lowpass';f.frequency.value=100;
-        const g2=ac.createGain();g2.gain.setValueAtTime(.5,t);g2.gain.exponentialRampToValueAtTime(.001,t+.8);
-        src.connect(f);f.connect(g2);g2.connect(g);src.start(t);src.stop(t+.9);
-        // 高音の解放音
-        const o=ac.createOscillator();o.type='sine';o.frequency.setValueAtTime(200,t+.1);o.frequency.linearRampToValueAtTime(1200,t+.5);
-        const g3=ac.createGain();g3.gain.setValueAtTime(.3,t+.1);g3.gain.exponentialRampToValueAtTime(.001,t+.7);
-        o.connect(g3);g3.connect(g);o.start(t+.1);o.stop(t+.8);}catch(e){}
-    },
-    crystal_hum(){     // 水晶・石板の共鳴（ヴァズ・遺物）
-      try{const ac=getCtx(),g=masterGain(.2),t=ac.currentTime;
-        [528,792,1056].forEach((freq,i)=>{
-          const o=ac.createOscillator();o.type='sine';o.frequency.value=freq;
-          const g2=ac.createGain();g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.07,t+.3+i*.1);g2.gain.linearRampToValueAtTime(0,t+1.8);
-          o.connect(g2);g2.connect(g);o.start(t);o.stop(t+1.9);
-        });}catch(e){}
-    },
-    sand_wind(){       // 砂嵐（荒野の砂が舞う）
-      try{const ac=getCtx(),g=masterGain(.22),t=ac.currentTime;
-        const src=ac.createBufferSource(),buf=noiseBuffer(1.2);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='highpass';f.frequency.value=1000;
-        const g2=ac.createGain();g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.28,t+.3);g2.gain.linearRampToValueAtTime(.15,t+.9);g2.gain.linearRampToValueAtTime(0,t+1.2);
-        src.connect(f);f.connect(g2);g2.connect(g);src.start(t);src.stop(t+1.3);}catch(e){}
-    },
-    low_drone(){       // 低い不吉な持続音（ヴォルカネス接近）
-      try{const ac=getCtx(),g=masterGain(.18),t=ac.currentTime;
-        const o=ac.createOscillator();o.type='sine';o.frequency.value=55;
-        const o2=ac.createOscillator();o2.type='sine';o2.frequency.value=57; // わずかにズレてうなり
-        const g2=ac.createGain();g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.2,t+.5);g2.gain.linearRampToValueAtTime(0,t+2);
-        o.connect(g2);o2.connect(g2);g2.connect(g);o.start(t);o2.start(t);o.stop(t+2.1);o2.stop(t+2.1);}catch(e){}
-    },
-    impact_soft(){     // 体が倒れる・柔らかい衝撃音
-      try{const ac=getCtx(),g=masterGain(.3),t=ac.currentTime;
-        const src=ac.createBufferSource(),buf=noiseBuffer(.15);src.buffer=buf;
-        const f=ac.createBiquadFilter();f.type='lowpass';f.frequency.value=300;
-        const g2=ac.createGain();g2.gain.setValueAtTime(.35,t);g2.gain.exponentialRampToValueAtTime(.001,t+.18);
-        src.connect(f);f.connect(g2);g2.connect(g);src.start(t);src.stop(t+.2);}catch(e){}
-    },
-    ancient_tone(){    // 古代の音（遺跡の共鳴・時間の重さ）
-      try{const ac=getCtx(),g=masterGain(.18),t=ac.currentTime;
-        const o=ac.createOscillator();o.type='triangle';o.frequency.value=174;
-        const g2=ac.createGain();g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.15,t+.4);g2.gain.linearRampToValueAtTime(0,t+2);
-        o.connect(g2);g2.connect(g);o.start(t);o.stop(t+2.1);}catch(e){}
-    },
 
     // ミュートトグル
     toggleMute(){muted=!muted; return muted;},
@@ -3600,10 +3510,12 @@ function goto(id){
   const el=document.getElementById(id);
   if(el){
     el.classList.add('active');S.cur=id;save();render();
-    if(id==='四百七十三') showBuzzDeath();
-    // 環境音
-    if(typeof SND !== 'undefined') playSoundForPara(id);
+    // 死亡エンドの記録を更新
+    if(id==='四百七十三'){
+      showBuzzDeath();
+    }
   }
+  // main-colとwindow両方をトップへ
   const mc = document.getElementById('main-col');
   if(mc) mc.scrollTop = 0;
   window.scrollTo(0,0);
@@ -3742,7 +3654,7 @@ function startCombat(name,esk,ehp,xp,winId,opts){
   document.getElementById('c-item').disabled=false;
   document.getElementById('c-mk').disabled=S.mkUsed;
   document.getElementById('combat-ui').classList.add('show');
-  if(typeof SND !== 'undefined') setTimeout(()=>SND.combat_start(),100);
+  setTimeout(()=>{ if(typeof SND!=='undefined') SND.combat_start(); },100);
   // ② 手負いのバーサーカー：先制攻撃
   if(opts.berserk){
     setTimeout(()=>{
@@ -4095,13 +4007,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   TRUTH = loadTruth();
   updateMetaUI();
   if(typeof applyMetaBoosts === 'function') applyMetaBoosts();
-  // 選択肢クリック音
-  document.addEventListener('click', e=>{
-    if(e.target.classList.contains('choice-btn') && typeof SND !== 'undefined'){
-      SND.click_wood();
-    }
-  });
-  // ページをめくる音（goto連動済み、ここでは不要）
   // ブラウザ「戻る」ボタン対策
   history.pushState(null, '', location.href);
   window.addEventListener('popstate', ()=>{
@@ -4109,6 +4014,14 @@ window.addEventListener('DOMContentLoaded',()=>{
     fb('ブラウザの「戻る」は使えません。ゲーム内の選択肢で進んでください。','n');
   });
   // プレイ時間カウンター
+  document.addEventListener('click', e=>{
+    if(e.target.classList.contains('choice-btn') && typeof SND !== 'undefined') SND.click_wood();
+  });
+  history.pushState(null, '', location.href);
+  window.addEventListener('popstate', ()=>{
+    history.pushState(null, '', location.href);
+    fb('ブラウザの「戻る」は使えません。ゲーム内の選択肢で進んでください。','n');
+  });
   setInterval(()=>{ if(!S.dead){S.playTime=(S.playTime||0)+1;} },1000);
   // 戦闘ボタンのイベントリスナー
   document.getElementById('c-atk').addEventListener('click',()=>{
