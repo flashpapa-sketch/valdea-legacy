@@ -235,14 +235,14 @@ body{
 }
 
 @media(max-width:800px){
-  
+
 .st-val{
   font-size:1.2rem;font-weight:700;color:var(--acc);
   text-align:center;padding:.2rem 0;line-height:1;
   letter-spacing:-.02em;
 }
 
-  
+
 }
 
 .num-in:focus{outline:none;border-color:var(--acc)}
@@ -727,7 +727,7 @@ body{
 <p>二階の部屋は狭かったが、清潔だった。金貨一枚。藁のベッドに横になり、左手の甲の熱を感じながら目を閉じた。</p>
 <p>夢を見た。暗闇の中に、巨大な扉があった。扉には無数の古代文字が刻まれていた。その中の一つが、あなたの左手の紋章と同じ形をしていた。扉の向こうから声が聞こえる。言葉は聞き取れない。しかし確かに、あなたの名を呼んでいた。</p>
 <p>目を覚ますと夜半だった。</p>
-<div class="rule">金貨一枚を失え。体力点を四点回復せよ（初期値を超えることはできない）。</div>
+<div class="rule">金貨一枚を失え。体力点を４点回復せよ。初期値を超えない。</div>
 <span class="stat-effect">体力+4</span><span class="stat-effect">金貨-1</span>
 </div>
 <div class="choices">
@@ -980,7 +980,7 @@ body{
 <p>あなたは左手を握った。紋章が激しく熱を持っている。まるで、来るべき場所に来たと言っているように。</p>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="startCombat('腐敗した門番',7,8,1,'二百十五',{loot:{gold:1,item:'錆びた短剣'}})">正面の門から入る（番人が立ち塞がった）</button>
+<button class="choice-btn" onclick="startCombat('腐敗した門番',7,8,1,'二百十五',{loot:{gold:1,item:'錆びた短剣'}})">正面の門から入る</button>
 <button class="choice-btn" onclick="luckCheck('六百一','二百十五','別の入口を探す')">別の入口を探す（運試し）</button>
 </div>
 
@@ -1092,7 +1092,7 @@ body{
 </div>
 <div class="choices">
 <div class="rule"><p>廊下の先で、かちかちという機械音がした。壁の石組みが動き、隙間から黄色い霧が噴き出してくる。そして現れたのは──人でも獣でもない何かだ。</p><p>高さ二メートル。全身が黒い金属と透明な管で構成されており、管の中を発光する液体が循環している。胸部のガラス球の中で、小さな星のような核が回転していた。黄金時代の賢者が設計した「自動警戒結界」──コードネーム「デフ・コン・ワン」。三百年間この廊下を守り続けた、ケミカル反応式の機械守護者だ。</p><p>化学的な攻撃ゆえ、<b>3ラウンドごとに毒霧（追加ダメージ）</b>を放出する。</p></div>
-<button class="choice-btn" onclick="startCombat('デフ・コン・ワン',9,16,3,'二百七十八',{drain:3,loot:{item:'警戒結晶の破片',gold:2}})">廊下を進む（機械音が鳴り響いた）</button>
+<button class="choice-btn" onclick="startCombat('デフ・コン・ワン',9,16,3,'二百七十八',{drain:3,loot:{item:'警戒結晶の破片',gold:2}})">廊下を進む</button>
 <button class="choice-btn" onclick="luckCheck('二百七十八','二百七十八','警戒装置を迂回する')">警戒装置を迂回する（運試し）</button>
 </div>
 
@@ -1175,7 +1175,7 @@ body{
 
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="startCombat('ピーターの亡霊',5,6,2,'二百九十七',{loot:{item:'霊石の破片',gold:1}})">先へ進む（亡霊が道を塞いでいる）</button>
+<button class="choice-btn" onclick="startCombat('ピーターの亡霊',5,6,2,'二百九十七',{loot:{item:'霊石の破片',gold:1}})">先へ進む</button>
 <button class="choice-btn" onclick="luckCheck('二百九十七','二百九十七','亡霊をすり抜ける')">亡霊をすり抜ける（運試し）</button>
 </div>
 
@@ -1304,7 +1304,7 @@ body{
 </div>
 <div class="choices">
 <div class="rule"><p>門番があなたを止めた後、後ろから別の男が歩み出た。絹の装束を纏い、長い爪を持つ中年の男。温和な笑みを浮かべているが、その笑みは目まで届いていない。</p><p>「旅のお方、ようこそ」と男は言った。「私はギューズ・ヘッドと申します。王国の"おもてなし係"でございます」彼の左手が袖の中へ消えた。「残念ながら──本日は貴方様のご入場を、お断りするよう命じられておりまして」</p><p>袖から短剣が二本、滑り出た。左右の手に一本ずつ。笑みは変わらない。<br>【特記】<b>偶数ラウンドに急所を狙う連続攻撃</b>（ダメージ+1）。</p></div>
-<button class="choice-btn" onclick="startCombat('ギューズ・ヘッド',10,14,2,'三百六十八',{evenBonus:1,loot:{item:'暗殺者の短剣',gold:4}})">王に謁見する（門番に呼び止められた）</button>
+<button class="choice-btn" onclick="startCombat('ギューズ・ヘッド',10,14,2,'三百六十八',{evenBonus:1,loot:{item:'暗殺者の短剣',gold:4}})">王に謁見する</button>
 <button class="choice-btn" onclick="goto('三百六十八')">通行証を見せて謁見する（フラグ必要）</button>
 <button class="choice-btn" onclick="goto('四百二')">交渉せず先を急ぐ</button>
 </div>
@@ -1370,7 +1370,7 @@ body{
 <div class="choices">
 <div class="rule"><p>木々の間から、背の高いエルフが優雅に歩み出た。長衣の裾が地面に触れることなく浮き、左右の瞳の色が異なる。月光色と深海色。</p><p>「ごきげんよう」と彼は言った。発音が完璧すぎて逆に不自然だ。「この森への立ち入りはご遠慮いただいております。もちろん、腕ずくで通ろうとされるならば──」銀の細剣が鞘から滑り出た。「──喜んでお相手いたしますわ」</p><p>【特記】このエルフは敗北した場合、「参りました」と一礼し、<b>一筋の霧となって消える</b>。殺すことができない。</p></div>
 <button class="choice-btn" onclick="startCombat('スノッヴなハイエルフ',9,14,2,'三百八十三',{noble:true,loot:{item:'月光の護符',gold:2}})">森の番人と対峙する</button>
-<button class="choice-btn" onclick="goto('三百五十六')">先へ進む（シラが通してくれた）</button>
+<button class="choice-btn" onclick="goto('三百五十六')">先へ進む</button>
 </div>
 
 </div>
@@ -1428,7 +1428,7 @@ body{
 </div>
 <div class="choices">
 <div class="rule"><p>石の床を踏むたびに、地響きがした。遠い。しかし近づいてくる。</p><p>遺跡の奥から、光が漏れ出した。金色と青の光。そして影。巨大な影が壁を這い、壁全体が影になり──それが入口から姿を現した。</p><p>高さ十メートルを超える「自動人形」だった。黄金時代の金属と黒曜石で作られた躯体は、三百年の時を経てもなお無傷だ。胸部に紋章がある──あなたの左手の紋章と同じ形の。</p><p>「侵入者を排除する」という声が、建物全体を振動させた。機械的な声。感情がない。しかし確かに、意志がある。</p><p>これはザル＝カラムの最後の守護者──星脈で動くオーパーツの巨人、<b>アイム・イン・ラブ</b>。<br>【超強敵】3ラウンドごとに<b>星脈砲（固定ダメージ3点）</b>を放つ。猿の右手が切り札になるかもしれない。</p></div>
-<button class="choice-btn" onclick="startCombat('アイム・イン・ラブ',13,24,5,'四百十五',{drain:3,loot:{item:'星脈機動核',gold:5}})">最深部へ踏み込む（巨大な守護者が現れた）</button>
+<button class="choice-btn" onclick="startCombat('アイム・イン・ラブ',13,24,5,'四百十五',{drain:3,loot:{item:'星脈機動核',gold:5}})">最深部へ踏み込む</button>
 <button class="choice-btn" onclick="goto('八百一')">同盟を集めてから向かう</button>
 </div>
 
@@ -1856,7 +1856,7 @@ body{
 <span class="stat-effect">体力+2</span>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="startCombat('小型ゴーレム',7,10,1,'二百七十八',{loot:{item:'魔法結晶の欠片'}})">扉の先へ進む（ゴーレムが動き出した）</button>
+<button class="choice-btn" onclick="startCombat('小型ゴーレム',7,10,1,'二百七十八',{loot:{item:'魔法結晶の欠片'}})">扉の先へ進む</button>
 <button class="choice-btn" onclick="luckCheck('二百七十八','二百七十八','ゴーレムをやり過ごす')">ゴーレムをやり過ごす（運試し）</button>
 <button class="choice-btn" onclick="goto('二百四十一')">ヴァズに会いに戻る</button>
 </div>
@@ -1948,7 +1948,7 @@ body{
 <span class="stat-effect">運勢+1</span>
 </div>
 <div class="choices">
-<button class="choice-btn" onclick="startCombat('骨の戦士',8,10,1,'二百九十七',{loot:{item:'古びた盾の破片',gold:1}})">先へ進む（骨の戦士が立ち塞がった）</button>
+<button class="choice-btn" onclick="startCombat('骨の戦士',8,10,1,'二百九十七',{loot:{item:'古びた盾の破片',gold:1}})">先へ進む</button>
 </div>
 
 </div>
@@ -2019,7 +2019,7 @@ body{
 <p>マグダはカウンターに酒を一杯置いた。「サービスだ。今夜は飲め。明日のことは明日でいい」</p>
 <p>酒場の隅に、ゴルムとシラが座っていた。地図を広げ、声を潜めて話し合っている。あなたを見て、ゴルムが顎でテーブルを示した。</p>
 <p>マグダが杯を拭きながら、誰にともなく言った。「あの連中が来てから、この街が変わった。良い方向にかどうかは知らない。でも、変わった。久しぶりに、何かが起きそうな顔をした人間を見る」</p>
-<div class="rule">体力点を四点回復せよ（初期値を超えることはできない）。金貨を一枚持っているなら一枚を失い、装備や食料を一つ購入できる。</div>
+<div class="rule">体力点を４点回復せよ。初期値を超えない。金貨を一枚持っているなら一枚を失い、装備や食料を一つ購入できる。</div>
 <span class="stat-effect">体力+4</span>
 </div>
 <div class="choices">
@@ -2316,9 +2316,7 @@ body{
 </div>
 
 <script>
-// ============================================================
 // STATE — localStorage完全永続化
-// ============================================================
 const SK='valdea_v4';
 
 const LVS=[
@@ -2371,9 +2369,7 @@ function save(){
   el._t=setTimeout(()=>el.classList.remove('show'),1400);
 }
 
-// ============================================================
 // SAVE SLOT — 1スロット手動セーブ
-// ============================================================
 const SAVE_SLOT_KEY = 'valdea_save1';
 
 function doSave(){
@@ -2430,9 +2426,7 @@ function renderSaveInfo(){
   }
 }
 
-// ============================================================
 // DEBUG PANEL
-// ============================================================
 function toggleDebug(){
   const p=document.getElementById('debug-panel');
   p.style.display=p.style.display==='none'?'block':'none';
@@ -2467,9 +2461,7 @@ function dbgClearLS(){
   updateDebug();
 }
 
-// ============================================================
 // FLAG LABELS — フラグの表示名定義
-// ============================================================
 const FLAG_LABELS = {
   'ナックを仲間にした': 'ナック同行中',
   'ゴルムを仲間にした': 'ゴルム同行中',
@@ -2483,9 +2475,7 @@ const FLAG_LABELS = {
   'バグを見た者': 'バグを見た者',
 };
 
-// ============================================================
 // BUZZ SYSTEM — X共有・死亡フィードバック
-// ============================================================
 
 // X(Twitter)共有
 function shareToX(msg){
@@ -2525,9 +2515,7 @@ function mentalHeal(n){
   save();render();
 }
 
-// ============================================================
 // RANDOM EVENTS — バズイベント20本
-// ============================================================
 
 // 宝箱イベント（99%死ぬ）
 function eventChest(){
@@ -2640,9 +2628,7 @@ function randomEvent(){
   pool[Math.floor(Math.random()*pool.length)]();
 }
 
-// ============================================================
 // META SYSTEM — 死亡引き継ぎ・ローグライク強化
-// ============================================================
 const META_KEY = 'valdea_meta';
 
 function loadMeta(){
@@ -2735,9 +2721,7 @@ function unlockEvent(name){
   }
 }
 
-// ============================================================
 // BUZZ EVENTS — バズ専用イベント（Sランク）
-// ============================================================
 
 // A: 理不尽死（確実にバズる）
 function eventUnfair(){
@@ -2802,9 +2786,7 @@ function checkNearDeath(){
   return false;
 }
 
-// ============================================================
 // 死亡エンドのバズ仕様強化（goto hook）
-// ============================================================
 function showBuzzDeath(){
   const t = S.playTime || 0;
   const survive = Math.floor(Math.random()*100);
@@ -2821,10 +2803,7 @@ function showBuzzDeath(){
   onDeath('');
 }
 
-
-// ============================================================
 // TRUTH SYSTEM — 象徴イベント・無言エンディング
-// ============================================================
 const TRUTH_KEY = 'valdea_truth';
 
 function loadTruth(){
@@ -2893,9 +2872,7 @@ function silentEnding(){
   },6000);
 }
 
-// ============================================================
 // 象徴イベント①：沈黙の井戸
-// ============================================================
 function eventSilentWell(){
   TRUTH.wellCount++;
   saveTruth();
@@ -2936,9 +2913,7 @@ function wellLeave(){
   }
 }
 
-// ============================================================
 // 象徴イベント②：優しい男
-// ============================================================
 function eventKindMan(){
   TRUTH.manCount++;
   saveTruth();
@@ -2980,9 +2955,7 @@ function manRefuse(){
   }
 }
 
-// ============================================================
 // 象徴イベント③：七度目の分岐（META死亡回数参照）
-// ============================================================
 function eventSeventhChoice(){
   const deaths = META.totalDeaths || 0;
   fb('同じ場所に立っている気がする', 'n');
@@ -3027,9 +3000,7 @@ function resetAll(){
   S=dflt();save();render();goto('一');
 }
 
-// ============================================================
 // NAVIGATION — SPA
-// ============================================================
 function goto(id){
   document.querySelectorAll('.para').forEach(p=>p.classList.remove('active'));
   const el=document.getElementById(id);
@@ -3046,9 +3017,7 @@ function goto(id){
   window.scrollTo(0,0);
 }
 
-// ============================================================
 // STAT HELPERS
-// ============================================================
 function adj(s,d){
   S[s]=Math.max(0,S[s]+d);
   if(s==='hp')S.hp=Math.min(S.hp0,S.hp);
@@ -3062,9 +3031,7 @@ function heal(n){S.hp=Math.min(S.hp0,S.hp+n);save();render();}
 function dmg(n){S.hp=Math.max(0,S.hp-n);save();render();}
 function spend(n){S.gold=Math.max(0,S.gold-n);save();render();}
 
-// ============================================================
 // ITEMS & FLAGS
-// ============================================================
 
 function useFood(){
   if(!hasItem('食料')){ fb('食料がない','f'); return; }
@@ -3085,9 +3052,7 @@ function hasItem(name){return S.inv.includes(name);}
 function flag(name){S.flags[name]=true;save();}
 function hasFlag(name){return!!S.flags[name];}
 
-// ============================================================
 // PURCHASE
-// ============================================================
 function buy(name,cost,next){
   if(S.gold<cost){fb('金貨が足りない！','f');return;}
   S.gold-=cost;addItem(name);
@@ -3101,9 +3066,7 @@ function payGoto(amt,next,msg){
   goto(next);
 }
 
-// ============================================================
 // DICE SYSTEM（アニメーション付き）
-// ============================================================
 const PIPS=['','⚀','⚁','⚂','⚃','⚄','⚅'];
 let _dcb=null;
 
@@ -3169,9 +3132,7 @@ function skillCheck(bonus,thresh,okId,ngId,label){
   );
 }
 
-// ============================================================
 // COMBAT
-// ============================================================
 let CS=null;
 function startCombat(name,esk,ehp,xp,winId,opts){
   opts=opts||{};
@@ -3250,9 +3211,7 @@ function endCombat(won){
   }
 }
 
-// ============================================================
 // MONKEY'S PAW
-// ============================================================
 function monkeyManual(){
   if(S.mkUsed){fb('猿の右手はすでに使用済みだ','f');return;}
   const{res,total}=rollN(2);
@@ -3295,9 +3254,7 @@ function applyMonkey(t,e,cs){
   }
 }
 
-// ============================================================
 // XP & LEVEL
-// ============================================================
 function addXP(n){
   const prev=getlv();
   S.xp+=n;
@@ -3371,9 +3328,7 @@ function lvUp5(){
   save();render();fb('Lv.5「招かれざる者」覚醒！ 全能力+2','s');
 }
 
-// ============================================================
 // RENDER
-// ============================================================
 function render(){
   // HP
   const pct=S.hp0>0?S.hp/S.hp0:0;
@@ -3484,9 +3439,7 @@ function render(){
   }
 }
 
-// ============================================================
 // FEEDBACK
-// ============================================================
 let _ft=null;
 function fb(msg,cls){
   const el=document.getElementById('fb');
@@ -3496,9 +3449,7 @@ function fb(msg,cls){
   _ft=setTimeout(()=>el.classList.remove('show'),2400);
 }
 
-// ============================================================
 // SIDEBAR TOGGLE
-// ============================================================
 function toggleSB(){document.getElementById('sb').classList.toggle('open');}
 document.addEventListener('click',e=>{
   const sb=document.getElementById('sb');
@@ -3508,9 +3459,7 @@ document.addEventListener('click',e=>{
     sb.classList.remove('open');
 });
 
-// ============================================================
 // GAME-SPECIFIC HELPERS（選択肢ボタンから呼ばれる）
-// ============================================================
 function equipNeck(){
   S.hp=Math.floor(S.hp/2);S.hp0=Math.floor(S.hp0/2);
   S.neck=true;addItem('死神の首飾り');flag('死神の首飾りを装備');
@@ -3531,9 +3480,7 @@ function vasDecline(){
   goto('二百七十八');
 }
 
-// ============================================================
 // INIT
-// ============================================================
 window.addEventListener('DOMContentLoaded',()=>{
   // guide.htmlで確定した初期値を反映
   if(!S.guideDone){
