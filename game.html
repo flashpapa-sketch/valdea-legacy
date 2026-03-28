@@ -3450,6 +3450,67 @@ function playSoundForPara(id){
   }, 200);
 }
 
+// 戦闘ボタンリスナー（startCombat呼び出し時に一度だけ登録）
+let _combatListenersInit = false;
+function initCombatListeners(){
+  if(_combatListenersInit) return;
+  _combatListenersInit = true;
+  document.getElementById('c-atk').addEventListener('click',()=>{
+    if(!CS)return;
+    CS.round++;
+    if(CS.round>=30){
+      if(S.hp>CS.ehp){clog('◆ 消耗戦を制した！','l-res');if(CS.xp>0)addXP(CS.xp);endCombat(true);}
+      else{clog('◆ 力尽きた……','l-res');endCombat(false);}
+      return;
+    }
+    const pd=rollN(2),ed=rollN(2);
+    const pTot=pd.total+S.sk,eTot=ed.total+CS.esk;
+    clog('第'+CS.round+'R: あなた('+pd.total+'+'+S.sk+'='+pTot+') vs 敵('+ed.total+'+'+CS.esk+'='+eTot+')');
+    if(pTot>eTot){
+      let d=2;if(hasItem('ロットンのつるぎ')&&CS.opts.doubleAtk)d=3;
+      CS.ehp-=d;clog('  ✦ あなたの一撃！ 敵に'+d+'点のダメージ','l-dmg-p');
+    }else if(eTot>pTot){
+      let d=2;
+      if(CS.opts.evenBonus&&CS.round%2===0&&!hasItem('ロットンのつるぎ'))d+=CS.opts.evenBonus;
+      if(CS.opts.drain&&CS.round%CS.opts.drain===0){const da=1;CS.ehp+=da;d+=da;clog('  ✦ 体力吸収！','l-sp');}
+      if(S.neck)d=Math.max(0,d-1);
+      S.hp=Math.max(0,S.hp-d);clog('  ✦ 敵の一撃！ あなたに'+d+'点のダメージ','l-dmg-e');
+    }else{
+      CS.ehp-=1;S.hp=Math.max(0,S.hp-1);clog('  ─ 互角！ 両者に1点のダメージ');
+    }
+    if(hasItem('賢者の石'))heal(1);
+    document.getElementById('c-php').textContent=S.hp;
+    document.getElementById('c-ehp').textContent=Math.max(0,CS.ehp);
+    save();render();checkNearDeath();
+    if(CS.ehp<=0){
+      clog('◆ '+CS.name+'を倒した！','l-res');
+      if(CS.opts.chain&&CS.opts.chain.length>0){
+        const nx=CS.opts.chain.shift();clog('── 次の敵が現れた！','l-sp');
+        CS.esk=nx.sk;CS.ehp=nx.hp;CS.ehp0=nx.hp;
+        document.getElementById('c-ehp').textContent=CS.ehp;
+        document.getElementById('c-esk').textContent='技術点 '+CS.esk;return;
+      }
+      if(CS.xp>0){addXP(CS.xp);clog('  経験値+'+CS.xp+'点','l-sp');}
+      endCombat(true);
+    }else if(S.hp<=0){clog('◆ あなたは倒れた……','l-res');endCombat(false);}
+  });
+  document.getElementById('c-item').addEventListener('click',()=>{
+    if(!CS)return;
+    const order=['固いパン','テニスタ・テニストの木の実','回復薬'];
+    for(const it of order){
+      if(hasItem(it)){
+        const a=it==='回復薬'?6:it==='テニスタ・テニストの木の実'?4:1;
+        remItem(it);heal(a);clog(it+'を使用。体力+'+a,'l-sp');
+        document.getElementById('c-php').textContent=S.hp;return;
+      }
+    }
+    clog('使えるアイテムがない','l-sp');
+  });
+  document.getElementById('c-mk').addEventListener('click',()=>{
+    if(S.mkUsed||!CS)return;monkeyInCombat();
+  });
+}
+
 function resetAll(){
   localStorage.removeItem(SK);
   S=dflt();save();render();goto('一');
@@ -3604,6 +3665,7 @@ function startCombat(name,esk,ehp,xp,winId,opts){
   document.getElementById('c-atk').disabled=false;
   document.getElementById('c-item').disabled=false;
   document.getElementById('c-mk').disabled=S.mkUsed;
+  initCombatListeners();
   document.getElementById('combat-ui').classList.add('show');
   setTimeout(()=>{ if(typeof SND!=='undefined') SND.combat_start(); },100);
   // ② 手負いのバーサーカー：先制攻撃
@@ -3975,85 +4037,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   });
   setInterval(()=>{ if(!S.dead){S.playTime=(S.playTime||0)+1;} },1000);
   // 戦闘ボタンのイベントリスナー
-  document.getElementById('c-atk').addEventListener('click',()=>{
-  if(!CS)return;
-  CS.round++;
-  // 最大30ラウンドで強制終了（体力が多い方が勝利）
-  if(CS.round>=30){
-    if(S.hp>CS.ehp){clog('◆ 消耗戦を制した！','l-res');if(CS.xp>0)addXP(CS.xp);endCombat(true);}
-    else{clog('◆ 力尽きた……','l-res');endCombat(false);}
-    return;
-  }
-  const pd=rollN(2),ed=rollN(2);
-  const pTot=pd.total+S.sk;
-  const eTot=ed.total+CS.esk;
-  clog('第'+CS.round+'R: あなた('+pd.total+'+'+S.sk+'='+pTot+') vs 敵('+ed.total+'+'+CS.esk+'='+eTot+')');
-
-  if(pTot>eTot){
-    let d=2;
-    if(hasItem('ロットンのつるぎ')&&CS.opts.doubleAtk)d=3;
-    CS.ehp-=d;
-    clog('  ✦ あなたの一撃！ 敵に'+d+'点のダメージ','l-dmg-p');
-  }else if(eTot>pTot){
-    let d=2;
-    if(CS.opts.evenBonus&&CS.round%2===0&&!hasItem('ロットンのつるぎ'))d+=CS.opts.evenBonus;
-    if(CS.opts.drain&&CS.round%CS.opts.drain===0){
-      const da=1;
-      CS.ehp+=da;d+=da;
-      clog('  ✦ 体力吸収！（あなた-1、敵+1）','l-sp');
-    }
-    if(S.neck)d=Math.max(0,d-1);
-    S.hp=Math.max(0,S.hp-d);
-    clog('  ✦ 敵の一撃！ あなたに'+d+'点のダメージ','l-dmg-e');
-  }else{
-    // 同点：両者1点ダメージ（膠着防止）
-    CS.ehp-=1;
-    S.hp=Math.max(0,S.hp-1);
-    clog('  ─ 互角！ 両者に1点のダメージ');
-  }
-
-  if(hasItem('賢者の石'))heal(1);
-  document.getElementById('c-php').textContent=S.hp;
-  document.getElementById('c-ehp').textContent=Math.max(0,CS.ehp);
-  save();render();
-  checkNearDeath();
-
-  if(CS.ehp<=0){
-    clog('◆ '+CS.name+'を倒した！','l-res');
-    // 連戦
-    if(CS.opts.chain&&CS.opts.chain.length>0){
-      const nx=CS.opts.chain.shift();
-      clog('── 次の敵が現れた！','l-sp');
-      CS.esk=nx.sk;CS.ehp=nx.hp;CS.ehp0=nx.hp;
-      document.getElementById('c-ehp').textContent=CS.ehp;
-      document.getElementById('c-esk').textContent='技術点 '+CS.esk;
-      return;
-    }
-    if(CS.xp>0){addXP(CS.xp);clog('  経験値+'+CS.xp+'点','l-sp');}
-    endCombat(true);
-  }else if(S.hp<=0){
-    clog('◆ あなたは倒れた……','l-res');
-    endCombat(false);
-  }
-});
-  document.getElementById('c-item').addEventListener('click',()=>{
-  if(!CS)return;
-  const order=['固いパン','テニスタ・テニストの木の実','回復薬'];
-  for(const it of order){
-    if(hasItem(it)){
-      const a=it==='回復薬'?6:it==='テニスタ・テニストの木の実'?4:1;
-      remItem(it);heal(a);
-      clog(it+'を使用。体力+'+a,'l-sp');
-      document.getElementById('c-php').textContent=S.hp;
-      return;
-    }
-  }
-  clog('使えるアイテムがない','l-sp');
-});
-  document.getElementById('c-mk').addEventListener('click',()=>{
-  if(S.mkUsed||!CS)return;
-  monkeyInCombat();
-});
+;
 
   // 「冒険を始める」からの起動判定（複数の方法で検出）
   const urlParams=new URLSearchParams(window.location.search);
