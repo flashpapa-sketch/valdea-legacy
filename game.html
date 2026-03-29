@@ -4060,12 +4060,13 @@ window.addEventListener('DOMContentLoaded',()=>{
     save();
     // 記録開始演出
     const mcEl=document.getElementById('main-col');
-    if(mcEl){
-      mcEl.innerHTML='<div style="padding:4rem 2rem;font-size:.78rem;color:var(--dim);letter-spacing:.2em;animation:fadeIn .8s ease;font-family:\'Noto Serif JP\',Georgia,serif">記録を開始する</div>';
-      setTimeout(()=>goto('一'),1600);
-    } else {
-      goto('一');
-    }
+    // オーバーレイで演出（パラグラフを消さない）
+    const ov=document.createElement('div');
+    ov.style.cssText='position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:flex-start;padding:4rem 2rem;font-size:.78rem;color:var(--dim);letter-spacing:.2em;animation:fadeIn .8s ease;font-family:\'Noto Serif JP\',Georgia,serif;pointer-events:none';
+    ov.textContent='記録を開始する';
+    document.body.appendChild(ov);
+    goto('一');
+    setTimeout(()=>ov.remove(),1600);
     return;
   }
 
