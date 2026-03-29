@@ -13,7 +13,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 *{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-html{scroll-behavior:smooth}
+html{}
 body{
   background:var(--bg);color:var(--fg);
   font-family:"Noto Serif JP",Georgia,"Yu Mincho","YuMincho",serif;
@@ -51,7 +51,7 @@ body{
 @media(max-width:800px){#main-col{padding:1.2rem 1rem calc(14rem + env(safe-area-inset-bottom));max-width:100%}}
 
 /* ── パラグラフ ── */
-.para{display:none}
+.para{display:none;height:0;overflow:hidden;margin:0;padding:0;}
 .para.active{display:block;animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .para-num{font-size:.7rem;letter-spacing:.25em;color:var(--acc2);margin-bottom:.5rem}
