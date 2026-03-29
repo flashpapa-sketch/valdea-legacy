@@ -47,7 +47,7 @@ body{
 #dice-ov{grid-column:1/-1}
 #combat-ui{grid-column:1/-1}
 #fb{grid-column:1/-1}
-#main-col{padding:2rem 2rem 6rem;max-width:680px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#main-col{padding:2rem 2rem 6rem;max-width:680px;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0;}
 @media(max-width:800px){#main-col{padding:1.2rem 1rem calc(14rem + env(safe-area-inset-bottom));max-width:100%}}
 
 /* ── パラグラフ ── */
@@ -3527,10 +3527,12 @@ function goto(id){
       showBuzzDeath();
     }
   }
-  // main-colとwindow両方をトップへ
+  // スクロールを先頭に戻す（全方法で確実に）
   const mc = document.getElementById('main-col');
-  if(mc) mc.scrollTop = 0;
+  if(mc){ mc.scrollTop = 0; mc.scrollTo(0,0); }
   window.scrollTo(0,0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
 }
 
 // STAT HELPERS
