@@ -25,7 +25,6 @@ body{
 }
 @media(max-width:800px){body{grid-template-columns:1fr;grid-template-rows:auto 1fr auto}}
 
-/* ── ヘッダー ── */
 #hdr{
   grid-column:1/-1;background:var(--card);
   border-bottom:1px solid var(--acc2);
@@ -43,14 +42,12 @@ body{
 #save-ind{font-size:.68rem;color:var(--success);opacity:0;transition:opacity .5s}
 #save-ind.show{opacity:1}
 
-/* ── メイン本文 ── */
 #dice-ov{grid-column:1/-1}
 #combat-ui{grid-column:1/-1}
 #fb{grid-column:1/-1}
 #main-col{padding:2rem 2rem 6rem;max-width:680px;overflow-y:auto;-webkit-overflow-scrolling:touch;min-height:0;}
 @media(max-width:800px){#main-col{padding:1.2rem 1rem calc(14rem + env(safe-area-inset-bottom));max-width:100%}}
 
-/* ── パラグラフ ── */
 .para{display:none;height:0;overflow:hidden;margin:0;padding:0;}
 .para.active{display:block;height:auto;overflow:visible;margin:0;padding:0;opacity:1;}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -68,7 +65,6 @@ body{
 }
 .fx-neu {color:var(--acc);  border-color:var(--acc2);background:#1a1410}
 
-/* ── 選択肢 ── */
 .choices{margin-top:1.5rem;display:flex;flex-direction:column;gap:.45rem}
 .choice-btn{
   display:block;width:100%;text-align:left;
@@ -91,7 +87,7 @@ body{
 }
 .choice-btn .tag.sk{border-color:#5a8a5a;color:#8ab48a}
 .choice-btn .tag.lk{border-color:#8a8a5a;color:#c4c47a}
-.choice-btn .tag/* ── ダイスオーバーレイ ── */
+.choice-btn .tag
 #dice-ov{
   display:none;position:fixed;inset:0;
   background:rgba(0,0,0,.78);z-index:600;
@@ -121,7 +117,6 @@ body{
 }
 #dice-ok:hover{background:var(--acc);color:#0d0d0f}
 
-/* ── 戦闘UI ── */
 #combat-ui{
   display:none;position:fixed;inset:0;
   background:rgba(0,0,0,.88);z-index:600;
@@ -162,7 +157,6 @@ body{
 #c-next{display:none;width:100%;margin-top:.5rem;padding:.45rem;border:1px solid var(--acc2);background:none;color:var(--dim);cursor:pointer;font-size:.82rem}
 #c-next:hover{border-color:var(--acc);color:var(--acc)}
 
-/* ── フィードバックバー ── */
 #fb{
   position:fixed;top:52px;left:50%;transform:translateX(-50%);
   background:var(--card);border:1px solid var(--acc2);
@@ -175,7 +169,6 @@ body{
 #fb.f{border-color:var(--danger);color:var(--danger)}
 #fb.n{border-color:var(--acc2);color:var(--acc)}
 
-/* ── サイドバー（右）── */
 #sb{
   background:var(--card);border-left:1px solid var(--acc2);
   padding:1.1rem 1rem 2rem;
@@ -212,7 +205,6 @@ body{
 
 .sb-head{font-size:.65rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;margin-bottom:.6rem;padding-bottom:.4rem;border-bottom:1px solid #2a2620}
 
-/* HP */
 .hp-sec{margin-bottom:.9rem}
 .hp-top{font-size:.7rem;color:var(--dim);display:flex;justify-content:space-between;margin-bottom:.25rem}
 .hp-top b{color:var(--acc)}
@@ -222,7 +214,6 @@ body{
 .hp-bar{height:3px;background:#2a2620;border-radius:2px;overflow:hidden}
 .hp-bar-f{height:100%;border-radius:2px;transition:width .4s,background .4s}
 
-/* stats */
 .st-grid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-bottom:.8rem}
 .st-cell{background:#0d0d0f;border:1px solid #2a2620;padding:.35rem .45rem;border-radius:2px}
 .st-cell label{font-size:.6rem;color:var(--dim);display:block;margin-bottom:1px;letter-spacing:.05em}
@@ -241,19 +232,16 @@ body{
   letter-spacing:-.02em;
 }
 
-
 }
 
 .num-in:focus{outline:none;border-color:var(--acc)}
 
-/* dice */
 .sb-dice-sec{padding-top:.6rem;border-top:1px solid #2a2620;margin-bottom:.6rem}
 .d-btns{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.35rem}
 .d-btn{padding:.2rem .5rem;border:1px solid #2a2620;background:none;color:var(--dim);font-size:.7rem;cursor:pointer}
 .d-btn:hover{border-color:var(--acc);color:var(--acc)}
 #sb-d-res{font-size:.82rem;color:var(--acc);min-height:1.1rem}
 
-/* xp */
 .xp-sec{padding-top:.6rem;border-top:1px solid #2a2620;margin-bottom:.6rem}
 .lv-tag{display:inline-block;font-size:.65rem;padding:.1rem .45rem;background:#1e1a2e;border:1px solid #5a4a8a;color:#a090d0;margin-bottom:.3rem;border-radius:2px}
 .xp-bar{height:3px;background:#2a2620;border-radius:2px;overflow:hidden;margin-bottom:.25rem}
@@ -263,7 +251,6 @@ body{
 .xp-add{padding:.15rem .4rem;border:1px solid #2a2620;background:none;color:var(--dim);font-size:.65rem;cursor:pointer}
 .xp-add:hover{border-color:var(--acc2);color:var(--fg)}
 
-/* monkey */
 .mk-sec{padding-top:.6rem;border-top:1px solid #2a2620;margin-bottom:.6rem}
 #mk-btn{
   width:100%;padding:.3rem .6rem;
@@ -275,7 +262,6 @@ body{
 #mk-used{font-size:.65rem;color:var(--dim);text-align:center;margin-top:.2rem}
 #mk-res{font-size:.68rem;color:var(--acc);margin-top:.3rem;line-height:1.6}
 
-/* inv/memo */
 .inv-sec,.memo-sec{padding-top:.6rem;border-top:1px solid #2a2620;margin-bottom:.6rem}
 .inv-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:.3rem;min-height:1.2rem}
 
@@ -1302,7 +1288,6 @@ function getGoal(){
   return '';
 }
 
-
 // ── SOUND ENGINE ──
 const SND = (()=>{
   let ctx = null;
@@ -1624,7 +1609,6 @@ const SND = (()=>{
         o.connect(g2);g2.connect(g);o.start(t);o.stop(t+.22);}catch(e){}
     },
 
-
     // ── 追加音 ──
 
     // ミュートトグル
@@ -1634,7 +1618,6 @@ const SND = (()=>{
 
   return S;
 })();
-
 
 function playSoundForPara(id){
   if(!SND || SND.isMuted()) return;
@@ -2422,7 +2405,6 @@ function updateMapModalMarker(id){
     </div>
   </div>
 </div>
-
 
 <!-- 地図モーダル -->
 <div id="map-modal" style="display:none;position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.75);align-items:center;justify-content:center;" onclick="if(event.target===this)toggleMapModal();">
