@@ -1812,6 +1812,12 @@ function initCombatListeners(){
       else{clog('◆ 力尽きた……','l-res');endCombat(false);}
       return;
     }
+    // 猿の右手：ターンスキップ
+    if(CS._mkSkip&&CS._mkSkip>0){
+      CS._mkSkip--;
+      clog('  ✋ 猿の右手の霧で行動不能！ このターンをスキップ','l-sp');
+      return;
+    }
     const pd=rollN(2),ed=rollN(2);
     const pTot=pd.total+S.sk,eTot=ed.total+CS.esk;
     const diff=Math.abs(pTot-eTot);
@@ -1834,6 +1840,8 @@ function initCombatListeners(){
       if(CS.opts.evenBonus&&CS.round%2===0&&!hasItem('ロットンのつるぎ'))d+=CS.opts.evenBonus;
       if(CS.opts.drain&&CS.round%CS.opts.drain===0){const da=1;CS.ehp+=da;d+=da;clog('  ✦ 体力吸収！','l-sp');}
       if(S.neck)d=Math.max(0,d-1);
+      // 猿の右手：次ターンダメージ×2
+      if(CS._mkDoubleDmg){d*=2;clog('  ✋ 呪いの倍撃！','l-sp');CS._mkDoubleDmg=false;}
       S.hp=Math.max(0,S.hp-d);
       CS._lastLost=true;
       // ピンチ演出（HP残り5以下）
@@ -2076,6 +2084,12 @@ let CS=null;
 function startCombat(name,esk,ehp,xp,winId,opts){
   opts=opts||{};
   CS={name,esk,ehp,ehp0:ehp,xp,winId,opts,round:0};
+  // 猿の右手：出目3ペナルティ（次戦で自分の技術-2）
+  if(S._mkSkPen&&S._mkSkPen>0){
+    S.sk=Math.max(1,S.sk-S._mkSkPen);
+    clog('  ✋ 猿の右手の呪いで技術点-'+S._mkSkPen+'！','l-sp');
+    S._mkSkPen=0;save();
+  }
   document.getElementById('c-title').textContent='⚔ '+name+' との戦い';
   document.getElementById('c-php').textContent=S.hp;
   document.getElementById('c-psk').textContent='技術点 '+S.sk;
@@ -2163,11 +2177,18 @@ function monkeyManual(){
   S.mkUsed=true;
   const e=MONKEY[total];
   applyMonkey(total,e,null);
-  document.getElementById('mk-res').innerHTML=
-    '出目'+total+'「'+e.n+'」<br>✦ '+e.g+'<br>✧ '+e.b;
-  document.getElementById('mk-used').textContent='使用済み';
-  document.getElementById('mk-btn').disabled=true;
+  const mkEl=document.getElementById('mk-res');
+  if(mkEl){
+    mkEl.innerHTML='出目'+total+'「'+e.n+'」<br>✦ '+e.g+'<br>✧ '+e.b;
+    mkEl.style.display='block';
+  }
+  const mkUsed=document.getElementById('mk-used');
+  if(mkUsed)mkUsed.textContent='使用済み';
+  const mkBtn=document.getElementById('mk-btn');
+  if(mkBtn)mkBtn.disabled=true;
   save();render();
+  // フィードバック表示
+  fb('✋ 猿の右手 出目'+total+'「'+e.n+'」— '+e.g,'s');
 }
 
 function monkeyInCombat(){
@@ -2185,17 +2206,31 @@ function monkeyInCombat(){
 }
 
 function applyMonkey(t,e,cs){
-  if(t===2)dmg(4);
+  // 出目2: 体力-4、戦闘中なら次ターンダメージ×2
+  if(t===2){dmg(4);if(cs)CS._mkDoubleDmg=true;}
+  // 出目3: 戦闘中なら敵をカエル（技術-2）、非戦闘なら次戦で自分の技術-2
+  if(t===3){if(cs)cs.esk=Math.max(1,cs.esk-2);else S._mkSkPen=2;}
+  // 出目4: 金貨+10
   if(t===4){S.gold+=10;save();}
+  // 出目5: 戦闘中は1ターンスキップ
+  if(t===5){if(cs)CS._mkSkip=1;}
+  // 出目6: 運勢-1
   if(t===6)S.lk=Math.max(0,S.lk-1);
-  if(t===7)dmg(2);
+  // 出目7: 体力-2、敵全員-6相当（戦闘中なら即反映）
+  if(t===7){dmg(2);if(cs)cs.ehp=Math.max(1,cs.ehp-6);}
+  // 出目8: 賢者の囁き（ヒントをfbで表示）
+  if(t===8){fb('星脈の核はヴォルカネスの最も弱い部分だ。名を呼べ。','s');}
+  // 出目9: 召喚の暴走（戦闘中なら敵に-3ダメージ）
+  if(t===9){if(cs)cs.ehp=Math.max(1,cs.ehp-3);}
+  // 出目10: 体力全回復・技術+3
   if(t===10){S.hp=S.hp0;S.sk+=3;S.sk0+=3;}
+  // 出目11: 運勢1固定
   if(t===11)S.lk=1;
+  // 出目12: 戦闘中ならラスボス体力半減、非戦闘でも記録
   if(t===12&&cs)cs.ehp=Math.floor(cs.ehp/2);
   save();
-  // 体力0以下になった場合は暴走エンドへ
-  if(S.hp<=0 && !cs){
-    setTimeout(()=>{ document.getElementById('combat-ui').classList.remove('show'); goto('四百六十四'); },600);
+  if(S.hp<=0&&!cs){
+    setTimeout(()=>{document.getElementById('combat-ui').classList.remove('show');goto('四百六十四');},600);
   }
 }
 
