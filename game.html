@@ -2785,13 +2785,11 @@ let _lang = localStorage.getItem('valdea_lang') || 'ja';
 
 function toggleLang(){
   _lang = _lang === 'ja' ? 'en' : 'ja';
-  localStorage.setItem('valdea_lang', _lang);
-  // ?new=1 が残るとセーブデータがリセットされるため除去してリロード
-  var clean = location.href
-    .replace(/[?&]new=1/, '')
-    .replace(/\?$/, '')
-    .replace(/&$/, '');
-  location.replace(clean || 'game.html');
+  try{ localStorage.setItem('valdea_lang', _lang); }catch(e){}
+  applyLang();
+  // 現在のパラグラフを再描画して言語を即時切替
+  var cur = (typeof S !== 'undefined' && S.cur) ? S.cur : '一';
+  if(typeof goto === 'function') goto(cur);
 }
 
 function applyLang(){
