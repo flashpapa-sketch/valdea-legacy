@@ -24,11 +24,20 @@ hr{border:none;border-top:1px solid var(--acc2);margin:2rem auto;width:60%}
 .btn-main:hover{background:var(--acc2)}
 .tags{font-size:.8rem;color:var(--dim);line-height:2}
 .foot{margin-top:3rem;font-size:.75rem;color:var(--dim);letter-spacing:.1em}
+
+.lang-toggle{display:flex;gap:.5rem;justify-content:center;margin-bottom:1.5rem}
+.lang-btn{padding:.4rem 1.2rem;border:1px solid var(--acc2);color:var(--dim);background:none;cursor:pointer;font-size:.8rem;letter-spacing:.15em;transition:all .2s}
+.lang-btn.active{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+.lang-btn:hover{border-color:var(--acc);color:var(--acc)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <p class="sub">Web Game Book</p>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="idx-ja" onclick="setLang('ja')">日本語</button>
+    <button class="lang-btn" id="idx-en" onclick="setLang('en')">English</button>
+  </div>
+<p class="sub" id="idx-sub">観測者のいない記録</p>
   <h1>観測者のいない記録</h1>
   <p class="en">valdea legacy</p>
   <p class="catch">あなたは流れ者の冒険者。<br>左手に刻まれた古代の紋章が、<br>断片の時代の命運を握っている。</p>
@@ -47,5 +56,64 @@ hr{border:none;border-top:1px solid var(--acc2);margin:2rem auto;width:60%}
   <p class="tags">#観測者のいない記録　#ゲームブック　#創作　#猿の右手　#TRPG</p>
   <p class="foot">観測者のいない記録　valdea legacy　／　Web版</p>
 </div>
+<script>
+var IDX_TEXTS = {
+  ja: {
+    sub: '観測者のいない記録',
+    title: '観測者のいない記録',
+    en_sub: 'valdea legacy',
+    catch: 'あなたは流れ者の冒険者。<br>左手に刻まれた古代の紋章が、<br>断片の時代の命運を握っている。',
+    f1: 'ひとりで読み進める本格ゲームブック',
+    f2: '選択肢とサイコロが運命を決める',
+    f3: '経験値・レベルアップシステム搭載',
+    f4: '「猿の右手」― 一度だけ使える諸刃の切り札',
+    f5: 'デジタル冒険者シート・ダイスローラー内蔵',
+    guide: '📖 冒険者の手引きを読む（はじめての方はこちら）',
+    start: '◆ 冒険を始める ◆',
+    tags: '#観測者のいない記録　#ゲームブック　#創作　#猿の右手　#TRPG',
+    foot: '観測者のいない記録　valdea legacy　／　Web版'
+  },
+  en: {
+    sub: 'The Unobserved Record',
+    title: 'The Unobserved Record',
+    en_sub: 'valdea legacy',
+    catch: 'You are a wandering adventurer.<br>The ancient mark carved into your left hand<br>holds the fate of the Age of Fragments.',
+    f1: 'A full-scale solo gamebook',
+    f2: 'Your choices and the dice decide your fate',
+    f3: 'Experience and level-up system included',
+    f4: '"The Monkey's Paw" — a double-edged trump card, usable only once',
+    f5: 'Digital adventurer sheet and dice roller built in',
+    guide: '📖 Read the Adventurer's Guide (recommended for first-time players)',
+    start: '◆ Begin Your Adventure ◆',
+    tags: '#valdea #gamebook #fiction #monkeyspaw #TRPG',
+    foot: 'The Unobserved Record — valdea legacy — Web Edition'
+  }
+};
+
+function setLang(lang) {
+  localStorage.setItem('valdea_lang', lang);
+  document.getElementById('idx-ja').classList.toggle('active', lang==='ja');
+  document.getElementById('idx-en').classList.toggle('active', lang==='en');
+  var t = IDX_TEXTS[lang];
+  document.getElementById('idx-sub').textContent = t.sub;
+  document.querySelector('h1').textContent = t.title;
+  document.querySelector('.en').textContent = t.en_sub;
+  document.querySelector('.catch').innerHTML = t.catch;
+  var lis = document.querySelectorAll('.features li');
+  [t.f1,t.f2,t.f3,t.f4,t.f5].forEach(function(txt,i){ if(lis[i]) lis[i].textContent = txt; });
+  var btns = document.querySelectorAll('.btn');
+  if(btns[0]) btns[0].textContent = t.guide;
+  if(btns[1]) btns[1].textContent = t.start;
+  document.querySelector('.tags').textContent = t.tags;
+  document.querySelector('.foot').textContent = t.foot;
+}
+
+// 初期化
+(function(){
+  var lang = localStorage.getItem('valdea_lang') || 'ja';
+  if(lang === 'en') setLang('en');
+  else { document.getElementById('idx-ja').classList.add('active'); }
+})();
+</script>
 </body>
 </html>
