@@ -1973,10 +1973,10 @@ function goto(id){
     if(mc) mc.scrollTop = 0;
     updateMapMarker(id);
     updateMapModalMarker(id);
-    // 英語モード適用
-    if(typeof applyParaLang==='function') setTimeout(()=>applyParaLang(id),10);
-    // ◆百三十八は動的生成 → goto時に再実行
+    // ◆百三十八は動的生成 → goto時に再実行（英語適用より先に）
     if(id==='百三十八') rebuild138();
+    // 英語モード適用（rebuild138の後に実行）
+    if(typeof applyParaLang==='function') setTimeout(()=>applyParaLang(id),30);
   }
 }
 
@@ -2750,8 +2750,15 @@ function toggleLang(){
   _lang = _lang === 'ja' ? 'en' : 'ja';
   localStorage.setItem('valdea_lang', _lang);
   applyLang();
-  // 現在表示中パラグラフを再描画
-  if(S && S.cur) applyParaLang(S.cur);
+  // 日本語に戻す場合は全パラグラフをリロード
+  if(_lang === 'ja'){
+    // 現在のパラグラフをページリロードなしで日本語に戻す
+    var cur = typeof S!=='undefined' ? S.cur : null;
+    if(cur && typeof goto==='function') goto(cur);
+    return;
+  }
+  // 英語：現在表示中パラグラフを英語化
+  if(typeof S!=='undefined' && S.cur) applyParaLang(S.cur);
 }
 
 function applyLang(){
@@ -2765,13 +2772,17 @@ function applyParaLang(pid){
   if(_lang !== 'en') return;
   var en = PARA_EN[pid];
   if(!en) return;
-  var pb = document.querySelector('#' + CSS.escape(pid) + ' .para-body');
+  // CSS.escapeは日本語IDで誤動作するためgetElementByIdを使用
+  var el = document.getElementById(pid);
+  if(!el) return;
+  var pb = el.querySelector('.para-body');
   if(!pb) return;
-  // p要素だけ差し替え（span・scriptは保持）
   var pTags = pb.querySelectorAll('p');
   en.forEach(function(t, i){
     if(pTags[i]) pTags[i].textContent = t;
   });
+  // ボタンラベルも英語化
+  applyChoicesLang(pid, el);
 }
 
 var _UI_EN = {
@@ -2807,6 +2818,20 @@ function applyUILang(){
 document.addEventListener('DOMContentLoaded', function(){
   applyLang();
 });
+
+var CHOICES_EN = {"一": ["Check the notice board by the gate", "Head straight to the tavern", "You spotted a figure in the alley", "You already know enough"], "二": ["Enter Doran", "Ignore the board and head into town"], "三": ["Buy a shortsword (3 gold)", "Buy a sword (8 gold)", "Buy a hand axe (5 gold)", "Buy nothing and leave"], "四": ["Leave the shop", "Ask about the mark"], "五": ["Head to the tavern", "Head to the temple", "Leave Doran for Zal-Karam"], "六": ["Toss a coin to the goblin", "Ignore it and walk on"], "七": ["Pay 2 gold for the information", "Decline"], "八": ["Ask more about Volcaness", "Ask about the mark", "You have heard enough"], "九": ["Accept — take Nack along", "Refuse"], "十": ["Accept the deal", "Refuse"], "十一": ["Go down to the alley", "Stay in the room"], "十一の二": ["Keep the disc", "Drop it"], "十二": ["Ask about Zal-Karam", "Ask about the adventurers", "Order a drink and rest"], "十三": ["Ask what she saw", "Ask about herself", "You have heard enough"], "十四": ["Head to the temple", "Head to the weapon shop", "Leave Doran"], "十五": ["Ask more about his brother", "Ask about Zal-Karam's interior", "You have heard enough"], "十六": ["Ask about Volcaness", "Ask about the mark", "You have heard enough"], "十七": ["Head to the tavern", "Head to the temple", "Leave Doran"], "十八": ["Ask about level one", "Ask about the survivors", "Leave the temple"], "十九": ["Ask more", "You have heard enough"], "二十": ["Ask more about the Shadow Guild", "Leave the temple"], "二十六": ["Head out"], "三十五": ["Ask about the robed men", "You have heard enough"], "三十六": ["Accept — take Larhas along", "Refuse"], "三十七": ["Depart from Doran", "Ask more about the golems"], "四十七": ["Head to the back of the tavern", "Talk to Nack", "Talk to Gorm and the group", "Talk to the hooded figure"], "五十八": ["Accept — take Gorm along", "Refuse"], "六十一": ["Enter the temple", "Leave"], "百七": ["Ask about the golems", "Ask about Volcaness", "Take the map and leave"], "百二十三": ["Ask about the mark", "Take the map and leave"], "百四十五": ["Pay the toll (5 gold)", "Fight back", "Turn and run"], "百五十二": ["Fight", "Run"], "百六十七": ["Ask about the wasteland route", "Leave"], "百七十九": ["Fight back", "Hand over the gold"], "百八十八": ["Follow Sira deeper", "Turn back to the road"], "百九十四": ["Confront them", "Let Gorm handle it", "Speak with the old man on the cart", "Nack looks like he has something to say", "Continue down the road"], "二百三": ["Enter through the main gate", "Look for another entrance (luck check)"], "二百十五": ["Fight the golem", "Run into the ruin"], "二百二十九": ["Approach and examine the body", "\"There is an old journal on level one\"", "Open the door", "Ignore the door and press on", "Speak to Gorm before heading to level two"], "二百三十五": ["Equip the necklace", "Leave the necklace"], "二百四十一": ["Hear him out", "Attack", "Leave the room"], "二百五十六": ["Head to level two"], "二百六十三": ["Ignore Vaz and press on"], "二百六十八": ["Take the crown", "Leave it"], "二百七十二": ["Take the sword", "Leave it"], "三百十二": ["Press on to level two"], "三百二十四": ["Speak to the figure of light", "Attack immediately"], "三百三十三": ["Keep fighting to the altar"], "三百四十一": ["Hear him out", "Attack"], "三百九十一": ["Go alone", "Go together"], "三百九十七": ["Head for Zal-Karam"], "四百二": ["Enter Zal-Karam"], "四百十五": ["Force through (combat)", "Use the Monkey's Paw", "Speak to the voice", "Give up..."], "四百二十八": ["Hear him out", "Attack now"], "五百一": ["Explore the abandoned village", "Nack approaches you", "Sira approaches you", "Gorm sits beside you", "Head into the wasteland", "Head through the forest", "Take the ancient road"], "五百二": ["Give her rations or medicine", "You have nothing to spare"], "五百五": ["Buy supplies", "Ask about the road ahead", "Press on without buying"], "五百七": ["Buy supplies", "Press on"], "五百八": ["Press on"], "五百九": ["Head deeper into the forest"], "五百十": ["Depart for Zal-Karam"], "六百一": ["Fight both golems", "Run for the door"], "六百六": ["Use the incantation"], "六百七": ["Ask more", "Make a deal", "Refuse and leave"], "六百八": ["Head down to level two"], "六百九": ["Press on carefully"], "六百十": ["Follow what the mirror shows"], "六百十一": ["Open the door"], "六百十二": ["Press on to level three"], "六百十三": ["Go down to the Chamber of Stars"], "六百十四": ["Head down alone"], "八百一": ["Ask about what has changed", "Drink and rest"], "九百三": ["Accept the request", "Refuse and attack"]};
+
+function applyChoicesLang(pid, el){
+  if(_lang !== 'en') return;
+  var en = CHOICES_EN[pid];
+  if(!en) return;
+  var btns = (el || document.getElementById(pid));
+  if(!btns) return;
+  var btnEls = btns.querySelectorAll('.choice-btn');
+  en.forEach(function(t, i){
+    if(btnEls[i]) btnEls[i].textContent = t;
+  });
+}
 </script>
 
 <!-- レベルアップ選択モーダル -->
