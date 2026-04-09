@@ -1973,10 +1973,10 @@ function goto(id){
     if(mc) mc.scrollTop = 0;
     updateMapMarker(id);
     updateMapModalMarker(id);
-    // ◆百三十八は動的生成 → goto時に再実行（英語適用より先に）
+    // ◆百三十八は動的生成 → goto時に再実行
     if(id==='百三十八') rebuild138();
-    // 英語モード適用（rebuild138の後に実行）
-    if(typeof applyParaLang==='function') setTimeout(()=>applyParaLang(id),30);
+    // 英語モード適用（rebuild138の後）
+    if(typeof applyParaLang==='function') applyParaLang(id);
   }
 }
 
@@ -2749,16 +2749,11 @@ let _lang = localStorage.getItem('valdea_lang') || 'ja';
 function toggleLang(){
   _lang = _lang === 'ja' ? 'en' : 'ja';
   localStorage.setItem('valdea_lang', _lang);
-  applyLang();
-  // 日本語に戻す場合は全パラグラフをリロード
-  if(_lang === 'ja'){
-    // 現在のパラグラフをページリロードなしで日本語に戻す
-    var cur = typeof S!=='undefined' ? S.cur : null;
-    if(cur && typeof goto==='function') goto(cur);
-    return;
-  }
-  // 英語：現在表示中パラグラフを英語化
-  if(typeof S!=='undefined' && S.cur) applyParaLang(S.cur);
+  var btn = document.getElementById('lang-btn');
+  if(btn) btn.textContent = _lang === 'ja' ? 'EN' : 'JP';
+  // EN/JAどちらもgoto()で再描画→英語適用
+  var cur = typeof S !== 'undefined' ? S.cur : null;
+  if(cur && typeof goto === 'function') goto(cur);
 }
 
 function applyLang(){
@@ -2768,37 +2763,47 @@ function applyLang(){
   applyUILang();
 }
 
-function applyParaLang(pid){
-  if(_lang !== 'en') return;
-  var en = PARA_EN[pid];
-  if(!en) return;
-  // CSS.escapeは日本語IDで誤動作するためgetElementByIdを使用
-  var el = document.getElementById(pid);
-  if(!el) return;
-  var pb = el.querySelector('.para-body');
-  if(!pb) return;
-  var pTags = pb.querySelectorAll('p');
-  en.forEach(function(t, i){
-    if(pTags[i]) pTags[i].textContent = t;
-  });
-  // ボタンラベルも英語化
-  applyChoicesLang(pid, el);
+function t(key, dict){
+  if(!dict) return null;
+  return dict[key] || null;
 }
 
-var _UI_EN = {
-  'hdr-title': 'Valdea Legacy',
-  'sb-head-txt': 'Adventurer Status',
-  'goal-label': 'Goal',
-  'map-btn-txt': 'Map',
-  'c-title-default': '⚔ Combat',
-  'c-atk-txt': '⚔ Attack',
-  'c-item-txt': '🎒 Item',
-  'c-mk-txt': "🐾 Monkey's Paw",
-  'hp-label': 'HP',
-  'sk-label': 'Skill',
-  'lk-label': 'Luck',
-  'gold-label': 'Gold',
-};
+function applyParaLang(pid){
+  var el = document.getElementById(pid);
+  if(!el) return;
+  if(_lang === 'en'){
+    // メインテキスト英語化
+    var en = PARA_EN[pid];
+    if(en){
+      var pb = el.querySelector('.para-body');
+      if(pb){
+        var pTags = pb.querySelectorAll('p');
+        en.forEach(function(txt,i){ if(pTags[i]) pTags[i].textContent=txt; });
+      }
+    }
+    // ボタン英語化
+    var cenArr = CHOICES_EN[pid];
+    if(cenArr){
+      var btnEls = el.querySelectorAll('.choice-btn');
+      cenArr.forEach(function(txt,i){ if(btnEls[i]&&txt) btnEls[i].textContent=txt; });
+    }
+    // 動的演出（sp系）英語化
+    applyDynamicLang();
+  }
+}
+
+var SPAN_EN = {"sp203-lar": "\"Get into the shadow of the right pillar,\" Larhas whispers quickly. \"Three-second blind spot when they shift direction.\"", "sp229-rosa-dead": "Someone lies at the end of the corridor. Recently — the armour has not yet rusted. You look at the face. Rosa. The arm with the bandage thrown out across the floor. Eyes closed. After you walked away from the wasteland village, she came this far. Alone. And she ran out. Whatever you do now — it is too late.", "sp341-corrupt": "The moment you try to speak, the mark on your left hand pulses black. Volcaness goes still. \"...I am already inside you,\" he whispers. By the time you understand, it is too late. Power floods in. You cannot resist.", "sp391-rel": "Their faces come to mind. Gorm's silence. Nack's ears. Sira's eyes. You are not alone.", "sp415-neck": "The necklace grows suddenly heavy. Cold crawls up from your wrist and seizes your heart. This is where it wakes. The price is coming.", "sp415-corrupt": "The voice of Volcaness changes. \"...I smell the same thing in you. The scent of one who has reached for power. You have already taken one step in.\" The mark on your left hand burns. Your mind is being eaten away.", "sp437b-aib": "You told no one about the hidden passage. What that white presence was — you still don't know. Only your left hand, from time to time, grows faintly warm, as if remembering that red light.", "sp446b-aib": "The memory of that hidden passage stayed at the edge of your mind. No answer ever came. But until the moment the mark on your left hand faded, only the memory of that red light would not disappear.", "sp608-rosa": "Somewhere, a voice. A woman's voice. \"Return it.\" Like the woman you abandoned in the wasteland village. A hallucination, perhaps. Or the ruin is making you hear it. Your mind is being eaten away.", "sp901-vaz": "You thought you saw that haze again. Vaz. For just a moment at the corner of the corridor, a silhouette — then gone. \"I will keep the bargain.\" It may have been your imagination. But in the next battle, your skill felt sharper."};
+
+function applyDynamicLang(){
+  if(_lang !== 'en') return;
+  Object.keys(SPAN_EN).forEach(function(sid){
+    var el = document.getElementById(sid);
+    if(!el || el.style.display==='none') return;
+    var p = el.querySelector('p');
+    if(p) p.textContent = SPAN_EN[sid];
+  });
+}
+
 
 function applyUILang(){
   if(_lang !== 'en') return;
@@ -2832,6 +2837,8 @@ function applyChoicesLang(pid, el){
     if(btnEls[i]) btnEls[i].textContent = t;
   });
 }
+
+var SPAN_EN = {"sp203-lar": "\"Get into the shadow of the right pillar,\" Larhas whispers quickly. \"They have a three-second blind spot when they shift direction.\"", "sp229-rosa-dead": "Someone lies at the end of the corridor. Recently. The armour has not yet rusted. You look at the face. It is Rosa. The arm with the bandage is thrown out across the floor. Her eyes are closed. After you walked away from the wasteland village, she had come this far. Alone. And she ran out. Whatever you do now — it is too late.", "sp341-corrupt": "The moment you try to speak, the mark on your left hand pulses black. Volcaness goes still. \"...I am already inside you,\" he whispers. By the time you understand what he means, it is too late. Power floods in. You cannot resist.", "sp391-rel": "Their faces come to mind. Gorm's silence. Nack's ears. Sira's eyes. You are not alone. That much, you know.", "sp415-neck": "The necklace grows suddenly heavy. Cold crawls up from your wrist and seizes your heart. This is where it wakes. The price is coming.", "sp415-corrupt": "The voice of Volcaness changes. \"...I smell the same thing in you,\" it whispers. \"The scent of one who has reached for power. You have already taken one step in.\" The mark on your left hand burns. Your mind is being eaten away.", "sp437b-aib": "You told no one about the hidden passage. What that white presence was — you still do not know. Only your left hand, from time to time, grows faintly warm, as if remembering that red light.", "sp446b-aib": "The memory of that hidden passage stayed at the edge of your mind. No answer ever came. But until the moment the mark on your left hand faded, only the memory of that red light would not disappear.", "sp608-rosa": "Somewhere, a voice. A woman's voice. Saying \"return it.\" It sounds like the woman you abandoned in the wasteland village. A hallucination, perhaps. Or the ruin is making you hear it. Your mind is being eaten away.", "sp901-vaz": "You thought you saw that haze again. Vaz. For just a moment, a silhouette appeared at the corner of the corridor and vanished. \"I will keep the bargain,\" said a voice. It may have been your imagination. But in the next battle, your skill felt sharper by one."};
 </script>
 
 <!-- レベルアップ選択モーダル -->
