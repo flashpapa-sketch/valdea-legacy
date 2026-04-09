@@ -2731,21 +2731,6 @@ function updateMapModalMarker(id){
   ctx.beginPath();ctx.moveTo(mx+4,my-4);ctx.lineTo(mx-4,my+4);ctx.stroke();
 }
 
-  const iw=img.offsetWidth||img.naturalWidth||460;
-  const ih=img.offsetHeight||img.naturalHeight||307;
-  cv.width=iw;cv.height=ih;
-  const ctx=cv.getContext('2d');
-  ctx.clearRect(0,0,iw,ih);
-  const mx=pos[0]*iw,my=pos[1]*ih;
-  ctx.beginPath();ctx.arc(mx,my,11,0,Math.PI*2);
-  ctx.strokeStyle='rgba(220,60,20,.9)';ctx.lineWidth=2.5;ctx.stroke();
-  ctx.beginPath();ctx.arc(mx,my,5,0,Math.PI*2);
-  ctx.fillStyle='rgba(220,60,20,.95)';ctx.fill();
-  ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(mx-4,my-4);ctx.lineTo(mx+4,my+4);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(mx+4,my-4);ctx.lineTo(mx-4,my+4);ctx.stroke();
-
-
 function addRel(k,v){if(typeof S==='undefined')return;S.rel=S.rel||{nack:0,golm:0,sira:0};S.rel[k]=(S.rel[k]||0)+v;save();}
 
 function equipCrown(){
@@ -2783,14 +2768,83 @@ var DYNSPAN_EN = {
 
 let _lang = localStorage.getItem('valdea_lang') || 'ja';
 
+// 日本語テキストキャッシュ（EN→JA戻し用）
+var _jaCache = {};
+
+function _cachePara(pid){
+  if(_jaCache[pid]) return;
+  var el = document.getElementById(pid);
+  if(!el) return;
+  var pb = el.querySelector('.para-body');
+  var ps = pb ? Array.from(pb.querySelectorAll('p')) : [];
+  var bs = Array.from(el.querySelectorAll('.choice-btn'));
+  _jaCache[pid] = {
+    ps: ps.map(function(p){ return p.textContent; }),
+    bs: bs.map(function(b){ return b.textContent; })
+  };
+}
+
 function toggleLang(){
+  // アクティブなパラグラフIDを取得
+  var activePara = document.querySelector('.para.active');
+  var pid = activePara ? activePara.id : (typeof S !== 'undefined' && S.cur ? S.cur : '一');
+
+  // 英語切替前に日本語テキストをキャッシュ
+  if(_lang === 'ja') _cachePara(pid);
+
+  // 言語切替
   _lang = _lang === 'ja' ? 'en' : 'ja';
   try{ localStorage.setItem('valdea_lang', _lang); }catch(e){}
+
+  // ボタンテキスト更新
   applyLang();
-  // 現在のパラグラフを再描画して言語を即時切替
-  var cur = (typeof S !== 'undefined' && S.cur) ? S.cur : '一';
-  if(typeof goto === 'function') goto(cur);
+
+  // パラグラフを直接書き換え（goto/reload不要）
+  var el = document.getElementById(pid);
+  if(!el) return;
+  var pb = el.querySelector('.para-body');
+
+  if(_lang === 'en'){
+    // 本文英語化
+    var en = PARA_EN[pid];
+    if(en && pb){
+      var ps = pb.querySelectorAll('p');
+      en.forEach(function(txt,i){ if(ps[i]) ps[i].textContent = txt; });
+    }
+    // 選択肢英語化
+    var cenArr = CHOICES_EN[pid];
+    if(cenArr){
+      var btns = el.querySelectorAll('.choice-btn');
+      cenArr.forEach(function(txt,i){ if(btns[i] && txt) btns[i].textContent = txt; });
+    }
+    // 動的演出スパン英語化
+    Object.keys(SPAN_EN).forEach(function(sid){
+      var sel = document.getElementById(sid);
+      if(!sel || sel.style.display === 'none') return;
+      var p = sel.querySelector('p');
+      if(p) p.textContent = SPAN_EN[sid];
+    });
+    // ステータス表示英語化
+    Object.keys(DYNSPAN_EN).forEach(function(sid){
+      var d = document.getElementById(sid);
+      if(!d) return;
+      d.textContent = DYNSPAN_EN[sid]();
+    });
+  } else {
+    // キャッシュから日本語を復元
+    var cache = _jaCache[pid];
+    if(cache && pb){
+      var ps = pb.querySelectorAll('p');
+      cache.ps.forEach(function(txt,i){ if(ps[i]) ps[i].textContent = txt; });
+    }
+    if(cache){
+      var btns = el.querySelectorAll('.choice-btn');
+      cache.bs.forEach(function(txt,i){ if(btns[i]) btns[i].textContent = txt; });
+    }
+  }
 }
+// グローバル確保（念のため）
+window.toggleLang = toggleLang;
 
 function applyLang(){
   var btn = document.getElementById('lang-btn');
@@ -2825,9 +2879,9 @@ function applyParaLang(pid){
   });
   // 動的ステータス表示の英語化（-stスパン）
   Object.keys(DYNSPAN_EN).forEach(function(sid){
-    var el = document.getElementById(sid);
-    if(!el) return;
-    el.textContent = DYNSPAN_EN[sid]();
+    var d = document.getElementById(sid);
+    if(!d) return;
+    d.textContent = DYNSPAN_EN[sid]();
   });
 }
 
