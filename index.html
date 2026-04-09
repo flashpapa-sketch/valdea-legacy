@@ -50,8 +50,8 @@ hr{border:none;border-top:1px solid var(--acc2);margin:2rem auto;width:60%}
     <li>デジタル冒険者シート・ダイスローラー内蔵</li>
   </ul>
   <div class="btns">
-    <a href="guide.html" class="btn">📖 冒険者の手引きを読む（はじめての方はこちら）</a>
-    <a href="game.html?new=1" class="btn btn-main">◆ 冒険を始める ◆</a>
+    <a href="guide.html" class="btn" id="btn-guide">📖 冒険者の手引きを読む（はじめての方はこちら）</a>
+    <a href="game.html?new=1" class="btn btn-main" id="btn-start">◆ 冒険を始める ◆</a>
   </div>
   <p class="tags">#観測者のいない記録　#ゲームブック　#創作　#猿の右手　#TRPG</p>
   <p class="foot">観測者のいない記録　valdea legacy　／　Web版</p>
@@ -101,9 +101,10 @@ function setLang(lang) {
   document.querySelector('.catch').innerHTML = t.catch;
   var lis = document.querySelectorAll('.features li');
   [t.f1,t.f2,t.f3,t.f4,t.f5].forEach(function(txt,i){ if(lis[i]) lis[i].textContent = txt; });
-  var btns = document.querySelectorAll('.btn');
-  if(btns[0]) btns[0].textContent = t.guide;
-  if(btns[1]) btns[1].textContent = t.start;
+  var bg = document.getElementById('btn-guide');
+  var bs = document.getElementById('btn-start');
+  if(bg) bg.textContent = t.guide;
+  if(bs) bs.textContent = t.start;
   document.querySelector('.tags').textContent = t.tags;
   document.querySelector('.foot').textContent = t.foot;
 }
