@@ -2569,7 +2569,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   });
   setInterval(()=>{ if(!S.dead){S.playTime=(S.playTime||0)+1;} },1000);
   // 戦闘ボタンのイベントリスナー
-;
+  if(typeof initCombatListeners==='function') initCombatListeners();
 
   // 「冒険を始める」からの起動判定（複数の方法で検出）
   const urlParams=new URLSearchParams(window.location.search);
@@ -2612,6 +2612,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   const start=(!S.cur||ENDINGS.includes(S.cur))?'一':S.cur;
   goto(start);
   setTimeout(()=>updateMapMarker(S.cur||'一'),400);
+  applyLang();
 });
 
 function toggleMap(){
@@ -2797,10 +2798,6 @@ function applyParaLang(pid){
     if(p) p.textContent = SPAN_EN[sid];
   });
 }
-
-document.addEventListener('DOMContentLoaded', function(){
-  applyLang();
-});
 </script>
 
 <!-- レベルアップ選択モーダル -->
