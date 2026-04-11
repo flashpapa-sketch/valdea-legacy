@@ -737,11 +737,9 @@ function load(){
   return dflt();
 }
 function save(){
-  localStorage.setItem(SK,JSON.stringify(S));
+  try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}
   const el=document.getElementById('save-ind');
-  el.classList.add('show');
-  clearTimeout(el._t);
-  el._t=setTimeout(()=>el.classList.remove('show'),1400);
+  if(el){el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),1400);}
 }
 
 // SAVE SLOT — 1スロット手動セーブ
@@ -756,7 +754,7 @@ function doSave(){
     gold: S.gold,
     ts:   new Date().toLocaleString('ja-JP',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})
   };
-  localStorage.setItem(SAVE_SLOT_KEY, JSON.stringify(meta));
+  try{localStorage.setItem(SAVE_SLOT_KEY, JSON.stringify(meta));}catch(e){}
   fb('セーブしました','s');
   renderSaveInfo();
 }
@@ -990,7 +988,7 @@ function loadMeta(){
 }
 
 function saveMeta(){
-  localStorage.setItem(META_KEY, JSON.stringify(META));
+  try{localStorage.setItem(META_KEY, JSON.stringify(META));}catch(e){}
 }
 
 function resetMeta(){
@@ -1163,7 +1161,7 @@ function loadTruth(){
 }
 
 function saveTruth(){
-  localStorage.setItem(TRUTH_KEY, JSON.stringify(TRUTH));
+  try{localStorage.setItem(TRUTH_KEY, JSON.stringify(TRUTH));}catch(e){}
 }
 
 let TRUTH = loadTruth();
@@ -2755,7 +2753,7 @@ let _lang = localStorage.getItem('valdea_lang') || 'ja';
 
 function toggleLang(){
   _lang = _lang === 'ja' ? 'en' : 'ja';
-  localStorage.setItem('valdea_lang', _lang);
+  try{localStorage.setItem('valdea_lang', _lang);}catch(e){}
   window.location.reload();
 }
 
