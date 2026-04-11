@@ -518,14 +518,23 @@ body{
     if(hn) txt+=(hg||hs?" さらに":"")+"ナックが物陰から歩み出た。「儲け話とは言ったけど、これは別だ」";
     txt+="</p><p>あなたは仲間と共に、荒野へ踏み出した。</p>";
   }
-  document.getElementById("p138-body").innerHTML=txt;
-  var ch='';
-  ch+='<button class="choice-btn" onclick="goto('百四十五')">荒野を行く</button>';
-  ch+='<button class="choice-btn" onclick="goto('百八十八')">森を行く</button>';
-  ch+='<button class="choice-btn" onclick="goto('百九十四')">古代街道を行く</button>';
-  if(hn) ch+='<button class="choice-btn" onclick="goto('五百十')">ナックが何か言いたそうにしている</button>';
-  ch+='<button class="choice-btn" onclick="goto('五百一')">出発前に廃村の調査をする</button>';
-  document.getElementById("p138-ch").innerHTML=ch;
+  var pb=document.getElementById("p138-body");
+  if(pb) pb.innerHTML=txt;
+  var pc=document.getElementById("p138-ch");
+  if(!pc) return;
+  pc.innerHTML='';
+  function mkBtn(label,id){
+    var b=document.createElement('button');
+    b.className='choice-btn';
+    b.textContent=label;
+    b.onclick=function(){goto(id);};
+    pc.appendChild(b);
+  }
+  mkBtn('荒野を行く','百四十五');
+  mkBtn('森を行く','百八十八');
+  mkBtn('古代街道を行く','百九十四');
+  if(hn) mkBtn('ナックが何か言いたそうにしている','五百十');
+  mkBtn('出発前に廃村の調査をする','五百一');
 })();</script></div></div><!-- /main-col -->
 
 <!-- サイドバー -->
@@ -692,6 +701,7 @@ body{
 <script>
 // STATE — localStorage完全永続化
 const SK='valdea_v4';
+let _lang=(function(){try{return localStorage.getItem('valdea_lang')||'ja';}catch(e){return 'ja';}})();
 
 const LVS=[
   {xp:0, lv:1,name:'ならず者の無頼漢',  next:3},
@@ -1979,8 +1989,8 @@ function goto(id){
     if(typeof SND!=='undefined') playSoundForPara(id);
     // ④表示後に再度スクロールリセット（念のため）
     if(mc) mc.scrollTop = 0;
-    updateMapMarker(id);
-    updateMapModalMarker(id);
+    try{updateMapMarker(id);}catch(e){}
+    try{updateMapModalMarker(id);}catch(e){}
     // ◆百三十八は動的生成 → goto時に再実行
     if(id==='百三十八') rebuild138();
     // 英語モード適用（rebuild138の後）
@@ -2711,19 +2721,6 @@ function updateMapModalMarker(id){
   ctx.beginPath();ctx.moveTo(mx+4,my-4);ctx.lineTo(mx-4,my+4);ctx.stroke();
 }
 
-  const iw=img.offsetWidth||img.naturalWidth||460;
-  const ih=img.offsetHeight||img.naturalHeight||307;
-  cv.width=iw;cv.height=ih;
-  const ctx=cv.getContext('2d');
-  ctx.clearRect(0,0,iw,ih);
-  const mx=pos[0]*iw,my=pos[1]*ih;
-  ctx.beginPath();ctx.arc(mx,my,11,0,Math.PI*2);
-  ctx.strokeStyle='rgba(220,60,20,.9)';ctx.lineWidth=2.5;ctx.stroke();
-  ctx.beginPath();ctx.arc(mx,my,5,0,Math.PI*2);
-  ctx.fillStyle='rgba(220,60,20,.95)';ctx.fill();
-  ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(mx-4,my-4);ctx.lineTo(mx+4,my+4);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(mx+4,my-4);ctx.lineTo(mx-4,my+4);ctx.stroke();
 
 
 function addRel(k,v){if(typeof S==='undefined')return;S.rel=S.rel||{nack:0,golm:0,sira:0};S.rel[k]=(S.rel[k]||0)+v;save();}
@@ -2749,7 +2746,6 @@ const PARA_EN = {"一": ["Wind drives dust across the Valdea wasteland. You turn
 var CHOICES_EN = {"一": ["Check the notice board by the gate", "Head straight to the tavern", "You spotted a figure in the alley", "You already know enough"], "二": ["Enter Doran", "Ignore the board and head into town", "神殿の方向へ向かう", "情報は得た"], "三": ["Buy a shortsword (3 gold)", "Buy a sword (8 gold)", "Buy a hand axe (5 gold)", "Buy nothing and leave"], "四": ["Leave the shop", "Ask about the mark", "神殿へ向かう", "装備も揃った"], "五": ["Head to the tavern", "Head to the temple", "Leave Doran for Zal-Karam"], "六": ["Toss a coin to the goblin", "Ignore it and walk on", "断って酒場へ向かう", "無視して神殿へ向かう"], "七": ["Pay 2 gold for the information", "Decline", "仲間もできた"], "八": ["Ask more about Volcaness", "Ask about the mark", "You have heard enough"], "九": ["Accept — take Nack along", "Refuse"], "十": ["Accept the deal"], "十一": ["Go down to the alley", "Stay in the room"], "十一の二": ["Keep the disc", "Drop it"], "十二": ["Ask about Zal-Karam", "Ask about the adventurers", "Order a drink and rest", "金貨一枚を払ってもっと話を聞く"], "十三": ["Ask what she saw", "Ask about herself", "You have heard enough"], "十四": ["Head to the temple", "Head to the weapon shop", "Leave Doran"], "十五": ["Ask more about his brother", "Ask about Zal-Karam's interior", "You have heard enough"], "十六": ["Ask about Volcaness", "Ask about the mark"], "十七": ["Head to the tavern"], "十八": ["Ask about level one", "Ask about the survivors", "Leave the temple"], "十九": ["Ask more", "You have heard enough"], "二十": ["Ask more about the Shadow Guild"], "二十六": ["Head out", "夜明けを待たず出発する"], "三十五": ["Ask about the robed men", "You have heard enough", "神殿へ向かう", "情報は十分だ"], "三十六": ["Accept — take Larhas along", "Refuse"], "三十七": ["Depart from Doran", "Ask more about the golems"], "四十七": ["Head to the back of the tavern", "Talk to Nack", "Talk to Gorm and the group", "Talk to the hooded figure", "酒場を出て神殿へ向かう"], "五十八": ["Accept — take Gorm along", "Refuse", "話は十分だ"], "六十一": ["Enter the temple", "Leave"], "百七": ["Ask about the golems", "Ask about Volcaness", "Take the map and leave"], "百二十三": ["Ask about the mark", "Take the map and leave"], "百四十五": ["Pay the toll (5 gold)", "Fight back", "Turn and run"], "百五十二": ["Fight", "Run"], "百六十七": ["Ask about the wasteland route", "Leave", "断って単独で進む"], "百七十九": ["Fight back", "Hand over the gold"], "百八十八": ["Follow Sira deeper", "Turn back to the road", "森の中でシラが立ち止まった"], "百九十四": ["Confront them", "Let Gorm handle it", "Speak with the old man on the cart", "Nack looks like he has something to say", "Continue down the road", "街道で旅人が声をかけてきた"], "二百三": ["Enter through the main gate", "Look for another entrance (luck check)"], "二百十五": ["Fight the golem", "Run into the ruin", "力尽きた……"], "二百二十九": ["Approach and examine the body", "\"There is an old journal on level one\""], "二百三十五": ["Equip the necklace"], "二百四十一": ["Hear him out", "Attack", "Leave the room"], "二百五十六": ["Use the hidden passage", "Take the main path", "...Something feels off (luck check)"], "二百六十三": ["Ignore Vaz and press on", "警戒装置を迂回する（運試し）"], "二百六十八": ["Examine the sword on the plinth", "Head straight to level two", "Take the crown"], "二百七十二": ["Take the sword", "Leave it"], "三百十二": ["Press on to level two", "ナックと別れを告げて階段を下りる", "覚悟を決めて階段を下りる"], "三百二十四": ["Speak to the figure of light", "Attack immediately", "儀式を利用することを考える", "力を振り絞り、封印を強制的に閉じる"], "三百三十三": ["Keep fighting to the altar", "猿の右手を使う", "力尽きた……"], "三百四十一": ["Hear him out"], "三百九十一": ["Go alone"], "三百九十七": ["Head for Zal-Karam"], "四百二": ["Enter Zal-Karam", "隠し通路の光を調べる（危険）", "同盟を集めてから向かう"], "四百十五": ["Force through (combat)", "Use the Monkey's Paw", "Speak to the voice"], "四百二十八": ["Hear him out", "Attack now"], "五百一": ["Explore the abandoned village", "Nack approaches you", "Sira approaches you", "Gorm sits beside you", "Head into the wasteland", "Head through the forest", "Take the ancient road"], "五百二": ["Give her rations or medicine", "You have nothing to spare", "廃村に古い井戸がある"], "五百五": ["Buy supplies", "Ask about the road ahead"], "五百七": ["Buy supplies", "Press on", "古代街道ルートで進む"], "五百八": ["Press on"], "五百九": ["Head deeper into the forest"], "五百十": ["Depart for Zal-Karam", "森へ進む", "古代街道へ進む"], "六百一": ["Fight both golems", "Run for the door"], "六百六": ["Use the incantation", "部屋を飛び出す（戦闘回避）"], "六百七": ["Continue negotiating", "Thank him and press on", "Head to the stairs"], "六百八": ["Head down to level two", "「分からない。でも行かなければならない」"], "六百九": ["Press on carefully"], "六百十": ["Follow what the mirror shows"], "六百十一": ["Open the door", "曲線的な軌道で逃げる（運試し）"], "六百十二": ["Descend the stairs", "...Something feels off (luck check)"], "六百十三": ["Go down to the Chamber of Stars"], "六百十四": ["Head down alone"], "八百一": ["Ask about what has changed"], "九百三": ["Accept the request", "Refuse and attack"], "八十三": ["That mark — where did you get it?", "You were born with it"], "九十二": ["Hear her out", "Leave"], "スライム遭遇": ["Fight", "Ignore it and move on"], "スライム勝利": ["Press on"], "二百七十八": ["Press on", "角のない場所へ走る（運試し）"], "二百八十四": ["Fight", "Run", "力尽きた……"], "二百八十九": ["Touch the altar", "Leave the altar"], "二百九十七": ["Fight the guardian", "猿の右手を使う", "力尽きた……"], "三百五十六": ["Head to Nifuryum Kingdom gates", "Head to Tor-Gorm in the Tangari Mountains", "Head to the Tenista-Tenist forest", "Return to Zal-Karam alone", "Return to Doran for now", "Rush down the road (luck check)", "You feel like you've stood at this crossroads before"], "三百六十二": ["Seek audience with the king", "Show the pass (flag required)", "...Something feels off (luck check)"], "三百六十八": ["Accept the conditions"], "三百七十一": ["Approach the settlement"], "三百七十五": ["Ask about Dorm"], "三百八十三": ["Face the forest guardian", "Press deeper"], "四百二の二": ["Approach the centre", "Pull back"], "四百二の三": ["Press on to level three"], "四百三十七": ["▲ Read from the beginning", "𝕏 Xでクリアを報告", "▲ 最初から読む"], "四百三十七の二": ["▲ Read from the beginning"], "四百四十六": ["▲ Read from the beginning", "𝕏 Xでクリアを報告", "▲ 最初から読む"], "四百四十六の二": ["▲ Read from the beginning"], "四百五十五": ["𝕏 Share on X", "▲ Read from the beginning"], "四百六十四": ["▲ Read from the beginning"], "四百七十三": ["▲ Read from the beginning", "𝕏 Xで晒す"], "五百三": ["Thank her and move on"], "五百四": ["Thank her and move on"], "五百六": ["Buy antidote (3 gold)", "Buy rope (1 gold)", "Buy flint (1 gold)", "Buy nothing — head into the wasteland", "Buy nothing — take the ancient road"], "五百十一": ["Ask Nack what's on his mind", "時間がないのでそのまま進む"], "五百十二": ["Press on"], "八百五": ["Ask what he means"], "八百六": ["Ask what she means"], "八百七": ["Ask about Dorm"], "九百一": ["Head down to level three", "亡霊を無視して突き進む（運試し）"], "百三十八": ["Head into the wasteland", "Head through the forest", "Take the ancient road", "Nack looks like he has something to say", "Scout the abandoned village before leaving"], "ラルハス裏切り": ["The door doesn't answer. Press on."], "ラルハス再登場": ["Use him — take his guidance", "Go alone"]};
 var SPAN_EN = {"sp203-lar": "\"Get into the shadow of the right pillar,\" Larhas whispers quickly. \"Three-second blind spot when they shift direction.\"", "sp229-rosa-dead": "Someone lies at the end of the corridor. Recently — the armour has not yet rusted. You look at the face. Rosa. The arm with the bandage thrown across the floor. Eyes closed. After you walked away from the wasteland village, she came this far. Alone. And she ran out. Whatever you do now — it is too late.", "sp341-corrupt": "The moment you try to speak, the mark on your left hand pulses black. Volcaness goes still. \"...I am already inside you,\" he whispers. By the time you understand, it is too late. Power floods in. You cannot resist.", "sp391-rel": "Their faces come to mind. Gorm's silence. Nack's ears. Sira's eyes. You are not alone.", "sp415-neck": "The necklace grows suddenly heavy. Cold crawls up from your wrist and seizes your heart. This is where it wakes. The price is coming.", "sp415-corrupt": "The voice of Volcaness changes. \"...I smell the same thing in you. The scent of one who has reached for power. You have already taken one step in.\" The mark burns. Your mind is being eaten away.", "sp437b-aib": "You told no one about the hidden passage. What that white presence was — you still don't know. Only your left hand, from time to time, grows faintly warm, as if remembering that red light.", "sp446b-aib": "The memory of that hidden passage stayed at the edge of your mind. No answer came. But until the mark on your left hand faded, only the memory of that red light would not disappear.", "sp608-rosa": "Somewhere, a voice. A woman's voice. \"Return it.\" Like the woman you abandoned in the wasteland village. A hallucination — or the ruin is making you hear it. Your mind is being eaten away.", "sp901-vaz": "You thought you saw that haze again. Vaz. For just a moment at the corner of the corridor, a silhouette — then gone. \"I will keep the bargain.\" It may have been your imagination. But in the next battle, your skill felt sharper."};
 
-let _lang = localStorage.getItem('valdea_lang') || 'ja';
 
 function toggleLang(){
   _lang = _lang === 'ja' ? 'en' : 'ja';
