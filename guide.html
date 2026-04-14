@@ -377,8 +377,10 @@ function lockStat(stat){
   document.getElementById('remain-'+stat).className = 'roll-remain done';
 
   // localStorage に保存
-  localStorage.setItem('valdea_' + stat, current[stat]);
-  localStorage.setItem('valdea_' + stat + '_init', current[stat]);
+  try{
+    localStorage.setItem('valdea_' + stat, current[stat]);
+    localStorage.setItem('valdea_' + stat + '_init', current[stat]);
+  }catch(e){ console.warn('LocalStorage not available:', e); }
 
   checkAllLocked();
 }

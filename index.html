@@ -58,7 +58,7 @@ var T={
 // URLパラメータ優先、なければlocalStorage
 var params=new URLSearchParams(window.location.search);
 var lang=params.get('lang')||localStorage.getItem('valdea_lang')||'ja';
-if(params.get('lang')) localStorage.setItem('valdea_lang',lang);
+if(params.get('lang')){try{localStorage.setItem('valdea_lang',lang);}catch(e){}}
 
 var t=T[lang]||T.ja;
 document.getElementById('btn-ja').className='lang-btn'+(lang==='ja'?' active':'');

@@ -188,6 +188,7 @@ body{
     -webkit-overflow-scrolling:touch;
   }
   #sb.open{transform:translateY(0);-webkit-transform:translateY(0)}
+  #sb.open #sb-close{display:block!important}
   #mob-fab{display:flex!important}
   #mob-fab{bottom:calc(1rem + env(safe-area-inset-bottom))}
 }
@@ -366,6 +367,11 @@ body{
   opacity: 0.6;
   transition: opacity .3s;
 }
+
+/* アクセシビリティ：色覚特性への配慮（アイコン追加） */
+.l-dmg-p::before { content: "⚔ "; }
+.l-dmg-e::before { content: "💥 "; }
+.l-res.peak-text::before { content: "★ "; }
 </style>
 </head>
 <body>
@@ -545,6 +551,7 @@ body{
 
 <!-- サイドバー -->
 <div id="sb">
+  <button id="sb-close" onclick="toggleSB()" aria-label="閉じる" style="display:none;position:absolute;top:.5rem;right:.5rem;background:none;border:none;color:var(--dim);font-size:1.1rem;cursor:pointer;padding:.4rem;line-height:1;z-index:10">✕</button>
   <div class="sb-head">冒険者ステータス</div>
   <div id="sb-goal" style="
     font-size:.62rem;color:var(--acc);
@@ -686,6 +693,10 @@ body{
       <button class="sv-btn write" onclick="doSave()">💾 保存</button>
       <button class="sv-btn read" id="sv-load" onclick="doLoad()" disabled>▶ 読込</button>
     </div>
+    <div class="save-row" style="margin-top:.3rem">
+      <button class="sv-btn write" onclick="exportSaveData()" title="テキスト出力（バックアップ）">📤 出力</button>
+      <button class="sv-btn read" onclick="importSaveData()" title="テキストから復元">📥 復元</button>
+    </div>
   </div>
 
   <div style="padding-top:.6rem;border-top:1px solid #1e1c18;margin-top:.4rem;display:flex;gap:.3rem;flex-wrap:wrap">
@@ -754,13 +765,25 @@ function dflt(){
 const MAP_LOC={'一':[.48,.88],'二':[.48,.88],'三':[.48,.88],'四':[.48,.88],'五':[.48,.88],'六':[.48,.88],'七':[.48,.88],'八':[.48,.88],'九':[.48,.88],'十':[.48,.88],'十一':[.48,.88],'十一の二':[.48,.88],'十二':[.48,.88],'十三':[.48,.88],'十四':[.48,.88],'十五':[.48,.88],'十六':[.48,.88],'十七':[.48,.88],'十八':[.48,.88],'十九':[.48,.88],'二十':[.48,.88],'二十六':[.48,.88],'三十五':[.48,.88],'四十七':[.48,.88],'五十八':[.48,.88],'六十一':[.48,.88],'八十三':[.48,.88],'九十二':[.48,.88],'百七':[.48,.88],'百二十三':[.48,.88],'百三十八':[.48,.88],'百四十五':[.42,.62],'百五十二':[.40,.60],'百六十七':[.44,.58],'百七十九':[.42,.56],'百八十八':[.78,.46],'三百八十三':[.78,.46],'百九十四':[.46,.64],'二百三':[.52,.44],'二百十五':[.52,.44],'六百一':[.52,.44],'二百二十九':[.52,.47],'二百三十五':[.52,.47],'二百四十一':[.52,.47],'二百五十六':[.52,.47],'二百六十三':[.52,.47],'二百六十八':[.52,.47],'二百七十二':[.52,.47],'二百七十八':[.52,.47],'二百八十四':[.52,.50],'二百八十九':[.52,.50],'二百九十七':[.52,.50],'三百十二':[.52,.50],'六百六':[.52,.50],'六百七':[.52,.50],'六百八':[.52,.50],'六百九':[.52,.50],'六百十':[.52,.50],'六百十一':[.52,.50],'六百十二':[.52,.50],'六百十三':[.52,.50],'六百十四':[.52,.50],'三百二十四':[.52,.52],'三百三十三':[.52,.52],'三百四十一':[.52,.52],'四百十五':[.52,.52],'四百二十八':[.52,.52],'九百一':[.52,.52],'九百三':[.52,.52],'三百五十六':[.44,.60],'三百六十二':[.72,.44],'三百六十八':[.72,.44],'三百七十一':[.38,.44],'三百七十五':[.38,.44],'三百九十一':[.50,.55],'四百二':[.50,.50],'八百一':[.48,.88],'八百五':[.46,.70],'八百六':[.46,.70],'八百七':[.46,.70],'五百一':[.44,.72],'五百二':[.45,.68],'五百三':[.45,.68],'五百七':[.44,.72],'五百八':[.44,.72],'五百九':[.46,.66],'五百十':[.46,.66],'五百十一':[.46,.66],'五百十二':[.46,.66],'三百九十七':[.44,.62]};
 let S=load();
 function load(){
-  try{const r=localStorage.getItem(SK);if(r)return JSON.parse(r);}catch(e){}
+  try{
+    const r=localStorage.getItem(SK);
+    if(r) return JSON.parse(r);
+  }catch(e){
+    console.error('Load failed:',e);
+    fb('⚠ データ読込に失敗しました','f');
+  }
   return dflt();
 }
 function save(){
-  try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}
-  const el=document.getElementById('save-ind');
-  if(el){el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),1400);}
+  try{
+    localStorage.setItem(SK,JSON.stringify(S));
+    const el=document.getElementById('save-ind');
+    if(el){el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),1400);}
+  }catch(e){
+    console.error('Save failed:',e);
+    const el=document.getElementById('save-ind');
+    if(el){el.textContent='⚠保存失敗';el.style.color='var(--danger)';el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>{el.classList.remove('show');el.textContent='saved';el.style.color='';},2500);}
+  }
 }
 
 // SAVE SLOT — 1スロット手動セーブ
@@ -795,6 +818,42 @@ function doLoad(){
   }catch(e){
     fb('読み込みに失敗しました','f');
   }
+}
+
+// ===== セーブデータ エクスポート/インポート =====
+function exportSaveData(){
+  try{
+    const payload = btoa(encodeURIComponent(JSON.stringify({
+      s: S,
+      m: typeof META !== 'undefined' ? META : null,
+      t: typeof TRUTH !== 'undefined' ? TRUTH : null,
+      v: 'valdea_v1'
+    })));
+    const exportStr = 'VALDEA:' + payload;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(exportStr)
+        .then(()=>fb('セーブデータをクリップボードにコピーしました','s'))
+        .catch(()=>{ prompt('セーブデータをコピーしてください（Ctrl+A→Ctrl+C）:', exportStr); });
+    } else {
+      prompt('セーブデータをコピーしてください（Ctrl+A→Ctrl+C）:', exportStr);
+    }
+  }catch(e){ fb('エクスポート失敗','f'); }
+}
+
+function importSaveData(){
+  const input = prompt('セーブデータを貼り付けてください:');
+  if(!input) return;
+  try{
+    if(!input.startsWith('VALDEA:')) throw new Error('Invalid format');
+    const parsed = JSON.parse(decodeURIComponent(atob(input.slice(7))));
+    if(!parsed.s || !parsed.v) throw new Error('Missing data');
+    S = parsed.s;
+    if(parsed.m && typeof META !== 'undefined') { META = parsed.m; saveMeta(); }
+    if(parsed.t && typeof TRUTH !== 'undefined') { TRUTH = parsed.t; saveTruth(); }
+    save(); render();
+    goto(S.cur || '一');
+    fb('セーブデータを読み込みました','s');
+  }catch(e){ fb('インポート失敗：データが不正です','f'); }
 }
 
 function renderSaveInfo(){
@@ -1940,7 +1999,7 @@ function initCombatListeners(){
       CS.ehp-=1;S.hp=Math.max(0,S.hp-1);clog('  ─ 互角。両者に1点のダメージ');
     }
     if(hasItem('賢者の石'))heal(1);
-    document.getElementById('c-php').textContent=S.hp;
+    document.getElementById('c-php').textContent=Math.max(0,S.hp);
     document.getElementById('c-ehp').textContent=Math.max(0,CS.ehp);
     save();render();checkNearDeath();
     if(CS.ehp<=0){
@@ -1948,7 +2007,7 @@ function initCombatListeners(){
       if(CS.opts.chain&&CS.opts.chain.length>0){
         const nx=CS.opts.chain.shift();clog('── 次の敵が現れた！','l-sp');
         CS.esk=nx.sk;CS.ehp=nx.hp;CS.ehp0=nx.hp;
-        document.getElementById('c-ehp').textContent=CS.ehp;
+        document.getElementById('c-ehp').textContent=Math.max(0,CS.ehp);
         document.getElementById('c-esk').textContent='技術点 '+CS.esk;return;
       }
       if(CS.xp>0){addXP(CS.xp);clog('  経験値+'+CS.xp+'点','l-sp');}
@@ -1962,7 +2021,7 @@ function initCombatListeners(){
       if(hasItem(it)){
         const a=it==='回復薬'?6:it==='テニスタ・テニストの木の実'?4:1;
         remItem(it);heal(a);clog(it+'を使用。体力+'+a,'l-sp');
-        document.getElementById('c-php').textContent=S.hp;return;
+        document.getElementById('c-php').textContent=Math.max(0,S.hp);return;
       }
     }
     clog('使えるアイテムがない','l-sp');
@@ -1977,8 +2036,28 @@ function resetAll(){
   S=dflt();save();render();goto('一');
 }
 
+function updateDynamicTexts(id){
+  if(typeof S==='undefined'||typeof hasFlag!=='function')return;
+  var el;
+  el=document.getElementById("百八十八-st");if(el)el.textContent=(hasFlag("シラと接触済み"))?"[ シラが先導している ]":"[ 一人で暗闇を進んでいる ]";
+  el=document.getElementById("二百七十八-st");if(el)el.textContent=(hasFlag("シラと接触済み"))?"[ 仲間たちと地下二層への入口に立った ]":"[ 一人で地下二層への入口に立った ]";
+  el=document.getElementById("三百五十六-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした"))?"[ 仲間たちとミヤトの街道へ出た ]":"[ 一人でミヤトの街道へ出た ]";
+  el=document.getElementById("四百四十六の二-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした"))?"[ 仲間たちと共にザル＝カラムを出た ]":"[ 一人でザル＝カラムを出た ]";
+  el=document.getElementById("五百一-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした"))?"[ 仲間たちと野営している ]":"[ 一人で野営している ]";
+  el=document.getElementById("五百九-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした")&&hasFlag("シラと接触済み"))?"[ 仲間たちと森を進んでいる ]":"[ 一人で森を進んでいる ]";
+  el=document.getElementById("六百九-st");if(el)el.textContent=(hasFlag("シラと接触済み"))?"[ 仲間たちと地下二層を進んでいる ]":"[ 一人で地下二層を進んでいる ]";
+  el=document.getElementById("八百七-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした"))?"[ ゴルムが隣に座った ]":"[ 一人で焚き火の前に座っている ]";
+  el=document.getElementById("九百一-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした"))?"[ ゴルムと最後の言葉を交わした ]":"[ 一人で最後の階段を下りる ]";
+}
 // NAVIGATION — SPA
 function goto(id){
+  // 存在しないパラグラフへの遷移ガード
+  const _el_check = document.getElementById(id);
+  if(!_el_check && id !== '一'){
+    console.error('[goto] Para not found:', id);
+    fb('⚠ ページエラー: '+id,'f');
+    return;
+  }
   if(typeof S!=='undefined'&&!S.rel)S.rel={nack:0,golm:0,sira:0};
   if(typeof S!=='undefined'&&typeof S.corrupt==='undefined')S.corrupt=0;
   // ①先にスクロールをトップへ戻す
@@ -2004,6 +2083,7 @@ function goto(id){
     try{updateMapModalMarker(id);}catch(e){}
     // ◆百三十八は動的生成 → goto時に再実行
     if(id==='百三十八') rebuild138();
+  updateDynamicTexts(id);
     // 英語モード適用（rebuild138の後）
     if(typeof applyParaLang==='function') applyParaLang(id);
   }
@@ -2175,7 +2255,7 @@ function startCombat(name,esk,ehp,xp,winId,opts){
     S._mkSkPen=0;save();
   }
   document.getElementById('c-title').textContent='⚔ '+name+' との戦い';
-  document.getElementById('c-php').textContent=S.hp;
+  document.getElementById('c-php').textContent=Math.max(0,S.hp);
   document.getElementById('c-psk').textContent='技術点 '+S.sk;
   document.getElementById('c-ename').textContent=name;
   document.getElementById('c-ehp').textContent=ehp;
@@ -2195,7 +2275,7 @@ function startCombat(name,esk,ehp,xp,winId,opts){
       clog('⚡ 先制！ '+name+'が飛びかかった！','l-sp');
       const d=3;
       S.hp=Math.max(0,S.hp-d);
-      document.getElementById('c-php').textContent=S.hp;
+      document.getElementById('c-php').textContent=Math.max(0,S.hp);
       clog('  あなたに'+d+'点の先制ダメージ！','l-dmg-e');
       save();render();
       if(S.hp<=0){clog('◆ 先制で倒された……','l-res');endCombat(false);}
@@ -2284,7 +2364,7 @@ function monkeyInCombat(){
   clog('✋ 猿の右手 出目'+total+'「'+e.n+'」','l-sp');
   clog('  ✦ '+e.g,'l-dmg-p');
   clog('  ✧ '+e.b,'l-dmg-e');
-  document.getElementById('c-php').textContent=S.hp;
+  document.getElementById('c-php').textContent=Math.max(0,S.hp);
   document.getElementById('c-mk').disabled=true;
   save();render();
 }
