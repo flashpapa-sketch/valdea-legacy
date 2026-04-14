@@ -359,6 +359,13 @@ body{
 /* ── 言語切替 ── */
 #lang-btn{position:fixed;top:.5rem;right:.5rem;z-index:999;background:var(--card);border:1px solid var(--acc2);color:var(--acc);padding:.3rem .7rem;font-size:.75rem;cursor:pointer;letter-spacing:.1em;transition:all .2s}
 #lang-btn:hover{background:var(--acc);color:var(--bg)}
+/* ===== Valdea 拡張レイヤー v1.0 ===== */
+.flash { animation: flash .2s; }
+@keyframes flash { 0%{opacity:0.3} 100%{opacity:1} }
+.choice-btn.soft-alert {
+  opacity: 0.6;
+  transition: opacity .3s;
+}
 </style>
 </head>
 <body>
@@ -2811,6 +2818,80 @@ function applyParaLang(pid){
     if(p) p.textContent = SPAN_EN[sid];
   });
 }
+
+// ===== Valdea 軽量拡張レイヤー v1.0（影響度10%）=====
+const EXT = {
+  log: [],
+  softFlags: {},
+  setFlag(k){ this.softFlags[k] = true; },
+  hasFlag(k){ return !!this.softFlags[k]; },
+  addLog(txt){ this.log.push(txt); },
+  showLog(){
+    if(this.log.length){
+      alert("【記録】\n" + this.log.join("\n"));
+    }
+  }
+};
+
+// goto 拡張ラップ
+(function(){
+  if(typeof goto !== "function"){ console.warn("goto() が未定義"); return; }
+  const _goto = goto;
+  window.goto = function(id){
+    if(Math.random() < 0.1){
+      if(id === '四十七' && EXT.hasFlag('違和感')){ id = '六'; }
+    }
+    EXT.addLog("→ " + id);
+    flash();
+    _goto(id);
+  };
+})();
+
+// 違和感フラグ（低確率1回）
+(function(){
+  if(!EXT.hasFlag('違和感')){
+    if(Math.random() < 0.2){ EXT.setFlag('違和感'); EXT.addLog("微かな違和感を覚えた"); }
+  }
+})();
+
+// ナック軽量ボーナス
+function nackBonus(){
+  try{
+    if(typeof hasFlag === "function" && hasFlag('ナックを仲間にした')){
+      if(Math.random() < 0.1){ EXT.addLog("ナックが小声で助言した"); return true; }
+    }
+  }catch(e){}
+  return false;
+}
+
+// ソフトタイマー（圧演出）
+function softTimer(choiceId){
+  setTimeout(()=>{
+    const el = document.getElementById(choiceId);
+    if(el) el.classList.add('soft-alert');
+  }, 3000);
+}
+
+// 軽量後悔ログ
+function regret(txt){
+  if(Math.random() < 0.1){ EXT.addLog(txt); }
+}
+
+// 画面フラッシュ
+function flash(){
+  document.body.classList.add('flash');
+  setTimeout(()=>{ document.body.classList.remove('flash'); }, 200);
+}
+
+// エンディング拡張
+function endWithLog(){ EXT.showLog(); }
+
+// 隠し演出（超低確率）
+(function(){
+  if(Math.random() < 0.05){ EXT.addLog("どこかで何かが動いた気がする"); }
+})();
+// ===== END 拡張レイヤー =====
+
 </script>
 
 <!-- レベルアップ選択モーダル -->
