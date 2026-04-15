@@ -372,15 +372,40 @@ body{
 .l-dmg-p::before { content: "⚔ "; }
 .l-dmg-e::before { content: "💥 "; }
 .l-res.peak-text::before { content: "★ "; }
+
+/* ===== PATCH v9.8: logBox ===== */
+#logBox{
+  position:fixed;
+  bottom:10px;
+  left:10px;
+  font-size:11px;
+  color:var(--acc);
+  opacity:0.6;
+  max-width:320px;
+  line-height:1.5;
+  pointer-events:none;
+  z-index:50;
+  font-family:"Noto Serif JP",Georgia,serif;
+  text-shadow:0 1px 3px rgba(0,0,0,.8);
+}
+
+/* PATCH v9.8: 追加アクセシビリティアイコン */
+.l-sp::before{content:"✨ "}
+.l-crit::before{content:"⚡ "}
+.l-pinch::before{content:"⚠ ";color:#e05030}
+.l-turn::before{content:"🔄 "}
 </style>
 </head>
 <body>
+<div id="logBox"></div>
 <div id="hdr">
   <div>
     <div class="en">観測者のいない記録</div>
     <h1>— valdea legacy —</h1>
   </div>
   <div class="hdr-right">
+    <button onclick="exportSaveData()" title="セーブデータ出力（バックアップ）" style="font-size:.62rem;background:none;border:1px solid var(--acc2);color:var(--dim);cursor:pointer;padding:2px 5px;letter-spacing:.03em;margin-right:3px;transition:color .2s" onmouseover="this.style.color='var(--acc)'" onmouseout="this.style.color='var(--dim)'">📤出力</button>
+    <button onclick="importSaveData()" title="セーブデータ入力（復元）" style="font-size:.62rem;background:none;border:1px solid var(--acc2);color:var(--dim);cursor:pointer;padding:2px 5px;letter-spacing:.03em;margin-right:3px;transition:color .2s" onmouseover="this.style.color='var(--acc)'" onmouseout="this.style.color='var(--dim)'">📥入力</button>
     <button onclick="doSave()" title="手動セーブ" style="
       font-size:.68rem;color:var(--dim);background:none;border:0.5px solid var(--acc2);
       padding:.25rem .6rem;cursor:pointer;border-radius:2px;
@@ -820,35 +845,42 @@ function doLoad(){
   }
 }
 
-// ===== セーブデータ エクスポート/インポート =====
+// ===== セーブデータ エクスポート/インポート v2 =====
 function exportSaveData(){
   try{
-    const payload = btoa(encodeURIComponent(JSON.stringify({
-      s: S,
-      m: typeof META !== 'undefined' ? META : null,
-      t: typeof TRUTH !== 'undefined' ? TRUTH : null,
-      v: 'valdea_v1'
-    })));
-    const exportStr = 'VALDEA:' + payload;
-    if(navigator.clipboard && navigator.clipboard.writeText){
+    const payload = {
+      v:'v1.0',
+      s: btoa(unescape(encodeURIComponent(JSON.stringify(S)))),
+      m: btoa(unescape(encodeURIComponent(JSON.stringify(META)))),
+      t: btoa(unescape(encodeURIComponent(JSON.stringify(TRUTH))))
+    };
+    const exportStr = 'VALDEA:v1.0:'+payload.s+':'+payload.m+':'+payload.t;
+    if(navigator.clipboard&&navigator.clipboard.writeText){
       navigator.clipboard.writeText(exportStr)
-        .then(()=>fb('セーブデータをクリップボードにコピーしました','s'))
-        .catch(()=>{ prompt('セーブデータをコピーしてください（Ctrl+A→Ctrl+C）:', exportStr); });
-    } else {
-      prompt('セーブデータをコピーしてください（Ctrl+A→Ctrl+C）:', exportStr);
+        .then(()=>fb('✅ セーブデータをクリップボードにコピーしました','s'))
+        .catch(()=>{ prompt('セーブデータをコピーしてください（Ctrl+A→Ctrl+C）:',exportStr); });
+    }else{
+      prompt('セーブデータをコピーしてください（Ctrl+A→Ctrl+C）:',exportStr);
     }
-  }catch(e){ fb('エクスポート失敗','f'); }
+  }catch(e){console.error('Export failed:',e);fb('❌ エクスポート失敗','f');}
 }
-
 function importSaveData(){
-  const input = prompt('セーブデータを貼り付けてください:');
-  if(!input) return;
+  const input=prompt('セーブデータを貼り付けてください\n（VALDEAで始まる文字列）:');
+  if(!input)return;
   try{
-    if(!input.startsWith('VALDEA:')) throw new Error('Invalid format');
-    const parsed = JSON.parse(decodeURIComponent(atob(input.slice(7))));
-    if(!parsed.s || !parsed.v) throw new Error('Missing data');
-    S = parsed.s;
-    if(parsed.m && typeof META !== 'undefined') { META = parsed.m; saveMeta(); }
+    const parts=input.split(':');
+    if(parts[0]!=='VALDEA'||parts.length<5)throw new Error('Invalid format');
+    S=JSON.parse(decodeURIComponent(escape(atob(parts[2]))));
+    META=JSON.parse(decodeURIComponent(escape(atob(parts[3]))));
+    TRUTH=JSON.parse(decodeURIComponent(escape(atob(parts[4]))));
+    if(!S.rel)S.rel={nack:0,golm:0,sira:0};
+    if(typeof S.corrupt==='undefined')S.corrupt=0;
+    if(!S.flags)S.flags={};
+    save();saveMeta();saveTruth();render();
+    goto(S.cur||'一');
+    fb('✅ セーブデータを読み込みました','s');
+  }catch(e){console.error('Import failed:',e);fb('❌ インポート失敗：データが不正です','f');}
+}
     if(parsed.t && typeof TRUTH !== 'undefined') { TRUTH = parsed.t; saveTruth(); }
     save(); render();
     goto(S.cur || '一');
@@ -1068,7 +1100,7 @@ function loadMeta(){
 }
 
 function saveMeta(){
-  try{localStorage.setItem(META_KEY, JSON.stringify(META));}catch(e){}
+  try{localStorage.setItem(META_KEY,JSON.stringify(META));return true;}catch(e){console.error('Meta save failed:',e);return false;}
 }
 
 function resetMeta(){
@@ -1241,7 +1273,7 @@ function loadTruth(){
 }
 
 function saveTruth(){
-  try{localStorage.setItem(TRUTH_KEY, JSON.stringify(TRUTH));}catch(e){}
+  try{localStorage.setItem(TRUTH_KEY,JSON.stringify(TRUTH));return true;}catch(e){console.error('Truth save failed:',e);return false;}
 }
 
 let TRUTH = loadTruth();
@@ -2048,6 +2080,8 @@ function updateDynamicTexts(id){
   el=document.getElementById("六百九-st");if(el)el.textContent=(hasFlag("シラと接触済み"))?"[ 仲間たちと地下二層を進んでいる ]":"[ 一人で地下二層を進んでいる ]";
   el=document.getElementById("八百七-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした"))?"[ ゴルムが隣に座った ]":"[ 一人で焚き火の前に座っている ]";
   el=document.getElementById("九百一-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした"))?"[ ゴルムと最後の言葉を交わした ]":"[ 一人で最後の階段を下りる ]";
+  el=document.getElementById("三百九十七-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした"))?"[ 仲間たちと南へ走る ]":"[ 一人で南へ走る ]";
+  el=document.getElementById("六百十-st");if(el)el.textContent=(hasFlag("シラと接触済み"))?"[ 仲間たちと地下二層を進んでいる ]":"[ 一人で地下二層を進んでいる ]";
 }
 // NAVIGATION — SPA
 function goto(id){
@@ -2899,78 +2933,162 @@ function applyParaLang(pid){
   });
 }
 
-// ===== Valdea 軽量拡張レイヤー v1.0（影響度10%）=====
+
+
+// ===== VALDEA FINAL PATCH v9.8 =====
+// RNG統一（再現性確保）
+const RNG = {
+  seed: Date.now() % 100000,
+  next(){
+    this.seed = (this.seed * 9301 + 49297) % 233280;
+    return this.seed / 233280;
+  }
+};
+
+// 拡張コア（ログをlogBoxに表示）
 const EXT = {
   log: [],
   softFlags: {},
   setFlag(k){ this.softFlags[k] = true; },
   hasFlag(k){ return !!this.softFlags[k]; },
-  addLog(txt){ this.log.push(txt); },
-  showLog(){
-    if(this.log.length){
-      alert("【記録】\n" + this.log.join("\n"));
-    }
+  addLog(txt){
+    this.log.push(txt);
+    this._renderLog();
+  },
+  _renderLog(){
+    const box = document.getElementById('logBox');
+    if(!box) return;
+    box.innerHTML = this.log.slice(-5).map(t=>'<div>'+t+'</div>').join('');
   }
 };
 
-// goto 拡張ラップ
-(function(){
-  if(typeof goto !== "function"){ console.warn("goto() が未定義"); return; }
-  const _goto = goto;
-  window.goto = function(id){
-    if(Math.random() < 0.1){
-      if(id === '四十七' && EXT.hasFlag('違和感')){ id = '六'; }
-    }
-    EXT.addLog("→ " + id);
-    flash();
-    _goto(id);
-  };
-})();
+// 伏線テキスト
+const FORESHADOW = [
+  "それは二度目のはずだった。",
+  "誰もいないのに、視線だけがあった。",
+  "その選択は、既に観測されている。",
+  "ナックは「そこ」を見ていなかった。",
+  "記録には残らないはずの傷がある。",
+  "エラー：観測対象が重複しています"
+];
 
-// 違和感フラグ（低確率1回）
-(function(){
-  if(!EXT.hasFlag('違和感')){
-    if(Math.random() < 0.2){ EXT.setFlag('違和感'); EXT.addLog("微かな違和感を覚えた"); }
+function triggerForeshadow(){
+  if(RNG.next() < 0.08){
+    const msg = FORESHADOW[Math.floor(RNG.next()*FORESHADOW.length)];
+    EXT.addLog(msg);
   }
-})();
+}
 
-// ナック軽量ボーナス
-function nackBonus(){
-  try{
-    if(typeof hasFlag === "function" && hasFlag('ナックを仲間にした')){
-      if(Math.random() < 0.1){ EXT.addLog("ナックが小声で助言した"); return true; }
+// 裏切りイベント（呼び出し側で使用）
+function trustEvent(choice){
+  if(typeof hasFlag === 'function' && !hasFlag('裏切り発動') && choice === '信じる'){
+    if(typeof flag === 'function') flag('裏切り発動');
+    EXT.addLog("その判断は、既に観測されている");
+    // RNG.next() < 0.1 の場合は演出のみ（罠ルートは未実装のため遷移しない）
+    if(RNG.next() < 0.1){
+      if(typeof flash === 'function') flash();
+      EXT.addLog("── 観測に、歪みが生じた ──");
+      return true;
     }
-  }catch(e){}
+  }
   return false;
 }
 
-// ソフトタイマー（圧演出）
-function softTimer(choiceId){
-  setTimeout(()=>{
-    const el = document.getElementById(choiceId);
-    if(el) el.classList.add('soft-alert');
-  }, 3000);
+// ナック救済（1回のみ）
+function nackRescue(){
+  if(typeof hasFlag === 'function' && hasFlag('ナックを仲間にした') && !hasFlag('ナック救済済み')){
+    if(typeof flag === 'function'){
+      flag('ナック救済済み');
+      flag('ナック消耗');
+    }
+    EXT.addLog("ナックが割り込んだ");
+    if(typeof flash === 'function') flash();
+    return true;
+  }
+  return false;
 }
 
-// 軽量後悔ログ
-function regret(txt){
-  if(Math.random() < 0.1){ EXT.addLog(txt); }
+// goto拡張ラップ（DOMContentLoaded後に安全に実行）
+document.addEventListener("DOMContentLoaded", function(){
+  if(typeof goto !== "function"){
+    console.warn("[PATCH] goto() 未定義");
+    return;
+  }
+  const _originalGoto = goto;
+  window.goto = function(id){
+    // 微揺らぎ（最大10%）
+    if(RNG.next() < 0.1 && id === '四十七' && EXT.hasFlag('違和感')){
+      id = '六';
+    }
+    EXT.addLog("→ " + id);
+    triggerForeshadow();
+    _originalGoto(id);
+  };
+});
+
+// 違和感フラグ（ページ読込時・低確率）
+(function(){
+  if(!EXT.hasFlag('違和感') && RNG.next() < 0.2){
+    EXT.setFlag('違和感');
+    EXT.addLog("何かが、わずかにズレている");
+  }
+})();
+
+// プレイヤー名ログ
+(function(){
+  const name = (typeof localStorage !== 'undefined' && localStorage.getItem('playerName')) || '不明';
+  EXT.addLog("観測者：" + name);
+})();
+
+// 真エンド判定
+function isTrueEnd(){
+  if(typeof hasFlag !== 'function') return false;
+  return (
+    hasFlag('ナック救済済み') &&
+    hasFlag('裏切り発動') &&
+    EXT.hasFlag('違和感')
+  );
 }
 
-// 画面フラッシュ
-function flash(){
-  document.body.classList.add('flash');
-  setTimeout(()=>{ document.body.classList.remove('flash'); }, 200);
+// 感情ログ
+function emotionalEcho(){
+  if(typeof hasFlag !== 'function') return;
+  if(hasFlag('裏切り発動')) EXT.addLog("何かが、噛み合っていない");
+  if(hasFlag('ナック消耗')) EXT.addLog("ナックの呼吸が浅い");
+  if(hasFlag('ナック救済済み')) EXT.addLog("あいつは、何も言わなかった");
 }
 
-// エンディング拡張
-function endWithLog(){ EXT.showLog(); }
+// ナック神話化
+function nackAftermath(){
+  if(typeof hasFlag === 'function' && hasFlag('ナック救済済み')){
+    EXT.addLog("名前を呼ぼうとしたが、思い出せなかった");
+  }
+}
+
+// 真エンド演出
+function triggerTrueEnd(){
+  if(isTrueEnd()){
+    EXT.addLog("観測は完了した。記録を終了する。");
+    EXT.addLog("── 誰が、観測している？ ──");
+    return true;
+  }
+  return false;
+}
+
+// エンディング統合
+function endFinal(){
+  triggerTrueEnd();
+  emotionalEcho();
+  nackAftermath();
+}
 
 // 隠し演出（超低確率）
 (function(){
-  if(Math.random() < 0.05){ EXT.addLog("どこかで何かが動いた気がする"); }
+  if(RNG.next() < 0.05){
+    EXT.addLog("どこかで何かが動いた気がする");
+  }
 })();
-// ===== END 拡張レイヤー =====
+// ===== END PATCH v9.8 =====
 
 </script>
 
