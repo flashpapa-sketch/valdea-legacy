@@ -413,7 +413,7 @@ body{
     ">✓ 保存</button>
     <button onclick="toggleMapModal()" title="地図を見る" style="font-size:.62rem;background:none;border:1px solid var(--acc2);border-radius:2px;color:var(--dim);cursor:pointer;padding:2px 6px;letter-spacing:.05em;">地図</button>
     <button id="mute-btn" onclick="(function(){const m=SND.toggleMute();document.getElementById('mute-btn').textContent=m?'🔇':'🔈';})()" title="音のオン/オフ" style="font-size:.75rem;background:none;border:0.5px solid var(--acc2);padding:.25rem .5rem;cursor:pointer;border-radius:2px;">🔈</button>
-    <a href="guide.html" class="guide-link">手引き</a>
+    <button onclick="runFullQA()" title="QAチェック実行" style="font-size:.6rem;background:none;border:1px solid #3a6a3a;color:#5a9a5a;cursor:pointer;padding:2px 5px;margin-right:4px;letter-spacing:.03em" onmouseover="this.style.borderColor='#5a9a5a'" onmouseout="this.style.borderColor='#3a6a3a'">🔍QA</button><a href="guide.html" class="guide-link">手引き</a>
     <span id="save-ind">✓ 保存</span>
   </div>
 </div>
@@ -3089,6 +3089,162 @@ function endFinal(){
   }
 })();
 // ===== END PATCH v9.8 =====
+
+
+// ===== VALDEA QA TOOL v1.1 (architecture-adapted) =====
+const QA = {
+  visited: new Set(),
+  errors: [],
+  warnings: [],
+  paths: [],
+  maxDepth: 200,
+  currentPath: [],
+
+  // ===== シーンID取得（HTML div.para[id] から）=====
+  getAllSceneIds(){
+    return Array.from(document.querySelectorAll('.para[id]')).map(el=>el.id);
+  },
+
+  // ===== gotoフック（追跡用）=====
+  hookGoto(){
+    if(typeof goto !== 'function'){ this.errors.push('❌ goto未定義'); return; }
+    const _baseGoto = (typeof window._originalGoto === 'function')
+      ? window._originalGoto : goto;
+    const self = this;
+    window._qaGoto = function(id){
+      const el = document.getElementById(id);
+      if(!el){
+        self.errors.push('❌ 未定義遷移: ' + id);
+        return;
+      }
+      self.visited.add(id);
+      self.currentPath.push(id);
+      if(self.currentPath.length > self.maxDepth){
+        self.warnings.push('♾️ 深度上限: ' + self.currentPath.slice(-5).join('→'));
+        return;
+      }
+      // ボタン収集して再帰探索
+      self._exploreButtons(el);
+    };
+  },
+
+  // ===== パラグラフ内ボタンを収集・実行 =====
+  _exploreButtons(paraEl){
+    const btns = paraEl.querySelectorAll('.choice-btn:not([disabled])');
+    btns.forEach(btn=>{
+      const onclick = btn.getAttribute('onclick');
+      if(!onclick) return;
+      // goto('xxx') パターン
+      const gotoMatches = onclick.matchAll(/goto\('([^']+)'\)/g);
+      for(const m of gotoMatches){
+        if(!this.visited.has(m[1])){ window._qaGoto(m[1]); }
+      }
+      // startCombat の winId
+      const combatMatch = onclick.match(/startCombat\([^,]+,[^,]+,[^,]+,[^,]+,'([^']+)'/);
+      if(combatMatch && !this.visited.has(combatMatch[1])){
+        window._qaGoto(combatMatch[1]);
+      }
+      // luckCheck
+      const luckMatch = onclick.matchAll(/luckCheck\('([^']+)'/g);
+      for(const m of luckMatch){
+        if(!this.visited.has(m[1])){ window._qaGoto(m[1]); }
+      }
+    });
+  },
+
+  // ===== 到達不能チェック =====
+  checkUnreachable(){
+    const all = this.getAllSceneIds();
+    const unreachable = all.filter(id=>!this.visited.has(id));
+    unreachable.forEach(id=>{
+      this.warnings.push('🚫 未到達シーン: ' + id);
+    });
+    return unreachable;
+  },
+
+  // ===== HP/数値バグチェック =====
+  checkNumerics(){
+    if(typeof S === 'undefined'){ this.warnings.push('⚠ S未定義'); return; }
+    if(S.hp < 0) this.errors.push('❌ HPマイナス: ' + S.hp);
+    if(S.lk < 0) this.errors.push('❌ 運勢マイナス: ' + S.lk);
+    if(S.sk < 0) this.errors.push('❌ 技術マイナス: ' + S.sk);
+    if(S.gold < 0) this.errors.push('❌ 金貨マイナス: ' + S.gold);
+  },
+
+  // ===== 全実行 =====
+  run(){
+    console.clear();
+    console.log('%c=== VALDEA QA TOOL v1.1 ===', 'color:#b8860b;font-weight:bold');
+    this.visited.clear();
+    this.errors = [];
+    this.warnings = [];
+    this.paths = [];
+    this.currentPath = [];
+
+    this.hookGoto();
+
+    const startId = '一';
+    // rebuild138で動的追加される遷移先も追加
+    ['百四十五','百八十八','百九十四','五百十','五百一'].forEach(id=>{
+      if(!this.visited.has(id)) window._qaGoto(id);
+    });
+    window._qaGoto(startId);
+
+    this.checkUnreachable();
+    this.checkNumerics();
+
+    // ===== 結果表示 =====
+    const total = this.getAllSceneIds().length;
+    const reached = this.visited.size;
+    const unreachable = total - reached;
+
+    console.log('%c--- 結果 ---', 'color:#b8860b');
+    console.log('総パラグラフ: ' + total);
+    console.log('到達済み: ' + reached + ' (' + Math.round(reached/total*100) + '%)');
+    console.log('未到達: ' + unreachable);
+
+    if(this.errors.length === 0 && this.warnings.filter(w=>w.startsWith('❌')).length === 0){
+      console.log('%c✅ エラーなし', 'color:#27ae60;font-weight:bold');
+    }else{
+      console.log('%c=== エラー (' + this.errors.length + ') ===', 'color:#c0392b;font-weight:bold');
+      this.errors.forEach(e=>console.error(e));
+    }
+    if(this.warnings.length){
+      console.log('%c=== 警告 (' + this.warnings.length + ') ===', 'color:#e67e22;font-weight:bold');
+      this.warnings.forEach(w=>console.warn(w));
+    }
+    console.log('%c=== QA END ===', 'color:#b8860b;font-weight:bold');
+
+    // 画面にも結果を表示
+    this._showResult(total, reached, unreachable);
+  },
+
+  _showResult(total, reached, unreachable){
+    let html = '<div style="position:fixed;top:0;left:0;right:0;background:#1a1814;border-bottom:2px solid #b8860b;padding:.6rem 1rem;font-size:.75rem;z-index:9999;font-family:monospace;color:#e8e0d0">';
+    html += '<strong style="color:#b8860b">QA TOOL v1.1</strong> ';
+    html += 'パラグラフ: '+reached+'/'+total+' ('+Math.round(reached/total*100)+'%)　';
+    if(this.errors.length){
+      html += '<span style="color:#c0392b">❌ エラー:'+this.errors.length+'件</span>　';
+    }
+    if(unreachable > 0){
+      html += '<span style="color:#e67e22">🚫 未到達:'+unreachable+'件</span>　';
+    }
+    if(!this.errors.length && unreachable<=2){
+      html += '<span style="color:#27ae60">✅ PASS</span>';
+    }
+    html += '<button onclick="this.parentElement.parentElement.remove()" style="float:right;background:none;border:1px solid #b8860b;color:#b8860b;cursor:pointer;padding:1px 8px">✕</button>';
+    html += '<div style="font-size:.65rem;color:#7a7060;margin-top:.2rem">';
+    this.errors.slice(0,3).forEach(e=>{ html += e + '　'; });
+    this.warnings.filter(w=>w.startsWith('🚫')).slice(0,3).forEach(w=>{ html += w + '　'; });
+    html += '</div></div>';
+    const d = document.createElement('div');
+    d.innerHTML = html;
+    document.body.prepend(d.firstChild);
+  }
+};
+
+function runFullQA(){ QA.run(); }
+// ===== END QA TOOL =====
 
 </script>
 
