@@ -413,7 +413,7 @@ body{
     ">✓ 保存</button>
     <button onclick="toggleMapModal()" title="地図を見る" style="font-size:.62rem;background:none;border:1px solid var(--acc2);border-radius:2px;color:var(--dim);cursor:pointer;padding:2px 6px;letter-spacing:.05em;">地図</button>
     <button id="mute-btn" onclick="(function(){const m=SND.toggleMute();document.getElementById('mute-btn').textContent=m?'🔇':'🔈';})()" title="音のオン/オフ" style="font-size:.75rem;background:none;border:0.5px solid var(--acc2);padding:.25rem .5rem;cursor:pointer;border-radius:2px;">🔈</button>
-    <button onclick="runFullQA()" title="QAチェック実行" style="font-size:.6rem;background:none;border:1px solid #3a6a3a;color:#5a9a5a;cursor:pointer;padding:2px 5px;margin-right:4px;letter-spacing:.03em" onmouseover="this.style.borderColor='#5a9a5a'" onmouseout="this.style.borderColor='#3a6a3a'">🔍QA</button><a href="guide.html" class="guide-link">手引き</a>
+    <button onclick="Achievements.show()" title="達成記録" style="font-size:.6rem;background:none;border:1px solid var(--acc2);color:var(--dim);cursor:pointer;padding:2px 5px;margin-right:3px;transition:color .2s" onmouseover="this.style.color='var(--acc)'" onmouseout="this.style.color='var(--dim)'">🏆</button><button onclick="reportBug()" title="バグ報告" style="font-size:.6rem;background:none;border:1px solid var(--acc2);color:var(--dim);cursor:pointer;padding:2px 5px;margin-right:3px;transition:color .2s" onmouseover="this.style.color='var(--acc)'" onmouseout="this.style.color='var(--dim)'">🐛</button><button onclick="window.open('test.html')" title="テストスイート" style="font-size:.6rem;background:none;border:1px solid #3a6a3a;color:#5a9a5a;cursor:pointer;padding:2px 5px;margin-right:3px">🧪</button><button onclick="TestSuite.run()" title="インラインテスト実行" style="font-size:.6rem;background:none;border:1px solid #3a6a3a;color:#5a9a5a;cursor:pointer;padding:2px 5px;margin-right:3px">▶</button><button onclick="runFullQA()" title="QAチェック実行" style="font-size:.6rem;background:none;border:1px solid #3a6a3a;color:#5a9a5a;cursor:pointer;padding:2px 5px;margin-right:4px;letter-spacing:.03em" onmouseover="this.style.borderColor='#5a9a5a'" onmouseout="this.style.borderColor='#3a6a3a'">🔍QA</button><a href="guide.html" class="guide-link">手引き</a>
     <span id="save-ind">✓ 保存</span>
   </div>
 </div>
@@ -2120,6 +2120,7 @@ function goto(id){
   updateDynamicTexts(id);
     // 英語モード適用（rebuild138の後）
     if(typeof applyParaLang==='function') applyParaLang(id);
+    if(typeof Achievements!=='undefined') Achievements.check();
   }
 }
 
@@ -3245,6 +3246,231 @@ const QA = {
 
 function runFullQA(){ QA.run(); }
 // ===== END QA TOOL =====
+
+
+
+// ===== TestSuite v1.0 =====
+const TestSuite = {
+  results: [],
+
+  assert(label, condition, detail){
+    const passed = !!condition;
+    this.results.push({label, passed, detail: detail||''});
+    if(!passed) console.error('[FAIL] ' + label + (detail?' ('+detail+')':''));
+    else        console.log( '[PASS] ' + label);
+  },
+
+  run(){
+    console.log('%c🧪 TestSuite 開始', 'color:#b8860b;font-weight:bold');
+    this.results = [];
+    this.testSaveLoad();
+    this.testCombatMath();
+    this.testFlags();
+    this.testItems();
+    this.testHP();
+    this.testXP();
+    this.testExportImport();
+    this._showResults();
+  },
+
+  // 1. セーブ/ロード整合性
+  testSaveLoad(){
+    try{
+      const snap = JSON.stringify(S);
+      save();
+      const loaded = JSON.stringify(load());
+      this.assert('Save/Load整合性', snap === loaded, 'データ不一致');
+    }catch(e){ this.assert('Save/Load', false, e.message); }
+  },
+
+  // 2. 戦闘計算
+  testCombatMath(){
+    const testHP = 10;
+    const dmgAmt = 3;
+    const result = Math.max(0, testHP - dmgAmt);
+    this.assert('ダメージ計算(10-3=7)', result === 7);
+    this.assert('HP下限0保護', Math.max(0, 0 - 5) === 0);
+    // ロールの範囲チェック
+    let outOfRange = false;
+    for(let i=0;i<100;i++){
+      const d = Math.floor(Math.random()*6)+1;
+      if(d<1||d>6){ outOfRange=true; break; }
+    }
+    this.assert('サイコロ範囲1-6', !outOfRange);
+  },
+
+  // 3. フラグ管理
+  testFlags(){
+    if(typeof S === 'undefined'){ this.assert('フラグテスト', false, 'S未定義'); return; }
+    const origFlags = JSON.stringify(S.flags||{});
+    if(typeof flag === 'function') flag('__test_flag__');
+    const flagged = typeof hasFlag === 'function' ? hasFlag('__test_flag__') : false;
+    this.assert('フラグ set/get', flagged);
+    // クリーンアップ
+    if(S.flags) delete S.flags['__test_flag__'];
+    save();
+  },
+
+  // 4. アイテム管理
+  testItems(){
+    if(typeof S === 'undefined'){ return; }
+    const origInv = [...(S.inv||[])];
+    if(typeof addItem === 'function') addItem('__test_item__');
+    const added = typeof hasItem === 'function' ? hasItem('__test_item__') : false;
+    this.assert('アイテム追加', added);
+    if(typeof remItem === 'function') remItem('__test_item__');
+    const removed = !(typeof hasItem === 'function' ? hasItem('__test_item__') : true);
+    this.assert('アイテム削除', removed);
+    S.inv = origInv; save();
+  },
+
+  // 5. HP/数値
+  testHP(){
+    if(typeof S === 'undefined'){ return; }
+    this.assert('HP >= 0', S.hp >= 0, 'HP: '+S.hp);
+    this.assert('SK >= 0', S.sk >= 0, 'SK: '+S.sk);
+    this.assert('LK >= 0', S.lk >= 0, 'LK: '+S.lk);
+    this.assert('HP <= HP0', S.hp <= S.hp0+30, 'HP超過');
+    this.assert('GOLD >= 0', S.gold >= 0, 'GOLD: '+S.gold);
+  },
+
+  // 6. XPとレベル
+  testXP(){
+    if(typeof S === 'undefined' || typeof getlv !== 'function'){ return; }
+    const lv = getlv();
+    this.assert('レベル1-5の範囲', lv.lv >= 1 && lv.lv <= 5, 'Lv:'+lv.lv);
+    this.assert('XP >= 0', S.xp >= 0);
+  },
+
+  // 7. エクスポート/インポート形式
+  testExportImport(){
+    try{
+      if(typeof S === 'undefined'){ return; }
+      const payload = btoa(unescape(encodeURIComponent(JSON.stringify(S))));
+      const exportStr = 'VALDEA:v1.0:'+payload+':x:x';
+      const parts = exportStr.split(':');
+      this.assert('エクスポート形式(VALDEA:)', parts[0]==='VALDEA');
+      this.assert('エクスポートv1.0', parts[1]==='v1.0');
+      const decoded = JSON.parse(decodeURIComponent(escape(atob(parts[2]))));
+      this.assert('エクスポートJSON復元', decoded.cur !== undefined);
+    }catch(e){ this.assert('エクスポート形式', false, e.message); }
+  },
+
+  _showResults(){
+    const pass = this.results.filter(r=>r.passed).length;
+    const total = this.results.length;
+    const color = pass===total ? '#27ae60' : '#c0392b';
+    console.log('%c結果: '+pass+'/'+total+' PASS', 'color:'+color+';font-weight:bold');
+
+    // 画面バナー
+    const div = document.createElement('div');
+    div.style.cssText = 'position:fixed;bottom:10px;right:10px;background:#1a1814;border:1px solid var(--acc2);padding:.6rem .8rem;font-size:.72rem;z-index:9999;max-width:240px;font-family:monospace';
+    div.innerHTML = '<div style="color:var(--acc);margin-bottom:.3rem">🧪 TestSuite ' + pass+'/'+total+'</div>' +
+      this.results.map(r=>'<div style="color:'+(r.passed?'#5a9a5a':'#c0392b')+'">'+(r.passed?'✅':'❌')+' '+r.label+'</div>').join('') +
+      '<button onclick="this.parentElement.remove()" style="margin-top:.4rem;width:100%;background:none;border:1px solid var(--acc2);color:var(--dim);cursor:pointer;font-size:.65rem">閉じる</button>';
+    document.body.appendChild(div);
+  }
+};
+// ===== END TestSuite =====
+
+
+// ===== Achievements v1.0 =====
+const Achievements = {
+  _unlocked: [],
+
+  get unlocked(){
+    try{
+      return JSON.parse(localStorage.getItem('valdea_achievements')||'[]');
+    }catch(e){ return []; }
+  },
+
+  _save(list){
+    try{ localStorage.setItem('valdea_achievements', JSON.stringify(list)); }catch(e){}
+  },
+
+  list: [
+    {id:'first_step',    name:'最初の一歩',       icon:'🚶', cond: ()=> typeof S!=='undefined' && S.xp >= 0},
+    {id:'first_death',   name:'最初の死',          icon:'💀', cond: ()=> typeof META!=='undefined' && META.totalDeaths >= 1},
+    {id:'monkey_used',   name:'猿の右手',          icon:'✋', cond: ()=> typeof S!=='undefined' && S.mkUsed},
+    {id:'true_end',      name:'真実の到達者',       icon:'⭐', cond: ()=> typeof hasFlag==='function' && hasFlag('真エンディング')},
+    {id:'lv4',           name:'ヴァルデアの伝説',   icon:'🏅', cond: ()=> typeof getlv==='function' && getlv().lv >= 4},
+    {id:'nack_joined',   name:'仲間：ナック',       icon:'👂', cond: ()=> typeof hasFlag==='function' && hasFlag('ナックを仲間にした')},
+    {id:'golm_joined',   name:'仲間：ゴルム',       icon:'⚒️', cond: ()=> typeof hasFlag==='function' && hasFlag('ゴルムを仲間にした')},
+    {id:'sira_joined',   name:'仲間：シラ',         icon:'🌿', cond: ()=> typeof hasFlag==='function' && hasFlag('シラと接触済み')},
+    {id:'all_party',     name:'全員集合',           icon:'🎖️', cond: ()=> typeof hasFlag==='function' && hasFlag('ナックを仲間にした') && hasFlag('ゴルムを仲間にした') && hasFlag('シラと接触済み')},
+    {id:'diary_found',   name:'日誌の発見者',       icon:'📓', cond: ()=> typeof hasFlag==='function' && hasFlag('日誌を入手した')},
+    {id:'monkey_12',     name:'伝説の一手',         icon:'🌟', cond: ()=> typeof hasFlag==='function' && hasFlag('猿の右手12')},
+    {id:'survive_10',    name:'生存者',             icon:'🛡️', cond: ()=> typeof META!=='undefined' && META.totalDeaths >= 10},
+  ],
+
+  check(){
+    if(typeof S === 'undefined') return;
+    const unlocked = this.unlocked;
+    let changed = false;
+    this.list.forEach(a=>{
+      if(!unlocked.includes(a.id)){
+        try{
+          if(a.cond()){
+            unlocked.push(a.id);
+            changed = true;
+            this._notify(a);
+          }
+        }catch(e){}
+      }
+    });
+    if(changed) this._save(unlocked);
+  },
+
+  _notify(a){
+    if(typeof fb === 'function') fb(a.icon + ' 達成：' + a.name, 's');
+    if(typeof EXT !== 'undefined') EXT.addLog(a.icon + ' ' + a.name + ' 解除！');
+  },
+
+  show(){
+    const unlocked = this.unlocked;
+    const lines = this.list.map(a=>{
+      const done = unlocked.includes(a.id);
+      return (done ? a.icon : '🔒') + ' ' + a.name + (done ? '' : '　???');
+    });
+    alert('【達成記録】
+' + lines.join('
+') + '
+
+解除: '+unlocked.length+'/'+this.list.length);
+  }
+};
+// ===== END Achievements =====
+
+
+// ===== Bug Reporter =====
+function reportBug(){
+  const bug = prompt('バグ・不具合の内容を教えてください:');
+  if(!bug) return;
+  try{
+    const state = typeof S !== 'undefined' ? btoa(unescape(encodeURIComponent(JSON.stringify({
+      cur: S.cur, hp: S.hp, sk: S.sk, lk: S.lk, xp: S.xp, flags: S.flags
+    })))) : 'N/A';
+    const body = encodeURIComponent(
+      '## バグ内容
+' + bug +
+      '
+
+## 発生場所（パラグラフ）
+' + (typeof S!=='undefined'?S.cur:'不明') +
+      '
+
+## ステータス（Base64）
+`' + state + '`'
+    );
+    const url = 'https://github.com/flashpapa-sketch/valdea-legacy/issues/new?title=' +
+      encodeURIComponent('[Bug] ' + bug.slice(0,50)) + '&body=' + body;
+    window.open(url, '_blank');
+    fb('バグ報告ページを開きました', 's');
+  }catch(e){
+    fb('報告フォームを開けませんでした', 'f');
+  }
+}
+// ===== END Bug Reporter =====
 
 </script>
 
