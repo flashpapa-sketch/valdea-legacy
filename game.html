@@ -782,7 +782,7 @@ function dflt(){
     sk0:gs,hp0:gh,lk0:gl,
     gold:3,xp:0,
     inv:['食料','食料','食料'],flags:{},memo:'',invText:'',
-    mkUsed:false,neck:false,lvupQ:[],mental:100,playTime:0,corrupt:0,rel:{nack:0,golm:0,sira:0},crownOn:false,
+    mkUsed:false,neck:false,lvupQ:[],mental:100,playTime:0,corrupt:0,rel:{nack:0,golm:0,sira:0},crownOn:false,fx:{},
     hist:[]
   };
 }
@@ -2082,6 +2082,88 @@ function updateDynamicTexts(id){
   el=document.getElementById("九百一-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした"))?"[ ゴルムと最後の言葉を交わした ]":"[ 一人で最後の階段を下りる ]";
   el=document.getElementById("三百九十七-st");if(el)el.textContent=(hasFlag("ゴルムを仲間にした"))?"[ 仲間たちと南へ走る ]":"[ 一人で南へ走る ]";
   el=document.getElementById("六百十-st");if(el)el.textContent=(hasFlag("シラと接触済み"))?"[ 仲間たちと地下二層を進んでいる ]":"[ 一人で地下二層を進んでいる ]";
+
+  // ── 表示/非表示更新（フラグ依存の条件分岐パーツ） ──
+  // ◆百四十五
+  var a145=document.getElementById("145-shira-line"),b145=document.getElementById("145-noshira-line");
+  if(a145&&b145){if(hasFlag("シラと接触済み")){a145.style.display="";b145.style.display="none";}else{a145.style.display="none";b145.style.display="";}}
+  // ◆二百三
+  var e203=document.getElementById("sp203-lar");if(e203)e203.style.display=hasFlag("ラルハスを同行させた")?"":"none";
+  // ◆二百四十一
+  var e241=document.getElementById("sp241-nack");if(e241)e241.style.display=hasFlag("ナックを仲間にした")?"":"none";
+  // ◆三百四十一
+  var e341=document.getElementById("sp341-corrupt");if(e341)e341.style.display=(S.corrupt||0)>=3?"":"none";
+  // ◆三百九十一
+  var e391s=document.getElementById("391-shira");if(e391s)e391s.style.display=hasFlag("シラと接触済み")?"":"none";
+  // ◆四百十五
+  var e415nr=document.getElementById("sp415-nack-regret");if(e415nr)e415nr.style.display=(hasFlag("ナックを仲間にした")&&S.neck)?"":"none";
+  var e415nc=document.getElementById("sp415-neck");if(e415nc)e415nc.style.display=hasFlag("死神の首飾りを装備")?"":"none";
+  var e415ai=document.getElementById("sp415-aib");if(e415ai)e415ai.style.display=hasFlag("アイム・イン・ラブを撃破")?"":"none";
+  var e415ky=document.getElementById("sp415-key");if(e415ky)e415ky.style.display=hasFlag("星脈の鍵を入手")?"":"none";
+  var cpt=(S.corrupt||0);
+  var e415co=document.getElementById("sp415-corrupt");if(e415co)e415co.style.display=cpt>=2?"":"none";
+  var e415pu=document.getElementById("sp415-pure");if(e415pu)e415pu.style.display=cpt<2?"":"none";
+  var e415ls=document.getElementById("sp415-loss");if(e415ls)e415ls.style.display=(cpt>=3&&S.neck)?"":"none";
+  // ◆四百三十七の二
+  var e437nt=document.getElementById("sp437b-nack-trust");if(e437nt)e437nt.style.display=((S.rel||{}).nack>=2)?"":"none";
+  var e437ab=document.getElementById("sp437b-aib");if(e437ab)e437ab.style.display=hasFlag("アイム・イン・ラブを撃破")?"":"none";
+  var nackOk=!hasFlag("ナックを仲間にした")||((S.rel||{}).nack>=-1&&!S.neck);
+  var e437tr=document.getElementById("sp437-true");if(e437tr)e437tr.style.display=(hasFlag("星脈の鍵を入手")&&hasFlag("遺体を調べた")&&!hasFlag("ロサを見捨てた")&&nackOk)?"":"none";
+  var e437br=document.getElementById("sp-brutal-end");if(e437br)e437br.style.display=(hasFlag("ロサを見捨てた")&&cpt>=2)?"":"none";
+  // ◆四百四十六の二
+  var e446ab=document.getElementById("sp446b-aib");if(e446ab)e446ab.style.display=hasFlag("アイム・イン・ラブを撃破")?"":"none";
+  // ◆五百一
+  var b501n=document.getElementById("btn501-nack");if(b501n)b501n.style.display=hasFlag("ナックを仲間にした")?"":"none";
+  var b501s=document.getElementById("btn501-sira");if(b501s)b501s.style.display=hasFlag("シラと接触済み")?"":"none";
+  var b501g=document.getElementById("btn501-golm");if(b501g)b501g.style.display=hasFlag("ゴルムを仲間にした")?"":"none";
+  // ◆六百八
+  var e608=document.getElementById("sp608-rosa");if(e608)e608.style.display=hasFlag("ロサを見捨てた")?"":"none";
+  // ◆九百一
+  var e901=document.getElementById("sp901-vaz");if(e901)e901.style.display=hasFlag("ヴァズと取引した")?"":"none";
+  // ◆九百三
+  var e903=document.getElementById("sp903-nack");if(e903)e903.style.display=(hasFlag("ナックを仲間にした")&&(S.rel||{}).nack>=1)?"":"none";
+}
+function applyParaFX(id){
+  if(typeof S==='undefined'||typeof hasFlag!=='function')return;
+  if(!S.fx)S.fx={};
+  if(S.fx[id])return;
+  S.fx[id]=true;
+  if(id==='二百三'&&hasFlag('ラルハスを同行させた')){
+    S.sk=Math.min(S.sk+1,S.sk0+3);
+    if(typeof save==='function')save();
+    if(typeof fb==='function')fb('ラルハスの情報：技術点+1','s');
+  }
+  if(id==='二百二十九'&&hasFlag('ロサを見捨てた')){
+    S.corrupt=(S.corrupt||0)+1;
+    if(typeof mentalDmg==='function')mentalDmg(15);
+    if(typeof save==='function')save();
+  }
+  if(id==='二百三十五'){
+    if(typeof flag==='function')flag('遺体を調べた');
+    if(hasFlag('遺体を調べた')&&!hasFlag('ラルハスに裏切られた')){
+      if(typeof addItem==='function')addItem('星脈の鍵');
+      if(typeof flag==='function')flag('星脈の鍵を入手');
+    }
+  }
+  if(id==='三百九十一'){
+    var r=S.rel||{};var total=(r.nack||0)+(r.golm||0)+(r.sira||0);
+    if(total>=4){S.mental=Math.min(100,(S.mental||0)+10);if(typeof save==='function')save();}
+  }
+  if(id==='四百十五'){
+    if(hasFlag('死神の首飾りを装備')&&typeof mentalDmg==='function')mentalDmg(10);
+    if((S.corrupt||0)>=2){if(typeof mentalDmg==='function')mentalDmg(12);}
+    else{if(typeof heal==='function')heal(2);}
+    if((S.corrupt||0)>=3&&S.neck){
+      S.inv=S.inv.filter(function(i){return i!=='食料';});
+      if(typeof save==='function')save();
+      if(typeof fb==='function')fb('食料をすべて失った','f');
+    }
+  }
+  if(id==='六百八'&&hasFlag('ロサを見捨てた')&&typeof mentalDmg==='function')mentalDmg(8);
+  if(id==='九百一'&&hasFlag('ヴァズと取引した')){
+    S.sk=Math.min(S.sk+1,S.sk0+3);
+    if(typeof save==='function')save();
+  }
 }
 // NAVIGATION — SPA
 function goto(id){
@@ -2117,6 +2199,7 @@ function goto(id){
     try{updateMapModalMarker(id);}catch(e){}
     // ◆百三十八は動的生成 → goto時に再実行
     if(id==='百三十八') rebuild138();
+  applyParaFX(id);
   updateDynamicTexts(id);
     // 英語モード適用（rebuild138の後）
     if(typeof applyParaLang==='function') applyParaLang(id);
@@ -2523,7 +2606,7 @@ function lvUp5(){
 function render(){
   // HP
   const pct=S.hp0>0?S.hp/S.hp0:0;
-  document.getElementById('sb-hpn').textContent=S.hp+'/'+S.hp0;
+  document.getElementById('sb-hpn').textContent=Math.max(0,S.hp)+'/'+S.hp0;
   const bar=document.getElementById('sb-hpbar');
   bar.style.width=(pct*100)+'%';
   bar.style.background=pct<0.25?'var(--danger)':pct<0.5?'var(--warn)':'var(--acc)';
@@ -2542,7 +2625,7 @@ function render(){
   const skEl=document.getElementById('in-sk');
   const lkEl=document.getElementById('in-lk');
   const gdEl=document.getElementById('in-gold');
-  if(hpEl) hpEl.innerHTML=S.hp+'<span style="color:var(--dim);font-size:.85em">/'+S.hp0+'</span>';
+  if(hpEl) hpEl.innerHTML=Math.max(0,S.hp)+'<span style="color:var(--dim);font-size:.85em">/'+S.hp0+'</span>';
   if(skEl) skEl.innerHTML=S.sk+'<span style="color:var(--dim);font-size:.85em">/'+S.sk0+'</span>';
   if(lkEl) lkEl.innerHTML=S.lk+'<span style="color:var(--dim);font-size:.85em">/'+S.lk0+'</span>';
   if(gdEl) gdEl.textContent=S.gold;
