@@ -394,10 +394,40 @@ body{
 .l-crit::before{content:"⚡ "}
 .l-pinch::before{content:"⚠ ";color:#e05030}
 .l-turn::before{content:"🔄 "}
+
+#shareBox{
+  position:fixed;
+  bottom:10px;
+  right:10px;
+  background:rgba(17,17,17,.95);
+  color:var(--fg);
+  padding:12px;
+  font-size:.78rem;
+  border:1px solid var(--acc2);
+  border-radius:4px;
+  max-width:280px;
+  z-index:9999;
+  display:none;
+  line-height:1.7;
+}
+#shareBox .share-title{font-size:.68rem;color:var(--acc);letter-spacing:.1em;margin-bottom:.5rem}
+#shareBox .share-body{color:var(--dim);margin-bottom:.7rem;white-space:pre-line}
+.share-btn-x{width:100%;padding:5px;background:#000;color:#fff;border:1px solid #555;border-radius:3px;cursor:pointer;font-size:.75rem;letter-spacing:.05em;margin-bottom:3px;transition:background .2s}
+.share-btn-x:hover{background:#1a1a1a}
+.share-btn-copy{width:100%;padding:5px;background:none;color:var(--dim);border:1px solid var(--acc2);border-radius:3px;cursor:pointer;font-size:.75rem;letter-spacing:.05em;transition:all .2s}
+.share-btn-copy:hover{border-color:var(--acc);color:var(--acc)}
+.share-close{float:right;background:none;border:none;color:var(--dim);cursor:pointer;font-size:.9rem;padding:0;margin-left:.5rem}
 </style>
 </head>
 <body>
 <div id="logBox"></div>
+<div id="shareBox">
+  <button class="share-close" onclick="document.getElementById('shareBox').style.display='none'">✕</button>
+  <div class="share-title">◆ このゲームを共有する</div>
+  <div class="share-body" id="shareText"></div>
+  <button class="share-btn-x" onclick="shareToX()">𝕏 でシェア</button>
+  <button class="share-btn-copy" onclick="copyShareText()">テキストをコピー</button>
+</div>
 <div id="hdr">
   <div>
     <div class="en">観測者のいない記録</div>
@@ -3029,20 +3059,18 @@ const RNG = {
   }
 };
 
-// 拡張コア（ログをlogBoxに表示）
+// ===== 拡張コア =====
 const EXT = {
   log: [],
-  softFlags: {},
-  setFlag(k){ this.softFlags[k] = true; },
-  hasFlag(k){ return !!this.softFlags[k]; },
   addLog(txt){
     this.log.push(txt);
-    this._renderLog();
+    if(this.log.length > 50) this.log.shift();
+    this.showLog();
   },
-  _renderLog(){
-    const box = document.getElementById('logBox');
+  showLog(){
+    const box = document.getElementById("logBox");
     if(!box) return;
-    box.innerHTML = this.log.slice(-5).map(t=>'<div>'+t+'</div>').join('');
+    box.innerHTML = this.log.slice(-5).join("<br>");
   }
 };
 
@@ -3093,36 +3121,24 @@ function nackRescue(){
 }
 
 // goto拡張ラップ（DOMContentLoaded後に安全に実行）
-document.addEventListener("DOMContentLoaded", function(){
+// ===== gotoフック（waitGoto方式）=====
+(function waitGoto(){
   if(typeof goto !== "function"){
-    console.warn("[PATCH] goto() 未定義");
+    setTimeout(waitGoto, 50);
     return;
   }
   const _originalGoto = goto;
   window.goto = function(id){
-    // 微揺らぎ（最大10%）
-    if(RNG.next() < 0.1 && id === '四十七' && EXT.hasFlag('違和感')){
-      id = '六';
-    }
     EXT.addLog("→ " + id);
     triggerForeshadow();
-    _originalGoto(id);
+    setTimeout(()=>_originalGoto(id), 0);
   };
-});
-
-// 違和感フラグ（ページ読込時・低確率）
-(function(){
-  if(!EXT.hasFlag('違和感') && RNG.next() < 0.2){
-    EXT.setFlag('違和感');
-    EXT.addLog("何かが、わずかにズレている");
-  }
 })();
 
-// プレイヤー名ログ
-(function(){
-  const name = (typeof localStorage !== 'undefined' && localStorage.getItem('playerName')) || '不明';
-  EXT.addLog("観測者：" + name);
-})();
+
+
+
+
 
 // 真エンド判定
 function isTrueEnd(){
@@ -3554,6 +3570,49 @@ function reportBug(){
   }
 }
 // ===== END Bug Reporter =====
+
+// ===== SNSシェア機能 =====
+const SHARE_TEMPLATES = [
+  `このゲーム、ちょっとおかしい。\n「観測されている」って出る。\nナックも変。\nhttps://flashpapa-sketch.github.io/valdea-legacy/`,
+  `このゲーム2周目で意味変わる。\nナック何者？\nhttps://flashpapa-sketch.github.io/valdea-legacy/`,
+  `Error: YOU ARE DUPLICATED\nこれ出たんだけど何？\nhttps://flashpapa-sketch.github.io/valdea-legacy/`
+];
+function showShareBox(){
+  const box = document.getElementById("shareBox");
+  const textEl = document.getElementById("shareText");
+  if(!box||!textEl) return;
+  const msg = SHARE_TEMPLATES[Math.floor(Math.random()*SHARE_TEMPLATES.length)];
+  textEl.textContent = msg;
+  window._shareText = msg;
+  box.style.display = "block";
+}
+function shareToX(){
+  const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(window._shareText||'');
+  window.open(url,"_blank");
+}
+function copyShareText(){
+  const txt = window._shareText||'';
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(txt).then(()=>fb('コピーしました','s')).catch(()=>prompt('コピーしてください:',txt));
+  }else{
+    prompt('コピーしてください:',txt);
+  }
+}
+// ===== endFinalフック（シェアボックス表示）=====
+(function waitEndFinal(){
+  if(typeof endFinal !== "function"){
+    setTimeout(waitEndFinal,50);
+    return;
+  }
+  const _endFinal = endFinal;
+  window.endFinal = function(){
+    _endFinal();
+    setTimeout(showShareBox, 1500);
+  };
+})();
+// ===== プレイヤー侵食ログ =====
+EXT.addLog("観測者：" + (localStorage.getItem("playerName") || "不明"));
+EXT.addLog("その選択は、あなたが決めた");
 
 </script>
 
