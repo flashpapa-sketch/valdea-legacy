@@ -224,7 +224,7 @@ tr:hover td{background:#1a1814}
       <tr><td>3点以上</td><td>Lv.2</td><td>浮足立つ冒険者</td><td>技術点＋一</td></tr>
       <tr><td>7点以上</td><td>Lv.3</td><td>豪傑の勇者</td><td>体力点の最大値＋四</td></tr>
       <tr><td>12点以上</td><td>Lv.4</td><td>ヴァルデアのレジェンド</td><td>運勢点＋一・技術点＋一</td></tr>
-      <tr><td>20点以上（または最終決戦突入時・自動）</td><td>Lv.5</td><td>招かれざる者</td><td>全能力点＋二・覚醒システム発動</td></tr>
+      <tr><td>最終決戦突入時（自動）</td><td>Lv.5</td><td>招かれざる者</td><td>全能力点＋二・覚醒システム発動</td></tr>
     </table>
 
     <div class="xp-tracker">
@@ -377,10 +377,8 @@ function lockStat(stat){
   document.getElementById('remain-'+stat).className = 'roll-remain done';
 
   // localStorage に保存
-  try{
-    localStorage.setItem('valdea_' + stat, current[stat]);
-    localStorage.setItem('valdea_' + stat + '_init', current[stat]);
-  }catch(e){ console.warn('LocalStorage not available:', e); }
+  localStorage.setItem('valdea_' + stat, current[stat]);
+  localStorage.setItem('valdea_' + stat + '_init', current[stat]);
 
   checkAllLocked();
 }
@@ -415,11 +413,10 @@ function checkStart(){
 
 // ===== 経験値トラッカー =====
 const LV=[
-  {xp:0, lv:1,name:'ならず者の無頼漢',  next:3},
-  {xp:3, lv:2,name:'浮足立つ冒険者',    next:7},
-  {xp:7, lv:3,name:'豪傑の勇者',        next:12},
-  {xp:12,lv:4,name:'ヴァルデアのレジェンド',next:20},
-  {xp:20,lv:5,name:'招かれざる者（覚醒）',next:9999},
+  {xp:0,lv:1,name:'ならず者の無頼漢',next:3},
+  {xp:3,lv:2,name:'浮足立つ冒険者',next:7},
+  {xp:7,lv:3,name:'豪傑の勇者',next:12},
+  {xp:12,lv:4,name:'ヴァルデアのレジェンド',next:999},
 ];
 let xp=0;
 function updateXpUI(){
