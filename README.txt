@@ -14,26 +14,33 @@ valdea legacy — 観測者のいない記録
 ■ オンライン公開版
 https://flashpapa-sketch.github.io/valdea-legacy/
 
-■ GitHubリポジトリ
-https://github.com/flashpapa-sketch/valdea-legacy
-
-■ 実装済み主要システム
-- 冒険者シート（技術点／体力点／運点／経験値／レベル）
+■ 主要機能
+- 冒険者シート（技術／体力／運／経験値／レベル）
 - 戦闘システム（27種の敵）
 - 猿の右手（一度限りの切り札、12種の結果）
 - 腐敗値システム（S.corrupt）
 - 関係値システム（S.rel：ナック／ゴルム／シラ）
-- フラグ管理（ロサ死亡／ラルハス裏切り等）
 - ラルハス裏切り3層伏線
 - 7エンディング（真エンド／後日譚／ダーク／BAD等）
 - 仲間有無でエンディング動的化
 - ナック信頼度サイドバーUI
 - 日英完全対応（PARA_EN／CHOICES_EN 108件）
-- X Viral System（バイラルシェアUI）
-- Canvas手描き地図（フォント不使用）
+- X Viral System
 - localStorage全保護
-- F5リロード耐性（pushState／復旧）
+- F5リロード耐性
+
+■ v3.1修正（重要）
+- インラインscript実行順序問題を修正
+  メインJSをbody直後に移動 → すべての <script> で
+  hasFlag/goto/flag 等の関数が参照可能になった
+  → 「リンクの先に進めない」問題を根本解決
+
+■ QA結果
+- 全108パラグラフ表示 OK
+- 全957ボタン実クリックテスト OK
+- コンソールエラー 0件
+- jsdomで実ブラウザ環境シミュレーション合格
 
 ■ 制作
 KIKI
-Claude（Sonnet 4.6 / Opus 4.7）
+Claude
