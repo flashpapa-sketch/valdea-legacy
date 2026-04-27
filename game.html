@@ -82,7 +82,6 @@ body{font-family:"游ゴシック","Yu Gothic",sans-serif;font-size:var(--base-f
 }
 .choice-btn .tag.sk{border-color:#5a8a5a;color:#8ab48a}
 .choice-btn .tag.lk{border-color:#8a8a5a;color:#c4c47a}
-.choice-btn .tag
 #dice-ov{
   display:none;position:fixed;inset:0;
   background:rgba(0,0,0,.78);z-index:600;
@@ -1938,6 +1937,11 @@ function goto(id){
 
   // ③新パラグラフを表示
   const el=document.getElementById(id);
+  if(!el){
+    console.error("❌ 存在しない分岐:", id);
+    alert("バグ検出: パラグラフ「"+id+"」が見つかりません");
+    return;
+  }
   if(el){
     el.classList.add('active');
     S.cur=id;save();render();
