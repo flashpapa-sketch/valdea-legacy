@@ -435,21 +435,12 @@ body{font-family:"游ゴシック","Yu Gothic",sans-serif;font-size:var(--base-f
 <div id="fb"></div>
 
 <!-- メイン本文 -->
-
-<div id="font-size-control" style="position:fixed;top:20px;right:20px;background:#222;border:1px solid #555;padding:10px;border-radius:4px;z-index:1000;">
-  <label style="color:#aaa;font-size:12px;">文字サイズ</label><br>
-  <button onclick="changeFontSize(-1)" style="background:none;border:1px solid #555;color:#6cf;padding:5px 10px;margin:2px;cursor:pointer;">−</button>
-  <span id="font-size-display" style="color:#6cf;display:inline-block;width:30px;text-align:center;font-size:14px;">100%</span>
-  <button onclick="changeFontSize(1)" style="background:none;border:1px solid #555;color:#6cf;padding:5px 10px;margin:2px;cursor:pointer;">+</button>
-</div>
-
 <script>
 let currentFontSize = 100;
 function changeFontSize(delta) {
   currentFontSize = Math.max(80, Math.min(150, currentFontSize + delta * 5));
   const sizeValue = (currentFontSize / 100) * 16 + 'px';
   document.documentElement.style.setProperty('--base-font-size', sizeValue);
-  document.getElementById('font-size-display').textContent = currentFontSize + '%';
   localStorage.setItem('valdea_font_size', currentFontSize);
 }
 // ページ読み込み時に前回のサイズを復元

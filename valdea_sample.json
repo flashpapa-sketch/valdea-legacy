@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "style": "sorcery",
+    "created": "2026-04-27"
+  },
+  "paragraphs": {
+    "一": {
+      "id": "一",
+      "number": "一",
+      "title": "荒野の果て — ドーランへの道",
+      "location": "wilderness_edge",
+      "atmosphere": "desolate_windy_anticipation",
+      "text": {
+        "main": [
+          "ヴァルデアの荒野に、風が砂埃を巻き上げている。",
+          "あなたはその風に背を向けながら、地平線に浮かぶ街の輪郭を見た。",
+          "ドーラン。辺境の交易街だ。荒野の吹き溜まりだ。"
+        ],
+        "observation": [
+          "左手の甲が熱い。紋章だ。",
+          "生まれた時からそこにある古代の刻印が、ザル＝カラムに近づくにつれて熱を増している。"
+        ],
+        "immediate": [
+          "ドーランの街門が見えてくる。",
+          "門番が二人、槍を構えて立っている。",
+          "あなたは歩き続ける。"
+        ]
+      },
+      "choices": [
+        {
+          "id": "c1_1",
+          "label": "街門の掲示板を確かめてから入る",
+          "target": "二",
+          "type": "exploration",
+          "weight": "information_first",
+          "flavor": "知識は武器だ",
+          "consequence": "information_gain"
+        },
+        {
+          "id": "c1_2",
+          "label": "まっすぐ酒場へ向かう",
+          "target": "四十七",
+          "type": "direct_action",
+          "weight": "time_is_precious",
+          "flavor": "噂は酒場で",
+          "consequence": "skip_board"
+        },
+        {
+          "id": "c1_3",
+          "label": "路地に人影を見た",
+          "target": "六",
+          "type": "investigation",
+          "weight": "observe_first",
+          "flavor": "見逃すな",
+          "consequence": "nack_encounter"
+        },
+        {
+          "id": "c1_4",
+          "label": "すでに情報は十分だ",
+          "target": "百三十八",
+          "type": "skip_town",
+          "weight": "prepared_veteran",
+          "flavor": "準備完了",
+          "consequence": "immediate_departure",
+          "requirement": "replaying"
+        }
+      ],
+      "state": {
+        "flags_set": [],
+        "flags_required": [],
+        "items": [],
+        "stats": {}
+      },
+      "meta": {
+        "first_paragraph": true,
+        "sorcery_elements": {
+          "mystery": "紋章の熱",
+          "choice_weight": "全て意味あり",
+          "atmosphere": "foreboding"
+        }
+      }
+    }
+  }
+}
