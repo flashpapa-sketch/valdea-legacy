@@ -2573,6 +2573,15 @@ window.addEventListener('DOMContentLoaded',()=>{
     S=dflt();
     S.mental=100;
     S.playTime=0;
+    
+    // ステータスが未確定の場合はモーダル表示
+    if(!gs || !gh || !gl){
+      S.cur='一';
+      save();
+      showStatModal();
+      return;
+    }
+    
     // guide.htmlで確定した能力値があれば反映
     if(gs&&gh&&gl){
       S.sk=gs;S.sk0=gs;S.hp=gh;S.hp0=gh;S.lk=gl;S.lk0=gl;
@@ -3001,6 +3010,80 @@ function applyParaLang(pid){
 })();
 </script>
 <!-- ===== END VIRAL SYSTEM ===== -->
+
+<!-- ステータス決定モーダル -->
+<div id="stat-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:9999;">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg);border:2px solid var(--acc);padding:2rem;max-width:500px;width:90%;text-align:center;">
+    <h2 style="color:var(--acc);margin-bottom:1.5rem;font-size:1.5rem;">冒険者の能力を決定する</h2>
+    <p style="margin-bottom:1.5rem;line-height:1.8;">サイコロを振って初期能力値を決定してください。</p>
+    
+    <div style="margin-bottom:2rem;">
+      <div style="margin-bottom:1rem;">
+        <span style="color:var(--acc);font-weight:bold;">技術点（SK）</span>
+        <div id="sk-result" style="font-size:2rem;color:var(--fg);margin:0.5rem 0;">?</div>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <span style="color:var(--acc);font-weight:bold;">体力点（HP）</span>
+        <div id="hp-result" style="font-size:2rem;color:var(--fg);margin:0.5rem 0;">?</div>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <span style="color:var(--acc);font-weight:bold;">運点（LK）</span>
+        <div id="lk-result" style="font-size:2rem;color:var(--fg);margin:0.5rem 0;">?</div>
+      </div>
+    </div>
+
+    <button id="roll-stats-btn" onclick="rollInitialStats()" style="padding:0.8rem 2rem;background:var(--acc);color:var(--bg);border:none;font-size:1rem;margin-bottom:1rem;cursor:pointer;font-weight:bold;">サイコロを振る</button>
+    
+    <button id="confirm-stats-btn" onclick="confirmInitialStats()" style="display:none;padding:0.8rem 2rem;background:var(--acc2);color:var(--fg);border:1px solid var(--acc);font-size:1rem;cursor:pointer;">この能力値で冒険を始める</button>
+  </div>
+</div>
+
+<script>
+let tempStats = {sk:0, hp:0, lk:0};
+
+function rollInitialStats() {
+  // サイコロを振る
+  tempStats.sk = roll(1) + 6;  // 1d6+6 = 7-12
+  tempStats.hp = roll(2) + 12; // 2d6+12 = 14-24
+  tempStats.lk = roll(1) + 6;  // 1d6+6 = 7-12
+  
+  // 結果を表示
+  document.getElementById('sk-result').textContent = tempStats.sk;
+  document.getElementById('hp-result').textContent = tempStats.hp;
+  document.getElementById('lk-result').textContent = tempStats.lk;
+  
+  // 確定ボタンを表示
+  document.getElementById('confirm-stats-btn').style.display = 'inline-block';
+}
+
+function confirmInitialStats() {
+  // ステータスを確定
+  S.sk = tempStats.sk;
+  S.sk0 = tempStats.sk;
+  S.hp = tempStats.hp;
+  S.hp0 = tempStats.hp;
+  S.lk = tempStats.lk;
+  S.lk0 = tempStats.lk;
+  S.guideDone = true;
+  
+  // localStorageにも保存
+  localStorage.setItem('valdea_sk', tempStats.sk);
+  localStorage.setItem('valdea_hp', tempStats.hp);
+  localStorage.setItem('valdea_lk', tempStats.lk);
+  
+  save();
+  
+  // モーダルを閉じる
+  document.getElementById('stat-modal').style.display = 'none';
+  
+  // ◆一へ進む
+  goto('一');
+}
+
+function showStatModal() {
+  document.getElementById('stat-modal').style.display = 'flex';
+}
+</script>
 
 </body>
 </html>
