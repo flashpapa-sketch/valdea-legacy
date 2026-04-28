@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>動作テスト</title>
+<style>
+.para { display: none; }
+.para.active { display: block; }
+button { padding: 10px; margin: 10px; font-size: 16px; }
+</style>
+</head>
+<body>
+
+<h1>valdea legacy - 動作テスト</h1>
+
+<div class="para" id="一">
+  <h2>◆一</h2>
+  <p>風が砂埃を巻き上げ、荒野を渡っていく。</p>
+  <button onclick="goto('二')">次へ進む</button>
+</div>
+
+<div class="para" id="二">
+  <h2>◆二</h2>
+  <p>これが表示されれば、基本的な動作は正常です。</p>
+  <button onclick="goto('一')">最初に戻る</button>
+</div>
+
+<script>
+function goto(id) {
+  // 全て非表示
+  document.querySelectorAll('.para').forEach(p => p.classList.remove('active'));
+  
+  // 指定IDを表示
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.add('active');
+    console.log('✅ goto(' + id + ') 成功');
+  } else {
+    console.error('❌ パラグラフ ' + id + ' が見つかりません');
+  }
+}
+
+// ページ読み込み時に最初のパラグラフを表示
+window.onload = function() {
+  console.log('✅ ページ読み込み完了');
+  goto('一');
+};
+</script>
+
+</body>
+</html>
