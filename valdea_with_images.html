@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ヴァルデアの遺産 - 観測者のいない記録</title>
+<style>
+body {
+  background: #111;
+  font-family: 'Georgia', serif;
+  margin: 0;
+  padding: 0;
+  color: #e8dcc2;
+}
+
+.scene {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #2a2520;
+  color: #e8dcc2;
+  border: 2px solid #4a3f35;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+.scene h1 {
+  font-size: 28px;
+  margin: 0 0 20px 0;
+  color: #d4af37;
+  text-align: center;
+  font-weight: normal;
+  letter-spacing: 2px;
+}
+
+.scene h2 {
+  font-size: 20px;
+  margin: 0 0 15px 0;
+  color: #c9a961;
+  font-weight: normal;
+}
+
+.illustration {
+  text-align: center;
+  margin: 25px 0;
+  background: #1a1510;
+  padding: 20px;
+  border: 1px solid #3a3025;
+}
+
+.illustration img {
+  max-width: 95%;
+  filter: grayscale(100%) contrast(120%) sepia(20%);
+  opacity: 0;
+  transition: opacity 1.2s ease-in;
+  border: 3px solid #4a3f35;
+}
+
+.illustration img.show {
+  opacity: 1;
+}
+
+.para-text {
+  line-height: 1.8;
+  font-size: 17px;
+  margin-bottom: 25px;
+  text-align: justify;
+}
+
+.choices {
+  margin-top: 30px;
+}
+
+.choices button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-family: 'Georgia', serif;
+  background: #3a2f25;
+  color: #e8dcc2;
+  border: 2px solid #5a4f45;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+}
+
+.choices button:hover {
+  background: #4a3f35;
+  border-color: #d4af37;
+  transform: translateX(5px);
+}
+
+.choices button:active {
+  background: #2a1f15;
+}
+
+.status {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(42, 37, 32, 0.95);
+  padding: 15px 20px;
+  border: 2px solid #4a3f35;
+  font-size: 14px;
+  max-width: 200px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+
+.status div {
+  margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+  .scene {
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .status {
+    position: static;
+    max-width: 100%;
+    margin: 20px;
+  }
+}
+
+.image-credit {
+  text-align: center;
+  font-size: 12px;
+  color: #8a7f75;
+  margin-top: 10px;
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<div id="status" class="status">
+  <div>パラグラフ: <span id="current-para">一</span></div>
+  <div>訪問済み: <span id="visited-count">1</span></div>
+</div>
+
+<div id="game"></div>
+
+<script>
+// =============================================================================
+// 画像マッピングシステム（提供されたコードを統合）
+// =============================================================================
+const imageMap = {
+  env: ["env_ruins.png", "env_forest.png", "env_cave.png", "env_gate.png"],
+  enemy: ["enemy_goblin.png", "enemy_beast.png", "enemy_shadow.png", "enemy_boss.png"],
+  npc: ["npc_oldman.png", "npc_woman.png", "npc_hooded.png"],
+  event: ["event_symbol.png", "event_ritual.png", "event_collapse.png", "event_fire.png"],
+  death: ["death_body.png", "death_bones.png"],
+  tension: ["tension_eyes.png", "tension_hand.png"],
+  ending: ["ending_throne.png"]
+};
+
+// パラグラフIDから画像カテゴリを判定
+function getImageType(paraId) {
+  // valdea legacyの108パラグラフを7カテゴリに分類
+  const paraIndex = getParaIndex(paraId);
+  
+  if (paraIndex <= 15) return "env";        // 1-15: 環境（街、荒野）
+  if (paraIndex <= 30) return "npc";        // 16-30: NPC遭遇
+  if (paraIndex <= 50) return "event";      // 31-50: イベント
+  if (paraIndex <= 70) return "enemy";      // 51-70: 戦闘
+  if (paraIndex <= 85) return "tension";    // 71-85: 緊張
+  if (paraIndex <= 95) return "death";      // 86-95: 死亡
+  return "ending";                          // 96-108: エンディング
+}
+
+// パラグラフIDを数値インデックスに変換
+function getParaIndex(paraId) {
+  const allParaIds = Object.keys(gameData);
+  const index = allParaIds.indexOf(paraId);
+  return index !== -1 ? index + 1 : 1;
+}
+
+// 画像パスを取得（固定化：同じパラグラフは常に同じ画像）
+function getImage(paraId) {
+  const type = getImageType(paraId);
+  const list = imageMap[type];
+  const index = getParaIndex(paraId);
+  return list[index % list.length];
+}
+
+// =============================================================================
+// ゲームデータ（valdea legacyから移植 - 最初の10パラグラフ + エンディング）
+// =============================================================================
+const gameData = {
+  "一": {
+    title: "◆一",
+    text: "ヴァルデアの荒野に、風が砂埃を巻き上げている。あなたはその風に背を向けながら、地平線に浮かぶ街の輪郭を眺めている。かつて栄えた交易都市も、今では廃墟に近い。石造りの城壁は所々崩れ、門の上の見張り塔には人影がない。",
+    choices: [
+      { text: "街へ入る", next: "二" },
+      { text: "街の外を調べる", next: "三" },
+      { text: "引き返す", next: "エンディング1" }
+    ]
+  },
+  
+  "二": {
+    title: "◆二",
+    text: "街門の脇に掲示板がある。色褪せた紙が何枚も貼られている。ほとんどは古い依頼書や失踪人の手配書だ。一枚だけ、新しい羊皮紙がある。「ザル＝カラム遺跡の調査員募集。報酬：金貨50枚」",
+    choices: [
+      { text: "依頼を受ける", next: "四" },
+      { text: "街を探索する", next: "五" },
+      { text: "掲示板を無視する", next: "六" }
+    ]
+  },
+  
+  "三": {
+    title: "◆三",
+    text: "街の外れに、古い墓地がある。墓石は傾き、雑草が生い茂っている。一つの墓だけが新しい。墓標には「ここに眠るは勇者ラルハス」と刻まれている。",
+    choices: [
+      { text: "墓に祈りを捧げる", next: "七" },
+      { text: "墓を調べる", next: "八" },
+      { text: "街へ戻る", next: "二" }
+    ]
+  },
+  
+  "四": {
+    title: "◆四",
+    text: "依頼主は老人だ。白い髭を蓄え、杖をついている。「ザル＝カラムには古代の秘宝が眠っている。だが、危険な場所だ。覚悟はあるか？」",
+    choices: [
+      { text: "覚悟はある", next: "九" },
+      { text: "もう少し情報が欲しい", next: "十" },
+      { text: "依頼を辞退する", next: "二" }
+    ]
+  },
+  
+  "五": {
+    title: "◆五",
+    text: "街の中央広場には、古い噴水がある。水は枯れている。噴水の縁に、フードを被った人物が座っている。",
+    choices: [
+      { text: "話しかける", next: "十一" },
+      { text: "無視して通り過ぎる", next: "十二" },
+      { text: "噴水を調べる", next: "十三" }
+    ]
+  },
+  
+  "六": {
+    title: "◆六",
+    text: "街の路地を歩いていると、突然、何かが動いた。暗がりから、痩せた犬が飛び出してくる。目が赤く光っている。",
+    choices: [
+      { text: "戦う", next: "戦闘1" },
+      { text: "逃げる", next: "十四" },
+      { text: "餌を与える", next: "十五" }
+    ]
+  },
+  
+  "七": {
+    title: "◆七",
+    text: "墓に手を合わせると、風が止んだ。静寂が訪れる。墓石の下から、微かな光が漏れている。",
+    choices: [
+      { text: "光を調べる", next: "十六" },
+      { text: "立ち去る", next: "二" }
+    ]
+  },
+  
+  "八": {
+    title: "◆八",
+    text: "墓石を押すと、地面が崩れた。下に階段がある。暗闇の中に、何かが蠢いている気配がする。",
+    choices: [
+      { text: "階段を降りる", next: "十七" },
+      { text: "逃げる", next: "二" }
+    ]
+  },
+  
+  "九": {
+    title: "◆九",
+    text: "老人は満足そうに頷いた。「良い。これを持っていけ」彼は古い地図を渡してくれた。地図には、ザル＝カラムへの道が記されている。",
+    choices: [
+      { text: "出発する", next: "十八" },
+      { text: "準備を整える", next: "十九" }
+    ]
+  },
+  
+  "十": {
+    title: "◆十",
+    text: "老人は語り始めた。「ザル＝カラムは千年前の遺跡だ。かつて、そこには強大な魔法使いが住んでいた。だが、ある日、遺跡は崩壊し、魔法使いは姿を消した。以来、誰も戻ってこない」",
+    choices: [
+      { text: "それでも行く", next: "九" },
+      { text: "依頼を辞退する", next: "二" }
+    ]
+  },
+  
+  "戦闘1": {
+    title: "◆戦闘：狂犬",
+    text: "狂犬があなたに襲いかかってくる！牙が光る。",
+    choices: [
+      { text: "剣で斬る", next: "戦闘1勝利" },
+      { text: "避ける", next: "戦闘1回避" },
+      { text: "逃げる", next: "戦闘1逃走" }
+    ]
+  },
+  
+  "戦闘1勝利": {
+    title: "◆勝利",
+    text: "あなたの剣が狂犬の首を捉えた。犬は倒れ、動かなくなった。",
+    choices: [
+      { text: "先へ進む", next: "二十" }
+    ]
+  },
+  
+  "戦闘1回避": {
+    title: "◆回避",
+    text: "あなたは素早く身を翻した。狂犬の牙は空を切る。",
+    choices: [
+      { text: "反撃する", next: "戦闘1勝利" },
+      { text: "逃げる", next: "戦闘1逃走" }
+    ]
+  },
+  
+  "戦闘1逃走": {
+    title: "◆逃走",
+    text: "あなたは路地を駆け抜けた。狂犬の遠吠えが背後で響く。",
+    choices: [
+      { text: "街の中心へ", next: "五" }
+    ]
+  },
+  
+  "エンディング1": {
+    title: "◆エンディング：逃亡者",
+    text: "あなたは街に入ることなく、荒野へ引き返した。ヴァルデアの秘密は、永遠に闇の中に葬られる。あなたは生き延びた。だが、心の奥底に、何かを見逃したという後悔が残る。",
+    choices: [
+      { text: "最初に戻る", next: "一" }
+    ]
+  },
+  
+  "エンディング2": {
+    title: "◆エンディング：真実",
+    text: "あなたはザル＝カラムの最深部に辿り着いた。そこには、古代の玉座がある。玉座に座ると、突然、記憶が蘇る。あなたは、失われた魔法使いの転生だった。すべてが明らかになる。ヴァルデアは、あなたの帰還を待っていたのだ。",
+    choices: [
+      { text: "最初に戻る", next: "一" }
+    ]
+  }
+};
+
+// =============================================================================
+// 訪問履歴管理
+// =============================================================================
+let visitedParas = new Set();
+
+// localStorageから復元
+try {
+  const saved = localStorage.getItem('valdea_visited');
+  if (saved) {
+    visitedParas = new Set(JSON.parse(saved));
+  }
+} catch (e) {
+  console.error('Failed to load visited history:', e);
+}
+
+function markVisited(paraId) {
+  visitedParas.add(paraId);
+  try {
+    localStorage.setItem('valdea_visited', JSON.stringify([...visitedParas]));
+  } catch (e) {
+    console.error('Failed to save visited history:', e);
+  }
+  updateStatus();
+}
+
+function updateStatus() {
+  document.getElementById('visited-count').textContent = visitedParas.size;
+}
+
+// =============================================================================
+// シーン表示処理
+// =============================================================================
+function renderScene(paraId) {
+  const scene = gameData[paraId];
+  
+  if (!scene) {
+    document.getElementById('game').innerHTML = `
+      <div class="scene">
+        <h1>エラー</h1>
+        <p>パラグラフ「${paraId}」が見つかりません。</p>
+        <div class="choices">
+          <button onclick="renderScene('一')">最初に戻る</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  
+  const container = document.getElementById('game');
+  let html = `<div class="scene">`;
+  
+  // タイトル
+  html += `<h2>${scene.title}</h2>`;
+  
+  // 本文
+  html += `<div class="para-text">${scene.text}</div>`;
+  
+  // 画像表示（初回のみ）
+  const imgKey = 'img_' + paraId;
+  if (!localStorage.getItem(imgKey)) {
+    const img = getImage(paraId);
+    html += `
+      <div class="illustration">
+        <img id="img_${paraId}" src="images/${img}" alt="挿絵" onerror="this.style.display='none'">
+        <div class="image-credit">初回のみ表示される挿絵</div>
+      </div>
+    `;
+    localStorage.setItem(imgKey, 'true');
+  }
+  
+  // 選択肢
+  html += `<div class="choices">`;
+  scene.choices.forEach(c => {
+    html += `<button onclick="goto('${c.next}')">${c.text}</button>`;
+  });
+  html += `</div></div>`;
+  
+  container.innerHTML = html;
+  
+  // 画像フェードイン
+  const imgEl = document.getElementById('img_' + paraId);
+  if (imgEl) {
+    setTimeout(() => imgEl.classList.add('show'), 100);
+  }
+  
+  // 訪問履歴を記録
+  markVisited(paraId);
+  
+  // ステータス更新
+  document.getElementById('current-para').textContent = paraId;
+  
+  // スクロール
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// グローバル関数として公開
+function goto(paraId) {
+  renderScene(paraId);
+}
+
+// =============================================================================
+// 起動
+// =============================================================================
+window.onload = function() {
+  renderScene('一');
+};
+</script>
+
+</body>
+</html>
