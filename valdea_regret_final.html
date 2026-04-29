@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ヴァルデアの遺産</title>
+
+<style>
+body {
+  background:#111;
+  font-family:serif;
+}
+
+.scene {
+  max-width:720px;
+  margin:40px auto;
+  padding:20px;
+  background:#e8dcc2;
+  color:#222;
+}
+
+.illustration {
+  text-align:center;
+  margin:20px 0;
+}
+
+.illustration img {
+  max-width:95%;
+  filter:grayscale(100%) contrast(120%);
+  opacity:0;
+  transition:opacity 1s;
+}
+
+.illustration img.show {
+  opacity:1;
+}
+
+.choices button {
+  display:block;
+  width:100%;
+  margin:8px 0;
+  padding:10px;
+  font-size:16px;
+}
+
+.game-over {
+  text-align:center;
+  padding:30px;
+  background:#d44;
+  color:#fff;
+  margin:20px 0;
+}
+</style>
+</head>
+
+<body>
+<div id="game"></div>
+
+<script>
+// =======================
+// ■ 状態（後悔システム）
+// =======================
+const state = {
+  flags: {
+    helpedOldMan:false,
+    tookCursedGem:false,
+    usedMonkeyPaw:false,
+    trustCompanion:false
+  },
+  stats:{
+    hp:10
+  }
+};
+
+// =======================
+// ■ 画像マップ（20枚）
+// =======================
+const imageMap = {
+  env:["env_ruins.png","env_forest.png","env_cave.png","env_gate.png"],
+  enemy:["enemy_goblin.png","enemy_beast.png","enemy_shadow.png","enemy_boss.png"],
+  npc:["npc_oldman.png","npc_woman.png","npc_hooded.png"],
+  event:["event_symbol.png","event_ritual.png","event_collapse.png","event_fire.png"],
+  death:["death_body.png","death_bones.png"],
+  tension:["tension_eyes.png","tension_hand.png"],
+  ending:["ending_throne.png"]
+};
+
+function getImageType(id){
+  if(id<=20)return"env";
+  if(id<=40)return"enemy";
+  if(id<=55)return"npc";
+  if(id<=70)return"event";
+  if(id<=80)return"death";
+  if(id<=90)return"tension";
+  return"ending";
+}
+
+function getImage(id){
+  const type=getImageType(id);
+  const list=imageMap[type];
+  return list[id%list.length];
+}
+
+// =======================
+// ■ ゲームデータ生成
+// =======================
+function generateScenes(){
+  const scenes=[];
+
+  for(let i=1;i<=100;i++){
+    let text=`分岐 ${i}：不穏な気配が漂っている。`;
+    let choices=[];
+
+    // 基本分岐
+    if(i<90){
+      choices.push({text:"進む",next:i+1});
+      choices.push({text:"別の道",next:i+2});
+    }else if(i<100){
+      choices.push({text:"最終へ",next:100});
+    }else{
+      choices.push({text:"最初に戻る",next:1});
+    }
+
+    // ===== 特殊後悔分岐 =====
+
+    // 老人
+    if(i===40){
+      text="倒れた老人が助けを求めている。";
+      choices=[
+        {text:"助ける",effect:()=>state.flags.helpedOldMan=true,next:41},
+        {text:"無視する",next:42}
+      ];
+    }
+
+    // 呪い宝石
+    if(i===50){
+      text="赤く脈打つ宝石が落ちている。";
+      choices=[
+        {text:"拾う",effect:()=>{
+          state.flags.tookCursedGem=true;
+          state.stats.hp+=3;
+        },next:51},
+        {text:"無視する",next:52}
+      ];
+    }
+
+    // 猿の手
+    if(i===60){
+      text="奇妙な手が力を貸すと囁く。";
+      choices=[
+        {text:"使う",effect:()=>{
+          if(!state.flags.usedMonkeyPaw){
+            state.flags.usedMonkeyPaw=true;
+            state.stats.hp=10;
+          }
+        },next:61},
+        {text:"拒否",next:62}
+      ];
+    }
+
+    // 裏切り
+    if(i===70){
+      text="同行者がこちらを見ている。";
+      choices=[
+        {text:"信じる",effect:()=>state.flags.trustCompanion=true,next:71},
+        {text:"疑う",next:72}
+      ];
+    }
+
+    scenes.push({id:i,text,choices});
+  }
+
+  return scenes;
+}
+
+const scenes=generateScenes();
+
+function getScene(id){
+  return scenes.find(s=>s.id===id);
+}
+
+// =======================
+// ■ 表示
+// =======================
+function renderScene(id){
+  const scene=getScene(id);
+  const container=document.getElementById("game");
+
+  let text=scene.text;
+
+  // ===== 後悔発動 =====
+
+  // 老人
+  if(id===90){
+    if(state.flags.helpedOldMan){
+      text+=" 老人の助言で敵が弱体化している。";
+    }else{
+      text+=" 敵は異様に強い…あの老人を見捨てた影響か。";
+    }
+  }
+
+  // 呪い
+  if(state.flags.tookCursedGem && id>80){
+    text+=" 宝石が砕け、体を蝕む！";
+    state.stats.hp-=5;
+  }
+
+  // 裏切り
+  if(id===75 && state.flags.trustCompanion){
+    text+=" 背後から刃が突き立てられる！";
+    state.stats.hp-=4;
+  }
+
+  // 猿の手未使用
+  if(id===100 && !state.flags.usedMonkeyPaw){
+    text+=" あの力を使っていれば…";
+  }
+
+  // HP チェック（ゲームオーバー）
+  if(state.stats.hp<=0){
+    container.innerHTML=`
+      <div class="scene">
+        <div class="game-over">
+          <h2>GAME OVER</h2>
+          <p>あなたは力尽きた... HP: ${state.stats.hp}</p>
+        </div>
+        <button onclick="location.reload()">最初からやり直す</button>
+      </div>`;
+    return;
+  }
+
+  let html=`<div class="scene">`;
+  html+=`<p>${text}</p>`;
+
+  // 画像
+  if(!localStorage.getItem("img_"+id)){
+    const img=getImage(id);
+    html+=`
+    <div class="illustration">
+      <img id="img_${id}" src="images/${img}" onerror="this.style.display='none'">
+    </div>`;
+    localStorage.setItem("img_"+id,"1");
+  }
+
+  // ステータス表示
+  html+=`<p><strong>HP: ${state.stats.hp}</strong></p>`;
+
+  // 選択肢（修正: index ベース）
+  html+=`<div class="choices">`;
+  scene.choices.forEach((c,i)=>{
+    html+=`<button onclick="selectChoice(${id},${i})">${c.text}</button>`;
+  });
+  html+=`</div></div>`;
+
+  container.innerHTML=html;
+
+  const imgEl=document.getElementById("img_"+id);
+  if(imgEl){
+    setTimeout(()=>imgEl.classList.add("show"),100);
+  }
+}
+
+// =======================
+// ■ 選択処理（修正: index ベース）
+// =======================
+function selectChoice(id,index){
+  const scene=getScene(id);
+  const choice=scene.choices[index];
+
+  if(choice.effect)choice.effect();
+
+  renderScene(choice.next);
+}
+
+// =======================
+// ■ スタート
+// =======================
+renderScene(1);
+
+</script>
+</body>
+</html>
