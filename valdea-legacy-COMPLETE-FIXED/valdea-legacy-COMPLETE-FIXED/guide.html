@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>観測者のいない記録 — 手引き</title>
+<style>
+:root{--bg:#0d0d0f;--fg:#e8e0d0;--acc:#b8860b;--acc2:#8b6914;--dim:#7a7060;--card:#1a1814;--link:#c8a040}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:"Noto Serif JP",Georgia,serif;line-height:1.9}
+#hdr{background:var(--card);border-bottom:1px solid var(--acc2);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+#hdr h1{font-size:1.1rem;letter-spacing:.15em;color:var(--acc)}
+#hdr .en{font-size:.75rem;letter-spacing:.25em;color:var(--dim)}
+.nav{display:flex;gap:1.2rem;flex-wrap:wrap}
+.nav a{font-size:.8rem;color:var(--dim);text-decoration:none;letter-spacing:.05em}
+.nav a:hover{color:var(--acc)}
+main{max-width:760px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.back-link{font-size:.85rem;color:var(--dim);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:2rem}
+.back-link:hover{color:var(--acc)}
+.title-block{text-align:center;margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid #1e1c18}
+.title-block h2{font-size:1.5rem;letter-spacing:.1em;margin-bottom:.5rem}
+.title-block p{font-size:.9rem;color:var(--dim)}
+.step{margin-bottom:3rem}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;border:1px solid var(--acc2);color:var(--acc);font-size:.85rem;margin-bottom:.8rem}
+.step h3{font-size:1.1rem;letter-spacing:.1em;color:var(--acc);margin-bottom:1rem}
+.step p,.step li{font-size:.95rem;line-height:1.9;margin-bottom:.7rem}
+.step ul,.step ol{padding-left:1.5rem}
+.ability-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1rem 0}
+.ability-card{background:var(--card);border:1px solid var(--acc2);padding:1rem}
+.ability-card .name{font-size:.75rem;letter-spacing:.2em;color:var(--acc);margin-bottom:.3rem}
+.ability-card .en{font-size:.65rem;color:var(--dim);margin-bottom:.5rem}
+.ability-card .formula{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+.ability-card .desc{font-size:.8rem;color:var(--dim);line-height:1.6}
+.roll-block{background:#0d0d0f;border:1px solid var(--acc2);border-radius:4px;padding:.9rem 1rem;margin-bottom:.8rem}
+.roll-block.locked{border-color:var(--acc);opacity:.7}
+.roll-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.roll-name{font-size:.85rem;color:var(--fg);letter-spacing:.05em}
+.roll-name small{font-size:.72rem;color:var(--dim);margin-left:.4rem}
+.roll-remain{font-size:.75rem;color:var(--dim)}
+.roll-remain.last{color:#c0602a}
+.roll-remain.done{color:var(--acc)}
+.roll-history{display:flex;gap:.4rem;margin-bottom:.5rem;min-height:1.6rem;flex-wrap:wrap}
+.roll-pip{font-size:.78rem;padding:.15rem .5rem;border:1px solid #2a2620;color:var(--dim)}
+.roll-pip.latest{border-color:var(--acc);color:var(--acc)}
+.roll-footer{display:flex;align-items:center;gap:.7rem}
+.roll-btn{padding:.35rem .9rem;border:1px solid var(--acc2);background:none;color:var(--dim);font-size:.82rem;cursor:pointer;transition:all .2s}
+.roll-btn:hover:not(:disabled){border-color:var(--acc);color:var(--acc)}
+.roll-btn:disabled{opacity:.3;cursor:not-allowed}
+.roll-result{font-size:1.2rem;font-weight:700;color:var(--acc);min-width:2.5rem}
+.lock-btn{padding:.35rem .9rem;border:1px solid var(--acc2);background:none;color:var(--dim);font-size:.78rem;cursor:pointer;transition:all .2s;margin-left:auto}
+.lock-btn:hover:not(:disabled){border-color:var(--acc);color:var(--acc)}
+.lock-btn:disabled{opacity:.3;cursor:not-allowed}
+.start-disabled{opacity:.4;pointer-events:none;cursor:not-allowed}
+.note{background:#1a1814;border-left:2px solid var(--acc2);padding:.8rem 1rem;margin:1rem 0;font-size:.85rem;color:var(--dim);line-height:1.8}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.88rem}
+th{background:var(--card);color:var(--acc);padding:.6rem .8rem;text-align:left;border-bottom:1px solid var(--acc2);font-weight:500;letter-spacing:.05em}
+td{padding:.6rem .8rem;border-bottom:1px solid #1e1c18;color:var(--fg)}
+tr:hover td{background:#1a1814}
+.xp-tracker{background:var(--card);border:1px solid var(--acc2);padding:1.5rem;margin:1.5rem 0}
+.xp-display{font-size:2rem;font-weight:700;color:var(--acc);margin:.5rem 0}
+.xp-lv{font-size:.9rem;color:var(--dim);margin-bottom:1rem}
+.xp-btns{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
+.xp-btn{padding:.4rem .9rem;border:1px solid var(--acc2);background:none;color:var(--dim);font-size:.8rem;cursor:pointer}
+.xp-btn:hover{border-color:var(--acc);color:var(--acc)}
+.monkey-table{font-size:.82rem}
+.monkey-table td:first-child{color:var(--acc);font-weight:700;text-align:center;width:40px}
+.monkey-name{font-weight:500;color:var(--fg)}
+.monkey-bad{color:var(--dim);font-size:.78rem}
+.cta{text-align:center;margin-top:3rem;padding-top:2rem;border-top:1px solid #1e1c18}
+.cta a{display:inline-block;padding:1rem 3rem;border:1px solid var(--acc);color:var(--acc);text-decoration:none;letter-spacing:.15em;font-size:1rem;transition:all .2s}
+.cta a:hover{background:var(--acc);color:var(--bg)}
+.foot{text-align:center;margin-top:3rem;font-size:.75rem;color:var(--dim);letter-spacing:.1em}
+.warning{background:#1a1410;border:1px solid #5a3010;padding:.8rem 1rem;font-size:.85rem;color:#c8a060;margin-bottom:2rem;line-height:1.8}
+.world-map{width:100%;max-width:600px;display:block;margin:2rem auto;border:1px solid var(--acc2)}
+</style>
+</head>
+<body>
+<div id="hdr">
+  <div>
+    <div class="en">LEGACY OF VALDEA</div>
+    <h1>観測者のいない記録</h1>
+  </div>
+  <nav class="nav">
+    <a href="game.html">← 本編へ</a>
+    <a href="#step1">能力値</a>
+    <a href="#step2">戦闘</a>
+    <a href="#step3">経験値・レベル</a>
+    <a href="#step4">アイテム</a>
+    <a href="#step5">猿の右手</a>
+    <a href="#start">冒険開始</a>
+  </nav>
+</div>
+
+<main>
+  <div class="title-block">
+    <h2>冒険者の手引き</h2>
+    <p>― はじめに読む書 ―</p>
+  </div>
+
+  <div class="warning">
+    ⚠ これはひとりで読み進める<strong>ゲームブックだ</strong>。物語を読み、選択肢を選び、指示された番号へ飛ぶ。あなたの選択がすべてを決める。まずこの手引きをすべて読み、各項目を設定してから本編へ進め。<br><br>
+    指示された番号以外のページを先読みしてはならない。それはあなた自身の冒険を台無しにする。
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step" id="step1">
+    <div class="step-num">1</div>
+    <h3>能力値を決める</h3>
+    <p>あなたのキャラクターには三つの能力値がある。それぞれサイコロを振って決定し、冒険者シートの「初期値」と「現在値」両方に記入せよ。</p>
+
+    <div class="ability-grid">
+      <div class="ability-card">
+        <div class="name">技術点</div>
+        <div class="en">SKILL</div>
+        <div class="formula">サイコロ1個＋6</div>
+        <div class="desc">戦闘力・器用さ・反射神経。高いほど戦闘で有利になる。</div>
+      </div>
+      <div class="ability-card">
+        <div class="name">体力点</div>
+        <div class="en">STAMINA</div>
+        <div class="formula">サイコロ2個＋12</div>
+        <div class="desc">生命力・耐久力。零になると死亡。食料や回復薬で回復できる。</div>
+      </div>
+      <div class="ability-card">
+        <div class="name">運勢点</div>
+        <div class="en">LUCK</div>
+        <div class="formula">サイコロ1個＋6</div>
+        <div class="desc">幸運・直感。「運試し」で使うたびに一点減る。</div>
+      </div>
+    </div>
+
+    <div class="dice-section" id="dice-section">
+      <h4>◆ 初期値ダイスローラー　<span style="font-size:.75rem;font-weight:400;color:var(--dim)">各能力値3回まで振れる。最後に出た目が初期値になる。</span></h4>
+
+      <!-- 技術点 -->
+      <div class="roll-block" id="block-sk">
+        <div class="roll-header">
+          <span class="roll-name">技術点　<small>SKILL　1d6＋6</small></span>
+          <span class="roll-remain" id="remain-sk">残り3回</span>
+        </div>
+        <div class="roll-history" id="hist-sk"></div>
+        <div class="roll-footer">
+          <button class="roll-btn" id="btn-sk" onclick="doRoll('sk',1,6)">🎲 振る</button>
+          <span class="roll-result" id="val-sk">—</span>
+          <button class="lock-btn" id="lock-sk" onclick="lockStat('sk')" disabled>これで決定</button>
+        </div>
+      </div>
+
+      <!-- 体力点 -->
+      <div class="roll-block" id="block-hp">
+        <div class="roll-header">
+          <span class="roll-name">体力点　<small>STAMINA　2d6＋12</small></span>
+          <span class="roll-remain" id="remain-hp">残り3回</span>
+        </div>
+        <div class="roll-history" id="hist-hp"></div>
+        <div class="roll-footer">
+          <button class="roll-btn" id="btn-hp" onclick="doRoll('hp',2,12)">🎲 振る</button>
+          <span class="roll-result" id="val-hp">—</span>
+          <button class="lock-btn" id="lock-hp" onclick="lockStat('hp')" disabled>これで決定</button>
+        </div>
+      </div>
+
+      <!-- 運勢点 -->
+      <div class="roll-block" id="block-lk">
+        <div class="roll-header">
+          <span class="roll-name">運勢点　<small>LUCK　1d6＋6</small></span>
+          <span class="roll-remain" id="remain-lk">残り3回</span>
+        </div>
+        <div class="roll-history" id="hist-lk"></div>
+        <div class="roll-footer">
+          <button class="roll-btn" id="btn-lk" onclick="doRoll('lk',1,6)">🎲 振る</button>
+          <span class="roll-result" id="val-lk">—</span>
+          <button class="lock-btn" id="lock-lk" onclick="lockStat('lk')" disabled>これで決定</button>
+        </div>
+      </div>
+
+      <!-- 確定バナー -->
+      <div id="roll-summary" style="display:none;margin-top:1.2rem;padding:1rem;background:#0d0d0f;border:1px solid var(--acc2);font-size:.9rem;line-height:2">
+        <div style="color:var(--acc);letter-spacing:.1em;margin-bottom:.4rem">▼ 初期値　確定</div>
+        <div id="summary-text"></div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>重要：</strong>「これで決定」を押した能力値は変更できない。体力点は回復薬で回復できるが<strong>初期値を超えることはできない。</strong>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step2">
+    <div class="step-num">2</div>
+    <h3>戦闘のやり方</h3>
+    <p>戦闘が始まったら以下の手順を繰り返せ。どちらかの体力点が零になるまで続ける。</p>
+
+    <table>
+      <tr><th>手順</th><th>内容</th></tr>
+      <tr><td>① サイコロ</td><td>お互いにサイコロを二個振り、それぞれの<strong>技術点を加算</strong>する</td></tr>
+      <tr><td>② ダメージ</td><td>合計値が高い方が相手に<strong>二点のダメージ</strong>（体力点を減らす）</td></tr>
+      <tr><td>③ 同点</td><td>同点の場合は両者ダメージなし</td></tr>
+      <tr><td>④ 繰り返し</td><td>どちらかの体力点が零になるまで①〜③を繰り返す</td></tr>
+    </table>
+
+    <p><strong>「運試し」ルール：</strong>任意のタイミングでサイコロを二個振り、<strong>運勢点以下なら成功</strong>。使うたびに運勢点が一点減る。</p>
+    <p><strong>戦闘中の回復：</strong>食料や回復薬は<strong>戦闘中は原則使用不可</strong>。本文で指示があった場合のみ例外となる。</p>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step3">
+    <div class="step-num">3</div>
+    <h3>経験値とレベルアップ</h3>
+    <p>敵を倒すと経験値を得る。経験値が一定数に達すると自動的にレベルアップする。冒険者シートの経験値欄に記録しながら進め。</p>
+
+    <table>
+      <tr><th>敵の種類</th><th>獲得経験値</th></tr>
+      <tr><td>雑魚モンスター（オーク・盗賊など）</td><td>一体につき　<strong>一点</strong></td></tr>
+      <tr><td>強めの敵（番人ゴーレムなど）</td><td><strong>二点</strong></td></tr>
+      <tr><td>中ボス（グラッハ・エイサー）</td><td><strong>四点</strong></td></tr>
+      <tr><td>ラスボス（ヴォルカネス）</td><td>経験値なし（エンディングへ直行）</td></tr>
+    </table>
+
+    <table>
+      <tr><th>累計経験値</th><th>レベル</th><th>称号</th><th>効果</th></tr>
+      <tr><td>0</td><td>Lv.1</td><td>ならず者の無頼漢</td><td>初期状態</td></tr>
+      <tr><td>3点以上</td><td>Lv.2</td><td>浮足立つ冒険者</td><td>技術点＋一</td></tr>
+      <tr><td>7点以上</td><td>Lv.3</td><td>豪傑の勇者</td><td>体力点の最大値＋四</td></tr>
+      <tr><td>12点以上</td><td>Lv.4</td><td>ヴァルデアのレジェンド</td><td>運勢点＋一・技術点＋一</td></tr>
+      <tr><td>最終決戦突入時（自動）</td><td>Lv.5</td><td>招かれざる者</td><td>全能力点＋二・覚醒システム発動</td></tr>
+    </table>
+
+    <div class="xp-tracker">
+      <span style="font-size:.8rem;color:var(--dim);letter-spacing:.1em">経験値トラッカー</span>
+      <div class="xp-display" id="xp-disp">0</div>
+      <div class="xp-lv" id="xp-lv">次のLv.2まで あと3点</div>
+      <div class="xp-btns">
+        <button class="xp-btn" onclick="addXp(1)">＋1点（雑魚）</button>
+        <button class="xp-btn" onclick="addXp(2)">＋2点（強敵）</button>
+        <button class="xp-btn" onclick="addXp(4)">＋4点（中ボス）</button>
+        <button class="xp-btn" onclick="resetXp()">リセット</button>
+      </div>
+      <div id="xp-lv-name" style="font-size:.9rem;color:var(--acc)">Lv.1 ならず者の無頼漢</div>
+    </div>
+
+    <div class="note">
+      <strong>Lv.5「招かれざる者」覚醒ルール：</strong>最終決戦突入と同時に自動発動。以降の雑魚戦ではサイコロを一個振り、偶数なら<strong>一撃必殺</strong>、奇数なら各種デメリット。ボス戦では一撃必殺は適用されない。
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="step4">
+    <div class="step-num">4</div>
+    <h3>アイテムと所持品</h3>
+    <p>バックパックには最大八つまでアイテムを持てる。拾ったり買ったりしたら冒険者シートの所持品欄に記録せよ。</p>
+
+    <table>
+      <tr><th>アイテム名</th><th>効果・説明</th></tr>
+      <tr><td><strong>金貨</strong></td><td>一枚＝食事一回分の価値。買い物・情報収集・賄賂に使用</td></tr>
+      <tr><td><strong>食料</strong></td><td>一回使用で体力点＋二回復。戦闘中は使用不可</td></tr>
+      <tr><td><strong>固いパン</strong></td><td>いつでも使用可能。体力点＋一のみ。戦闘中も使える</td></tr>
+      <tr><td><strong>回復薬</strong></td><td>一度だけ使える。体力点を六点回復する</td></tr>
+      <tr><td><strong>強壮剤</strong></td><td>一度だけ使える。技術点を二点上げる（一戦闘の間のみ）</td></tr>
+      <tr><td><strong>ザル＝カラムの地図</strong></td><td>遺跡の構造が分かる。特定の選択肢が増える</td></tr>
+      <tr><td><strong>テニスタ・テニストの木の実</strong></td><td>一度だけ使える。体力点を四点回復する</td></tr>
+      <tr><td><strong>ロットンのつるぎ</strong></td><td>技術点＋二（永久）。ゴーレム特効・追加ダメージ無効化</td></tr>
+      <tr><td><strong>賢者の石</strong></td><td>技術点－二（永久代償）。サイコロを振るたびに体力点＋一</td></tr>
+      <tr><td><strong>星脈の鏡</strong></td><td>地下二層で効果発動。オルト＝ヴァルの姿を映す</td></tr>
+      <tr><td><strong>死神の首飾り</strong></td><td>装備時：体力点を半分に。毎ラウンド受けるダメージ－一</td></tr>
+      <tr><td><strong>オルト＝ヴァルの日誌</strong></td><td>真エンディングの条件の一つ</td></tr>
+    </table>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step" id="step5">
+    <div class="step-num">5</div>
+    <h3>猿の右手について</h3>
+    <div class="note" style="font-size:.9rem;color:var(--fg);border-left-color:var(--acc)">
+      ✋ <strong>猿の右手（MONKEY'S PAW）― 冒険中に一度だけ使える</strong><br>
+      主人公の左手に刻まれた古代の紋章。任意のタイミングで「猿の右手を使う」と宣言し、サイコロを二個振れ。出た目の合計で効果が変わる。ラスボス戦でも使用可能だ。<br><br>
+      <strong>一度使ったら二度と使えない。</strong>本当に追い詰められた時のために取っておけ。
+    </div>
+
+    <table class="monkey-table">
+      <tr><th>出目</th><th>効果名</th><th>表の効果</th><th>歪んだ代償</th></tr>
+      <tr><td>2</td><td class="monkey-name">悪魔の嘲笑</td><td>状況が悪化する</td><td class="monkey-bad">体力点－4。ラスボス戦では次ラウンドのダメージ2倍</td></tr>
+      <tr><td>3</td><td class="monkey-name">変身の呪い</td><td>敵がカエルに変身</td><td class="monkey-bad">左手もカエルの手に。次の戦闘で技術点－2</td></tr>
+      <tr><td>4</td><td class="monkey-name">黄金の雨</td><td>金貨＋10</td><td class="monkey-bad">誰かの死の弔慰金。以後商人があなたを避ける</td></tr>
+      <tr><td>5</td><td class="monkey-name">眠りの霧</td><td>敵も眠る</td><td class="monkey-bad">自分も1ターン行動不能。仲間が1人消える</td></tr>
+      <tr><td>6</td><td class="monkey-name">時の迷子</td><td>隠し選択肢＋1</td><td class="monkey-bad">見えた未来は最悪の結末。運勢点－1</td></tr>
+      <tr><td>7</td><td class="monkey-name">星脈の暴走</td><td>敵全員に体力点－6</td><td class="monkey-bad">自分も体力点－2</td></tr>
+      <tr><td>8</td><td class="monkey-name">賢者の囁き</td><td>謎へのヒント</td><td class="monkey-bad">知らなければよかった真実も含まれる</td></tr>
+      <tr><td>9</td><td class="monkey-name">召喚の暴走</td><td>生き物が召喚</td><td class="monkey-bad">召喚された存在が憑きまとう</td></tr>
+      <tr><td>10</td><td class="monkey-name">英雄の刻</td><td>体力点全回復・技術点＋3</td><td class="monkey-bad">誰かの寿命から借りたものかもしれない</td></tr>
+      <tr><td>11</td><td class="monkey-name">神々の気まぐれ</td><td>敵や障害を消滅</td><td class="monkey-bad">大切な何かも共に消える。運勢点が1に固定</td></tr>
+      <tr><td>12</td><td class="monkey-name">伝説の一手</td><td>通常戦：逆転。ラスボス戦：体力点を半分に</td><td class="monkey-bad">なし。ただしこの奇跡にも理由がある</td></tr>
+    </table>
+  </div>
+
+  <!-- START -->
+  <div class="cta" id="start">
+    <p style="font-size:.9rem;color:var(--dim);margin-bottom:1.5rem">準備はできたか。<br>能力値の決定・経験値の理解・猿の右手の把握。すべて終えたなら冒険へ進め。</p>
+    <a href="game.html?new=1" id="start-btn" class="start-disabled" onclick="return checkStart()">◆ 冒険を始める ◆</a>
+    <p id="start-hint" style="font-size:.8rem;color:var(--dim);margin-top:.8rem">※ 3つの能力値をすべて「これで決定」してから冒険へ進める</p>
+  </div>
+
+  <!-- 世界地図セクション -->
+  <div style="margin-top:4rem;padding-top:2rem;border-top:1px solid #1e1c18;text-align:center">
+    <p style="font-size:.8rem;letter-spacing:.2em;color:var(--dim);margin-bottom:1rem">— ヴァルデア　世界地図 —</p>
+    <div style="background:var(--card);border:1px solid var(--acc2);padding:3rem 2rem;font-size:.85rem;color:var(--dim);line-height:2">
+      <p>【北西】タンガリー山岳　トール＝グルム（ドワーフ要塞都市）</p>
+      <p>【北】テニスタ・テニストの森（エルフの隠れ里）</p>
+      <p style="color:var(--acc)">【中央北】ザル＝カラム（黄金時代の遺跡）★</p>
+      <p>【中央】ヴァルデアの荒野</p>
+      <p style="color:var(--link)">【中央】ドーラン（辺境交易街）← 冒険開始地点</p>
+      <p>【東】ニフルユーム王国</p>
+      <p>【南】ミヤトの街道</p>
+    </div>
+  </div>
+
+  <p class="foot">ヴァルデアの遺産　LEGACY OF VALDEA　／　冒険者の手引き</p>
+</main>
+
+<script>
+// ===== 能力値ダイスローラー（各3回まで、localStorage保存） =====
+const STAT_CFG = {
+  sk: {n:1, bonus:6,  label:'技術点'},
+  hp: {n:2, bonus:12, label:'体力点'},
+  lk: {n:1, bonus:6,  label:'運勢点'}
+};
+const rolls   = {sk:0, hp:0, lk:0};   // 振った回数
+const current = {sk:null, hp:null, lk:null}; // 現在の値
+const locked  = {sk:false, hp:false, lk:false};
+
+function doRoll(stat, n, bonus){
+  if(locked[stat]) return;
+  if(rolls[stat] >= 3) return;
+
+  let res = [], total = bonus;
+  for(let i=0;i<n;i++){const d=Math.ceil(Math.random()*6);res.push(d);total+=d;}
+  rolls[stat]++;
+  current[stat] = total;
+
+  // 出目履歴
+  const hist = document.getElementById('hist-'+stat);
+  const oldPips = hist.querySelectorAll('.roll-pip.latest');
+  oldPips.forEach(p => p.classList.remove('latest'));
+  const pip = document.createElement('span');
+  pip.className = 'roll-pip latest';
+  pip.textContent = res.join('+') + (bonus?'+'+bonus:'') + '=' + total;
+  hist.appendChild(pip);
+
+  // 現在値表示
+  document.getElementById('val-'+stat).textContent = total;
+
+  // 残り回数
+  const rem = 3 - rolls[stat];
+  const remEl = document.getElementById('remain-'+stat);
+  if(rem === 0){
+    remEl.textContent = '3回振り切り';
+    remEl.className = 'roll-remain done';
+    document.getElementById('btn-'+stat).disabled = true;
+  } else {
+    remEl.textContent = '残り' + rem + '回';
+    remEl.className = rem === 1 ? 'roll-remain last' : 'roll-remain';
+  }
+
+  // 決定ボタン有効化
+  document.getElementById('lock-'+stat).disabled = false;
+}
+
+function lockStat(stat){
+  if(locked[stat] || current[stat] === null) return;
+  locked[stat] = true;
+  document.getElementById('btn-'+stat).disabled = true;
+  document.getElementById('lock-'+stat).disabled = true;
+  document.getElementById('lock-'+stat).textContent = '✔ 確定済み';
+  document.getElementById('block-'+stat).classList.add('locked');
+  document.getElementById('remain-'+stat).textContent = '確定：' + current[stat];
+  document.getElementById('remain-'+stat).className = 'roll-remain done';
+
+  // localStorage に保存
+  localStorage.setItem('valdea_' + stat, current[stat]);
+  localStorage.setItem('valdea_' + stat + '_init', current[stat]);
+
+  checkAllLocked();
+}
+
+function checkAllLocked(){
+  if(!locked.sk || !locked.hp || !locked.lk) return;
+
+  // サマリー表示
+  const sumEl = document.getElementById('roll-summary');
+  sumEl.style.display = 'block';
+  document.getElementById('summary-text').innerHTML =
+    '技術点：<strong>' + current.sk + '</strong>　' +
+    '体力点：<strong>' + current.hp + '</strong>　' +
+    '運勢点：<strong>' + current.lk + '</strong>';
+
+  // 冒険開始ボタン有効化
+  const btn = document.getElementById('start-btn');
+  btn.classList.remove('start-disabled');
+  document.getElementById('start-hint').style.display = 'none';
+
+  // スクロールで誘導
+  setTimeout(() => btn.scrollIntoView({behavior:'smooth', block:'center'}), 300);
+}
+
+function checkStart(){
+  if(!locked.sk || !locked.hp || !locked.lk){
+    alert('先に3つの能力値をすべて「これで決定」してください。');
+    return false;
+  }
+  return true; // game.htmlへ遷移
+}
+
+// ===== 経験値トラッカー =====
+const LV=[
+  {xp:0,lv:1,name:'ならず者の無頼漢',next:3},
+  {xp:3,lv:2,name:'浮足立つ冒険者',next:7},
+  {xp:7,lv:3,name:'豪傑の勇者',next:12},
+  {xp:12,lv:4,name:'ヴァルデアのレジェンド',next:999},
+];
+let xp=0;
+function updateXpUI(){
+  document.getElementById('xp-disp').textContent=xp;
+  let cur=LV[0],nextLv=LV[1];
+  for(let i=0;i<LV.length;i++){if(xp>=LV[i].xp){cur=LV[i];nextLv=LV[i+1]||null;}}
+  document.getElementById('xp-lv-name').textContent='Lv.'+cur.lv+' '+cur.name;
+  if(nextLv)document.getElementById('xp-lv').textContent='次のLv.'+nextLv.lv+'まで あと'+(nextLv.xp-xp)+'点';
+  else document.getElementById('xp-lv').textContent='最大レベル達成！';
+}
+function addXp(n){xp+=n;updateXpUI();}
+function resetXp(){xp=0;updateXpUI();}
+updateXpUI();
+</script>
+</body>
+</html>
