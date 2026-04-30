@@ -1,0 +1,12 @@
+digraph valdea {
+  rankdir=TB;
+  node [shape=box];
+
+  40 [label="40: ",style=filled,fillcolor=gold];
+  45 [label="45: 呼ばれた。後ろからだ。",style=filled,fillcolor=gold];
+  88 [label="88: 選べと言われる。",];
+  95 [label="95: 思い出す。あの手だ。",];
+  96 [label="96: 気づく。選んでいない。選ばされている。",];
+  100 [label="100: ",style=filled,fillcolor=pink];
+
+}

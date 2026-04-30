@@ -1,0 +1,81 @@
+{
+  "syntax": {
+    "html_balance": true,
+    "js_balance": true,
+    "console_log_count": 0,
+    "console_error_count": 2,
+    "console_warn_count": 0,
+    "console_clean": true,
+    "unused_functions": [],
+    "null_safety": true
+  },
+  "persistence": {
+    "has_persistence": true,
+    "has_save_load_funcs": true,
+    "has_error_handling": true,
+    "has_browser_back": false
+  },
+  "state": {
+    "has_state_management": true,
+    "has_flags": true,
+    "flags_list": [
+      "helpedOldMan",
+      "lookedBack",
+      "refusedChoice",
+      "secondRun"
+    ],
+    "flag_usage": {
+      "helpedOldMan": 3,
+      "lookedBack": 5,
+      "refusedChoice": 3,
+      "secondRun": 4
+    }
+  },
+  "links": {
+    "has_safe_next": true,
+    "broken_links": [
+      41,
+      42,
+      46,
+      47,
+      89,
+      90,
+      97,
+      98
+    ],
+    "unreachable_scenes": [
+      40,
+      45,
+      88,
+      95,
+      96
+    ],
+    "total_scenes": 6,
+    "total_transitions": 10
+  },
+  "combat": {
+    "has_combat": true,
+    "has_hp_management": true,
+    "has_hp_clamp": true,
+    "damage_calculations": 3
+  },
+  "ui": {
+    "button_count": 4,
+    "has_lang": true,
+    "has_charset": true,
+    "has_viewport": false,
+    "has_responsive": true
+  },
+  "text": {
+    "has_text_formatting": true,
+    "has_jackson_style": true,
+    "has_warnings": true
+  },
+  "performance": {
+    "file_size_bytes": 6211,
+    "file_size_kb": 6.0654296875,
+    "base64_image_count": 0,
+    "size_rating": "excellent"
+  },
+  "final_verdict": "BLOCKED"
+}
