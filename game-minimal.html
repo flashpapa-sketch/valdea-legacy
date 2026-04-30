@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ヴァルデアの遺産</title>
+
+<style>
+body{background:#111;font-family:serif;margin:0;}
+.scene{max-width:720px;margin:40px auto;padding:20px;background:#e8dcc2;}
+button{width:100%;margin:8px 0;padding:12px;font-size:16px;}
+small{opacity:0.6;}
+img{max-width:100%;filter:grayscale(100%);}
+</style>
+</head>
+
+<body>
+<div id="game"></div>
+
+<script>
+// ======================
+// ■ 状態管理
+// ======================
+const state = {
+  stats:{ hp:10, luck:3 },
+  flags:{
+    helpedOldMan:false,
+    lookedBack:false,
+    refusedChoice:false,
+    secondRun:false
+  },
+  boss:{ hp:12, pattern:0 }
+};
+
+// ======================
+// ■ 初期化（2周目判定）
+// ======================
+if(localStorage.getItem("cleared")){
+  state.flags.secondRun = true;
+}
+
+// ======================
+// ■ セーブ / ロード
+// ======================
+function save(scene){
+  localStorage.setItem("save", JSON.stringify({scene,state}));
+}
+function load(){
+  const d = JSON.parse(localStorage.getItem("save"));
+  if(d){
+    Object.assign(state,d.state);
+    return d.scene;
+  }
+  return 1;
+}
+
+// ======================
+// ■ QA（最低限）
+// ======================
+function clamp(){
+  if(state.stats.hp < 0) state.stats.hp = 0;
+}
+
+// ======================
+// ■ テキスト整形
+// ======================
+function rewrite(t){
+  return t
+    .replace(/あなたは/g,"")
+    .replace(/不穏な気配が漂っている/g,"空気が重い")
+    .slice(0,40);
+}
+
+// ======================
+// ■ シーン生成
+// ======================
+function getScene(id){
+
+  let text = "空気が重い。何かがいる。";
+
+  // ------------------
+  // ■ 異常イベント①（振り返り）
+  // ------------------
+  if(id === 45){
+    text = "呼ばれた。後ろからだ。";
+    if(state.flags.secondRun) text += " 知っている。";
+
+    return {
+      text,
+      choices:[
+        {text:"振り返る",effect:()=>state.flags.lookedBack=true,next:46},
+        {text:"無視する",next:47}
+      ]
+    };
+  }
+
+  // ------------------
+  // ■ 老人イベント
+  // ------------------
+  if(id === 40){
+    return {
+      text:"倒れている。息が浅い。",
+      choices:[
+        {text:"助ける",effect:()=>state.flags.helpedOldMan=true,next:41},
+        {text:"無視",next:42}
+      ]
+    };
+  }
+
+  // ------------------
+  // ■ 異常イベント②（拒否）
+  // ------------------
+  if(id === 88){
+    text = "選べと言われる。";
+    return {
+      text,
+      choices:[
+        {text:"従う",next:89},
+        {text:"拒否する",effect:()=>state.flags.refusedChoice=true,next:90}
+      ]
+    };
+  }
+
+  // ------------------
+  // ■ ボス導入
+  // ------------------
+  if(id === 95){
+    text = "思い出す。あの手だ。";
+    if(state.flags.helpedOldMan){
+      return {text, next:"boss"};
+    }
+    return {text, next:100};
+  }
+
+  // ------------------
+  // ■ エンディング
+  // ------------------
+  if(id === 100){
+
+    let t = "終わる。";
+
+    if(state.flags.refusedChoice){
+      t = "静かだ。何も起きない。それでいい。";
+    }
+
+    if(state.flags.lookedBack){
+      t += " 後ろにいる。";
+    }
+
+    localStorage.setItem("cleared",true);
+
+    return {
+      text:t,
+      choices:[{text:"最初に戻る",next:1}]
+    };
+  }
+
+  // ------------------
+  // ■ 通常
+  // ------------------
+  if(state.flags.lookedBack){
+    text += " 視線が残っている。";
+  }
+
+  return {
+    text:rewrite(text),
+    choices:[
+      {text:"進む（危険）",next:Math.min(id+1,100)},
+      {text:"避ける（安全）",next:Math.min(id+2,100)}
+    ]
+  };
+}
+
+// ======================
+// ■ ボス戦
+// ======================
+function renderBoss(){
+
+  const el=document.getElementById("game");
+
+  el.innerHTML=`
+  <div class="scene">
+    <p>来る。</p>
+    <p>HP:${state.stats.hp} / BOSS:${state.boss.hp}</p>
+    <button onclick="act('attack')">攻撃</button>
+    <button onclick="act('defend')">防御</button>
+    <button onclick="act('luck')">運</button>
+  </div>`;
+}
+
+function act(a){
+
+  state.boss.pattern = Math.floor(Math.random()*3);
+
+  if(a==="attack" && state.boss.pattern!==1){
+    state.boss.hp -= 3;
+  }
+
+  if(a==="defend" && state.boss.pattern===0){
+    state.stats.hp -= 1;
+  }
+
+  if(a==="luck" && state.stats.luck>0){
+    state.stats.luck--;
+    state.boss.hp -= 5;
+  }
+
+  clamp();
+
+  if(state.boss.hp<=0) return render(100);
+  if(state.stats.hp<=0) return render(100);
+
+  renderBoss();
+}
+
+// ======================
+// ■ 描画
+// ======================
+function render(id){
+
+  clamp();
+  const scene = getScene(id);
+
+  save(id);
+
+  if(scene.next === "boss"){
+    return renderBoss();
+  }
+
+  let html = `<div class="scene">`;
+  html += `<p>${scene.text}</p>`;
+  html += `<small>※選択は取り返しがつかない場合があります</small>`;
+
+  if(scene.choices){
+    scene.choices.forEach(c=>{
+      html += `<button onclick="choose(${id},'${c.text}')">${c.text}</button>`;
+    });
+  }
+
+  html += `</div>`;
+
+  document.getElementById("game").innerHTML = html;
+}
+
+// ======================
+// ■ 選択処理
+// ======================
+function choose(id,text){
+
+  const scene = getScene(id);
+  const choice = scene.choices.find(c=>c.text===text);
+
+  if(choice.effect) choice.effect();
+
+  render(choice.next);
+}
+
+// ======================
+// ■ 戻る対応
+// ======================
+window.onpopstate = function(e){
+  render(load());
+};
+
+// ======================
+// ■ 起動
+// ======================
+render(load());
+
+</script>
+</body>
+</html>
