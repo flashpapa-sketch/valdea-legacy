@@ -2,9 +2,35 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="観測者のいない記録 — valdea legacy — ゲームブック形式のブラウザ体験作品。">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>観測者のいない記録 — valdea legacy —</title>
+<title>観測者のいない記録 — valdea legacy — ブラウザゲームブック</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="「観測者のいない記録」は黄金時代の崩壊後300年、荒廃したヴァルデア荒野を舞台にしたブラウザゲームブック。紋章を持つ者として封印された遺跡ザル＝カラムに挑む、運命と選択の物語。">
+<meta name="keywords" content="ゲームブック,ブラウザゲーム,TRPG,インタラクティブフィクション,テキストアドベンチャー,ファンタジー,日本語,無料">
+<meta name="author" content="valdea legacy project">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0d0d0f">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://flashpapa-sketch.github.io/valdea-legacy/">
+<meta property="og:title" content="観測者のいない記録 — valdea legacy">
+<meta property="og:description" content="300年前に封印された遺跡に、紋章を持つ者として挑む。運命と選択のブラウザゲームブック。">
+<meta property="og:site_name" content="valdea legacy">
+<meta property="og:locale" content="ja_JP">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="観測者のいない記録 — valdea legacy">
+<meta name="twitter:description" content="300年前に封印された遺跡に、紋章を持つ者として挑む。運命と選択のブラウザゲームブック。">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://flashpapa-sketch.github.io/valdea-legacy/">
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+</head>
 <style>
 :root{
   --bg:#0d0d0f;--fg:#e8e0d0;--acc:#b8860b;--acc2:#8b6914;
@@ -379,19 +405,19 @@ body{font-family:"游ゴシック","Yu Gothic",sans-serif;font-size:var(--base-f
     <h1>— valdea legacy —</h1>
   </div>
   <div class="hdr-right">
-    <button onclick="doSave()" title="手動セーブ" style="
+    <button onclick="doSave()" title="手動セーブ" aria-label="ゲームを手動保存" style="
       font-size:.68rem;color:var(--dim);background:none;border:0.5px solid var(--acc2);
       padding:.25rem .6rem;cursor:pointer;border-radius:2px;
       font-family:inherit;letter-spacing:.05em;
     ">✓ 保存</button>
-    <button onclick="toggleMapModal()" title="地図を見る" style="font-size:.62rem;background:none;border:1px solid var(--acc2);border-radius:2px;color:var(--dim);cursor:pointer;padding:2px 6px;letter-spacing:.05em;">地図</button>
-    <button id="mute-btn" onclick="(function(){const m=SND.toggleMute();document.getElementById('mute-btn').textContent=m?'🔇':'🔈';})()" title="音のオン/オフ" style="font-size:.75rem;background:none;border:0.5px solid var(--acc2);padding:.25rem .5rem;cursor:pointer;border-radius:2px;">🔈</button>
-    <a href="guide.html" class="guide-link">手引き</a>
-    <span id="save-ind">✓ 保存</span>
+    <button onclick="toggleMapModal()" title="地図を見る" aria-label="地図を開く" style="font-size:.62rem;background:none;border:1px solid var(--acc2);border-radius:2px;color:var(--dim);cursor:pointer;padding:2px 6px;letter-spacing:.05em;">地図</button>
+    <button id="mute-btn" onclick="(function(){const m=SND.toggleMute();document.getElementById('mute-btn').textContent=m?'🔇':'🔈';document.getElementById('mute-btn').setAttribute('aria-label',m?'音声をオンにする':'音声をオフにする');})()" title="音のオン/オフ" aria-label="音声をオフにする" style="font-size:.75rem;background:none;border:0.5px solid var(--acc2);padding:.25rem .5rem;cursor:pointer;border-radius:2px;">🔈</button>
+    <a href="guide.html" class="guide-link" aria-label="ゲームの手引きを見る">手引き</a>
+    <span id="save-ind" aria-live="polite" aria-atomic="true">✓ 保存</span>
   </div>
 </div>
 
-<button id="mob-fab" onclick="toggleSB()">
+<button id="mob-fab" onclick="toggleSB()" aria-label="ステータスパネルを開く">
   <span class="fi">📊</span><span class="ft">状態</span>
 </button>
 
@@ -404,10 +430,10 @@ body{font-family:"游ゴシック","Yu Gothic",sans-serif;font-size:var(--base-f
 </div>
 
 <!-- 戦闘UI -->
-<div id="combat-ui">
+<div id="combat-ui" role="region" aria-label="戦闘画面">
   <div class="cbox">
     <div class="c-title" id="c-title">⚔ 戦闘</div>
-    <div class="c-combatants">
+    <div class="c-combatants" role="status" aria-live="polite">
       <div>
         <div class="c-name">あなた</div>
         <div class="c-hp" id="c-php">—</div>
@@ -419,20 +445,20 @@ body{font-family:"游ゴシック","Yu Gothic",sans-serif;font-size:var(--base-f
         <div class="c-sk" id="c-esk">技術 —</div>
       </div>
     </div>
-    <div class="c-log" id="c-log"></div>
+    <div class="c-log" id="c-log" role="log" aria-live="polite" aria-atomic="false"></div>
     <div class="c-btns">
-      <button class="c-btn pri" id="c-atk">🎲 攻撃する</button>
-      <button class="c-btn" id="c-item">道具を使う</button>
-      <button class="c-btn" id="c-mk">✋ 猿の右手</button>
+      <button class="c-btn pri" id="c-atk" aria-label="攻撃する">🎲 攻撃する</button>
+      <button class="c-btn" id="c-item" aria-label="道具を使う">道具を使う</button>
+      <button class="c-btn" id="c-mk" aria-label="猿の右手を使う">✋ 猿の右手</button>
     </div>
-    <div id="c-result"></div>
-    <button id="c-next">先へ進む →</button>
+    <div id="c-result" role="status" aria-live="assertive"></div>
+    <button id="c-next" aria-label="戦闘を終了して次へ進む">先へ進む →</button>
   </div>
 </div>
 
 <!-- フィードバックバー -->
-<button id="lang-btn" onclick="toggleLang()" title="Switch Language">EN</button>
-<div id="fb"></div>
+<button id="lang-btn" onclick="toggleLang()" title="Switch Language" aria-label="言語を切り替える">EN</button>
+<div id="fb" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <!-- メイン本文 -->
 <script>
@@ -1322,10 +1348,36 @@ const SND = (()=>{
   let ctx = null;
   let muted = false;
   let masterVol = 0.18; // 全体音量（控えめ）
+  let audioInitialized = false;
+
+  // ミュート状態をlocalStorageから復元
+  try{
+    const saved = localStorage.getItem('valdea_muted');
+    if(saved !== null) muted = (saved === 'true');
+  }catch(e){}
 
   function getCtx(){
-    if(!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)();
-    if(ctx.state==='suspended') ctx.resume();
+    if(!ctx) {
+      ctx = new (window.AudioContext||window.webkitAudioContext)();
+      // iOS Safari対策：初回作成時にユーザーインタラクション待機
+      if(!audioInitialized) {
+        const initAudio = () => {
+          if(ctx && ctx.state === 'suspended') {
+            ctx.resume().then(() => {
+              audioInitialized = true;
+              console.log('Audio initialized');
+            }).catch(e => console.warn('Audio init failed:', e));
+          }
+          // 一度成功したらリスナー削除
+          document.removeEventListener('click', initAudio);
+          document.removeEventListener('touchstart', initAudio);
+        };
+        document.addEventListener('click', initAudio, {once: true});
+        document.addEventListener('touchstart', initAudio, {once: true});
+      }
+    }
+    // 毎回resume試行（iOS対策）
+    if(ctx.state==='suspended') ctx.resume().catch(e => {});
     return ctx;
   }
 
@@ -1650,8 +1702,14 @@ catch(e){}
 
     // ── 追加音 ──
 
-    // ミュートトグル
-    toggleMute(){muted=!muted; return muted;},
+    // ミュートトグル（状態をlocalStorageに保存）
+    toggleMute(){
+      muted=!muted;
+      try{
+        localStorage.setItem('valdea_muted', muted ? 'true' : 'false');
+      }catch(e){}
+      return muted;
+    },
     isMuted(){ return muted; },
   };
 
@@ -2549,6 +2607,19 @@ window.addEventListener('DOMContentLoaded',()=>{
       S.guideDone=true;save();
     }
   }
+  
+  // ミュート状態を復元
+  try{
+    const savedMute = localStorage.getItem('valdea_muted');
+    if(savedMute === 'true'){
+      const muteBtn = document.getElementById('mute-btn');
+      if(muteBtn){
+        muteBtn.textContent = '🔇';
+        muteBtn.setAttribute('aria-label', '音声をオンにする');
+      }
+    }
+  }catch(e){}
+  
   renderSaveInfo();
   render();
   // META初期化・強化適用
