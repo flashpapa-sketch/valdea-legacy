@@ -3,7 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>観測者のいない記録 — valdea legacy —</title>
+<title>観測者のいない記録 — valdea legacy — ブラウザゲームブック</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="「観測者のいない記録」は黄金時代の崩壊後300年、荒廃したヴァルデア荒野を舞台にしたブラウザゲームブック。紋章を持つ者として封印された遺跡ザル＝カラムに挑む、運命と選択の物語。">
+<meta name="keywords" content="ゲームブック,ブラウザゲーム,TRPG,インタラクティブフィクション,テキストアドベンチャー,ファンタジー,日本語,無料">
+<meta name="author" content="valdea legacy project">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0d0d0f">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://flashpapa-sketch.github.io/valdea-legacy/">
+<meta property="og:title" content="観測者のいない記録 — valdea legacy">
+<meta property="og:description" content="300年前に封印された遺跡に、紋章を持つ者として挑む。運命と選択のブラウザゲームブック。">
+<meta property="og:site_name" content="valdea legacy">
+<meta property="og:locale" content="ja_JP">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="観測者のいない記録 — valdea legacy">
+<meta name="twitter:description" content="300年前に封印された遺跡に、紋章を持つ者として挑む。運命と選択のブラウザゲームブック。">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://flashpapa-sketch.github.io/valdea-legacy/">
+
 <style>
 :root{--bg:#0d0d0f;--fg:#e8e0d0;--acc:#b8860b;--acc2:#8b6914;--dim:#7a7060}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -25,41 +49,44 @@ hr{border:none;border-top:1px solid var(--acc2);margin:2rem auto;width:60%}
 .tags{font-size:.8rem;color:var(--dim);line-height:2}
 .foot{margin-top:3rem;font-size:.75rem;color:var(--dim);letter-spacing:.1em}
 .lang-toggle{display:flex;gap:.5rem;justify-content:center;margin-bottom:1.5rem}
-.lang-btn{display:inline-block;padding:.4rem 1.2rem;border:1px solid var(--acc2);color:var(--dim);background:none;font-size:.8rem;letter-spacing:.15em;text-decoration:none;transition:all .2s}
+.lang-btn{display:inline-block;padding:.4rem 1.2rem;border:1px solid var(--acc2);color:var(--dim);background:none;font-size:.8rem;letter-spacing:.15em;text-decoration:none;transition:all .2s;cursor:pointer}
 .lang-btn.active{background:var(--acc);color:var(--bg);border-color:var(--acc)}
 .lang-btn:hover{border-color:var(--acc);color:var(--acc)}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="lang-toggle">
-    <a href="?lang=ja" class="lang-btn" id="btn-ja">日本語</a>
-    <a href="?lang=en" class="lang-btn" id="btn-en">English</a>
-  </div>
+<main class="wrap" role="main">
+  <nav class="lang-toggle" role="navigation" aria-label="言語選択">
+    <a href="?lang=ja" class="lang-btn" id="btn-ja" aria-label="日本語に切り替え">日本語</a>
+    <a href="?lang=en" class="lang-btn" id="btn-en" aria-label="Switch to English">English</a>
+  </nav>
   <p class="sub" id="txt-sub"></p>
   <h1 id="txt-title"></h1>
-  <p class="en">valdea legacy</p>
+  <p class="en" lang="en">valdea legacy</p>
   <p class="catch" id="txt-catch"></p>
-  <hr>
-  <ul class="features" id="txt-features"></ul>
+  <hr aria-hidden="true">
+  <ul class="features" id="txt-features" role="list"></ul>
   <div class="btns">
-    <a href="guide.html" class="btn btn-main" id="btn-start"></a>
-    <a href="game.html" class="btn" id="btn-resume" style="display:none"></a>
-    <a href="guide.html" class="btn" id="btn-guide"></a>
+    <a href="game.html?new=1" class="btn btn-main" id="btn-start" aria-label="すぐに冒険を始める"></a>
+    <a href="game.html" class="btn" id="btn-resume" style="display:none" aria-label="保存した冒険を再開する"></a>
+    <a href="guide.html" class="btn" id="btn-guide" aria-label="詳しいルールを見る"></a>
   </div>
-  <p class="tags" id="txt-tags"></p>
-  <p class="foot" id="txt-foot"></p>
-</div>
+  <p class="tags" id="txt-tags" aria-label="タグ"></p>
+  <footer class="foot" id="txt-foot"></footer>
+</main>
 <script>
 var T={
-  ja:{sub:'観測者のいない記録',title:'観測者のいない記録',catch:'あなたは流れ者の冒険者。<br>左手に刻まれた古代の紋章が、<br>断片の時代の命運を握っている。',features:['ひとりで読み進める本格ゲームブック','選択肢とサイコロが運命を決める','経験値・レベルアップシステム搭載','「猿の右手」― 一度だけ使える諸刃の切り札','デジタル冒険者シート・ダイスローラー内蔵'],guide:'📖 冒険者の手引きを読む（はじめての方はこちら）',start:'◆ 冒険を始める',resume:'◆ 冒険を再開する',tags:'#観測者のいない記録　#ゲームブック　#創作　#猿の右手　#TRPG',foot:'観測者のいない記録　valdea legacy　／　Web版'},
-  en:{sub:'The Unobserved Record',title:'The Unobserved Record',catch:'You are a wandering adventurer.<br>The ancient mark carved into your left hand<br>holds the fate of the Age of Fragments.',features:['A full-scale solo gamebook','Your choices and the dice decide your fate','Experience and level-up system included','"The Monkey\'s Paw" — a double-edged trump card, usable only once','Digital adventurer sheet and dice roller built in'],guide:'📖 Read the Adventurer\'s Guide (first-time players)',start:'◆ Begin New Adventure',resume:'◆ Resume Adventure',tags:'#valdea #gamebook #fiction #monkeyspaw #TRPG',foot:'The Unobserved Record — valdea legacy — Web Edition'}
+  ja:{sub:'観測者のいない記録',title:'観測者のいない記録',catch:'あなたは流れ者の冒険者。<br>左手に刻まれた古代の紋章が、<br>断片の時代の命運を握っている。',features:['ひとりで読み進める本格ゲームブック','選択肢とサイコロが運命を決める','経験値・レベルアップシステム搭載','「猿の右手」― 一度だけ使える諸刃の切り札','デジタル冒険者シート・ダイスローラー内蔵'],guide:'📖 詳しいルールを見る',start:'⚡ すぐ冒険を始める',resume:'◆ 冒険を再開する',tags:'#観測者のいない記録　#ゲームブック　#創作　#猿の右手　#TRPG',foot:'観測者のいない記録　valdea legacy　／　Web版'},
+  en:{sub:'The Unobserved Record',title:'The Unobserved Record',catch:'You are a wandering adventurer.<br>The ancient mark carved into your left hand<br>holds the fate of the Age of Fragments.',features:['A full-scale solo gamebook','Your choices and the dice decide your fate','Experience and level-up system included','"The Monkey\'s Paw" — a double-edged trump card, usable only once','Digital adventurer sheet and dice roller built in'],guide:'📖 View Detailed Rules',start:'⚡ Start Adventure Now',resume:'◆ Resume Adventure',tags:'#valdea #gamebook #fiction #monkeyspaw #TRPG',foot:'The Unobserved Record — valdea legacy — Web Edition'}
 };
 
 // URLパラメータ優先、なければlocalStorage
 var params=new URLSearchParams(window.location.search);
 var lang=params.get('lang')||localStorage.getItem('valdea_lang')||'ja';
 if(params.get('lang')) localStorage.setItem('valdea_lang',lang);
+
+// HTML lang属性を更新
+document.documentElement.lang = lang;
 
 var t=T[lang]||T.ja;
 document.getElementById('btn-ja').className='lang-btn'+(lang==='ja'?' active':'');

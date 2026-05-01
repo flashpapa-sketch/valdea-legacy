@@ -58,6 +58,11 @@ body{font-family:"游ゴシック","Yu Gothic",sans-serif;font-size:var(--base-f
 #hdr h1{font-size:.85rem;letter-spacing:.25em;color:var(--acc);font-weight:400}
 .en{font-size:.65rem;letter-spacing:.2em;color:var(--acc);opacity:.7}
 .hdr-right{display:flex;align-items:center;gap:.8rem}
+@media(max-width:600px){
+  .hdr-right{gap:.4rem}
+  .hdr-right .btn-secondary{display:none}
+  .hdr-right .guide-link{display:none}
+}
 .guide-link{font-size:.75rem;color:var(--dim);text-decoration:none;letter-spacing:.05em}
 .guide-link:hover{color:var(--acc)}
 #save-ind{font-size:.68rem;color:var(--success);opacity:0;transition:opacity .5s}
@@ -410,7 +415,7 @@ body{font-family:"游ゴシック","Yu Gothic",sans-serif;font-size:var(--base-f
       padding:.25rem .6rem;cursor:pointer;border-radius:2px;
       font-family:inherit;letter-spacing:.05em;
     ">✓ 保存</button>
-    <button onclick="toggleMapModal()" title="地図を見る" aria-label="地図を開く" style="font-size:.62rem;background:none;border:1px solid var(--acc2);border-radius:2px;color:var(--dim);cursor:pointer;padding:2px 6px;letter-spacing:.05em;">地図</button>
+    <button class="btn-secondary" onclick="toggleMapModal()" title="地図を見る" aria-label="地図を開く" style="font-size:.62rem;background:none;border:1px solid var(--acc2);border-radius:2px;color:var(--dim);cursor:pointer;padding:2px 6px;letter-spacing:.05em;">地図</button>
     <button id="mute-btn" onclick="(function(){const m=SND.toggleMute();document.getElementById('mute-btn').textContent=m?'🔇':'🔈';document.getElementById('mute-btn').setAttribute('aria-label',m?'音声をオンにする':'音声をオフにする');})()" title="音のオン/オフ" aria-label="音声をオフにする" style="font-size:.75rem;background:none;border:0.5px solid var(--acc2);padding:.25rem .5rem;cursor:pointer;border-radius:2px;">🔈</button>
     <a href="guide.html" class="guide-link" aria-label="ゲームの手引きを見る">手引き</a>
     <span id="save-ind" aria-live="polite" aria-atomic="true">✓ 保存</span>
@@ -3046,7 +3051,7 @@ function applyParaLang(pid){
   <div class="sb-msg" id="shareBoxText"></div>
   <button class="xShareBtn" onclick="viralShareToX()">𝕏 Xでシェア</button>
   <button class="xCopyBtn" onclick="viralCopyText()">テキストをコピー</button>
-  <button class="xNoteBtn" onclick="viralOpenNote()">📝 考察記事を読む</button>
+  <button class="xNoteBtn" id="noteBtn" style="display:none" onclick="viralOpenNote()">📝 考察記事を読む</button>
 </div>
 
 <script>
@@ -3059,7 +3064,14 @@ function applyParaLang(pid){
     "個人制作のゲームブックやったら\n選択肢の重さがえぐかった\n\nナック死なせたら後悔した\n\nhttps://flashpapa-sketch.github.io/valdea-legacy/\n#観測者のいない記録 #ゲームブック"
   ];
 
-  var NOTE_URL = "";  // 実際のURLに置き換えてください // ← KIKIさんのnote URLに差し替え
+  // 考察記事URL（空の場合はボタン非表示）
+  var NOTE_URL = "";  // ← 考察記事を公開したらここにURLを設定
+  
+  // 考察ボタンの表示制御
+  if(NOTE_URL){
+    var noteBtn = document.getElementById('noteBtn');
+    if(noteBtn) noteBtn.style.display = 'block';
+  }
 
   function getTemplate(){
     return VIRAL_TEMPLATES[Math.floor(Math.random()*VIRAL_TEMPLATES.length)];
@@ -3089,7 +3101,7 @@ function applyParaLang(pid){
   };
 
   window.viralOpenNote = function(){
-    window.open(NOTE_URL,"_blank");
+    if(NOTE_URL) window.open(NOTE_URL,"_blank");
   };
 })();
 </script>

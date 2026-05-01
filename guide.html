@@ -3,7 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>観測者のいない記録 — 手引き</title>
+<title>冒険者の手引き — 観測者のいない記録 — valdea legacy</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="「観測者のいない記録」の冒険者の手引き。ゲームの進め方、能力値の決定方法、戦闘システム、猿の右手の使い方を解説。">
+<meta name="keywords" content="ゲームブック,ルール,手引き,valdea legacy,観測者のいない記録">
+<meta name="author" content="valdea legacy project">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0d0d0f">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://flashpapa-sketch.github.io/valdea-legacy/guide.html">
+<meta property="og:title" content="冒険者の手引き — 観測者のいない記録">
+<meta property="og:description" content="ゲームの進め方、能力値の決定、戦闘システムを詳しく解説。">
+<meta property="og:site_name" content="valdea legacy">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="冒険者の手引き — 観測者のいない記録">
+<meta name="twitter:description" content="ゲームの進め方、能力値の決定、戦闘システムを詳しく解説。">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://flashpapa-sketch.github.io/valdea-legacy/guide.html">
 <style>
 :root{--bg:#0d0d0f;--fg:#e8e0d0;--acc:#b8860b;--acc2:#8b6914;--dim:#7a7060;--card:#1a1814;--link:#c8a040}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -77,7 +99,7 @@ tr:hover td{background:#1a1814}
 <body>
 <div id="hdr">
   <div>
-    <div class="en">LEGACY OF VALDEA</div>
+    <div class="en">valdea legacy</div>
     <h1>観測者のいない記録</h1>
   </div>
   <nav class="nav">
@@ -98,7 +120,7 @@ tr:hover td{background:#1a1814}
   </div>
 
   <div class="warning">
-    ⚠ これはひとりで読み進める<strong>ゲームブックだ</strong>。物語を読み、選択肢を選び、指示された番号へ飛ぶ。あなたの選択がすべてを決める。まずこの手引きをすべて読み、各項目を設定してから本編へ進め。<br><br>
+    ⚠ これはひとりで読み進める<strong>ゲームブックだ</strong>。物語を読み、選択肢を選び、指示された番号へ飛ぶ。あなたの選択がすべてを決める。<br><br>
     指示された番号以外のページを先読みしてはならない。それはあなた自身の冒険を台無しにする。
   </div>
 
@@ -106,6 +128,17 @@ tr:hover td{background:#1a1814}
   <div class="step" id="step1">
     <div class="step-num">1</div>
     <h3>能力値を決める</h3>
+    
+    <!-- クイックスタート案内 -->
+    <div style="background:#1a1410;border:2px solid var(--acc);padding:1.2rem;margin:1.5rem 0 2rem;border-radius:4px;">
+      <div style="color:var(--acc);font-weight:700;margin-bottom:.7rem;letter-spacing:.1em;font-size:1rem">⚡ 初めての方へ</div>
+      <p style="font-size:.9rem;margin-bottom:1rem;line-height:1.8;color:var(--fg)">まずは能力値だけ決めて、すぐに冒険を始められます。<br>戦闘ルールや猿の右手は本編で必要になったときに説明されます。</p>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+        <button onclick="scrollTo({top:document.getElementById('dice-section').offsetTop-100,behavior:'smooth'})" style="padding:.6rem 1.8rem;background:var(--acc);color:#0d0d0f;border:none;cursor:pointer;font-weight:700;letter-spacing:.1em;border-radius:3px;font-size:.9rem">⚡ 能力値を決めて開始</button>
+        <button onclick="document.getElementById('detailed-rules').style.display='block';this.parentElement.parentElement.style.display='none'" style="padding:.6rem 1.5rem;background:none;color:var(--dim);border:1px solid var(--acc2);cursor:pointer;border-radius:3px;font-size:.85rem">📖 詳しく読む</button>
+      </div>
+    </div>
+    
     <p>あなたのキャラクターには三つの能力値がある。それぞれサイコロを振って決定し、冒険者シートの「初期値」と「現在値」両方に記入せよ。</p>
 
     <div class="ability-grid">
@@ -140,9 +173,9 @@ tr:hover td{background:#1a1814}
         </div>
         <div class="roll-history" id="hist-sk"></div>
         <div class="roll-footer">
-          <button class="roll-btn" id="btn-sk" onclick="doRoll('sk',1,6)">🎲 振る</button>
+          <button class="roll-btn" id="btn-sk" aria-label="技術点のダイスを振る" onclick="doRoll('sk',1,6)">🎲 振る</button>
           <span class="roll-result" id="val-sk">—</span>
-          <button class="lock-btn" id="lock-sk" onclick="lockStat('sk')" disabled>これで決定</button>
+          <button class="lock-btn" id="lock-sk" aria-label="技術点を確定する" onclick="lockStat('sk')" disabled>これで決定</button>
         </div>
       </div>
 
@@ -154,9 +187,9 @@ tr:hover td{background:#1a1814}
         </div>
         <div class="roll-history" id="hist-hp"></div>
         <div class="roll-footer">
-          <button class="roll-btn" id="btn-hp" onclick="doRoll('hp',2,12)">🎲 振る</button>
+          <button class="roll-btn" id="btn-hp" aria-label="体力点のダイスを振る" onclick="doRoll('hp',2,12)">🎲 振る</button>
           <span class="roll-result" id="val-hp">—</span>
-          <button class="lock-btn" id="lock-hp" onclick="lockStat('hp')" disabled>これで決定</button>
+          <button class="lock-btn" id="lock-hp" aria-label="体力点を確定する" onclick="lockStat('hp')" disabled>これで決定</button>
         </div>
       </div>
 
@@ -168,9 +201,9 @@ tr:hover td{background:#1a1814}
         </div>
         <div class="roll-history" id="hist-lk"></div>
         <div class="roll-footer">
-          <button class="roll-btn" id="btn-lk" onclick="doRoll('lk',1,6)">🎲 振る</button>
+          <button class="roll-btn" id="btn-lk" aria-label="運点のダイスを振る" onclick="doRoll('lk',1,6)">🎲 振る</button>
           <span class="roll-result" id="val-lk">—</span>
-          <button class="lock-btn" id="lock-lk" onclick="lockStat('lk')" disabled>これで決定</button>
+          <button class="lock-btn" id="lock-lk" aria-label="運点を確定する" onclick="lockStat('lk')" disabled>これで決定</button>
         </div>
       </div>
 
@@ -185,6 +218,13 @@ tr:hover td{background:#1a1814}
       <strong>重要：</strong>「これで決定」を押した能力値は変更できない。体力点は回復薬で回復できるが<strong>初期値を超えることはできない。</strong>
     </div>
   </div>
+
+  <!-- 詳細ルール（折りたたみ） -->
+  <div id="detailed-rules" style="display:none">
+    <div style="text-align:center;padding:2rem 0;border-top:1px solid #1e1c18;border-bottom:1px solid #1e1c18;margin:2rem 0">
+      <p style="font-size:1.05rem;color:var(--acc);letter-spacing:.1em;margin-bottom:.5rem">📖 詳細ルール</p>
+      <p style="font-size:.85rem;color:var(--dim)">戦闘、運試し、猿の右手などの詳しいルールです。<br>本編でも必要な時に説明されるので、後で読んでも大丈夫です。</p>
+    </div>
 
   <!-- STEP 2 -->
   <div class="step" id="step2">
@@ -293,12 +333,13 @@ tr:hover td{background:#1a1814}
       <tr><td>12</td><td class="monkey-name">伝説の一手</td><td>通常戦：逆転。ラスボス戦：体力点を半分に</td><td class="monkey-bad">なし。ただしこの奇跡にも理由がある</td></tr>
     </table>
   </div>
+  </div><!-- 詳細ルール終了 -->
 
   <!-- START -->
   <div class="cta" id="start">
-    <p style="font-size:.9rem;color:var(--dim);margin-bottom:1.5rem">準備はできたか。<br>能力値の決定・経験値の理解・猿の右手の把握。すべて終えたなら冒険へ進め。</p>
-    <a href="game.html?new=1" id="start-btn" class="start-disabled" onclick="return checkStart()">◆ 冒険を始める ◆</a>
-    <p id="start-hint" style="font-size:.8rem;color:var(--dim);margin-top:.8rem">※ 3つの能力値をすべて「これで決定」してから冒険へ進める</p>
+    <p style="font-size:.9rem;color:var(--dim);margin-bottom:1.5rem">能力値を決めたら、すぐに冒険へ。</p>
+    <a href="game.html?new=1" id="start-btn" class="start-disabled" aria-label="全ての能力値を確定して冒険を始める" onclick="return checkStart()">◆ 冒険を始める ◆</a>
+    <p id="start-hint" style="font-size:.8rem;color:var(--dim);margin-top:.8rem">※ 3つの能力値を「これで決定」してから</p>
   </div>
 
   <!-- 世界地図セクション -->
@@ -315,7 +356,7 @@ tr:hover td{background:#1a1814}
     </div>
   </div>
 
-  <p class="foot">ヴァルデアの遺産　LEGACY OF VALDEA　／　冒険者の手引き</p>
+  <p class="foot">観測者のいない記録 — valdea legacy —　／　冒険者の手引き</p>
 </main>
 
 <script>
