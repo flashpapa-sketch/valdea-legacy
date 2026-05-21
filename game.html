@@ -1366,7 +1366,6 @@ const SND = (()=>{
           if(ctx && ctx.state === 'suspended') {
             ctx.resume().then(() => {
               audioInitialized = true;
-              console.log('Audio initialized');
             }).catch(e => console.warn('Audio init failed:', e));
           }
           // 一度成功したらリスナー削除
