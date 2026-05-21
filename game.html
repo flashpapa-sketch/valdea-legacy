@@ -3134,9 +3134,9 @@ let tempStats = {sk:0, hp:0, lk:0};
 
 function rollInitialStats() {
   // サイコロを振る
-  tempStats.sk = roll(1) + 6;  // 1d6+6 = 7-12
-  tempStats.hp = roll(2) + 12; // 2d6+12 = 14-24
-  tempStats.lk = roll(1) + 6;  // 1d6+6 = 7-12
+  tempStats.sk = rollN(1).total + 6;  // 1d6+6 = 7-12
+  tempStats.hp = rollN(2).total + 12; // 2d6+12 = 14-24
+  tempStats.lk = rollN(1).total + 6;  // 1d6+6 = 7-12
   
   // 結果を表示
   document.getElementById('sk-result').textContent = tempStats.sk;
