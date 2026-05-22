@@ -1406,15 +1406,6 @@ const SND = (()=>{
         const f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=3000;f.Q.value=0.5;
         const g2=ac.createGain();g2.gain.setValueAtTime(.4,t);g2.gain.exponentialRampToValueAtTime(.001,t+.08);
         src.connect(f);f.connect(g2);g2.connect(g);src.start(t);src.stop(t+.09);}
-// 後悔システムフラグ
-if (!S.regret) {
-  S.regret = {
-    helpedOldMan: false,
-    tookCursedGem: false,
-    usedMonkeyPaw: false,
-    trustCompanion: false
-  };
-}
 catch(e){}
     },
     click_wood(){      // 木の軋み（選択肢クリック）
