@@ -2,9 +2,9 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="description" content="ヴォルカネスの迷宮 — valdea legacy — ゲームブック形式のブラウザ体験作品。">
+<meta name="description" content="ヴォルカネスの迷宮 ゲームブック形式のブラウザ体験作品。">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ヴォルカネスの迷宮 — valdea legacy —</title>
+<title>ヴォルカネスの迷宮</title>
 <style>
 :root{
   --bg:#0d0d0f;--fg:#e8e0d0;--acc:#b8860b;--acc2:#8b6914;
@@ -371,7 +371,6 @@ body{
 <div id="hdr">
   <div>
     <div class="en">ヴォルカネスの迷宮</div>
-    <h1>— valdea legacy —</h1>
   </div>
   <div class="hdr-right">
     <button onclick="doSave()" title="手動セーブ" style="
@@ -1201,7 +1200,7 @@ function shareToX(msg){
   const text=[
     msg||'冒険が終わった',
     '生存時間：'+t+'秒',
-    '#ヴォルカネスの迷宮 #valdealegacy',
+    '#ヴォルカネスの迷宮',
     'https://flashpapa-sketch.github.io/valdea-legacy/'
   ].filter(Boolean).join('\n');
   window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text),'_blank');
