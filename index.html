@@ -82,8 +82,9 @@ var T={
 
 // URLパラメータ優先、なければlocalStorage
 var params=new URLSearchParams(window.location.search);
-var lang=params.get('lang')||localStorage.getItem('valdea_lang')||'ja';
-if(params.get('lang')) localStorage.setItem('valdea_lang',lang);
+var _ls=function(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}};
+var lang=params.get('lang')||_ls('valdea_lang')||'ja';
+if(params.get('lang')) _ls('valdea_lang',lang);
 
 // HTML lang属性を更新
 document.documentElement.lang = lang;
@@ -103,7 +104,7 @@ document.getElementById('txt-tags').textContent=t.tags;
 document.getElementById('txt-foot').textContent=t.foot;
 
 // セーブデータがあれば「冒険を再開する」ボタンを表示
-var hasSave=!!localStorage.getItem('valdea_save1');
+var hasSave=!!_ls('valdea_save1');
 if(hasSave){
   document.getElementById('btn-resume').style.display='inline-block';
 }
