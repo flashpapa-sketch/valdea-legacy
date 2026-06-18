@@ -452,6 +452,65 @@ body{
 .inv-counter{
   font-size:.65rem;color:var(--dim);margin-bottom:.25rem;
 }
+
+/* ── 洗練 ── */
+html{scroll-behavior:smooth}
+::selection{background:rgba(184,134,11,.2);color:var(--fg)}
+
+/* ヘッダー */
+#hdr{box-shadow:0 1px 16px rgba(0,0,0,.45)}
+
+/* 段落番号 グロー */
+.para-num span{text-shadow:0 0 12px rgba(184,134,11,.22);letter-spacing:.08em}
+
+/* 段落フェードスライドイン */
+@keyframes paraIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.para.active{animation:paraIn .3s cubic-bezier(.22,1,.36,1)}
+
+/* 選択肢ボタン — 左インセットアクセント */
+.choice-btn{
+  box-shadow:inset 3px 0 0 transparent;
+  transition:background .15s,color .15s,border-color .15s,box-shadow .12s;
+}
+.choice-btn:hover:not(:disabled){
+  border-color:var(--acc2);
+  background:rgba(26,24,20,.9);
+  color:var(--acc);
+  box-shadow:inset 3px 0 0 var(--acc);
+}
+
+/* HPバー グラジエント */
+.hp-bar-f{background:linear-gradient(90deg,var(--acc2),var(--acc))}
+.hp-bar-f.crit{background:linear-gradient(90deg,#7a1a1a,var(--danger))}
+
+/* ルールブロック */
+.rule{background:linear-gradient(to right,var(--card) 0%,rgba(13,13,15,.45) 100%)}
+
+/* 戦闘ボックス */
+.cbox{box-shadow:0 8px 48px rgba(0,0,0,.7),inset 0 1px 0 rgba(184,134,11,.08)}
+
+/* ダイス */
+.die{box-shadow:inset 0 2px 6px rgba(0,0,0,.5)}
+
+/* サイドバー スクロールバー */
+#sb::-webkit-scrollbar{width:3px}
+#sb::-webkit-scrollbar-track{background:transparent}
+#sb::-webkit-scrollbar-thumb{background:#3a3020;border-radius:2px}
+#sb{scrollbar-width:thin;scrollbar-color:#3a3020 transparent}
+
+/* ステータスセル */
+.st-cell{transition:border-color .15s}
+.st-cell:hover{border-color:var(--acc2)}
+
+/* フィードバックトースト スライドイン */
+@keyframes fbSlide{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+#fb.show{animation:fbSlide .2s ease}
+
+/* フォント最適化 */
+.para-body p{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+/* セクション区切り線 */
+.sb-head{border-bottom-color:#302a1e}
 </style>
 </head>
 <body>
