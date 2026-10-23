@@ -2,21 +2,21 @@
 
 > ブラウザで遊べる本格ゲームブック
 
-**[▶ フル版プレイ](https://flashpapa-sketch.github.io/valdea-legacy/game.html)**  
-**[▶ ミニマル版プレイ](https://flashpapa-sketch.github.io/valdea-legacy/game-minimal.html)**
+**[▶ フル版プレイ](https://flashpapa-sketch.github.io/valdea-legacy/game.html)**
 
 ---
 
 ## 📦 **2つのバージョン**
 
 ### **1. フル版 (game.html)**
-- 108パラグラフの完全ストーリー
+- 502パラグラフの完全ストーリー
 - 28回の戦闘シーン
 - 7つのエンディング
 - Base64画像内蔵
 - 完全なUI
 
 ### **2. ミニマル版 (game-minimal.html) ✨ NEW**
+※ game-minimal.html は現在このリポジトリに含まれていません。
 - 極めてコンパクト（5KB）
 - 後悔システム完備
 - 2周目で変化する物語
@@ -42,7 +42,7 @@
 3. 選択肢をクリックして進む
 
 ### **ミニマル版**
-1. [game-minimal.html](game-minimal.html)を開く
+1. game-minimal.html を開く（※現在は未収録）
 2. 選択肢をクリックして進む
 3. **2周目でテキストが変化**
 
@@ -77,7 +77,7 @@ valdea-legacy/
 | 項目 | フル版 | ミニマル版 |
 |------|--------|-----------|
 | **サイズ** | 450KB | 5KB |
-| **パラグラフ** | 108 | 動的生成 |
+| **パラグラフ** | 502 | 動的生成 |
 | **画像** | ✅ Base64 | ❌ なし |
 | **後悔システム** | 基礎 | 完備 |
 | **2周目要素** | なし | ✅ あり |
