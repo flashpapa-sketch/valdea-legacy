@@ -4,6 +4,11 @@
 
 **[▶ フル版プレイ](https://flashpapa-sketch.github.io/valdea-legacy/game.html)**
 
+ひとりで読み進める本格ゲームブック『ヴォルカネスの迷宮』。
+選択肢とサイコロが運命を決める。経験値・レベルアップ、一度だけ使える切り札「猿の右手」、冒険者シートとダイスローラーを内蔵。インストール不要で、ブラウザですぐ遊べます。
+
+**[▶ トップページ](https://flashpapa-sketch.github.io/valdea-legacy/)**　／　[遊び方ガイド](https://flashpapa-sketch.github.io/valdea-legacy/guide.html)
+
 ---
 
 ## 📦 **2つのバージョン**
