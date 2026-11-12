@@ -511,6 +511,12 @@ html{scroll-behavior:smooth}
 
 /* セクション区切り線 */
 .sb-head{border-bottom-color:#302a1e}
+
+/* ── 挿絵（10パラグラフに1枚） ── */
+.ff-ill{margin:0 0 1.3rem;padding:0;text-align:center}
+.ff-ill img{display:block;width:100%;max-width:480px;aspect-ratio:7/5;margin:0 auto;border:1px solid var(--acc2);background:#0a0908;filter:sepia(.18) contrast(1.04);box-shadow:0 6px 28px rgba(0,0,0,.55)}
+.ff-ill figcaption{font-size:.62rem;letter-spacing:.2em;color:var(--dim);margin-top:.4rem}
+@media(max-width:480px){.ff-ill img{max-width:100%}}
 </style>
 </head>
 <body>
@@ -2568,6 +2574,43 @@ function resetAll(){
 }
 
 // NAVIGATION — SPA
+// ── 挿絵マップ（約10パラグラフに1枚。images/ の20枚を場面に合わせて割当） ──
+const PARA_ILLUST={
+  '六':'npc_hooded','十六':'npc_woman','五十八':'npc_oldman','百七十九':'enemy_goblin',
+  '二百六十三':'enemy_shadow','二百八十九':'event_ritual','四百十五':'env_cave','五百二':'tension_eyes',
+  '五百四':'npc_woman','六百十三':'tension_eyes','九百三':'event_ritual','二十八':'tension_eyes',
+  '四十三':'enemy_goblin','六十二':'npc_woman','六十三':'event_symbol','七十八':'npc_oldman',
+  '百四十二':'npc_woman','百五十三':'tension_eyes','百五十六':'enemy_beast','百七十一':'enemy_goblin',
+  '二百三十':'event_symbol','二百三十四':'event_fire','二百五十五':'death_bones','三百十八':'event_symbol',
+  '三百二十七の二':'npc_woman','三百四十七':'npc_hooded','四百八':'enemy_shadow','四百十四':'event_symbol',
+  '三百八十五':'event_ritual','三百三十八のA':'env_forest','八十七の二':'npc_oldman','二百二十':'event_ritual',
+  '二百六十一':'event_symbol','三百三十三乙':'env_ruins','三百四十':'event_symbol','三百五十七':'event_ritual',
+  '四百三十九乙':'npc_oldman','四百四十九':'npc_woman','四百五十九':'npc_oldman','四百六十八':'enemy_beast',
+  '四百七十三乙':'npc_woman','七十の二':'npc_oldman','百六十の二':'event_fire','二百三十の四':'npc_hooded',
+  '二百四十五の二':'event_fire','四百二十四':'event_symbol','四百三十四':'npc_oldman','四百三十六':'npc_woman',
+  '四百九十一':'event_symbol','四百九十三':'ending_throne',
+  '一':'env_gate','百三十八':'env_gate','二百三':'env_ruins','二百二十九':'env_cave','二百七十八':'env_cave','三百五十六':'event_collapse',
+  '四百七十三':'death_body',
+  '四百三十七':'ending_throne','四百三十七の二':'ending_throne','四百四十六':'ending_throne',
+  '四百四十六の二':'ending_throne','四百五十五':'ending_throne','四百六十四':'ending_throne'
+};
+const ILLUST_ALT={env_gate:'街門',env_forest:'森',env_cave:'地下通路',env_ruins:'遺跡',npc_woman:'女',npc_oldman:'老人',npc_hooded:'フードの人影',
+  enemy_goblin:'襲撃者',enemy_beast:'獣',enemy_shadow:'影',enemy_boss:'ヴォルカネス',event_symbol:'紋章',event_fire:'炎',event_ritual:'祭壇',
+  event_collapse:'崩落',tension_eyes:'視線',tension_hand:'手',death_bones:'骸',death_body:'倒れたあなた',ending_throne:'玉座'};
+function injectIllustration(el,id){
+  try{
+    const old=el.querySelector(':scope > .ff-ill'); if(old) old.remove();
+    const key=PARA_ILLUST[id]; if(!key) return;
+    const fig=document.createElement('figure'); fig.className='ff-ill';
+    const img=document.createElement('img');
+    img.src='images/'+key+'.png'; img.alt=ILLUST_ALT[key]||''; img.loading='lazy'; img.decoding='async';
+    img.onerror=function(){ fig.remove(); };
+    fig.appendChild(img);
+    const num=el.querySelector(':scope > .para-num');
+    if(num) num.after(fig); else el.prepend(fig);
+  }catch(e){ console.error('illust',id,e); }
+}
+
 function goto(id){
   if(typeof S!=='undefined'&&!S.rel)S.rel={nack:0,golm:0,sira:0};
   if(typeof S!=='undefined'&&typeof S.corrupt==='undefined')S.corrupt=0;
@@ -2585,6 +2628,7 @@ function goto(id){
   const el=document.getElementById(id);
   if(el){
     el.classList.add('active');
+    injectIllustration(el,id);
     S.cur=id;save();render();
     if(id==='四百七十三') showBuzzDeath();
     if(typeof SND!=='undefined') playSoundForPara(id);
