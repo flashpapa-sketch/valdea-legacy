@@ -236,12 +236,12 @@ tr:hover td{background:#1a1814}
       <tr><th>手順</th><th>内容</th></tr>
       <tr><td>① サイコロ</td><td>お互いにサイコロを二個振り、それぞれの<strong>技術点を加算</strong>する</td></tr>
       <tr><td>② ダメージ</td><td>合計値が高い方が相手に<strong>二点のダメージ</strong>（体力点を減らす）</td></tr>
-      <tr><td>③ 同点</td><td>同点の場合は両者ダメージなし</td></tr>
+      <tr><td>③ 同点</td><td>同点の場合は両者が一点ずつダメージを受ける</td></tr>
       <tr><td>④ 繰り返し</td><td>どちらかの体力点が零になるまで①〜③を繰り返す</td></tr>
     </table>
 
     <p><strong>「運試し」ルール：</strong>任意のタイミングでサイコロを二個振り、<strong>運点以下なら成功</strong>。使うたびに運点が一点減る。</p>
-    <p><strong>戦闘中の回復：</strong>食料や回復薬は<strong>戦闘中は原則使用不可</strong>。本文で指示があった場合のみ例外となる。</p>
+    <p><strong>戦闘中の道具：</strong>食料は<strong>戦闘中に食べられない</strong>。「道具を使う」を押すと、固いパン（体力点＋一）・テニスタの木の実（体力点＋四）・回復薬（体力点＋六）の順に、持っているものを一つずつ使う。</p>
   </div>
 
   <!-- STEP 3 -->
@@ -260,11 +260,11 @@ tr:hover td{background:#1a1814}
 
     <table>
       <tr><th>累計経験値</th><th>レベル</th><th>称号</th><th>効果</th></tr>
-      <tr><td>0</td><td>Lv.1</td><td>ならず者の無頼漢</td><td>初期状態</td></tr>
-      <tr><td>3点以上</td><td>Lv.2</td><td>浮足立つ冒険者</td><td>技術点＋一</td></tr>
-      <tr><td>7点以上</td><td>Lv.3</td><td>豪傑の勇者</td><td>体力点の最大値＋四</td></tr>
-      <tr><td>12点以上</td><td>Lv.4</td><td>ヴァルデアのレジェンド</td><td>運点＋一・技術点＋一</td></tr>
-      <tr><td>最終決戦突入時（自動）</td><td>Lv.5</td><td>招かれざる者</td><td>全能力点＋二・覚醒システム発動</td></tr>
+      <tr><td>0</td><td>Lv.1</td><td>駆け出しの冒険者</td><td>初期状態</td></tr>
+      <tr><td>3点以上</td><td>Lv.2</td><td>荒野を渡る剣士</td><td>次の三つから一つを選んで強化：体力点の最大値＋二／技術点＋一／運点＋一</td></tr>
+      <tr><td>7点以上</td><td>Lv.3</td><td>紋章の継承者</td><td>同じく三つから一つを選んで強化</td></tr>
+      <tr><td>12点以上</td><td>Lv.4</td><td>ヴァルデアの英雄</td><td>同じく三つから一つを選んで強化</td></tr>
+      <tr><td>20点以上（自動）</td><td>Lv.5</td><td>運命に選ばれた者</td><td>全能力点＋二（選択不要・自動適用）</td></tr>
     </table>
 
     <div class="xp-tracker">
@@ -277,11 +277,11 @@ tr:hover td{background:#1a1814}
         <button class="xp-btn" onclick="addXp(4)">＋4点（中ボス）</button>
         <button class="xp-btn" onclick="resetXp()">リセット</button>
       </div>
-      <div id="xp-lv-name" style="font-size:.9rem;color:var(--acc)">Lv.1 ならず者の無頼漢</div>
+      <div id="xp-lv-name" style="font-size:.9rem;color:var(--acc)">Lv.1 駆け出しの冒険者</div>
     </div>
 
     <div class="note">
-      <strong>Lv.5「招かれざる者」覚醒ルール：</strong>最終決戦突入と同時に自動発動。以降の雑魚戦ではサイコロを一個振り、偶数なら<strong>一撃必殺</strong>、奇数なら各種デメリット。ボス戦では一撃必殺は適用されない。
+      <strong>Lv.5「運命に選ばれた者」：</strong>累計経験値が二十点に達すると自動で上がり、技術点・体力点・運点がそれぞれ＋二される。選択は不要。
     </div>
   </div>
 
@@ -289,16 +289,15 @@ tr:hover td{background:#1a1814}
   <div class="step" id="step4">
     <div class="step-num">4</div>
     <h3>アイテムと所持品</h3>
-    <p>バックパックには最大八つまでアイテムを持てる。拾ったり買ったりしたら冒険者シートの所持品欄に記録せよ。</p>
+    <p>持ち物は最大十個まで。拾ったり買ったりしたら冒険者シートの所持品欄に記録せよ。</p>
 
     <table>
       <tr><th>アイテム名</th><th>効果・説明</th></tr>
       <tr><td><strong>金貨</strong></td><td>一枚＝食事一回分の価値。買い物・情報収集・賄賂に使用</td></tr>
-      <tr><td><strong>食料</strong></td><td>一回使用で体力点＋二回復。戦闘中は使用不可</td></tr>
+      <tr><td><strong>食料</strong></td><td>一回使用で体力点＋四回復（体力点が最大のときは使えない）。戦闘中は使用不可</td></tr>
       <tr><td><strong>固いパン</strong></td><td>いつでも使用可能。体力点＋一のみ。戦闘中も使える</td></tr>
       <tr><td><strong>回復薬</strong></td><td>一度だけ使える。体力点を六点回復する</td></tr>
-      <tr><td><strong>強壮剤</strong></td><td>一度だけ使える。技術点を二点上げる（一戦闘の間のみ）</td></tr>
-      <tr><td><strong>ザル＝カラムの地図</strong></td><td>遺跡の構造が分かる。特定の選択肢が増える</td></tr>
+            <tr><td><strong>ザル＝カラムの地図</strong></td><td>遺跡の構造が分かる。特定の選択肢が増える</td></tr>
       <tr><td><strong>テニスタ・テニストの木の実</strong></td><td>一度だけ使える。体力点を四点回復する</td></tr>
       <tr><td><strong>ロットンのつるぎ</strong></td><td>技術点＋二（永久）。ゴーレム特効・追加ダメージ無効化</td></tr>
       <tr><td><strong>賢者の石</strong></td><td>技術点－二（永久代償）。サイコロを振るたびに体力点＋一</td></tr>
@@ -326,7 +325,7 @@ tr:hover td{background:#1a1814}
       <tr><td>5</td><td class="monkey-name">眠りの霧</td><td>敵も眠る</td><td class="monkey-bad">自分も1ターン行動不能。仲間が1人消える</td></tr>
       <tr><td>6</td><td class="monkey-name">時の迷子</td><td>隠し選択肢＋1</td><td class="monkey-bad">見えた未来は最悪の結末。運点－1</td></tr>
       <tr><td>7</td><td class="monkey-name">星脈の暴走</td><td>敵全員に体力点－6</td><td class="monkey-bad">自分も体力点－2</td></tr>
-      <tr><td>8</td><td class="monkey-name">賢者の囁き</td><td>謎へのヒント</td><td class="monkey-bad">知らなければよかった真実も含まれる</td></tr>
+      <tr><td>8</td><td class="monkey-name">黄泉の波動</td><td>死者の力を一時的に借りる</td><td class="monkey-bad">腐敗値＋2・精神－20・体力点が1になる</td></tr>
       <tr><td>9</td><td class="monkey-name">召喚の暴走</td><td>生き物が召喚</td><td class="monkey-bad">召喚された存在が憑きまとう</td></tr>
       <tr><td>10</td><td class="monkey-name">英雄の刻</td><td>体力点全回復・技術点＋3</td><td class="monkey-bad">誰かの寿命から借りたものかもしれない</td></tr>
       <tr><td>11</td><td class="monkey-name">神々の気まぐれ</td><td>敵や障害を消滅</td><td class="monkey-bad">大切な何かも共に消える。運点が1に固定</td></tr>
@@ -454,10 +453,10 @@ function checkStart(){
 
 // ===== 経験値トラッカー =====
 const LV=[
-  {xp:0,lv:1,name:'ならず者の無頼漢',next:3},
-  {xp:3,lv:2,name:'浮足立つ冒険者',next:7},
-  {xp:7,lv:3,name:'豪傑の勇者',next:12},
-  {xp:12,lv:4,name:'ヴァルデアのレジェンド',next:999},
+  {xp:0,lv:1,name:'駆け出しの冒険者',next:3},
+  {xp:3,lv:2,name:'荒野を渡る剣士',next:7},
+  {xp:7,lv:3,name:'紋章の継承者',next:12},
+  {xp:12,lv:4,name:'ヴァルデアの英雄',next:20},{xp:20,lv:5,name:'運命に選ばれた者',next:9999},
 ];
 let xp=0;
 function updateXpUI(){
