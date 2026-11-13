@@ -3491,7 +3491,7 @@ function _enMap(pid){
   if(!el) return m;
   var pb = el.querySelector('.para-body'), en = PARA_EN[pid];
   if(pb && en){
-    var ps = pb.querySelectorAll('p');
+    var ps = pb.querySelectorAll('p:not(.ff-hint)');
     if(ps.length === en.length) en.forEach(function(t,i){ var p = ps[i]; if(t && !p.children.length){ var k = p.textContent.trim(); if(k) m[k] = t; } });
   }
   var cen = CHOICES_EN[pid];
@@ -3563,8 +3563,10 @@ function applyParaLang(pid){
   // 動的ステータス表示の英語化（-stスパン）
   Object.keys(DYNSPAN_EN).forEach(function(sid){
     var d = document.getElementById(sid);
-    if(!d) return;
-    d.textContent = DYNSPAN_EN[sid]();
+    if(!d || !el.contains(d)) return;
+    var dt = DYNSPAN_EN[sid]();
+    if(d.childNodes.length === 1 && d.firstChild.nodeType === 3) _enSet(pid, d.firstChild, dt);
+    else d.textContent = dt;
   });
 }
 
