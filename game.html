@@ -3663,6 +3663,7 @@ function injectFFChoiceHints(targetPara) {
       }
     });
 
+    lines = lines.filter(function(v, i, arr) { return arr.indexOf(v) === i; }); // 同じ案内文の重複を削除
     if (!lines.length) return;
 
     var p = document.createElement('p');
