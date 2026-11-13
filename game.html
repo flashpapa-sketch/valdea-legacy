@@ -24,7 +24,6 @@ body{
   body{display:grid;grid-template-columns:1fr 260px;grid-template-rows:auto 1fr;column-gap:0;}
 }
 @media(max-width:800px){body{grid-template-columns:1fr;grid-template-rows:auto 1fr auto}}
-
 #hdr{
   grid-column:1/-1;background:var(--card);
   border-bottom:1px solid var(--acc2);
@@ -3657,9 +3656,10 @@ function injectFFChoiceHints(targetPara) {
       } else if (sm) {
         lines.push('<span class="ff-rule">🎲 <b>技術試験をせよ</b>。</span>');
       } else if (pm) {
-        lines.push('「' + label + '」なら<b>' + pm[1] + '</b>へ進め');
+
+
       } else if (gm) {
-        lines.push('「' + label + '」なら<b>' + gm[1] + '</b>へ進め');
+
       }
     });
 
