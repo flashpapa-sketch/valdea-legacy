@@ -2588,6 +2588,8 @@ function injectIllustration(el,id){
 }
 
 function goto(id){
+  // 存在しない段落（削除済みの旧版・古いセーブ）を指していたら「一」に戻す（本文が空白になるのを防ぐ）
+  if(!document.getElementById(id)){ id='一'; }
   // イベントの差し替え選択肢を残したまま離れる場合は元に戻す
   if(typeof _evRestore==='function') _evRestore();
   if(typeof S!=='undefined'&&!S.rel)S.rel={nack:0,golm:0,sira:0};
