@@ -3529,6 +3529,7 @@ function applyParaLang(pid){
   _enMap(pid);
   // 言語で中身が変わる段落の文は、切り替え時に作り直す（_lang を使うスクリプトだけ）
   el.querySelectorAll('script').forEach(function(sc){ if(sc.textContent.indexOf('_lang') >= 0){ try{ new Function(sc.textContent)(); }catch(e){} } });
+  var pnEl = el.querySelector('.para-num span'); if(pnEl){ if(pnEl.getAttribute('data-ja') === null) pnEl.setAttribute('data-ja', pnEl.textContent); pnEl.textContent = _lang === 'en' ? enNumLabel(pid) : pnEl.getAttribute('data-ja'); }
   if(_lang !== 'en'){ _enRestore(pid); return; }
   _enApply(pid);
   // 動的演出英語化（sp系スパン）
@@ -3589,6 +3590,21 @@ document.addEventListener('DOMContentLoaded', function(){
 // ① 各パラグラフ末尾に「〜なら〇〇へ進め」追加
 // ② 運試し・技術試験・戦闘ボタンにルール指示追加
 // ══════════════════════════════════════════════
+// 英語モード用：段落番号を算用数字にする（二百六十八→268、四百三十八乙→438b、二十三の二→23-2）
+function enNumLabel(id){
+  var SP = {'スライム遭遇':'Slime Encounter','スライム勝利':'Slime Victory','寄り道':'Side Path'};
+  if(SP[id]) return SP[id];
+  var m = String(id).match(/^(.+?)(乙|の[一二三四五六七八九十]+)?$/);
+  if(!m) return String(id);
+  var D = {'一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9};
+  function kj(str){ var t = 0, c = 0; for(var i = 0; i < str.length; i++){ var ch = str.charAt(i);
+    if(ch === '十'){ t += (c || 1) * 10; c = 0; } else if(ch === '百'){ t += (c || 1) * 100; c = 0; } else if(D[ch]) c = D[ch]; }
+    return t + c; }
+  var num = String(kj(m[1]));
+  if(!m[2]) return num;
+  if(m[2] === '乙') return num + 'b';
+  return num + '-' + kj(m[2].slice(1));
+}
 function injectFFChoiceHints(targetPara) {
   var paras = targetPara
     ? [targetPara]
@@ -3626,11 +3642,11 @@ function injectFFChoiceHints(targetPara) {
       var pm = oc.match(/payGoto\(\s*\d+\s*,\s*['"](.+?)['"]/);
 
       if (cm) {
-        lines.push('<span class="ff-rule">⚔ 技術点 ' + cm[2] + '、体力点 ' + cm[3] + '。<b>' + cm[1] + '</b>と戦え。勝てば先へ進め。</span>');
+        lines.push(_lang === 'en' ? '<span class="ff-rule">⚔ Combat: Skill ' + cm[2] + ', Stamina ' + cm[3] + '. Win the fight to go on.</span>' : '<span class="ff-rule">⚔ 技術点 ' + cm[2] + '、体力点 ' + cm[3] + '。<b>' + cm[1] + '</b>と戦え。勝てば先へ進め。</span>');
       } else if (lm) {
-        lines.push('<span class="ff-rule">🎲 <b>運試しをせよ</b>（2D6の合計が運点以下なら成功）。成功なら<b>' + lm[1] + '</b>へ、失敗なら<b>' + lm[2] + '</b>へ進め。</span>');
+        lines.push(_lang === 'en' ? '<span class="ff-rule">🎲 <b>Test your Luck</b> (2D6 total at or below your Luck succeeds). Success: go to <b>' + enNumLabel(lm[1]) + '</b>. Failure: go to <b>' + enNumLabel(lm[2]) + '</b>.</span>' : '<span class="ff-rule">🎲 <b>運試しをせよ</b>（2D6の合計が運点以下なら成功）。成功なら<b>' + lm[1] + '</b>へ、失敗なら<b>' + lm[2] + '</b>へ進め。</span>');
       } else if (sm) {
-        lines.push('<span class="ff-rule">🎲 <b>技術試験をせよ</b>。</span>');
+        lines.push(_lang === 'en' ? '<span class="ff-rule">🎲 <b>Test your Skill.</b></span>' : '<span class="ff-rule">🎲 <b>技術試験をせよ</b>。</span>');
       } else if (pm) {
 
 
