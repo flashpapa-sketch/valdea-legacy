@@ -775,7 +775,7 @@ html{scroll-behavior:smooth}
 <div class="para" id="百五十七"><div class="para-num">◆ <span>百五十七</span></div><div class="para-body"><p>荒野の岩場に、人の気配がある。隠れている。あなたが近づくと、岩の陰から声がした。「待ってくれ。戦う気はない」</p><p>出てきたのは、若い女性の冒険者だ。腕に矢傷がある。「エリン」と名乗った。ザル＝カラムへ向かおうとしていたが、途中で変異体に襲われ、仲間とはぐれたという。</p></div><div class="choices"><button class="choice-btn" onclick="goto('百五十八')">傷を手当てする</button><button class="choice-btn" onclick="goto('二百三')">「頑張れ」と言って先へ進む</button></div></div>
 <div class="para" id="百五十八"><div class="para-num">◆ <span>百五十八</span></div><div class="para-body"><p>持っている布で傷を縛る。エリンは「ありがとう」と言った。「お礼に情報を渡す。ザル＝カラムの南壁に、落石で開いた穴がある。人一人通れる。番人が来る前の裏口だ。去年発見した。地下一層に直接出る」</p><p>彼女は立ち上がった。「私はドーランに戻る。もういい。限界だ」</p></div><div class="choices"><button class="choice-btn" onclick="flag('南壁の穴を知っている');fb('南壁の裏口情報を入手','s');save();goto('二百三')">情報を持って遺跡へ向かう</button></div></div>
 <div class="para" id="百五十九"><div class="para-num">◆ <span>百五十九</span></div><div class="para-body"><p>荒野の中に、燃えた篝火の跡がある。昨日か一昨日のものだ。周囲に装備の残骸が散らばっている。革鎧の破片、折れた剣、水袋。</p><p>別の冒険者たちのものだ。戦いの跡ではない。急いで逃げた者が、荷を捨てた跡だ。</p><p>装備の中に、使えるものが残っている。</p></div><div class="choices"><button class="choice-btn" onclick="(function(){heal(2);S.gold+=3;fb('体力点+2・金貨+3（装備の残骸から）','s');save();goto('百六十');})()">残った装備を調べる（体力点+2・金貨+3）</button><button class="choice-btn" onclick="goto('百六十')">先を急ぐ</button></div></div>
-<div class="para" id="百六十"><div class="para-num">◆ <span>百六十</span></div><div class="para-body"><p>荒野の岩場を抜けると、視界が開けた。</p><p>ザル＝カラムが全体像を見せている。荒野の真ん中に、黒い石の塊が天を衝いている。かつては街全体を覆う複合施設だったという規模の片鱗が、今の廃墟からでも分かる。</p><p>正面に門がある。番人の石像が見える。光が強い。遺跡全体が、かすかに振動している。</p><p>左手の紋章が激しく熱を持っている。</p></div><div class="choices"><button class="choice-btn" onclick="goto('二百三')">正面から入る</button><button class="choice-btn" onclick="hasFlag('東壁の亀裂を知っている')||hasFlag('南壁の穴を知っている')?goto('百五十'):'東壁には近づかなかった'">別の入口を探す（事前情報が必要）</button></div></div>
+<div class="para" id="百六十"><div class="para-num">◆ <span>百六十</span></div><div class="para-body"><p>荒野の岩場を抜けると、視界が開けた。</p><p>ザル＝カラムが全体像を見せている。荒野の真ん中に、黒い石の塊が天を衝いている。かつては街全体を覆う複合施設だったという規模の片鱗が、今の廃墟からでも分かる。</p><p>正面に門がある。番人の石像が見える。光が強い。遺跡全体が、かすかに振動している。</p><p>左手の紋章が激しく熱を持っている。</p></div><div class="choices"><button class="choice-btn" onclick="goto('二百三')">正面から入る</button><button class="choice-btn" onclick="hasFlag('東壁の亀裂を知っている')||hasFlag('南壁の穴を知っている')?goto('百五十'):fb('入口の当てがない。事前の情報が必要だ','f')">別の入口を探す（事前情報が必要）</button></div></div>
 <div class="para" id="百六十一"><div class="para-num">◆ <span>百六十一</span></div><div class="para-body"><p>野営の夜。焚き火を囲んで、仲間たちがいる。</p><p>ゴルムは黙って火を見ている。その右手の四本の指が、戦斧の柄を一定のリズムで叩いている。昔からの癖だと後で聞いた。</p><p>「弟の名は石碑に刻まれているはずだ」とゴルムは言う。誰かに言うのではなく、自分に言い聞かせているように見える。「確かめる。それだけだ」</p></div><div class="choices"><button class="choice-btn" onclick="goto('百六十二')">「弟はどんな人間だったのか」</button><button class="choice-btn" onclick="goto('百三十八')">静かに出発の準備をする</button></div></div>
 <div class="para" id="百六十二"><div class="para-num">◆ <span>百六十二</span></div><div class="para-body"><p>「頑固な男だった」とゴルムは言う。「私より頑固だ。ドワーフの男は皆頑固だが、ドゥルムは特別だった。一度決めたら変えない。ザル＝カラムへ行くと言った時も、止めても聞かなかった」</p><p>「笑い方が良かった。大きく笑う男だ。あいつが笑うと周りも笑う。そういう男だった」</p><p>炎が揺れた。ゴルムは目を細めた。「五十年前の話だ」</p></div><div class="choices"><button class="choice-btn" onclick="addRel('golm',1);fb('ゴルムとの絆が深まった','s');save();goto('百三十八')">焚き火の前で出発を待つ</button></div></div>
 <div class="para" id="百六十三"><div class="para-num">◆ <span>百六十三</span></div><div class="para-body"><p>野営の夜。シラが星を見ている。エルフは夜の空が得意だ。三百年間、夜空を眺め続けてきた。</p><p>「星の配置が変わっている」とシラは言う。「ザル＝カラムの光の影響だ。星脈が乱れると、天球に影響が出る。黄金時代の崩壊の夜も、星が揺れた」</p><p>「あなたはどこで崩壊の夜を迎えたのか」と聞く。シラは少し考えた。「テニスタ・テニストの森の中だ。木が根から揺れた。大地が呻いた。あの夜の音は、まだ覚えている」</p></div><div class="choices"><button class="choice-btn" onclick="addRel('sira',1);fb('シラとの絆が深まった','s');save();goto('百三十八')">夜明けを待つ</button></div></div>
@@ -1834,6 +1834,7 @@ function eventSilentWell(){
   // 選択肢を強制表示するためにパラグラフ選択肢を差し替える
   const choices = document.querySelector('.para.active .choices');
   if(!choices) return;
+  _evSave(choices);
   choices.innerHTML=`<button class="choice-btn" onclick="wellLook()">覗き込む</button>
     <button class="choice-btn" onclick="wellLeave()">立ち去る</button>`;
 }
@@ -1855,12 +1856,19 @@ function wellLeave(){
   saveTruth();
   fb('背後に気配を感じた気がした……', 'n');
   save(); render();
-  // 選択肢を元に戻す
-  const choices = document.querySelector('.para.active .choices');
-  if(choices){
-    choices.innerHTML=`<button class="choice-btn" onclick="heal(4);goto('五百三')">ロサを助けて回復薬か食料を渡す</button>
-      <button class="choice-btn" onclick="goto('五百四')">話だけ聞いて先へ進む</button>`;
-  }
+  // 選択肢を元に戻す（イベントの入口だけ外す）
+  _evRestore('eventSilentWell');
+}
+
+// イベントで差し替えた選択肢の退避と復元
+var _evSaved=null;
+function _evSave(c){ if(!_evSaved) _evSaved={el:c,html:c.innerHTML}; }
+function _evRestore(fnName){
+  if(!_evSaved) return;
+  var c=_evSaved.el; c.innerHTML=_evSaved.html; _evSaved=null;
+  if(fnName) c.querySelectorAll('button').forEach(function(b){ if((b.getAttribute('onclick')||'').indexOf(fnName)>=0) b.remove(); });
+  var p=c.closest('.para');
+  if(p && typeof injectFFChoiceHints==='function') injectFFChoiceHints(p);
 }
 
 // 象徴イベント②：優しい男
@@ -1870,6 +1878,7 @@ function eventKindMan(){
   fb('男が微笑んでいる。「困っているなら、助けましょう」', 'n');
   const choices = document.querySelector('.para.active .choices');
   if(!choices) return;
+  _evSave(choices);
   choices.innerHTML=`<button class="choice-btn" onclick="manTrust()">助けを求める</button>
     <button class="choice-btn" onclick="manRefuse()">断る</button>`;
 }
@@ -1891,14 +1900,8 @@ function manRefuse(){
   saveTruth();
   fb('男は少し悲しそうな顔をした', 'n');
   save(); render();
-  // 元の選択肢に戻す
-  const choices = document.querySelector('.para.active .choices');
-  if(choices){
-    choices.innerHTML=`<button class="choice-btn" onclick="payGoto(3,'二百三','通行料を支払った')">金貨を払う</button>
-      <button class="choice-btn" onclick="startCombat('街道の山賊',7,8,1,'二百三',{loot:{gold:2}})">立ち向かう（戦闘になった）</button>
-      <button class="choice-btn" onclick="goto('五百五')">道中で荷馬車の老人と話す</button>
-      <button class="choice-btn" onclick="goto('百九十四')">先へ進む</button>`;
-  }
+  // 元の選択肢に戻す（イベントの入口だけ外す）
+  _evRestore('eventKindMan');
 }
 
 // 象徴イベント③：七度目の分岐（META死亡回数参照）
@@ -1907,6 +1910,7 @@ function eventSeventhChoice(){
   fb('同じ場所に立っている気がする', 'n');
   const choices = document.querySelector('.para.active .choices');
   if(!choices) return;
+  _evSave(choices);
   choices.innerHTML=`<button class="choice-btn" onclick="seventhRight(${deaths})">右へ行く</button>
     <button class="choice-btn" onclick="seventhLeft()">左へ行く</button>`;
 }
@@ -1921,6 +1925,7 @@ function seventhRight(deaths){
     setTimeout(()=>{
       if(checkTrueEnd()) return; // 無言エンドへ
       save(); render();
+      _evRestore('eventSeventhChoice');
     }, 1500);
   } else {
     fb('また同じ結末か……', 'f');
@@ -2612,6 +2617,8 @@ function injectIllustration(el,id){
 }
 
 function goto(id){
+  // イベントの差し替え選択肢を残したまま離れる場合は元に戻す
+  if(typeof _evRestore==='function') _evRestore();
   if(typeof S!=='undefined'&&!S.rel)S.rel={nack:0,golm:0,sira:0};
   if(typeof S!=='undefined'&&typeof S.corrupt==='undefined')S.corrupt=0;
   // ①先にスクロールをトップへ戻す
