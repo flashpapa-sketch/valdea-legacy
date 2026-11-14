@@ -1852,6 +1852,13 @@ function _evRestore(fnName){
   if(p && typeof injectFFChoiceHints==='function') injectFFChoiceHints(p);
 }
 
+// 動的に作る選択肢の英語化（英語モード時のみ）
+function _evEn(choices){
+  if(_lang !== 'en' || !choices) return;
+  var m = {'助けを求める':'Ask for help','断る':'Refuse','右へ行く':'Go right','左へ行く':'Go left'};
+  choices.querySelectorAll('.choice-btn').forEach(function(b){ var t = b.textContent.trim(); if(m[t]) b.textContent = m[t]; });
+}
+
 // 象徴イベント②：優しい男
 function eventKindMan(){
   TRUTH.manCount++;
@@ -1862,6 +1869,7 @@ function eventKindMan(){
   _evSave(choices);
   choices.innerHTML=`<button class="choice-btn" onclick="manTrust()">助けを求める</button>
     <button class="choice-btn" onclick="manRefuse()">断る</button>`;
+  _evEn(choices);
 }
 
 function manTrust(){
@@ -1894,6 +1902,7 @@ function eventSeventhChoice(){
   _evSave(choices);
   choices.innerHTML=`<button class="choice-btn" onclick="seventhRight(${deaths})">右へ行く</button>
     <button class="choice-btn" onclick="seventhLeft()">左へ行く</button>`;
+  _evEn(choices);
 }
 
 function seventhRight(deaths){
