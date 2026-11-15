@@ -2605,6 +2605,22 @@ function injectIllustration(el,id){
   }catch(e){ console.error('illust',id,e); }
 }
 
+// ── 匿名の進捗記録（任意）。GAS_LOG_URL が空なら何も送らない ──
+var GAS_LOG_URL = '';
+function _logSid(){
+  try{
+    var v=localStorage.getItem('valdea_sid');
+    if(!v){ v=Date.now().toString(36)+Math.random().toString(36).slice(2,10); localStorage.setItem('valdea_sid',v); }
+    return v;
+  }catch(e){ return ''; }
+}
+function logProgress(id){
+  if(!GAS_LOG_URL || typeof S==='undefined') return;
+  try{
+    var body=JSON.stringify({sid:_logSid(),para:id,hp:S.hp,hp0:S.hp0,gold:S.gold,lang:(typeof _lang!=='undefined'?_lang:'ja'),dev:(/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)?'モバイル':'PC'),t:new Date().toISOString()});
+    fetch(GAS_LOG_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:body,keepalive:true}).catch(function(){});
+  }catch(e){}
+}
 function goto(id){
   // 存在しない段落（削除済みの旧版・古いセーブ）を指していたら「一」に戻す（本文が空白になるのを防ぐ）
   if(!document.getElementById(id)){ id='一'; }
@@ -2629,6 +2645,7 @@ function goto(id){
     injectIllustration(el,id);
     if(hasItem('水鏡の鎧')){ S.mirrorSteps=(S.mirrorSteps||0)+1; if(S.mirrorSteps>=5){ S.mirrorSteps=0; if(S.hp<S.hp0){ heal(1); fb('水鏡の鎧が体力を1回復した','s'); } } }
     S.cur=id;save();render();
+    logProgress(id);
     if(id==='四百七十三') showBuzzDeath();
     if(typeof SND!=='undefined') playSoundForPara(id);
     // ④表示後に再度スクロールリセット（念のため）
