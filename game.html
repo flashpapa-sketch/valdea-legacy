@@ -2558,6 +2558,13 @@ function initCombatListeners(){
       if(dd%2===1){
         CS.ehp=0; document.getElementById('c-ehp').textContent=0;
         clog('◆ '+CS.name+'を倒した！','l-res');
+        if(CS.opts.chain&&CS.opts.chain.length>0){
+          const nx=CS.opts.chain.shift();clog('── 次の敵が現れた！','l-sp');
+          CS.esk=nx.sk;CS.ehp=nx.hp;CS.ehp0=nx.hp;
+          document.getElementById('c-ehp').textContent=CS.ehp;
+          document.getElementById('c-esk').textContent='技術点 '+CS.esk;
+          save();render();return;
+        }
         if(CS.xp>0){addXP(CS.xp);clog('  経験値+'+CS.xp+'点','l-sp');}
         save();render();endCombat(true);return;
       }
