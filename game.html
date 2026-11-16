@@ -3929,12 +3929,19 @@ document.addEventListener('DOMContentLoaded', function() {
     '星脈の核を入手。技術点+1':'Got the Star-Vein Core. SKILL +1','解毒薬を入手（金貨-2）':'Got Antidote (Gold -2)','記憶の露を入手（金貨-4）':'Got Dew of Memory (Gold -4)',
     '体力点+4（食事・休憩）':'STAMINA +4 (meal and rest)','ドゥルムの形見を入手':"Got Durm's Keepsake",'レフト・アイの敬意・関係+2':"Left Ear's respect, Bond +2",
     '※ 進み具合（段落番号・能力値など）を匿名で記録しています。名前は記録しません。':'Note: your progress (paragraph numbers, stats) is recorded anonymously. No names are recorded.',
+    '金貨一枚を渡した':'You handed over one gold','宿代を払った':'You paid for the room','通行料を支払った':'You paid the toll','砂の亭に宿泊した':'You stayed at the Sand Inn',
+    '解毒薬を購入した（金貨-3）':'Bought Antidote (Gold -3)','縄を購入した（金貨-1）':'Bought Rope (Gold -1)','火打石を購入した（金貨-1）':'Bought Flint (Gold -1)',
     // 地図
     'タンガリー山岳':'Tangary Mountains','トール＝グルム':'Tor-Grum','テニスタ・テニストの森':'Forest of Tenista-Tenist','ニフルローム王国':'Kingdom of Niflrome',
     'ザル＝カラム遺跡':'Ruins of Zal-Karam','ドーラン':'Doran','廃村':'Abandoned Village','ミヤトの街道':'Miyato Road','ヴァルデア荒野':'Valdea Wastes','パロ国':'Paro'
   };
   var jpRe = /[぀-ヿ一-鿿]/;
   function nm(x){ return N[x] || D[x] || x; }
+  var _flat = null;
+  function enAny(ja){ // 段落の英語訳（選択肢の文）から探す
+    try{ if(!_flat){ _flat = {}; for(var p in EN2){ var mp = EN2[p]; for(var k in mp){ if(!(k in _flat)) _flat[k] = mp[k]; } } } }catch(e){ _flat = {}; }
+    return _flat[ja] || null;
+  }
   function stats(t){ // 数値つきの決まった言い回し
     return t.replace(/最大体力点/g,'Max STAMINA').replace(/最大HP/g,'Max HP').replace(/体力点/g,'STAMINA').replace(/技術点/g,'SKILL').replace(/運点/g,'LUCK')
       .replace(/金貨/g,'Gold ').replace(/精神力?/g,'Mind ').replace(/関係/g,'Bond ').replace(/体力/g,'STAMINA ').replace(/（/g,' (').replace(/）/g,')').replace(/−/g,'-').replace(/ +([+\-])/g,' $1').replace(/([A-Za-z])([+\-]\d)/g,'$1 $2').replace(/  +/g,' ');
@@ -3962,8 +3969,9 @@ document.addEventListener('DOMContentLoaded', function() {
     [/^あなたに(\d+)点の先制ダメージ！$/, function(m){ return 'You take '+m[1]+' damage from the first strike!'; }],
     [/^◆ 勝利 ── (.+)$/, function(m){ return '◆ Victory ── '+nm(m[1]); }],
     [/^★ 戦利品:(.+)$/, function(m){ return '★ Loot:'+m[1].replace(/「(.+?)」入手/g,function(_,x){ return ' '+nm(x); }).replace(/金貨\+/g,'Gold +').replace(/体力\+/g,'STAMINA +'); }],
+    [/^(.+) → ([\d+\- =]+)$/, function(m){ var x = tr(m[1]) || enAny(m[1]); return x ? x+' → '+m[2] : m[2]; }],
     [/^(?:金貨\+(\d+))?(?: ?「(.+?)」入手)?(?: ?体力\+(\d+))?$/, function(m){ if(!m[1]&&!m[2]&&!m[3]) return null; return [m[1]?'Gold +'+m[1]:'', m[2]?nm(m[2]):'', m[3]?'STAMINA +'+m[3]:''].filter(Boolean).join(', '); }],
-    [/^✋ 猿の右手 出目(\d+)「(.+?)」(?:— (.+))?$/, function(m){ return "✋ Monkey's Paw: roll "+m[1]+' "'+nm(m[2])+'"'+(m[3]?' — '+nm(m[3]):''); }],
+    [/^✋ 猿の右手 出目(\d+)「(.+?)」(?:— (.+))?$/, function(m){ return "✋ Monkey's Paw: roll "+m[1]+' "'+nm(m[2])+'"'+(m[3]?' — '+(tr(m[3])||m[3]):''); }],
     [/^出目(\d+)「(.+?)」$/, function(m){ return 'Roll '+m[1]+' "'+nm(m[2])+'"'; }],
     [/^✦ (.+)$/, function(m){ var x=tr(m[1]); return x?'✦ '+x:null; }], [/^✧ (.+)$/, function(m){ var x=tr(m[1]); return x?'✧ '+x:null; }],
     [/^▶ (.+)$/, function(m){ var x=tr(m[1]); return x?'▶ '+x:null; }],
