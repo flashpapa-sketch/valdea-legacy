@@ -543,7 +543,7 @@ html{scroll-behavior:smooth}
 <!-- ダイスオーバーレイ -->
 <div id="ff-create" style="display:none">
   <h2>ヴォルカネスの迷宮</h2>
-  <h3>冒険者の作成</h3><p style="color:var(--acc);font-size:.8rem;margin:.2rem 0 .6rem;letter-spacing:.03em">英語対応してます。ENボタンを押してください。</p>
+  <h3>冒険者の作成</h3><p style="color:var(--acc);font-size:.8rem;margin:.2rem 0 .6rem;letter-spacing:.03em">英語対応してます。ENボタンを押してください。</p><p id="log-note" style="display:none;color:var(--dim);font-size:.68rem;margin:0 0 .6rem">※ 進み具合（段落番号・能力値など）を匿名で記録しています。名前は記録しません。</p>
   <div class="ff-stat-row">
     <div class="ff-stat-label">SKILL<br><span style="font-size:.58rem">技術点</span></div>
     <div class="ff-stat-dice" id="ffc-sk-dice"></div>
@@ -1790,7 +1790,7 @@ function silentEnding(){
       <p id="se-p2" style="opacity:0;font-size:.8rem;transition:opacity 1.5s">……</p>
       <p id="se-p3" style="opacity:0;font-size:.7rem;margin-top:2rem;color:var(--dim);transition:opacity 1.5s"></p>
       <div id="se-restart" style="opacity:0;margin-top:3rem;transition:opacity 1.5s">
-        <button class="choice-btn" onclick="resetAll()" style="max-width:200px">再試行</button>
+        <button class="choice-btn" onclick="try{localStorage.removeItem(SK)}catch(e){};location.reload()" style="max-width:200px">再試行</button>
       </div>
     </div>`;
   setTimeout(()=>{
@@ -3778,5 +3778,263 @@ function showFFCreate(){
 document.addEventListener('DOMContentLoaded', function() {
   injectFFChoiceHints(null);
 });
+</script>
+<script>
+// ── 段落以外（ヘッダー・状態欄・戦闘・作成画面・通知）の英語表示 ──
+// 英語モードの時だけ、画面上の文字を辞書と規則で置き換える。日本語に戻すと元の文字に戻す。
+(function(){
+  var N = { // 名前（道具・敵・人物・場所）
+    '食料':'Provisions','回復薬':'Healing Potion','固いパン':'Hard Bread','テニスタ・テニストの木の実':'Tenista-Tenist Nut',
+    '水鏡の鎧':'Mirror-Water Armor','ブリティッシュ王の王冠':"British King's Crown",'腹腹時計':'Belly Clock',
+    'サカムビット公の王冠':"Duke Sakambit's Crown",'伝説の護符':'Legendary Amulet','薬草':'Healing Herb','死神の首飾り':"Reaper's Necklace",
+    '賢者の石':"Sage's Stone",'黒鉄の破片':'Black Iron Shard','錆びた短剣':'Rusty Dagger','発光結晶':'Glowing Crystal',
+    '溶け合った装備品':'Fused Equipment','霊石の破片':'Spirit Stone Shard','観念の結晶':'Crystal of Ideas','警戒結晶の破片':'Alarm Crystal Shard',
+    '守護者の紋章石':"Guardian's Crest Stone",'古代の鎧片':'Ancient Armor Piece','血塗れの大斧':'Bloodstained Greataxe','アサシン・ダガー':'Assassin Dagger',
+    '月光の護符':'Moonlight Amulet','星脈の核':'Star-Vein Core','星脈の欠片':'Star-Vein Fragment','刻印入り短剣':'Engraved Dagger',
+    '変異体の爪':'Mutant Claw','野盗の短剣':"Bandit's Dagger",'ロットンのつるぎ':"Rotten's Sword",'解毒薬':'Antidote','記憶の露':'Dew of Memory',
+    '投げナイフ':'Throwing Knife','鉄の盾':'Iron Shield','革の篭手':'Leather Bracers','毒短剣':'Poison Dagger','音消し手袋':'Silent Gloves',
+    '発光石':'Glow Stone','神殿の護符':'Temple Amulet','星脈の石':'Star-Vein Stone','回復結晶':'Healing Crystal','万能薬':'Panacea','縄':'Rope',
+    '火打石':'Flint','鉄棒':'Iron Bar','手斧':'Hand Axe','古代鋼の剣':'Ancient Steel Sword','笛':'Whistle','森の護り':'Forest Ward',
+    '地上層地図':'Surface Level Map','地下一層地図':'Level One Map','抜け道地図':'Secret Passage Map','地上層粗地図':'Rough Surface Map',
+    '完全地図':'Complete Map','古い地図断片':'Old Map Fragment','番人データ':'Sentinel Data','遺跡情報':'Ruin Information','星脈傷の薬':'Star-Vein Wound Salve',
+    'ドゥルムの形見':"Durm's Keepsake",'短剣':'Dagger','剣':'Sword',
+    'グラッハ':'Grakh','ゴブリンブルート':'Goblin Brute','ゾンゲリラ':'Zonguerrilla','街道の山賊':'Highway Bandit','腐敗した門番':'Rotting Gatekeeper',
+    '番人ゴーレム':'Sentinel Golem','犇めき合う者たち':'The Thronging Ones','ピーターの亡霊':"Peter's Ghost",'観念的な硬いスライム':'Conceptual Hard Slime',
+    'デフ・コン・ワン':'Def Con One','ノフ＝ケー':'Gnoph-Keh','エイサー':'Eysar','古代の守護者':'Ancient Guardian','ヴォルカネス（前哨）':'Volcaness (Vanguard)',
+    '手負いのバーサーカー':'Wounded Berserker','ギューズ・ヘッド':'Guze Head','スノッヴなハイエルフ':'Snobbish High Elf','アイム・イン・ラヴ':"I'm In Love",
+    'ヴォルカネス':'Volcaness','盗賊の偵察兵':'Bandit Scout','イェーキュブの芋虫':'Caterpillar of Yekub','ティンダロスの猟犬':'Hound of Tindalos',
+    '闇の商会の刺客':'Dark Company Assassin','変異体の群れ':'Mutant Pack','野盗の頭':'Bandit Chief','野盗の見張り':'Bandit Lookout',
+    '地下一層の番人':'Level One Sentinel','神殿守護者（一体）':'Temple Guardian','自身の影':'Your Own Shadow','怒った冒険者':'Angry Adventurer','敵':'Enemy',
+    'ゴルム':'Gorm','シラ':'Sira','レフト・アイ':'Left Ear','ラルハス':'Larhas','ヴァズ':'Vaz'
+  };
+  var D = { // 完全一致で置き換える文
+    // ヘッダー・作成画面
+    'ヴォルカネスの迷宮':'The Labyrinth of Volcanes','✓ しおり':'✓ Bookmark','地図':'Map','手引き':'Guide','状態':'Status','地 図':'MAP',
+    '冒険者の作成':'Create Your Adventurer','英語対応してます。ENボタンを押してください。':'English is available. Press the EN button.',
+    '技術点':'SKILL','体力点':'STAMINA','運点':'LUCK','🎲 ダイスを振る':'🎲 Roll the dice','冒険を始める →':'Begin the adventure →',
+    '食料（PROVISIONS）10食を携帯して出発する。':'You set out carrying 10 Provisions.','食料は1食につき体力点を4回復する。':'Each Provision restores 4 STAMINA.',
+    '所持品は最大10個まで。':'You may carry up to 10 items.','続ける':'Continue',
+    // 状態欄
+    '冒険者ステータス':'Adventurer Status','体力点 STAMINA':'STAMINA','💰 金貨':'💰 Gold','精神力':'Mind','⏱ 生存時間':'⏱ Time alive',
+    'ダイス':'Dice','運試し':'Test Luck','経験値・レベル':'Experience / Level','経験値':'XP','点':'pts','猿の右手':"Monkey's Paw",
+    '✋ 使う（2d6）':'✋ Use (2d6)','使用済み':'Used','食':'meals','所持品':'Items','（なし）':'(none)','冒険の記録':'Adventure Log','まだ記録なし':'Nothing recorded yet',
+    'ローグ引き継ぎ':'Carry-over','累計死亡':'Total deaths','引き継ぎ強化':'Carry-over bonus','なし':'None','解放イベント':'Unlocked events',
+    '引き継ぎリセット':'Reset carry-over','メモ・フラグ':'Notes','しおり':'Bookmark','しおりはまだ無い':'No bookmark yet','🔖 しおり':'🔖 Bookmark',
+    '▶ 読込':'▶ Load','リセット':'Reset','王冠装備中':'Crown equipped','（データ破損）':'(corrupted data)',
+    // レベル
+    '駆け出しの冒険者':'Novice Adventurer','荒野を渡る剣士':'Swordsman of the Wastes','紋章の継承者':'Heir to the Mark','ヴァルデアの英雄':'Hero of Valdea',
+    '運命に選ばれた者':'Chosen by Fate','ならず者の無頼漢':'Lawless Rogue','招かれざる者':'The Uninvited',
+    'レベルアップ！ パラメータを1つ選んで強化してください。':'Level up! Choose one stat to raise.','上げるパラメータを選んでください':'Choose a stat to raise',
+    '技術点 ＋1':'SKILL +1','運点 ＋1':'LUCK +1','体力点 ＋2（最大値も上昇）':'STAMINA +2 (maximum also rises)',
+    '覚醒！ すべての能力値に＋2（自動適用）':'Awakened! All stats +2 (applied automatically)',
+    // 目的
+    'ドーランで情報を集める':'Gather information in Doran','ザル＝カラムへ向かう':'Head for Zal-Karam','遺跡の入口を突破する':'Break through the ruin entrance',
+    '地下一層を探索する':'Explore level one','地下二層の奥へ進む':'Go deeper into level two','同盟を集め最深部へ':'Gather allies and reach the depths',
+    'ヴォルカネスと対峙する':'Confront Volcaness','冒険は完結した':'The adventure is complete','力尽きた——再び挑め':'You fell — try again',
+    // 記録の表示
+    'レフト・アイ同行中':'Left Ear travels with you','ゴルム同行中':'Gorm travels with you','シラと接触':'Met Sira','ヴァズと取引':'Dealt with Vaz',
+    '隠し通路を知っている':'Knows the hidden passage','オルト＝ヴァルの記憶':"Olt-Val's memory",'死神の首飾り装備中':"Reaper's Necklace equipped",
+    '宝箱の奇跡':'Miracle of the chest','死神の証人':"Reaper's witness",'死神の証人（20回死亡）':"Reaper's witness (20 deaths)",'バグを見た者':'One who saw the bug',
+    '死神の覚醒':"Reaper's awakening",'開発者も想定外の事象':'An event the developer never expected',
+    // 猿の右手
+    '悪魔の嘲笑':"Devil's Mockery",'状況が悪化する':'Things get worse','体力点−4、ラスボス戦次ターンダメージ×2':'STAMINA −4; double damage next turn in the final battle',
+    '変身の呪い':'Curse of Transformation','敵がカエルに変身':'The enemy turns into a frog','次戦で技術点−2':'SKILL −2 in the next fight',
+    '黄金の雨':'Rain of Gold','商人があなたを避ける':'Merchants avoid you','眠りの霧':'Mist of Sleep','敵も眠る':'The enemy sleeps too',
+    '1ターン行動不能。仲間1人消える':'You lose one turn. One companion vanishes','時の迷子':'Lost in Time','隠し選択肢+1':'Hidden choice +1','運点−1':'LUCK −1',
+    '星脈の暴走':'Star-Vein Rampage','敵全員に体力点−6':'All enemies STAMINA −6','自分も体力点−2':'You also lose 2 STAMINA','黄泉の波動':'Wave of the Underworld',
+    '死者の力を一時的に借りる':'Borrow the power of the dead for a time','腐敗値+2・精神-20・体力点が1になる':'Corruption +2, Mind −20, STAMINA becomes 1',
+    '召喚の暴走':'Runaway Summoning','生き物が召喚':'A creature is summoned','召喚された存在が憑きまとう':'The summoned thing haunts you',
+    '英雄の刻':"Hero's Hour",'体力全回復・技術点+3':'STAMINA fully restored, SKILL +3','誰かの寿命から借りたもの':"Borrowed from someone's lifespan",
+    '神々の気まぐれ':'Whim of the Gods','敵や障害を消滅':'Enemies and obstacles vanish','大切な何かも消える。運点が1に固定':'Something precious vanishes too. LUCK is fixed at 1',
+    '伝説の一手':'The Legendary Move','通常戦逆転/ラスボス体力半減':'Turns a normal fight / halves the final boss STAMINA','なし（この奇跡にも理由がある）':'None (this miracle has its reason too)',
+    // 戦闘
+    'あなた':'You','戦闘開始！':'The fight begins!','🎲 攻撃（2D6）':'🎲 Attack (2D6)','道具を使う':'Use an item','✋ 猿の右手を使う':"✋ Use the Monkey's Paw",
+    '先へ進む →':'Go on →','冒険を続ける →':'Continue the adventure →','四百七十三へ進め →':'Go to 473 →','森を引き返す':'Turn back through the forest','勝利！':'Victory!',
+    '⚔ 戦闘ラウンド':'⚔ Combat Round','「……参りました」一礼ののち、霧となって消えた':'"...I yield." He bows, then fades into mist.',
+    '「よくご健闘されました」と彼は言い、剣をおさめた。あなたは森から丁重に追い出された。':'"You fought well," he says, sheathing his sword. You are politely escorted out of the forest.',
+    '◆ 消耗戦を制した！':'◆ You won the battle of attrition!','◆ 力尽きた……':'◆ Your strength is gone...','◆ あなたは倒れた……':'◆ You have fallen...',
+    '◆ 先制で倒された……':'◆ Struck down by the first blow...','✋ 猿の右手の霧で行動不能！ このターンをスキップ':"✋ The Monkey's Paw mist holds you! You lose this turn",
+    '↑ 反撃！':'↑ Counterattack!','✦ 体力吸収！':'✦ STAMINA drained!','✋ 呪いの倍撃！':'✋ Cursed double strike!','─ 互角。両者に1点のダメージ':'─ Even. 1 damage to both',
+    '── 次の敵が現れた！':'── The next enemy appears!','使えるアイテムがない':'You have no usable item','完勝だ。':'A complete victory.',
+    '勝った。辛くも。':'You won. Barely.','ギリギリだった……しかし勝った。':'It was close... but you won.',
+    // 死亡画面・その他
+    '━━ 冒険の記録 ━━':'━━ Adventure Record ━━','▲ 最初から挑戦':'▲ Try again from the start','𝕏 Xで晒す':'𝕏 Share on X','再試行':'Retry',
+    'あなたは理解した':'You understand','観測継続不可':'Observation cannot continue','寄り道をやめて戻る':'Leave the side path','記録を開始する':'Begin the record',
+    // 通知
+    '出発前にしおりを挟むことを推奨します':'Tip: place a bookmark before you set out','猿の右手はすでに使用済みだ':"The Monkey's Paw has already been used",
+    'ゴルムはいない':'Gorm is not with you','レフト・アイはいない':'Left Ear is not with you','何かいる気がしたが、気のせいだった。':'You felt something there. It was nothing.',
+    '王冠を手に入れた。装備するにはインベントリから。':'You obtained the crown. Equip it from your items.','オルト＝ヴァルの記憶が必要だ':"You need Olt-Val's memory",
+    '追剥を振り切った':'You shook off the robbers','泉の水で体力が全回復した':'The spring water fully restored your STAMINA','食料をすべて失った':'You lost all your Provisions',
+    '偵察兵が気づいた──逃げられない！':'The scout has noticed you — no escape!','気配を消してやり過ごした':'You hid your presence and let them pass',
+    '偵察兵に見つかった！':'The scout spotted you!','金貨が足りない':'Not enough gold','金貨が足りない！':'Not enough gold!','荷物がいっぱいだ！':'Your pack is full!',
+    '東壁の隠し入口の情報を入手':'Learned of the hidden entrance in the east wall','密書と地図切れ端を入手':'Got a secret letter and a scrap of map',
+    '闇の商会の本拠情報を入手':"Learned where the Dark Company's base is",'依頼受注：採掘許可証':'Job accepted: mining permit','依頼受注：石碑拓本':'Job accepted: stone rubbing',
+    '謎の女：夜明けまでに出発せよ':'Mysterious woman: leave before dawn','ヴォルカネスの変容の真実を知った':"You learned the truth of Volcaness's change",
+    '重大な情報を得た':'You gained vital information','地下二層の鏡の警告を聞いた':'You heard the warning about the mirror on level two',
+    '地下一層：右に曲がるな':'Level one: do not turn right','そこが入口だとは気づかなかった':'You did not realise it was an entrance','南壁の裏口情報を入手':'Learned of the back door in the south wall',
+    '入口の当てがない。事前の情報が必要だ':'You have no lead on an entrance. You need information first','ゴルムとの絆が深まった':'Your bond with Gorm deepened',
+    'シラとの絆が深まった':'Your bond with Sira deepened','レフト・アイとの絆が深まった':'Your bond with Left Ear deepened','ゴルムとの絆が最大になった':'Your bond with Gorm is at its peak',
+    '笛入手：番人を三秒混乱させる':'Got Whistle: confuses a sentinel for three seconds','紋章持ちは番人に認識される':'Sentinels recognise those who bear the mark',
+    'ヴァズの記録：地下で孤独に待ち続けている':"Vaz's record: waiting alone underground",'これは罠だと知っている':'You know this is a trap',
+    '星脈の欠片入手：明かりとして使える':'Got Star-Vein Fragment: can be used as a light','耐性のおかげでダメージなし':'Your resistance spared you','崩壊の夜の記憶を目撃した':'You witnessed the memory of the night of collapse',
+    '亡霊の警告：鏡は罠':"A ghost's warning: the mirror is a trap",'耐性が守ってくれた':'Your resistance protected you','星の欠けらを持ち帰った':'You brought back a piece of the star',
+    'ヴァンの最後の助言を受けた':"You received Van's last advice",'封印する者の恐怖を目撃した':'You witnessed the fear of the one who seals','解毒薬3本入手':'Got 3 Antidotes',
+    '鉄棒入手（助けた礼）':'Got Iron Bar (thanks for your help)','星脈を完全に解放した':'You fully released the star-veins','既に持っているか金貨が足りない':'You already have it, or not enough gold',
+    '薬草採取':'Gathered healing herbs','番人を回避して侵入成功':'You slipped past the sentinels and got in','引き継ぎリセット完了':'Carry-over reset','しおりを挟んだ':'Bookmark placed',
+    'しおりを挟んだ……':'Bookmark placed...','読み込みました':'Loaded','読み込みに失敗しました':'Failed to load','精神が崩壊した……':'Your mind has collapsed...',
+    '宝箱を開けた→罠が作動！ 体力点-8':'You opened the chest → a trap! STAMINA -8','奇跡！ 伝説の護符を入手':'A miracle! Got the Legendary Amulet',
+    '村人が回復してくれた HP+15':'A villager healed you. HP +15','薬草をもらった':'You were given a healing herb','無視された':'You were ignored',
+    '突然襲われた！ HP-10':'Suddenly attacked! HP -10','村人が狂気を語り始めた… 精神-30':'The villager begins to speak madness... Mind -30','金貨5枚もらった':'You were given 5 gold',
+    'データが破損した！ HP-5':'The data was corrupted! HP -5','無事だった…':'You are unharmed...','金貨がない':'You have no gold','仲間が裏切った！ 精神-40':'A companion betrayed you! Mind -40',
+    '何も起きなかった':'Nothing happened','空からパンが降ってきた HP+5':'Bread fell from the sky. HP +5','奇跡が起きた！ 全回復':'A miracle! Fully restored',
+    '突然の出来事が起きた…':'Something sudden happened...','特に理由もなく死亡した':'You died for no particular reason','その選択…本気でしたか？':'That choice... did you mean it?',
+    '初めての挑戦ですね。ゆっくりどうぞ。':'Your first attempt. Take your time.','【超激レア】開発者も想定していない事象が発生しました':'[ULTRA RARE] Something even the developer never expected has occurred',
+    'あと一撃で終わる…！':'One more blow and it is over...!','古い井戸がある。石に文字が刻まれている——「覗くな」':'There is an old well. Words are carved in the stone — "Do not look in."',
+    '背後に気配を感じた気がした……':'You thought you felt something behind you...','男が微笑んでいる。「困っているなら、助けましょう」':'The man smiles. "If you are in trouble, let me help."',
+    '男は少し悲しそうな顔をした':'The man looks a little sad','同じ場所に立っている気がする':'You feel you are standing in the same place','景色が、変わった':'The scenery has changed',
+    'また同じ結末か……':'The same ending again...','またこの結末か……':'This ending again...','水鏡の鎧が体力を1回復した':'The Mirror-Water Armor restored 1 STAMINA',
+    '食料がない':'You have no Provisions','体力は最大値だ':'Your STAMINA is already full','食料を1食分食べた。体力点+4（PROVISIONS）':'You ate one Provision. STAMINA +4',
+    '回復薬がない':'You have no Healing Potion','回復薬を使った。体力点+6':'You used a Healing Potion. STAMINA +6',
+    '荷物がいっぱいだ！ 持ち物は10個まで。何かを捨てなければならない。':'Your pack is full! You may carry 10 items. You must discard something.',
+    '王冠の力で体力+2（最大まで）':"The crown's power: STAMINA +2 (up to maximum)",'黄泉の波動――死者の力が流れ込む。体が燃えるように熱い。':'Wave of the Underworld — the power of the dead floods in. Your body burns.',
+    'Lv.5「招かれざる者」覚醒！ 全能力+2':'Lv.5 "The Uninvited" awakened! All stats +2','「7回目の死で、真実が見える」':'"On the seventh death, the truth is seen."',
+    '「まだここにいるのか……」':'"Are you still here...?"','首飾りの冷気が全身を包んだ。痛みが消えた。これが守護か。':'The cold of the necklace wraps your whole body. The pain is gone. So this is protection.',
+    '技術点-2（永久）。賢者の石を入手。':"SKILL -2 (permanent). Got the Sage's Stone.",'断った。':'You refused.',
+    'ブラウザの「戻る」は使えません。ゲーム内の選択肢で進んでください。':"The browser's Back button cannot be used. Please use the choices in the game.",
+    'サカムビット公の王冠を装備した。技術点+2・運点+2。':"You put on Duke Sakambit's Crown. SKILL +2, LUCK +2.",'王冠はすでに装備している。':'The crown is already equipped.','王冠を持っていない。':'You do not have the crown.',
+    // 「・」で区切る通知の前半
+    '技術点+1（番人ゴーレムへの知識）':'SKILL +1 (knowledge of the Sentinel Golems)','調査報告から知識を得た':'You learned from the survey report','回復薬入手':'Got Healing Potion',
+    '精神力+1（耐性を得た）':'Mind +1 (resistance gained)','技術点+1・運点+1（古代の知識）':'SKILL +1, LUCK +1 (ancient knowledge)','金貨+10（廃集落の隠し財産）':'Gold +10 (hidden savings of the abandoned village)',
+    '運点+1（精神的な備えができた）':'LUCK +1 (you are mentally prepared)','体力点+2・金貨+3（装備の残骸から）':'STAMINA +2, Gold +3 (from the remains of equipment)',
+    '逃げる途中でダメージ（体力点-3）':'Hurt while fleeing (STAMINA -3)','石柱の言葉を受け取った':'You received the words of the stone pillar','遺跡の観察から技術点+1':'SKILL +1 from observing the ruin',
+    '地下一層全体図':'full map of level one','地下二層の構造を把握':'You grasped the layout of level two','体力点-2（歯車の傷）':'STAMINA -2 (cut by a gear)',
+    '封印の仕組みを理解':'You understood how the seal works','三百年前からの助言':'Advice from three hundred years ago','星脈から情報を受け取った':'You received knowledge from the star-veins',
+    '精神が削られる（精神-5）':'Your mind is worn away (Mind -5)','封印解除の方法を理解':'You understood how to break the seal','ヴォルカネスの孤独を理解した':"You understood Volcaness's loneliness",
+    '即効回復薬を飲んだ':'You drank a fast-acting potion','井戸の水':'Well water','金貨+2（旅人の礼）':"Gold +2 (a traveller's thanks)",'金貨+20（王の個人的な礼）':"Gold +20 (the king's personal thanks)",
+    '古代の助言を受け取った':'You received ancient advice','精神が揺らぐ（精神-5）':'Your mind wavers (Mind -5)','軽微なダメージ（精神-2）':'Slight damage (Mind -2)','先達の助言を受けた':'You received advice from one who went before',
+    '食事と礼金':'A meal and a reward','荒野の地理情報':'Knowledge of the wasteland','荷馬車で体力回復':'Rested on the wagon','自分の名を刻んだ':'You carved your own name',
+    '食料と水を渡した（体力点-3・金貨-1）':'You gave food and water (STAMINA -3, Gold -1)','善行の報い':'Reward for a good deed','古代の霊薬':'Ancient elixir','毒性の液体':'Poisonous liquid',
+    '生命の兆し':'A sign of life','暗号地図を解読':'You deciphered the coded map','地下の清水':'Clear underground water','鉱物水':'Mineral water','落下':'A fall',
+    '記憶結晶体験':'Memory crystal vision','ヴォルカネスを理解した':'you understood Volcaness','核の選択条件を理解':"You understood the core's conditions",'静寂の礼拝堂':'Chapel of Silence',
+    '断片記憶':'Fragment of memory','断片記憶の混乱':'Confusion from a memory fragment','問答の試練クリア':'Passed the trial of questions','問答の試練失敗':'Failed the trial of questions',
+    '核の拒絶':'Rejected by the core','紋章の真実':'The truth of the mark','少女の感謝':"A girl's thanks",'ギルドから報酬':'Reward from the guild','神殿での回復':'Healed at the temple',
+    '全回復':'fully restored','情報の対価':'Payment for information','老王の承認':"The old king's approval",'ドルイドの祝福':"Druid's blessing",'ドルイドの言葉':"Druid's words",'良い眠り':'A good sleep',
+    'レフト・アイの敬意':"Left Ear's respect",'三日分の食料購入':"Bought three days' food",'二日分の食料購入':"Bought two days' food",'賭博勝利':'Won at gambling','賭博敗北':'Lost at gambling',
+    '同行者の安心感':'Comfort of company','子供の純粋な目':"A child's pure eyes",'ゴルムの干し肉':"Gorm's dried meat",'発光石購入':'Bought Glow Stone','焼きたてパン':'Fresh bread',
+    '井戸の清水':'Clear well water','汚染された水':'Tainted water','ゴルムの過去を聞いた':"You heard Gorm's past",'休息':'Rest','ゴルムの傷を治した':"You treated Gorm's wound",
+    'シラとの再会':'Reunion with Sira','滑落':'A slip and fall','遺跡の外周調査':'Surveyed the ruin perimeter','老人の三十年の観察':"An old man's thirty years of watching",'他者の装備':"Another's equipment",
+    '誤解を解いた':'You cleared up a misunderstanding','ゴルムの覚悟':"Gorm's resolve",'毒ガス':'Poison gas','宝箱の財宝':'Treasure from a chest','罠の刃':'Trap blade','ゴルムと休憩':'Rested with Gorm',
+    '過去の記録':'Records of the past','ヴォルカネスの承認':"Volcaness's approval",'正直な返答':'An honest answer','イグリン＝ダルの認証':"Igrin-Dal's recognition",'星脈の源の目撃':'Saw the source of the star-veins',
+    '危険な探索':'A dangerous search','ゴルムの歌':"Gorm's song",'番人の残骸から':'from the remains of a sentinel','ラルハスの情報：技術点+1':"Larhas's information: SKILL +1",
+    '星脈の核を入手。技術点+1':'Got the Star-Vein Core. SKILL +1','解毒薬を入手（金貨-2）':'Got Antidote (Gold -2)','記憶の露を入手（金貨-4）':'Got Dew of Memory (Gold -4)',
+    '体力点+4（食事・休憩）':'STAMINA +4 (meal and rest)','ドゥルムの形見を入手':"Got Durm's Keepsake",'レフト・アイの敬意・関係+2':"Left Ear's respect, Bond +2",
+    '※ 進み具合（段落番号・能力値など）を匿名で記録しています。名前は記録しません。':'Note: your progress (paragraph numbers, stats) is recorded anonymously. No names are recorded.',
+    // 地図
+    'タンガリー山岳':'Tangary Mountains','トール＝グルム':'Tor-Grum','テニスタ・テニストの森':'Forest of Tenista-Tenist','ニフルローム王国':'Kingdom of Niflrome',
+    'ザル＝カラム遺跡':'Ruins of Zal-Karam','ドーラン':'Doran','廃村':'Abandoned Village','ミヤトの街道':'Miyato Road','ヴァルデア荒野':'Valdea Wastes','パロ国':'Paro'
+  };
+  var jpRe = /[぀-ヿ一-鿿]/;
+  function nm(x){ return N[x] || D[x] || x; }
+  function stats(t){ // 数値つきの決まった言い回し
+    return t.replace(/最大体力点/g,'Max STAMINA').replace(/最大HP/g,'Max HP').replace(/体力点/g,'STAMINA').replace(/技術点/g,'SKILL').replace(/運点/g,'LUCK')
+      .replace(/金貨/g,'Gold ').replace(/精神力?/g,'Mind ').replace(/関係/g,'Bond ').replace(/体力/g,'STAMINA ').replace(/（/g,' (').replace(/）/g,')').replace(/−/g,'-').replace(/ +([+\-])/g,' $1').replace(/([A-Za-z])([+\-]\d)/g,'$1 $2').replace(/  +/g,' ');
+  }
+  var RULES = [
+    [/^第(\d+)R: あなた\((.+?)\) vs 敵\((.+?)\)$/, function(m){ return 'Round '+m[1]+': You ('+m[2]+') vs Enemy ('+m[3]+')'; }],
+    [/^⚡ 致命打！ 敵に(\d+)点のダメージ$/, function(m){ return '⚡ Critical hit! '+m[1]+' damage to the enemy'; }],
+    [/^✦ あなたの一撃！ 敵に(\d+)点のダメージ$/, function(m){ return '✦ Your blow lands! '+m[1]+' damage to the enemy'; }],
+    [/^✦ 敵の一撃！ あなたに(\d+)点のダメージ ─ ピンチだ！$/, function(m){ return '✦ The enemy strikes! You take '+m[1]+' damage ─ you are in danger!'; }],
+    [/^✦ 敵の一撃！ あなたに(\d+)点のダメージ$/, function(m){ return '✦ The enemy strikes! You take '+m[1]+' damage'; }],
+    [/^◆ (.+)を倒した！$/, function(m){ return '◆ You defeated '+nm(m[1])+'!'; }],
+    [/^経験値\+(\d+)点$/, function(m){ return 'XP +'+m[1]; }],
+    [/^腹腹時計を使用。体力-(\d+)（半分を失う）$/, function(m){ return 'You used the Belly Clock. STAMINA -'+m[1]+' (half lost)'; }],
+    [/^サイコロ：(\d)（奇数）。敵は即死！$/, function(m){ return 'Die: '+m[1]+' (odd). The enemy dies instantly!'; }],
+    [/^サイコロ：(\d)（偶数）。効果なし$/, function(m){ return 'Die: '+m[1]+' (even). No effect'; }],
+    [/^(.+)を使用。体力\+(\d+)$/, function(m){ return 'Used '+nm(m[1])+'. STAMINA +'+m[2]; }],
+    [/^(.+)を入手した$/, function(m){ return 'Got '+nm(m[1]); }],
+    [/^✓ 運に恵まれた！（運点残り(\d+)）$/, function(m){ return '✓ Luck is with you! (LUCK left: '+m[1]+')'; }],
+    [/^✗ 運に見放された（運点残り(\d+)）$/, function(m){ return '✗ Luck has deserted you (LUCK left: '+m[1]+')'; }],
+    [/^✗ 運は尽きた……$/, function(){ return '✗ Your luck has run out...'; }],
+    [/^✓ 成功！$/, function(){ return '✓ Success!'; }], [/^✗ 失敗…$/, function(){ return '✗ Failure...'; }],
+    [/^(.*)✓ 成功（運点-1）$/, function(m){ return m[1]+'✓ Success (LUCK -1)'; }], [/^(.*)✗ 失敗（運点-1）$/, function(m){ return m[1]+'✗ Failure (LUCK -1)'; }],
+    [/^✋ 猿の右手の呪いで技術点-(\d+)！$/, function(m){ return "✋ The Monkey's Paw curse: SKILL -"+m[1]+'!'; }],
+    [/^⚡ 先制！ (.+)が飛びかかった！$/, function(m){ return '⚡ Ambush! '+nm(m[1])+' leaps at you!'; }],
+    [/^あなたに(\d+)点の先制ダメージ！$/, function(m){ return 'You take '+m[1]+' damage from the first strike!'; }],
+    [/^◆ 勝利 ── (.+)$/, function(m){ return '◆ Victory ── '+nm(m[1]); }],
+    [/^★ 戦利品:(.+)$/, function(m){ return '★ Loot:'+m[1].replace(/「(.+?)」入手/g,function(_,x){ return ' '+nm(x); }).replace(/金貨\+/g,'Gold +').replace(/体力\+/g,'STAMINA +'); }],
+    [/^✋ 猿の右手 出目(\d+)「(.+?)」(?:— (.+))?$/, function(m){ return "✋ Monkey's Paw: roll "+m[1]+' "'+nm(m[2])+'"'+(m[3]?' — '+nm(m[3]):''); }],
+    [/^出目(\d+)「(.+?)」$/, function(m){ return 'Roll '+m[1]+' "'+nm(m[2])+'"'; }],
+    [/^✦ (.+)$/, function(m){ var x=tr(m[1]); return x?'✦ '+x:null; }], [/^✧ (.+)$/, function(m){ var x=tr(m[1]); return x?'✧ '+x:null; }],
+    [/^▶ (.+)$/, function(m){ var x=tr(m[1]); return x?'▶ '+x:null; }],
+    [/^Lv\.(\d+)！ 体力最大\+2$/, function(m){ return 'Lv.'+m[1]+'! Max STAMINA +2'; }], [/^Lv\.(\d+)！ 技術点\+1$/, function(m){ return 'Lv.'+m[1]+'! SKILL +1'; }],
+    [/^Lv\.(\d+)！ 運点\+1$/, function(m){ return 'Lv.'+m[1]+'! LUCK +1'; }],
+    [/^Lv\.(\d+) 「?(.+?)」?$/, function(m){ return 'Lv.'+m[1]+' '+nm(m[2]); }],
+    [/^賭けに勝った！ 金貨\+(\d+)$/, function(m){ return 'You won the bet! Gold +'+m[1]; }], [/^賭けに負けた… 金貨-(\d+)$/, function(m){ return 'You lost the bet... Gold -'+m[1]; }],
+    [/^新イベント解放: (.+)$/, function(m){ return 'New event unlocked: '+nm(m[1]); }],
+    [/^(\d+)回目の挑戦ですね。少しだけ優遇します。HP\+10$/, function(m){ return 'Attempt number '+m[1]+'. A small favour for you. HP +10'; }],
+    [/^(\d+)回死にましたね。そろそろ学びましたか？$/, function(m){ return 'You have died '+m[1]+' times. Have you learned yet?'; }],
+    [/^もう(\d+)回も死んでいる。あなたは何者ですか…$/, function(m){ return 'You have died '+m[1]+' times already. Who are you...?'; }],
+    [/^⚔ (.+) との戦い$/, function(m){ return '⚔ Fight: '+nm(m[1]); }],
+    [/^技術点? (\d+)$/, function(m){ return 'SKILL '+m[1]; }], [/^技術 (—|\d+)$/, function(m){ return 'SKILL '+m[1]; }],
+    [/^(\d+)秒$/, function(m){ return m[1]+'s'; }], [/^(\d+)分(\d+)秒$/, function(m){ return m[1]+'m '+m[2]+'s'; }], [/^(\d+)回$/, function(m){ return m[1]; }], [/^(\d+)件$/, function(m){ return m[1]; }],
+    [/^\+HP(\d+) \+技術(\d+) \+運(\d+)$/, function(m){ return '+HP'+m[1]+' +SKILL'+m[2]+' +LUCK'+m[3]; }],
+    [/^(.+?) ×(\d+)$/, function(m){ return N[m[1]]? N[m[1]]+' ×'+m[2] : null; }],
+    [/^(.+?) \(\+体力1\)$/, function(m){ return N[m[1]]? N[m[1]]+' (+1 STAMINA)' : null; }],
+    [/^現在地 ◆ (.+)$/, function(m){ return 'You are here ◆ '+(typeof enNumLabel==='function'?enNumLabel(m[1]):m[1]); }],
+    [/^生存時間：$/, function(){ return 'Time alive: '; }], [/^累計死亡：$/, function(){ return 'Total deaths: '; }], [/^生存率：$/, function(){ return 'Survival rate: '; }],
+    [/^引き継ぎ強化：$/, function(){ return 'Carry-over bonus: '; }], [/^引き継ぎ強化：HP\+$/, function(){ return 'Carry-over bonus: HP+'; }], [/^金貨:$/, function(){ return 'Gold:'; }]
+  ];
+  function seg(t){ // 「・」で区切った一片
+    if(D[t]) return D[t]; if(N[t]) return N[t];
+    var par = '', m = t.match(/^(.*?)（([^（）]*)）$/);
+    if(m && m[1]){ var inner = D[m[2]] || N[m[2]] || stats(m[2]); par = ' ('+inner.trim()+')'; t = m[1]; if(D[t]) return D[t]+par; }
+    var g = t.match(/^(.+?)入手$/); if(g && N[g[1]]) return 'Got '+N[g[1]]+par;
+    return stats(t).trim()+par;
+  }
+  function tr(text){
+    var t = String(text).trim(); if(!t || !jpRe.test(t)) return null;
+    if(D[t]) return D[t]; if(N[t]) return N[t];
+    for(var i=0;i<RULES.length;i++){ var m = t.match(RULES[i][0]); if(m){ var r = RULES[i][1](m); if(r && !jpRe.test(r)) return r; } }
+    var out = t.split('・').map(seg).join(', ');
+    return jpRe.test(out) ? null : out; // 日本語が残るなら元のまま
+  }
+  function uiT(text){ if(typeof _lang==='undefined' || _lang!=='en') return text; var r = tr(text); if(r===null) return text; var s=String(text); return s.match(/^\s*/)[0]+r+s.match(/\s*$/)[0]; }
+  window.uiT = uiT; window._uiTr = tr;
+
+  // 通知と戦闘ログは、表示する前に置き換える
+  if(typeof fb==='function'){ var _fb0 = fb; fb = function(msg,cls){ return _fb0(uiT(msg),cls); }; }
+  if(typeof clog==='function'){ var _cl0 = clog; clog = function(msg,cls){ return _cl0(uiT(msg),cls); }; }
+
+  // それ以外の画面上の文字（段落の中は既存の仕組みが担当するので触らない）
+  var orig = new WeakMap(), busy = false;
+  function skip(node){ var p = node.parentElement; return !p || !!p.closest('.para, script, style, textarea, #silent-end'); }
+  function doNode(n){
+    if(skip(n)) return; var cur = n.nodeValue; if(!cur || !jpRe.test(cur)) return;
+    var r = tr(cur); if(r===null) return;
+    var val = cur.match(/^\s*/)[0]+r+cur.match(/\s*$/)[0];
+    orig.set(n,{ja:cur,en:val}); n.nodeValue = val;
+  }
+  function walk(root){ var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), n, list = []; while((n = w.nextNode())) list.push(n); list.forEach(doNode); }
+  function applyUI(){
+    busy = true;
+    try{
+      if(_lang==='en'){ walk(document.body); }
+      else { var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), n; while((n = w.nextNode())){ var o = orig.get(n); if(o && n.nodeValue===o.en) n.nodeValue = o.ja; }
+             try{ if(typeof render==='function') render(); }catch(e){} }
+    } finally { busy = false; }
+  }
+  var mo = new MutationObserver(function(muts){
+    if(busy || typeof _lang==='undefined' || _lang!=='en') return;
+    busy = true;
+    try{ muts.forEach(function(mu){
+      if(mu.type==='characterData'){ doNode(mu.target); }
+      else mu.addedNodes.forEach(function(nd){ if(nd.nodeType===3) doNode(nd); else if(nd.nodeType===1 && !nd.closest('.para')) walk(nd); });
+    }); } finally { busy = false; }
+  });
+  mo.observe(document.body,{childList:true,subtree:true,characterData:true});
+  if(typeof toggleLang==='function'){ var _tl0 = toggleLang; toggleLang = function(){ var r = _tl0.apply(this,arguments); applyUI(); return r; }; window.toggleLang = toggleLang; }
+  var ln = document.getElementById('log-note'); if(ln && typeof GAS_LOG_URL!=='undefined' && GAS_LOG_URL) ln.style.display='';
+  if(typeof _lang!=='undefined' && _lang==='en') applyUI();
+})();
 </script>
 </body>
