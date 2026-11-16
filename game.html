@@ -3962,6 +3962,7 @@ document.addEventListener('DOMContentLoaded', function() {
     [/^あなたに(\d+)点の先制ダメージ！$/, function(m){ return 'You take '+m[1]+' damage from the first strike!'; }],
     [/^◆ 勝利 ── (.+)$/, function(m){ return '◆ Victory ── '+nm(m[1]); }],
     [/^★ 戦利品:(.+)$/, function(m){ return '★ Loot:'+m[1].replace(/「(.+?)」入手/g,function(_,x){ return ' '+nm(x); }).replace(/金貨\+/g,'Gold +').replace(/体力\+/g,'STAMINA +'); }],
+    [/^(?:金貨\+(\d+))?(?: ?「(.+?)」入手)?(?: ?体力\+(\d+))?$/, function(m){ if(!m[1]&&!m[2]&&!m[3]) return null; return [m[1]?'Gold +'+m[1]:'', m[2]?nm(m[2]):'', m[3]?'STAMINA +'+m[3]:''].filter(Boolean).join(', '); }],
     [/^✋ 猿の右手 出目(\d+)「(.+?)」(?:— (.+))?$/, function(m){ return "✋ Monkey's Paw: roll "+m[1]+' "'+nm(m[2])+'"'+(m[3]?' — '+nm(m[3]):''); }],
     [/^出目(\d+)「(.+?)」$/, function(m){ return 'Roll '+m[1]+' "'+nm(m[2])+'"'; }],
     [/^✦ (.+)$/, function(m){ var x=tr(m[1]); return x?'✦ '+x:null; }], [/^✧ (.+)$/, function(m){ var x=tr(m[1]); return x?'✧ '+x:null; }],
@@ -4011,6 +4012,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function doNode(n){
     if(skip(n)) return; var cur = n.nodeValue; if(!cur || !jpRe.test(cur)) return;
     var r = tr(cur); if(r===null) return;
+    if(n.parentElement.closest('.ff-stat-label') && n.parentElement.tagName==='SPAN') r = '';
     var val = cur.match(/^\s*/)[0]+r+cur.match(/\s*$/)[0];
     orig.set(n,{ja:cur,en:val}); n.nodeValue = val;
   }
