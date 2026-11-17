@@ -3277,6 +3277,8 @@ function vasDecline(){
 
 // INIT
 window.addEventListener('DOMContentLoaded',()=>{
+  // 初回判定（保存より前に見る。applyMetaBoosts等が保存を作ってしまうため）
+  const firstVisitNow=!localStorage.getItem(SK);
   // guide.htmlで確定した初期値を反映
   if(!S.guideDone){
     const gs=parseInt(localStorage.getItem('valdea_sk'));
@@ -3314,7 +3316,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     urlParams.get('new')==='1' ||                          // ?new=1パラメータ
     document.referrer.includes('index.html') ||            // index.htmlから来た
     document.referrer.includes('guide.html') ||            // guide.htmlから来た
-    !localStorage.getItem(SK);                             // セーブデータがない
+    firstVisitNow;                                         // 初回（保存データがなかった）
 
   if(isNewGame){
     // 完全リセット：前回のneck/flags/hp半減等を引き継がない
